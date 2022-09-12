@@ -43,7 +43,7 @@ void calculate_frequency_of_predecessors(int ith);
  * @param ith i-th charecter to be ordered
  * @param n_words number of words
  */
-void sort_by_frequency_in_the_round(vector<char*> &ch, int ith, int n_words);
+void sort_by_frequency_in_the_round(vector<char*> &ch, int ith, int n_words, vector<int> &sa);
 
 /**
  * @brief sort a vector of words
@@ -51,6 +51,6 @@ void sort_by_frequency_in_the_round(vector<char*> &ch, int ith, int n_words);
  * @param ch: array of strings to be sorted
  * @param rounds: number of rounds needed to sort the vector (largest string size)
  */
-void radix_sort(vector<char*> &ch, int rounds);
+void radix_sort(vector<char*> &ch, int rounds, vector<int> &sa);
 
 #endif
