@@ -1,0 +1,17 @@
+• Se o elemento correspondente ao índice em SA12 e SA0 forem diferentes, basta escolher aquele com menor ordem lexicográfica.
+• Se forem iguais, verifica-se o elemento em SA12[i] mod 3 tem resto 1, caso:
+    - Verdadeiro: 
+        * SA12[i]+1 está em SA12:
+            • SA12[i] tem a forma c + 1 (com c sendo divisível por 3);
+            • SA12[i] + 1 = c + 2.
+        * SA0[j]+1 sempre estará em SA12 (os elementos contidos em SA0 são incrementados de 2 em 2);
+        * Assim, basta verificar qual elemento em SA12 vem primeiro, o elemento dado por SA12[i]+1 ou SA0[i]+1, para isso usamos matriz inversa.
+    - Falso:
+        * SA12[i] tem resto 2, e portanto SA12[i] + 1 estará em SA0:
+            • SA12[i] + 1 = c (com c sendo divisível por 3).
+        * SA0[j]+1 sempre estará em SA12;
+        * Como os dois elementos estão em vetores diferentes, o que podemos fazer é:
+            • Verificar se texto[SA12[i]+1] e texto[SA0[j]+1] são diferentes, em caso afirmativo basta realizar uma classificação lexicográfica; Caso contrário é preciso:
+                - Buscar pelo elemento seguinte a este, neste caso todos os elementos estarão em SA12 e podemos fazer o uso da matriz inversa. Porque os dois elementos estão em SA12?
+                    * Temos inicialmente o elemento SA0[j], que irá passar pelo seu segundo deslocamento, e portanto ainda estará em SA12 (os elementos em SA0 são incrementados de 2 em 2);
+                    * Temos inicialmente o elemento SA12[i] que sofreu um deslocamento, e foi para SA0[SA12[i]+1], após esse deslocamento para SA0, o elemento SA12[i] poderá sofrer até 2 deslocamentos e continurá em SA12.

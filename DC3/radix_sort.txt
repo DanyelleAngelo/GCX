@@ -1,0 +1,8 @@
+* - Radix sort não realiza comparações
+* - Números com o digito mais à esquerda iniciando em 0 vêm antes de números iniciando em 1
+* - Todas as strings devem ter até d dígitos (será o nosso módulo)
+* - Pecorremos SA até d vezes (a ordenação começa do menos significativo):
+*   • Computamos quantas vezes cada elemento do texto iniciado na posição SA[k] + i (com 0 <= i < d) aparece, a cada vez que o elemento aparecer incrementamos o vetor count (count no momento é um vetor de 27 posições para cada letra do alfabeto + o sentinela)
+*   • Finalizando a contagem da iteração calculamos a posição em que o elemento deveria aparecer no vetor ordenado.
+*   • Colocamos os respectivos elementos em suas posições finais (usamos a posição inicial em que o elemento deveria aparecer e o número de vezes que o elemento aparece).
+* - Repetimos o processo até que os d dígitos de todos os elementos tenham sido analisados
