@@ -2,10 +2,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream> 
+#include <time.h>
 
 using namespace std;
 
-void print(int v[], int n){
+template <typename T>
+void print(T v[], int n){
     cout << *(v);
     for(int i=1; i < n ; i++) cout  << ", " << *(v+i);
     cout << endl;
@@ -17,26 +19,38 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    ifstream file(argv[1], ios::in);
+    FILE*  file= fopen(argv[1],"r");
+    fseek(file, 0, SEEK_END);
+    int n = ftell(file)+1;
 
-    if(!file.is_open()) {
+    int *sa = (int*)calloc(n, sizeof(int));
+    char * text = new char[n];
+    text[n-1] = 0;
+
+    if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
         exit(EXIT_FAILURE);
     }
     
-    while (!file.eof()){
-        string str;
-        getline(file, str);
-        str.append("$");
+    fseek(file, 0, SEEK_SET);
+    fread(text, 1, n-1, file);
+    fclose(file);
+    print(text, n);
+    clock_t start, finish;
+	double  duration;
+	start = clock();
 
-        int *sa = dc3(&str[0], str.size());
-        
-        cout << "Input text: "  << str << endl;
-        cout << "Suffix Array: ";
-        print(sa, str.size());
-        cout << endl;
-    }
+    dc3(text, sa, n);
+    
+    finish = clock();
+	duration = (double)(finish - start) / CLOCKS_PER_SEC;
 
-    file.close();
+    cout << "Input text: ";
+    print(text, n);
+    cout << "Suffix Array: ";
+    print(sa, n);
+    cout << endl;
+    printf("Time: %5.6lf  seconds\n",duration);
+    free(sa);
     return EXIT_SUCCESS;
 }
