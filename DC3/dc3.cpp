@@ -45,6 +45,8 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size) {
         int * sa = (int*)calloc(sa12_size+1, sizeof(int));
         dc3(reduced_str, sa, sa12_size+1);
         mapReducedStringToOriginalStr(sa, sa12, sa12_sorted, sa12_size);
+        free(reduced_str);
+        free(sa);
     }
 
     for(int i=0; i<sa12_size;i++)sa12[i] = sa12_sorted[i];
