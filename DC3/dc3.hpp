@@ -94,7 +94,7 @@ void mapReducedStringToOriginalStr(int *reduced_sa, int * sa12,int * sa12_sorted
  * @param sa_size tamanho do array de sufixos
  * @return char* inversa do array de sufixos
  */
-char * constructInverseArray(int *sa, int sa_size);
+char * constructInverseArray(int *sa, int text_size, int sa_size);
 
 /**
  * @brief Auxilia a função de merge a decidir qual elemento é menor: SA12[i] ou SA0[j]
