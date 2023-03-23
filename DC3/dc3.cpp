@@ -21,8 +21,6 @@ void dc3(char *text,int *sa, int ts) {
     int sa0_size = ts - sa12_size;
     int *sa12 = (int*)calloc(sa12_size, sizeof(int));
     int *sa0 = (int*)calloc(sa0_size, sizeof(int));
-
-
     orderSA12(text, ts, sa12, sa12_size);
     orderSA0(text, sa12, ts, sa0, sa0_size);
     merge(sa, text, sa12, sa0, sa12_size, sa0_size);
@@ -37,22 +35,19 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size) {
 
     int *sa12_sorted = (int*) calloc(sa12_size, sizeof(int));
     copy(sa12, sa12+sa12_size, sa12_sorted);
-
     radix_sort(text, sa12_sorted, sa12_size, ts, module);
-    int *rank = (int*)calloc(ts+1, sizeof(int)); 
-    lex_names(text,sa12_sorted, sa12_size, ts, rank);
-
+    int *rank = (int*) calloc(ts, sizeof(int));
+    bool repetitions = lex_names(text,sa12_sorted, rank, sa12_size, ts);
     //significa que há repetições de lex-names e portanto é preciso chamar DC3 recursivamente
-    if(rank[ts] == -1) {
-        char reduced_str[sa12_size+1];
+    if(repetitions) {
+        char *reduced_str = (char*)calloc(sa12_size+1, sizeof(char));
         createReducedStr(sa12, rank, reduced_str, sa12_size);
         int * sa = (int*)calloc(sa12_size+1, sizeof(int));
-        dc3(reduced_str,sa, sa12_size+1);
+        dc3(reduced_str, sa, sa12_size+1);
         mapReducedStringToOriginalStr(sa, sa12, sa12_sorted, sa12_size);
     }
 
     for(int i=0; i<sa12_size;i++)sa12[i] = sa12_sorted[i];
-
     free(rank);
     free(sa12_sorted);
 }
@@ -68,13 +63,12 @@ void orderSA0(char * text, int *sa12, int ts, int *sa0, int sa0_size) {
     for(int j=0; j < sa12_size; j++) {
         if(sa12[j] % 3 == 1) sa0[i++] = sa12[j]-1;
     }
-
     //Ordenamos SA0 olhando apenas para o primeiro caractere. Radix Sort é estável, por isso não perdemos o trabalho anterior.
     radix_sort(text, sa0, sa0_size, ts, 1);
 }
 
 void merge(int *sa, char *text, int *sa12, int *sa0,  int sa12_size, int sa0_size) {
-    char *inverse_sa12 = constructInverseArray(sa12, sa12_size+sa0_size);
+    char *inverse_sa12 = constructInverseArray(sa12, sa12_size);
     int i = 0, j = 0, k = 0;
 
     while(i < sa12_size && j < sa0_size) {
@@ -122,31 +116,30 @@ void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char) {
     free(saTemp);
 }
 
-void lex_names(char *text, int *sa, int sa_size, int ts, int *rank) {
+bool  lex_names(char *text, int *sa, int*rank, int sa_size, int ts) {
+    bool repetitions = false;
+    rank[sa[0]] = 0;
+    rank[sa[1]] = 1;
 
-    rank[0] = 0; //último elemento é o $, já sabemos sua classificação
-    for(int i=1; i < sa_size; i++) {
-	bool equals = false;
-	for(int j=0;(sa[i-1] +j < ts) && (sa[i]+j < ts) && j < module; j++) {
-	   if(text[sa[i-1]+j] == text[sa[i]+j]){
-		equals = true;
-		break;
-	   }
-	}
-
-        if(equals) {
-            rank[ts] = -1;
-            rank[sa[i]] = rank[sa[i-1]];
-        } else {
-            rank[sa[i]] = rank[sa[i-1]]+1;
+    for(int i=2; i < sa_size; i++) {
+        bool equals = true;
+        rank[sa[i]] = rank[sa[i-1]];
+        for(int j=0; j < module; j++) {
+            if(sa[i-1]+j >= ts || sa[i]+j >= ts || text[sa[i-1]+j] != text[sa[i]+j]){
+                equals = false;
+                break;
+            }
         }
+        rank[sa[i]] = equals ? rank[sa[i-1]] : rank[sa[i-1]]+1;
+        if(equals == true) repetitions = true;
     }
+    return repetitions;
 }
 
 void createReducedStr(int *sa12, int *rank, char *u, int sa12_size) {
     int m = ceil((double)sa12_size/2);
     u[m] = 0;
-
+    //precisa usar a ordem original de SA12
     for(int i=0, f=0, s=m+1; i < sa12_size; i++){
         if(sa12[i] % module == 1 && f < m) {
             u[f] = rank[sa12[i]] + '0';
@@ -165,6 +158,7 @@ void mapReducedStringToOriginalStr(int *reduced_sa, int * sa12, int *sa12_sorted
 
     for(int i =0, j=0; i < sa12_size+1; i++) {
         if(reduced_sa[i] == m) continue;
+
         if(reduced_sa[i] < m) {
             index_in_sa12 = (2*reduced_sa[i]);
             sa[j++] = sa12[index_in_sa12];
