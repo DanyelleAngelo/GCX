@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
-#include "gmock/gmock.h"
+//#include "gmock/gmock.h"
 #include <cstdlib>
 #include <iostream>
+#include <math.h>
 #include "dc3.hpp"
 
 using namespace std;
