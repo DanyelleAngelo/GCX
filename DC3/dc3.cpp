@@ -156,21 +156,22 @@ void createReducedStr(int *sa12, int *rank, char *u, int sa12_size) {
 void mapReducedStringToOriginalStr(int *reduced_sa, int * sa12, int *sa12_sorted, int sa12_size) {
     int index_in_sa12;
     int m = ceil((double)sa12_size/2);
-    int *sa = (int*) calloc(sa12_size, sizeof(int));
+    int *saTemp = (int*) calloc(sa12_size, sizeof(int));
 
     for(int i =0, j=0; i < sa12_size+1; i++) {
         if(reduced_sa[i] == m) continue;
 
         if(reduced_sa[i] < m) {
             index_in_sa12 = (2*reduced_sa[i]);
-            sa[j++] = sa12[index_in_sa12];
+            saTemp[j++] = sa12[index_in_sa12];
         } else {
             index_in_sa12 = 2 * (reduced_sa[i] - m - 1) + 1;
-            sa[j++] = sa12[index_in_sa12];
+            saTemp[j++] = sa12[index_in_sa12];
         }
     }
 
-    for(int i=0; i < sa12_size; i++)sa12_sorted[i] = sa[i];
+    for(int i=0; i < sa12_size; i++)sa12_sorted[i] = saTemp[i];
+    free(saTemp);
 }
 
 char * constructInverseArray(int *sa, int text_size, int sa12_size) {
