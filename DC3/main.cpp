@@ -52,5 +52,6 @@ int main(int argc, char *argv[]) {
     cout << endl;
     printf("Time: %5.6lf  seconds\n",duration);
     free(sa);
+    delete[] text;
     return EXIT_SUCCESS;
 }
