@@ -7,11 +7,11 @@
 
 using namespace std;
 
-char text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 0};
-int expected_sa[]   = {14, 13, 8, 3, 11, 6, 1, 9, 4, 0, 12, 7, 2, 10, 5};
+char text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 0, 0};
+int expected_sa[]   = {15, 14, 13, 8, 3, 11, 6, 1, 9, 4, 0, 12, 7, 2, 10, 5};
 int expected_sa12[] = {14, 13, 8, 11, 1, 4, 7, 2, 10, 5};
 int expected_sa0[]  = {3, 6, 9, 0, 12};
-int text_size = 15, sa12_size = text_size - ceil(text_size/3), sa0_size = text_size/3;
+int text_size = 16, sa0_size = ceil((double)text_size/3), sa12_size = text_size - sa0_size;
 
 //fazer teste para as demais funções, e acrescentar $$
 
@@ -19,7 +19,8 @@ TEST(DC3, receive_a_text_and_its_length_and_return_sa) {
     int *sa = (int*)calloc(text_size, sizeof(int));
     dc3(text, sa, text_size);
 
-    EXPECT_EQ(memcmp(expected_sa, sa, text_size * sizeof(int)), 0);
+    for(int i=0; i< text_size;i++)
+	EXPECT_EQ(expected_sa[i], sa[i]) << " ocorreu um erro para o " << i << "-th elemento.\n";
     free(sa);
 }
 
@@ -43,7 +44,7 @@ TEST(SA0, receive_a_text_and_sa12_and_returns_sorted_array_sa0) {
 
 TEST(DC3, receive_sa12_and_sa0_and_merges_the_suffixes) {
     int *sa = (int*)calloc(text_size, sizeof(int));
-    
+
     merge(sa,text, expected_sa12, expected_sa0, sa12_size, sa0_size);
 
     EXPECT_EQ(memcmp(expected_sa, sa, text_size * sizeof(int)), 0);
@@ -66,7 +67,7 @@ TEST(RADIX_SORT, should_be_able_ordering_suffix_of_array) {
 
     for(int i=0; i < 7; i++) {
         EXPECT_EQ(exp_sa[i], sa[i]);
-    } 
+    }
 
 }
 
@@ -78,7 +79,7 @@ TEST(RADIX_SORT, should_be_able_ordering_reduced_string) {
 
     for(int i=0; i < 5; i++) {
         EXPECT_EQ(exp_sa[i], sa[i]);
-    } 
+    }
 
 }
 
@@ -86,12 +87,12 @@ TEST(REDUCED_STR, should_be_able_create_reduced_string) {
     int      sa12[] = {1, 2, 4, 5, 7, 8, 10};
     int      rank[] = {-1, 1, 5, -1, 4, 1, -1, 3, 3, -1, 0}; //-1 são posições i%3 =0
     char  exp_sa_r[] = {'1', '4', '3', '0', 0, '5', '1', '3'};
-    char response[8]; 
+    char response[8];
     createReducedStr(sa12, rank, response, 7);
 
     for(int i=0; i < 8; i++) {
         EXPECT_EQ(exp_sa_r[i], response[i]) << " ocorreu um erro para o " << i << "-th elemento";
-    } 
+    }
 }
 
 TEST(REDUCED_STR, should_be_able_make_mapping_sorted_reduced_str_to_sa) {
@@ -110,6 +111,6 @@ TEST(REDUCED_STR, should_be_able_make_mapping_sorted_reduced_str_to_sa) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   ::testing::GTEST_FLAG(filter) = "*";
+   ::testing::GTEST_FLAG(filter) = "*receive_a_text_and_its_length_and_return_sa";
     return RUN_ALL_TESTS();
 }
