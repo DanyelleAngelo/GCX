@@ -45,6 +45,8 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size) {
         int * sa = (int*)calloc(sa12_size+1, sizeof(int));
         dc3(reduced_str, sa, sa12_size+1);
         mapReducedStringToOriginalStr(sa, sa12, sa12_sorted, sa12_size);
+        free(reduced_str);
+        free(sa);
     }
 
     for(int i=0; i<sa12_size;i++)sa12[i] = sa12_sorted[i];
@@ -68,7 +70,7 @@ void orderSA0(char * text, int *sa12, int ts, int *sa0, int sa0_size) {
 }
 
 void merge(int *sa, char *text, int *sa12, int *sa0,  int sa12_size, int sa0_size) {
-    char *inverse_sa12 = constructInverseArray(sa12, sa12_size);
+    char *inverse_sa12 = constructInverseArray(sa12, sa12_size+sa0_size, sa12_size);
     int i = 0, j = 0, k = 0;
 
     while(i < sa12_size && j < sa0_size) {
@@ -171,9 +173,9 @@ void mapReducedStringToOriginalStr(int *reduced_sa, int * sa12, int *sa12_sorted
     for(int i=0; i < sa12_size; i++)sa12_sorted[i] = sa[i];
 }
 
-char * constructInverseArray(int *sa, int text_size) {
+char * constructInverseArray(int *sa, int text_size, int sa12_size) {
     char * inverse = (char*) calloc(text_size, sizeof(char));
-    for(int i=0; i < text_size; i++) inverse[sa[i]] = i + '0';
+    for(int i=0; i < sa12_size; i++) inverse[sa[i]] = i + '0';
     return inverse;
 }
 
