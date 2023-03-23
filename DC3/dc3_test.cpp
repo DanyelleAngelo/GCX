@@ -24,9 +24,11 @@ TEST(DC3, receive_a_text_and_its_length_and_return_sa) {
 
 TEST(SA12, receive_a_text_returns_sorted_array_sa12) {
     int *sa12 = (int*) calloc(sa12_size, sizeof(int));
-    orderSA12(text, text_size,sa12, sa12_size);
 
-    EXPECT_EQ(memcmp(expected_sa12, sa12, sa12_size * sizeof(int)), 0);
+    orderSA12(text, text_size, sa12, sa12_size);
+
+    for(int i=0; i < sa12_size; i++)
+        EXPECT_EQ(expected_sa12[i], sa12[i]) << " ocorreu um erro para o " << i << "-th elemento.\n";
     free(sa12);
 }
 
@@ -107,6 +109,6 @@ TEST(REDUCED_STR, should_be_able_make_mapping_sorted_reduced_str_to_sa) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   //::testing::GTEST_FLAG(filter) = "DC3.receive_sa12_and_sa0_and_merges_the_suffixes";
+   ::testing::GTEST_FLAG(filter) = "*";
     return RUN_ALL_TESTS();
 }
