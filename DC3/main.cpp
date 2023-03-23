@@ -31,17 +31,17 @@ int main(int argc, char *argv[]) {
         cout << "An error occurred while opening the file" << endl;
         exit(EXIT_FAILURE);
     }
-    
+
     fseek(file, 0, SEEK_SET);
     fread(text, 1, n-1, file);
     fclose(file);
 
     clock_t start, finish;
-	double  duration;
-	start = clock();
+    double  duration;
+    start = clock();
 
     dc3(text, sa, n);
-    
+
     finish = clock();
 	duration = (double)(finish - start) / CLOCKS_PER_SEC;
 
@@ -52,6 +52,6 @@ int main(int argc, char *argv[]) {
     cout << endl;
     printf("Time: %5.6lf  seconds\n",duration);
     free(sa);
-    free(text);
+    delete[] text;
     return EXIT_SUCCESS;
 }
