@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     fseek(file, 0, SEEK_SET);
     fread(text, 1, n-1, file);
     fclose(file);
-    print(text, n);
+
     clock_t start, finish;
 	double  duration;
 	start = clock();
