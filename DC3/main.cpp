@@ -21,10 +21,11 @@ int main(int argc, char *argv[]) {
 
     FILE*  file= fopen(argv[1],"r");
     fseek(file, 0, SEEK_END);
-    int n = ftell(file)+1;
+    int n = ftell(file)+2;
 
     int *sa = (int*)calloc(n, sizeof(int));
     char * text = new char[n];
+    text[n-2] = 0;
     text[n-1] = 0;
 
     if(file == NULL) {
@@ -33,15 +34,13 @@ int main(int argc, char *argv[]) {
     }
 
     fseek(file, 0, SEEK_SET);
-    fread(text, 1, n-1, file);
+    fread(text, 1, n-2, file);
     fclose(file);
-
     clock_t start, finish;
     double  duration;
     start = clock();
 
     dc3(text, sa, n);
-
     finish = clock();
 	duration = (double)(finish - start) / CLOCKS_PER_SEC;
 
