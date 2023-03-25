@@ -70,17 +70,18 @@ void orderSA0(char * text, int *sa12, int ts, int *sa0, int sa0_size) {
 }
 
 void merge(int *sa, char *text, int *sa12, int *sa0,  int sa12_size, int sa0_size) {
-    char *inverse_sa12 = constructInverseArray(sa12, sa12_size+sa0_size, sa12_size);
+    int ts = sa12_size+sa0_size;
+    char *inverse_sa12 = constructInverseArray(sa12, ts, sa12_size);
     int i = 0, j = 0, k = 0;
 
     while(i < sa12_size && j < sa0_size) {
-        sa[k] = lessThan(text, sa12[i], sa0[j], i, j);
+        sa[k] = lessThan(text, sa12[i], sa0[j], i, j, ts);
         if(sa[k] == -1) {
-            if(sa12[i] % 3 == 1) sa[k] = lessThan(inverse_sa12, sa12[i]+1, sa0[j]+1, i, j) - 1;
+            if(sa12[i] % 3 == 1) sa[k] = lessThan(inverse_sa12, sa12[i]+1, sa0[j]+1, i, j, ts) - 1;
             else {//Os sufixos que seguem os atuais estão separados
-                sa[k] = lessThan(text, sa12[i]+1, sa0[j]+1, i, j) - 1;
+                sa[k] = lessThan(text, sa12[i]+1, sa0[j]+1, i, j, ts) - 1;
                 //Os elementos possuem a primeira letra igual, precisamos deslocar o array em 2 posições e usar a matriz inversa
-                if(sa[k] < 0) sa[k] = lessThan(inverse_sa12, sa12[i]+2, sa0[j]+2, i, j) - 2;
+                if(sa[k] < 0) sa[k] = lessThan(inverse_sa12, sa12[i]+2, sa0[j]+2, i, j, ts) - 2;
             }
         }
         k++;
@@ -118,7 +119,7 @@ void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char) {
     free(saTemp);
 }
 
-bool  lex_names(char *text, int *sa, int*rank, int sa_size, int ts) {
+bool lex_names(char *text, int *sa, int*rank, int sa_size, int ts) {
     bool repetitions = false;
     rank[sa[0]] = 0;
     rank[sa[1]] = 1;
@@ -180,7 +181,15 @@ char * constructInverseArray(int *sa, int text_size, int sa12_size) {
     return inverse;
 }
 
-int lessThan(char *text, int a, int b, int &i, int &j) {
+int lessThan(char *text, int a, int b, int &i, int &j, int ts) {
+    if(a >= ts && a > b) {//o texto que se refere ao índice a, é menor em tamanho 
+        i++;
+        return a;
+    }
+    if(b >= ts && b >a){
+        j++;
+        return b;
+    }
     if(text[a] < text[b]) {
         i++;
         return a;

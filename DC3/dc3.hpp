@@ -106,6 +106,6 @@ char * constructInverseArray(int *sa, int text_size, int sa_size);
  * @param j marca a posição do ponteiro em SA0
  * @return `a` se SA12[i]+k for menor que SA0[j] + k, b caso maior, e -1 se os elementos forem iguais.
  */
-int lessThan(char *text, int a, int b, int &i, int &j);
+int lessThan(char *text, int a, int b, int &i, int &j, int ts);
 
 #endif
