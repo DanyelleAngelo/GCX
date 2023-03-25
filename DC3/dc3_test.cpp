@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-//#include "gmock/gmock.h"
 #include <cstdlib>
 #include <iostream>
 #include <math.h>
@@ -7,11 +6,12 @@
 
 using namespace std;
 
-char text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 0};
-int expected_sa[]   = {14, 13, 8, 3, 11, 6, 1, 9, 4, 0, 12, 7, 2, 10, 5};
+char         text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 0, 0};
+int   expected_sa[] = {15, 14, 13, 8, 3, 11, 6, 1, 9, 4, 0, 12, 7, 2, 10, 5};
+int expected_rank[] = {-1,3,4,-1,3,5,-1,4,2,-1,5,3,-1,1,0,-1};
 int expected_sa12[] = {14, 13, 8, 11, 1, 4, 7, 2, 10, 5};
-int expected_sa0[]  = {3, 6, 9, 0, 12};
-int text_size = 15, sa12_size = text_size - ceil(text_size/3), sa0_size = text_size/3;
+int  expected_sa0[] = {15, 3, 6, 9, 0, 12};
+int text_size = 16, sa0_size = ceil((double)text_size/3), sa12_size = text_size - sa0_size;
 
 //fazer teste para as demais funções, e acrescentar $$
 
@@ -45,8 +45,9 @@ TEST(DC3, receive_sa12_and_sa0_and_merges_the_suffixes) {
     int *sa = (int*)calloc(text_size, sizeof(int));
     
     merge(sa,text, expected_sa12, expected_sa0, sa12_size, sa0_size);
-
-    EXPECT_EQ(memcmp(expected_sa, sa, text_size * sizeof(int)), 0);
+    for(int i =0; i < text_size; i++) {
+        EXPECT_EQ(expected_sa[i], sa[i]) << " ocorreu um erro ao computar o " << i << "-th do array do sufixos.\n";
+    }
     free(sa);
 }
 
@@ -105,6 +106,17 @@ TEST(REDUCED_STR, should_be_able_make_mapping_sorted_reduced_str_to_sa) {
 
     for(int i=0; i < 8; i++) {
         EXPECT_EQ(exp_mapping[i], sa[i]);
+    }
+}
+
+TEST(LEX_NAME, should_be_able_create_lex_name_for_sa12_sorted_and_return_true_for_tie) {
+    int *rank = (int*)calloc(text_size, sizeof(int));
+    
+    bool repeat = lex_names(text, expected_sa12, rank, sa12_size, text_size);
+
+    EXPECT_TRUE(repeat);
+    for(int i=0; i < sa12_size; i++) {
+        EXPECT_EQ(expected_rank[expected_sa12[i]], rank[expected_sa12[i]]) << " ocorreu um erro ao calcular o rank de "<< expected_sa12[i] << " que é o "  << i << "-th elemento em SA12\n";
     }
 }
 
