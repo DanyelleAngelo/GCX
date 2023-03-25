@@ -16,19 +16,19 @@ void print(T v[], int n){
     cout << endl;
 }
 
-void dc3(char *text,int *sa, int ts) {
+void dc3(char *text,int *sa, int ts, int level) {
     int sa12_size = ts - ceil((double)ts/module);
     int sa0_size = ts - sa12_size;
     int *sa12 = (int*)calloc(sa12_size, sizeof(int));
     int *sa0 = (int*)calloc(sa0_size, sizeof(int));
-    orderSA12(text, ts, sa12, sa12_size);
+    orderSA12(text, ts, sa12, sa12_size, level);
     orderSA0(text, sa12, ts, sa0, sa0_size);
     merge(sa, text, sa12, sa0, sa12_size, sa0_size);
     free(sa12);
     free(sa0);
 }
 
-void orderSA12(char *text, int ts, int *sa12, int sa12_size) {
+void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level) {
     for(int i=0,j=1; j < ts; j++) {
         if(j % module != 0) sa12[i++] = j;
     }
@@ -43,7 +43,7 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size) {
         char *reduced_str = (char*)calloc(sa12_size+1, sizeof(char));
         createReducedStr(sa12, rank, reduced_str, sa12_size);
         int * sa = (int*)calloc(sa12_size+1, sizeof(int));
-        dc3(reduced_str, sa, sa12_size+1);
+        dc3(reduced_str, sa, sa12_size+1, level+1);
         mapReducedStringToOriginalStr(sa, sa12, sa12_sorted, sa12_size);
         free(reduced_str);
         free(sa);

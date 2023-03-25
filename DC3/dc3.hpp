@@ -10,7 +10,7 @@ const int module = 3;
  * @param ts tamanho do texto
  * @return array contendo os sufixos do texto de forma ordenada
  */
-void dc3(char *text, int*sa, int ts);
+void dc3(char *text, int*sa, int ts, int level);
 
 /**
  * @brief calcula o array ordenado dos sufixos do texto que iniciam na posição `i` tal que i % 3 ≠ 0 
@@ -20,7 +20,7 @@ void dc3(char *text, int*sa, int ts);
  * @param sa12_size quantidade de sufixos que atendem a regra acima, ou seja ts - ceil(ts/3)
  * @return array ordenado dos sufixos iniciados na posição i % 3 ≠ 0 
  */
-void orderSA12(char *text, int ts, int *sa12, int sa12_size);
+void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level);
 
 /**
  * @brief calcula o array ordenado dos sufixos do texto que iniciam na posição `i` tal que i % 3 = 0

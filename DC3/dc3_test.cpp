@@ -17,7 +17,7 @@ int text_size = 16, sa0_size = ceil((double)text_size/3), sa12_size = text_size 
 
 TEST(DC3, receive_a_text_and_its_length_and_return_sa) {
     int *sa = (int*)calloc(text_size, sizeof(int));
-    dc3(text, sa, text_size);
+    dc3(text, sa, text_size,0);
 
     EXPECT_EQ(memcmp(expected_sa, sa, text_size * sizeof(int)), 0);
     free(sa);
@@ -26,7 +26,7 @@ TEST(DC3, receive_a_text_and_its_length_and_return_sa) {
 TEST(SA12, receive_a_text_returns_sorted_array_sa12) {
     int *sa12 = (int*) calloc(sa12_size, sizeof(int));
 
-    orderSA12(text, text_size, sa12, sa12_size);
+    orderSA12(text, text_size, sa12, sa12_size, 0);
 
     for(int i=0; i < sa12_size; i++)
         EXPECT_EQ(expected_sa12[i], sa12[i]) << " ocorreu um erro para o " << i << "-th elemento.\n";

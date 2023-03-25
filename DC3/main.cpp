@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     double  duration;
     start = clock();
 
-    dc3(text, sa, n);
+    dc3(text, sa, n, 0);
     finish = clock();
 	duration = (double)(finish - start) / CLOCKS_PER_SEC;
 
