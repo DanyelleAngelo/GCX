@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
     int n = ftell(file)+2;
 
     int *sa = (int*)calloc(n, sizeof(int));
-    char * text = new char[n];
+    unsigned char * text = new unsigned char[n];
     text[n-2] = 1;
-    text[n-1] = 1;
+    text[n-1] = 0;
 
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;

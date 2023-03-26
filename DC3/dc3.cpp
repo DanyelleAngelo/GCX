@@ -8,6 +8,10 @@ using namespace std;
 
 #define calculatesLetterPosition(i) (sa[i] + d >= ts) ? 0 : text[sa[i] + d]
 
+#define lessThanInInverseArray(d) (inverse_sa12[sa12[i]+d] < inverse_sa12[sa0[j]+d]) ? sa12[i++] : sa0[j++]
+
+#define lessThanInText(d) (text[sa12[i]+d] < text[sa0[j]+d]) ? sa12[i++] : sa0[j++]
+
 template <typename T>
 void print(T v[], int n){
     cout << *(v);
@@ -15,7 +19,7 @@ void print(T v[], int n){
     cout << endl;
 }
 
-void dc3(char *text,int *sa, int ts, int level) {
+void dc3(unsigned char *text,int *sa, int ts, int level) {
     int sa12_size = ts - ceil((double)ts/module);
     int sa0_size = ts - sa12_size;
     int *sa12 = (int*)calloc(sa12_size, sizeof(int));
@@ -27,7 +31,7 @@ void dc3(char *text,int *sa, int ts, int level) {
     free(sa0);
 }
 
-void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level) {
+void orderSA12(unsigned char *text, int ts, int *sa12, int sa12_size, int level) {
     for(int i=0,j=1; j < ts; j++) {
         if(j % module != 0) sa12[i++] = j;
     }
@@ -39,7 +43,7 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level) {
     bool repetitions = lex_names(text,sa12_sorted, rank, sa12_size);
     //significa que há repetições de lex-names e portanto é preciso chamar DC3 recursivamente
     if(repetitions) {
-        char *reduced_str = (char*)calloc(sa12_size+1, sizeof(char));
+        unsigned char *reduced_str = (unsigned char*)calloc(sa12_size+1, sizeof(unsigned char));
         createReducedStr(sa12, rank, reduced_str, sa12_size);
         int * sa = (int*)calloc(sa12_size+1, sizeof(int));
         dc3(reduced_str, sa, sa12_size+1, level+1);
@@ -53,7 +57,7 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level) {
     free(sa12_sorted);
 }
 
-void orderSA0(char * text, int *sa12, int ts, int *sa0, int sa0_size) {
+void orderSA0(unsigned char * text, int *sa12, int ts, int *sa0, int sa0_size) {
     int sa12_size = ts - sa0_size;
     int i=0;
 
@@ -68,19 +72,23 @@ void orderSA0(char * text, int *sa12, int ts, int *sa0, int sa0_size) {
     radix_sort(text, sa0, sa0_size, ts, 1);
 }
 
-void merge(int *sa, char *text, int *sa12, int *sa0,  int sa12_size, int sa0_size) {
+void merge(int *sa, unsigned char *text, int *sa12, int *sa0,  int sa12_size, int sa0_size) {
     int ts = sa12_size+sa0_size;
-    char *inverse_sa12 = constructInverseArray(sa12, ts, sa12_size);
+    int*inverse_sa12 = constructInverseArray(sa12, ts, sa12_size);
     int i = 0, j = 0, k = 0;
 
     while(i < sa12_size && j < sa0_size) {
-        sa[k] = lessThan(text, sa12[i], sa0[j], i, j, ts);
+        sa[k] = (text[sa12[i]] == text[sa0[j]]) ? -1 : lessThanInText(0);
         if(sa[k] == -1) {
-            if(sa12[i] % 3 == 1) sa[k] = lessThan(inverse_sa12, sa12[i]+1, sa0[j]+1, i, j, ts) - 1;
-            else {//Os sufixos que seguem os atuais estão separados
-                sa[k] = lessThan(text, sa12[i]+1, sa0[j]+1, i, j, ts) - 1;
+            if(sa12[i] % 3 == 1) {
+                sa[k] = lessThanInInverseArray(1);
+            }else {//Os sufixos que seguem os atuais estão separados
+                sa[k] = (text[sa12[i]+1] == text[sa0[j]+1]) ? -1 : lessThanInText(1);
+
                 //Os elementos possuem a primeira letra igual, precisamos deslocar o array em 2 posições e usar a matriz inversa
-                if(sa[k] < 0) sa[k] = lessThan(inverse_sa12, sa12[i]+2, sa0[j]+2, i, j, ts) - 2;
+                if(sa[k] < 0){
+                    sa[k] = lessThanInInverseArray(2);
+                }
             }
         }
         k++;
@@ -92,7 +100,7 @@ void merge(int *sa, char *text, int *sa12, int *sa0,  int sa12_size, int sa0_siz
     free(inverse_sa12);
 }
 
-void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char) {
+void radix_sort(unsigned char *text, int *sa, int sa_size, int ts, int n_char) {
     int *saTemp = (int*) calloc(sa_size, sizeof(int));
 
     for(int d = n_char -1; d >=0; d--) {
@@ -118,7 +126,7 @@ void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char) {
     free(saTemp);
 }
 
-bool lex_names(char *text, int *sa, int*rank, int sa_size) {
+bool lex_names(unsigned char *text, int *sa, int*rank, int sa_size) {
     bool repetitions = false;
     rank[sa[0]] = 0;
     rank[sa[1]] = 1;
@@ -137,7 +145,7 @@ bool lex_names(char *text, int *sa, int*rank, int sa_size) {
     return repetitions;
 }
 
-void createReducedStr(int *sa12, int *rank, char *u, int sa12_size) {
+void createReducedStr(int *sa12, int *rank, unsigned char *u, int sa12_size) {
     int m = ceil((double)sa12_size/2);
     u[m] = 0;
     //precisa usar a ordem original de SA12
@@ -173,27 +181,11 @@ void mapReducedStringToOriginalStr(int *reduced_sa, int * sa12, int *sa12_sorted
     free(saTemp);
 }
 
-char * constructInverseArray(int *sa, int text_size, int sa12_size) {
-    char * inverse = (char*) calloc(text_size, sizeof(char));
-    for(int i=0; i < sa12_size; i++) inverse[sa[i]] = i + '0';
+int * constructInverseArray(int *sa, int text_size, int sa12_size) {
+    int * inverse = (int*) calloc(text_size, sizeof(int));
+    for(int i=0; i < sa12_size; i++) {
+        inverse[sa[i]] = i;
+    }
     return inverse;
 }
 
-int lessThan(char *text, int a, int b, int &i, int &j, int ts) {
-    if(a >= ts && a > b) {//o texto que se refere ao índice a, é menor em tamanho 
-        i++;
-        return a;
-    }
-    if(b >= ts && b >a){
-        j++;
-        return b;
-    }
-    if(text[a] < text[b]) {
-        i++;
-        return a;
-    } else if (text[a] > text[b] ) {
-        j++;
-        return b;
-    }
-    return -1;
-}

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char         text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 1, 1};
+unsigned char text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 1, 0};
 int   expected_sa[] = {15, 14, 13, 8, 3, 11, 6, 1, 9, 4, 0, 12, 7, 2, 10, 5};
 int expected_rank[] = {-1,3,4,-1,3,5,-1,4,2,-1,5,3,-1,1,0,-1};
 int expected_sa12[] = {14, 13, 8, 11, 1, 4, 7, 2, 10, 5};
@@ -60,7 +60,7 @@ TEST(RADIX_SORT, receive_sa12_and_returns_the_array_sorted_based_on_the_first_3_
 }
 
 TEST(RADIX_SORT, should_be_able_ordering_suffix_of_array) {
-    char  word[] = {'b', 'a', 't', 'a', 't', 'a', 0};
+    unsigned char  word[] = {'b', 'a', 't', 'a', 't', 'a', 0};
     int     sa[] = {0, 1, 2, 3, 4, 5, 6};
     int exp_sa[] = {6, 5, 1, 3, 0, 4, 2};
     radix_sort(word, sa, 7, 7, 3);
@@ -72,7 +72,7 @@ TEST(RADIX_SORT, should_be_able_ordering_suffix_of_array) {
 }
 
 TEST(RADIX_SORT, should_be_able_ordering_reduced_string) {
-    char  word[] = {'1', '4', '3', '0', 0, '5', '1', '3' };
+    unsigned char  word[] = {'1', '4', '3', '0', 0, '5', '1', '3' };
     int     sa[] = {1, 2, 4, 5, 7};
     int exp_sa[] = {4, 7, 2, 1, 5};
     radix_sort(word, sa, 5, 8, 3);
@@ -87,7 +87,7 @@ TEST(REDUCED_STR, should_be_able_create_reduced_string) {
     int      sa12[] = {1, 2, 4, 5, 7, 8, 10};
     int      rank[] = {-1, 1, 5, -1, 4, 1, -1, 3, 3, -1, 0}; //-1 são posições i%3 =0
     char  exp_sa_r[] = {'1', '4', '3', '0', 0, '5', '1', '3'};
-    char response[8];
+    unsigned char response[8];
     createReducedStr(sa12, rank, response, 7);
 
     for(int i=0; i < 8; i++) {
@@ -128,9 +128,9 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
     int n = ftell(file)+2;
 
     int *sa = (int*)calloc(n, sizeof(int));
-    char * text_large = new char[n];
+    unsigned char * text_large = new unsigned char[n];
     text_large[n-2] = 1;
-    text_large[n-1] = 1;
+    text_large[n-1] = 0;
 
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
@@ -138,15 +138,16 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
     }
 
     fseek(file, 0, SEEK_SET);
-    fread(text_large, 1, n-2, file);
+    fread((unsigned char*)text_large, 1, n-2, file);
     fclose(file);
 
     dc3(text_large, sa, n, 0);
-
-    EXPECT_EQ(sa[0], n-1);
-    EXPECT_EQ(sa[1], n-2);
+    
+    EXPECT_EQ(n-1, sa[0]);
+    EXPECT_EQ(n-2, sa[1]);
     for(int i=2; i < n; i++) {
-        EXPECT_LT(strcmp(&text_large[sa[i-1]],&text_large[sa[i]]),0) << " o sufixo iniciado em " << sa[i-1] << " é maior do que o sufixo iniciado em " << sa[i] << endl;
+        int nBytes = (sa[i-1] < sa[i])? n-sa[i-1] : n-sa[i];
+        EXPECT_LT(memcmp(&text_large[sa[i-1]],&text_large[sa[i]],nBytes),0) << " o sufixo iniciado em " << sa[i-1] << " é maior do que o sufixo iniciado em " << sa[i] << " i = " << i<< endl;
     }
 
     free(sa);
@@ -155,6 +156,6 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   ::testing::GTEST_FLAG(filter) = "*receive_a_large_text_with_repetitions_and_return_suffix_array";
+   ::testing::GTEST_FLAG(filter) = "*";
     return RUN_ALL_TESTS();
 }
