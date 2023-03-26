@@ -66,7 +66,7 @@ void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char);
  * @param ts tamanho do texto
  * @return array de tamanho sa_size+1 contendo a classificação dos sufixos e um indicador de repetições.
  */
-bool lex_names(char *text, int *sa, int *rank, int size_sa, int ts);
+bool lex_names(char *text, int *sa, int *rank, int size_sa);
 
 /**
  * @brief Cria uma string reduzida, da seguinte forma: o elemento central dessa string é um sentinela que não ocorre em nenhum outro lugar. Para preencher as demais posições, pecorremos todos os elementos em SA12, e para cada elemento, se o resto da divisão por 3 desse elemento for igual à 1, o mesmo é adicionado no ínicio da primeira metade dessa string, casso contrário o elemento é inserido no ínicio da segunda metade.

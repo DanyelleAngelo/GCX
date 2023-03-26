@@ -36,7 +36,7 @@ void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level) {
     copy(sa12, sa12+sa12_size, sa12_sorted);
     radix_sort(text, sa12_sorted, sa12_size, ts, module);
     int *rank = (int*) calloc(ts, sizeof(int));
-    bool repetitions = lex_names(text,sa12_sorted, rank, sa12_size, ts);
+    bool repetitions = lex_names(text,sa12_sorted, rank, sa12_size);
     //significa que há repetições de lex-names e portanto é preciso chamar DC3 recursivamente
     if(repetitions) {
         char *reduced_str = (char*)calloc(sa12_size+1, sizeof(char));
@@ -118,16 +118,15 @@ void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char) {
     free(saTemp);
 }
 
-bool lex_names(char *text, int *sa, int*rank, int sa_size, int ts) {
+bool lex_names(char *text, int *sa, int*rank, int sa_size) {
     bool repetitions = false;
     rank[sa[0]] = 0;
     rank[sa[1]] = 1;
 
     for(int i=2; i < sa_size; i++) {
         bool equals = true;
-        rank[sa[i]] = rank[sa[i-1]];
         for(int j=0; j < module; j++) {
-            if(sa[i-1]+j >= ts || sa[i]+j >= ts || text[sa[i-1]+j] != text[sa[i]+j]){
+            if(text[sa[i-1]+j] != text[sa[i]+j]){
                 equals = false;
                 break;
             }

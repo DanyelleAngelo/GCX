@@ -112,7 +112,7 @@ TEST(REDUCED_STR, should_be_able_make_mapping_sorted_reduced_str_to_sa) {
 TEST(LEX_NAME, should_be_able_create_lex_name_for_sa12_sorted_and_return_true_for_tie) {
     int *rank = (int*)calloc(text_size, sizeof(int));
     
-    bool repeat = lex_names(text, expected_sa12, rank, sa12_size, text_size);
+    bool repeat = lex_names(text, expected_sa12, rank, sa12_size);
 
     EXPECT_TRUE(repeat);
     for(int i=0; i < sa12_size; i++) {
