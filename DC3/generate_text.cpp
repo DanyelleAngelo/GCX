@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     }
 
     ofstream file;
-    file.open(argv[2]);
+    file.open(argv[2],ios::trunc);
 
     string word = string(argv[1]);
     int n = word.size(), i=0, l,r;
