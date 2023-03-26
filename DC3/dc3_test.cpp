@@ -156,6 +156,6 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   ::testing::GTEST_FLAG(filter) = "*";
+   ::testing::GTEST_FLAG(filter) = "DC3.receive_a_large_text_with_repetitions_and_return_suffix_array";
     return RUN_ALL_TESTS();
 }
