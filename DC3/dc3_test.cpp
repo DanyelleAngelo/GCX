@@ -120,6 +120,34 @@ TEST(LEX_NAME, should_be_able_create_lex_name_for_sa12_sorted_and_return_true_fo
     }
 }
 
+TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
+    FILE*  file= fopen("text-large.txt","r");
+    fseek(file, 0, SEEK_END);
+    int n = ftell(file)+2;
+
+    int *sa = (int*)calloc(n, sizeof(int));
+    char * text_large = new char[n];
+    text_large[n-2] = 1;
+    text_large[n-1] = 1;
+
+    if(file == NULL) {
+        cout << "An error occurred while opening the file" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    fseek(file, 0, SEEK_SET);
+    fread(text_large, 1, n-2, file);
+    fclose(file);
+
+    EXPECT_EQ(expected_sa[0], text_size-1);
+    EXPECT_EQ(expected_sa[1], text_size-2);
+    for(int i=2; i < text_size; i++) {
+        EXPECT_LT(strcmp(&text[expected_sa[i-1]],&text[expected_sa[i]]),0);
+    }
+
+    free(sa);
+    delete[] text_large;
+}
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
