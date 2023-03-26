@@ -139,10 +139,12 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
     fread(text_large, 1, n-2, file);
     fclose(file);
 
-    EXPECT_EQ(expected_sa[0], text_size-1);
-    EXPECT_EQ(expected_sa[1], text_size-2);
-    for(int i=2; i < text_size; i++) {
-        EXPECT_LT(strcmp(&text[expected_sa[i-1]],&text[expected_sa[i]]),0);
+    dc3(text_large, sa, n, 0);
+
+    EXPECT_EQ(sa[0], n-1);
+    EXPECT_EQ(sa[1], n-2);
+    for(int i=2; i < n; i++) {
+        EXPECT_LT(strcmp(&text_large[sa[i-1]],&text_large[sa[i]]),0) << " o sufixo iniciado em " << sa[i-1] << " é maior do que o sufixo iniciado em " << sa[i] << endl;
     }
 
     free(sa);
