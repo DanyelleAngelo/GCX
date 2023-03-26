@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char         text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 0, 0};
+char         text[] = {'b','a','n', 'a', 'a', 'n', 'a', 'n', 'a', 'a', 'n', 'a','n', 'a', 1, 1};
 int   expected_sa[] = {15, 14, 13, 8, 3, 11, 6, 1, 9, 4, 0, 12, 7, 2, 10, 5};
 int expected_rank[] = {-1,3,4,-1,3,5,-1,4,2,-1,5,3,-1,1,0,-1};
 int expected_sa12[] = {14, 13, 8, 11, 1, 4, 7, 2, 10, 5};
@@ -119,6 +119,7 @@ TEST(LEX_NAME, should_be_able_create_lex_name_for_sa12_sorted_and_return_true_fo
         EXPECT_EQ(expected_rank[expected_sa12[i]], rank[expected_sa12[i]]) << " ocorreu um erro ao calcular o rank de "<< expected_sa12[i] << " que é o "  << i << "-th elemento em SA12\n";
     }
 }
+
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);

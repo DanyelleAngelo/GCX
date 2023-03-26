@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
 
     int *sa = (int*)calloc(n, sizeof(int));
     char * text = new char[n];
-    text[n-2] = 0;
-    text[n-1] = 0;
+    text[n-2] = 1;
+    text[n-1] = 1;
 
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
