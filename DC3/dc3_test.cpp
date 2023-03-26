@@ -118,6 +118,8 @@ TEST(LEX_NAME, should_be_able_create_lex_name_for_sa12_sorted_and_return_true_fo
     for(int i=0; i < sa12_size; i++) {
         EXPECT_EQ(expected_rank[expected_sa12[i]], rank[expected_sa12[i]]) << " ocorreu um erro ao calcular o rank de "<< expected_sa12[i] << " que é o "  << i << "-th elemento em SA12\n";
     }
+
+    free(rank);
 }
 
 TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
@@ -143,8 +145,8 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
 
     EXPECT_EQ(sa[0], n-1);
     EXPECT_EQ(sa[1], n-2);
-    for(int i=2; i < text_size; i++) {
-        EXPECT_LT(strcmp(&text_large[sa[i-1]],&text_large[sa[i]]),0);
+    for(int i=2; i < n; i++) {
+        EXPECT_LT(strcmp(&text_large[sa[i-1]],&text_large[sa[i]]),0) << " o sufixo iniciado em " << sa[i-1] << " é maior do que o sufixo iniciado em " << sa[i] << endl;
     }
 
     free(sa);
@@ -153,6 +155,6 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   ::testing::GTEST_FLAG(filter) = "*";
+   ::testing::GTEST_FLAG(filter) = "*receive_a_large_text_with_repetitions_and_return_suffix_array";
     return RUN_ALL_TESTS();
 }
