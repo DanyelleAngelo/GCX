@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int n = word.size(), i=0, l,r;
     
     file.write(&word[0], n*sizeof(char));
-    while(i < 100) {
+    while(i < 40) {
         r = 2+ rand() % (n-1);
         l = rand() % (r-1);
         file.write(&word[l], (r-l)*sizeof(char));
