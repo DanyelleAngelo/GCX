@@ -8,7 +8,6 @@ using namespace std;
 
 #define calculatesLetterPosition(i) (sa[i] + d >= ts) ? 0 : text[sa[i] + d]
 
-
 template <typename T>
 void print(T v[], int n){
     cout << *(v);
@@ -198,5 +197,4 @@ int lessThan(char *text, int a, int b, int &i, int &j, int ts) {
         return b;
     }
     return -1;
-
 }
