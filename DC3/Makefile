@@ -4,6 +4,10 @@ TARGET=dc3 main clean
 
 all: $(TARGET)
 
+create_text: generate_text.cpp 
+	$(CC) generate_text.cpp -o generate_text
+	./generate_text mississippi text-large.txt
+
 dc3: dc3.cpp dc3.hpp
 	$(CC) -c dc3.cpp -o dc3.o $(FLAGS)
 
@@ -15,7 +19,7 @@ test: dc3 dc3_test.cpp
 main: dc3 main.cpp
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
 	$(CC) -o main dc3.o main.o  $(FLAGS)
-	valgrind --leak-check=full  -s ./main text.txt
+	./main text-large.txt
 
 clean:
-	rm -rf *.o main dc3_test
+	rm -rf *.o main dc3_test generate_text

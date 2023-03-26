@@ -10,7 +10,7 @@ const int module = 3;
  * @param ts tamanho do texto
  * @return array contendo os sufixos do texto de forma ordenada
  */
-void dc3(char *text, int*sa, int ts);
+void dc3(char *text, int*sa, int ts, int level);
 
 /**
  * @brief calcula o array ordenado dos sufixos do texto que iniciam na posição `i` tal que i % 3 ≠ 0 
@@ -20,7 +20,7 @@ void dc3(char *text, int*sa, int ts);
  * @param sa12_size quantidade de sufixos que atendem a regra acima, ou seja ts - ceil(ts/3)
  * @return array ordenado dos sufixos iniciados na posição i % 3 ≠ 0 
  */
-void orderSA12(char *text, int ts, int *sa12, int sa12_size);
+void orderSA12(char *text, int ts, int *sa12, int sa12_size, int level);
 
 /**
  * @brief calcula o array ordenado dos sufixos do texto que iniciam na posição `i` tal que i % 3 = 0
@@ -66,7 +66,7 @@ void radix_sort(char *text, int *sa, int sa_size, int ts, int n_char);
  * @param ts tamanho do texto
  * @return array de tamanho sa_size+1 contendo a classificação dos sufixos e um indicador de repetições.
  */
-bool lex_names(char *text, int *sa, int *rank, int size_sa, int ts);
+bool lex_names(char *text, int *sa, int *rank, int size_sa);
 
 /**
  * @brief Cria uma string reduzida, da seguinte forma: o elemento central dessa string é um sentinela que não ocorre em nenhum outro lugar. Para preencher as demais posições, pecorremos todos os elementos em SA12, e para cada elemento, se o resto da divisão por 3 desse elemento for igual à 1, o mesmo é adicionado no ínicio da primeira metade dessa string, casso contrário o elemento é inserido no ínicio da segunda metade.
@@ -106,6 +106,6 @@ char * constructInverseArray(int *sa, int text_size, int sa_size);
  * @param j marca a posição do ponteiro em SA0
  * @return `a` se SA12[i]+k for menor que SA0[j] + k, b caso maior, e -1 se os elementos forem iguais.
  */
-int lessThan(char *text, int a, int b, int &i, int &j);
+int lessThan(char *text, int a, int b, int &i, int &j, int ts);
 
 #endif
