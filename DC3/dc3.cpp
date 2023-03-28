@@ -22,20 +22,19 @@ void print(T v[], int n){
 void dc3(unsigned char *text,int *sa, int ts, int level) {
     int sa12_size = ts - ceil((double)ts/module);
     int sa0_size = ts - sa12_size;
-    int *sa12 = (int*)calloc(sa12_size, sizeof(int));
-    int *sa0 = (int*)calloc(sa0_size, sizeof(int));
+    int sa12[sa12_size];
+    int sa0[sa0_size];
     orderSA12(text, ts, sa12, sa12_size, level);
     orderSA0(text, sa12, ts, sa0, sa0_size);
     merge(sa, text, sa12, sa0, sa12_size, sa0_size);
-    free(sa12);
-    free(sa0);
+   // delete[] sa12;
+    //delete[] sa0;
 }
 
 void orderSA12(unsigned char *text, int ts, int *sa12, int sa12_size, int level) {
     for(int i=0,j=1; j < ts; j++) {
         if(j % module != 0) sa12[i++] = j;
     }
-
     int *sa12_sorted = (int*) calloc(sa12_size, sizeof(int));
     copy(sa12, sa12+sa12_size, sa12_sorted);
     radix_sort(text, sa12_sorted, sa12_size, ts, module);
@@ -151,10 +150,10 @@ void createReducedStr(int *sa12, int *rank, unsigned char *u, int sa12_size) {
     //precisa usar a ordem original de SA12
     for(int i=0, f=0, s=m+1; i < sa12_size; i++){
         if(sa12[i] % module == 1 && f < m) {
-            u[f] = rank[sa12[i]] + '0';
+            u[f] = rank[sa12[i]];
             f++;
         } else {
-            u[s] = rank[sa12[i]] + '0';
+            u[s] = rank[sa12[i]];
             s++;
         }
     }

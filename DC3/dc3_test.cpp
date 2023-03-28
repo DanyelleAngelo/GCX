@@ -26,7 +26,7 @@ TEST(DC3, receive_a_text_and_its_length_and_return_sa) {
 TEST(SA12, receive_a_text_returns_sorted_array_sa12) {
     int *sa12 = (int*) calloc(sa12_size, sizeof(int));
 
-    orderSA12(text, text_size, sa12, sa12_size, 0);
+    orderSA12(text, text_size, sa12, sa12_size,0);
 
     for(int i=0; i < sa12_size; i++)
         EXPECT_EQ(expected_sa12[i], sa12[i]) << " ocorreu um erro para o " << i << "-th elemento.\n";
@@ -86,7 +86,7 @@ TEST(RADIX_SORT, should_be_able_ordering_reduced_string) {
 TEST(REDUCED_STR, should_be_able_create_reduced_string) {
     int      sa12[] = {1, 2, 4, 5, 7, 8, 10};
     int      rank[] = {-1, 1, 5, -1, 4, 1, -1, 3, 3, -1, 0}; //-1 são posições i%3 =0
-    char  exp_sa_r[] = {'1', '4', '3', '0', 0, '5', '1', '3'};
+    char  exp_sa_r[] = {1, 4, 3, 0, 0, 5, 1, 3};
     unsigned char response[8];
     createReducedStr(sa12, rank, response, 7);
 
@@ -156,6 +156,6 @@ TEST(DC3, receive_a_large_text_with_repetitions_and_return_suffix_array) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   ::testing::GTEST_FLAG(filter) = "DC3.receive_a_large_text_with_repetitions_and_return_suffix_array";
+   ::testing::GTEST_FLAG(filter) = "*receive_a_large_text_with_repetitions_and_return_suffix_array";
     return RUN_ALL_TESTS();
 }
