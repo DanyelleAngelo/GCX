@@ -92,7 +92,7 @@ int createLexNames(unsigned char *text, unsigned int *triples, unsigned int *ran
  * @param textSize tamanho do texto ainda não reduzido
  * @return int tamanho do texto reduzido (incluindo $)
  */
-int createReducedText(unsigned int *rank, unsigned char *&redText, int triplesSize, int textSize);
+void createReducedText(unsigned int *rank, unsigned char *redText, int triplesSize, int textSize, int redTextSize);
 
 /**
  * @brief Abre o arquivo e posiciona o cursor no ínicio do arquivo. Grava as informações da gramática (quantidade de níveis, e quantidade de regras em cada nível), e em seguida grava o símbolo inicial.
@@ -100,7 +100,7 @@ int createReducedText(unsigned int *rank, unsigned char *&redText, int triplesSi
  * @param fileName nome do arquivo
  * @param startSymbol símbolo inicial
  */
-void storeStartSymbol(char *fileName, unsigned char *startSymbol);
+void storeStartSymbol(char *fileName, unsigned char *startSymbol, int size);
 
 /**
  * @brief Armazena regras geradas em cada nível

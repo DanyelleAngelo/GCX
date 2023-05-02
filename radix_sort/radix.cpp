@@ -108,12 +108,14 @@ void encode(unsigned char *text, int textSize, char *fileName, int level){
     int triplesSize = ceil((double)textSize/3);
     unsigned int *rank = (unsigned int*) malloc(textSize * sizeof(unsigned));
     unsigned int * triples =  (unsigned int*) malloc(triplesSize * sizeof(unsigned));
-    unsigned char *redText;
 
     radixSort(text, triplesSize, triples);
     unsigned char qtyRules = createLexNames(text, triples, rank, triplesSize);
     grammarInfo.insert(grammarInfo.begin(), qtyRules);
-    int redTextSize = createReducedText(rank, redText, triplesSize, textSize);
+    
+    int redTextSize =calculatesNumberOfSentries(triplesSize) + triplesSize;
+    unsigned char *redText = (unsigned char*) malloc((redTextSize) * sizeof(unsigned char)); 
+    createReducedText(rank, redText, triplesSize, textSize, redTextSize);
 
     if(qtyRules < triplesSize)
         encode(redText, redTextSize, fileName, ++level);
@@ -122,7 +124,7 @@ void encode(unsigned char *text, int textSize, char *fileName, int level){
         for(int i=0; i < redTextSize; i++)printf("%d.",redText[i]);
         cout << endl;
         grammarInfo.insert(grammarInfo.begin(), level+1);
-        storeStartSymbol(fileName, redText);
+        storeStartSymbol(fileName, redText, redTextSize);
     }
     
     storeRules(text, triples, rank, triplesSize, fileName);
@@ -197,20 +199,15 @@ int createLexNames(unsigned char *text, unsigned int *triples, unsigned int *ran
     return uniqueTriple;
 }
 
-int  createReducedText(unsigned int *rank, unsigned char *&redText, int triplesSize, int textSize) {
-    int redTextSize =calculatesNumberOfSentries(triplesSize) + triplesSize;
-    redText = (unsigned char*) malloc((redTextSize) * sizeof(unsigned char));
-
+void  createReducedText(unsigned int *rank, unsigned char *redText, int triplesSize, int textSize, int redTextSize) {
     for(int i=0, j=0; j < textSize; i++, j+=3) 
         redText[i] = rank[j];
 
     while(triplesSize < redTextSize)
         redText[triplesSize++] = 0;
-
-    return redTextSize;
 }
 
-void storeStartSymbol(char *fileName, unsigned char *startSymbol) {
+void storeStartSymbol(char *fileName, unsigned char *startSymbol, int size) {
     ofstream grammarFile;
     grammarFile.open(fileName, ios::out | ios::binary);
     if(!grammarFile.is_open())exit(EXIT_FAILURE);
@@ -218,7 +215,8 @@ void storeStartSymbol(char *fileName, unsigned char *startSymbol) {
     for(int i=0; i < grammarInfo.size(); i++)
         grammarFile << grammarInfo.at(i);
 
-    grammarFile << startSymbol;
+    grammarFile.write((char*)&startSymbol[0], size);
+    //grammarFile << startSymbol;
     grammarFile.close();
 }
 
