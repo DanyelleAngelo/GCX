@@ -107,7 +107,7 @@ int calculatesNumberOfSentries(int textSize) {
 void encode(unsigned char *text, int textSize, char *fileName, int level){
     int triplesSize = ceil((double)textSize/3);
     unsigned int *rank = (unsigned int*) malloc(textSize * sizeof(unsigned));
-    unsigned int * triples;
+    unsigned int * triples =  (unsigned int*) malloc(triplesSize * sizeof(unsigned));
     unsigned char *redText;
 
     radixSort(text, triplesSize, triples);
@@ -157,8 +157,7 @@ void decode(unsigned char *text, int textSize, int level, int qtyLevels, char *f
     free(symbol);
 }
 
-void radixSort(unsigned char *text, int triplesSize, unsigned int *&triples){
-    triples = (unsigned int*) malloc(triplesSize * sizeof(unsigned));
+void radixSort(unsigned char *text, int triplesSize, unsigned int *triples){
     unsigned int *triplesTemp = (unsigned int*) calloc(triplesSize, sizeof(unsigned int));
 
     for(int i=0, j=0; i < triplesSize; i++, j+=3)triples[i] = j;

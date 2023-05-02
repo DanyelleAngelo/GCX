@@ -70,7 +70,7 @@ void decode(unsigned char *text, int textSize, int level, int qtyLevels, char *f
  * @param triplesSize quantidade de trincas que devem ser ordenadas
  * @param triples array que ao final do método conterá os índices das trincas de forma ordenada
  */
-void radixSort(unsigned char *text, int triplesSize, unsigned int *&triples);
+void radixSort(unsigned char *text, int triplesSize, unsigned int *triples);
 
 /**
  * @brief cria lex-names para cada trinca ordenada do texto (usando o rank)
