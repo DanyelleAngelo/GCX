@@ -31,6 +31,7 @@ void grammar(char *fileIn, char *fileOut, char op) {
 
             for(int i=levels-1,j=1; i >=0; i--,j++)
                 printf("\t\tLevel: %d - amount of rules: %d.\n",i,grammarInfo.at(j));
+            delete [] plainText;
             break;
         }
         case 'd': {
@@ -42,6 +43,7 @@ void grammar(char *fileIn, char *fileOut, char op) {
                     "\n\t\tAmount of levels: " << levels <<
                     "\n\t\tStart symbol size: " << text[1] << endl;
             decode(text, textSize, levels-1, levels, fileOut);
+            delete [] text;
             break;
         }
         default: {
