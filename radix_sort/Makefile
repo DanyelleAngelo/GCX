@@ -16,7 +16,7 @@ IN_PLAIN_TEXT_FILE=in-plain-text.txt
 all: $(TARGET)
 
 fraenkel: ../../fraenkel
-	./../../fraenkel 14 $(IN_PLAIN_TEXT_FILE)
+	./../../fraenkel 15 $(IN_PLAIN_TEXT_FILE)
 
 create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
