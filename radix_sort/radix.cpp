@@ -164,9 +164,9 @@ void radixSort(unsigned char *text, int triplesSize, unsigned int *triples){
 
     for(int i=0, j=0; i < triplesSize; i++, j+=3)triples[i] = j;
 
+    unsigned int *bucket = (unsigned int*) calloc(256, sizeof(unsigned int));
     for(int d= module-1; d >=0; d--) {
-        unsigned int *bucket = (unsigned int*) calloc(256, sizeof(unsigned int));
-
+        for(int i=0; i < 256;i++)bucket[i]=0;
         //Porque não incrementar de 3 em 3? estamos calculando a ocorrência dos elementos contidos em triples, e triples já contém os sufixos iniciados em posições múltiplas de 3: 0,3,6,9,12 e assim por diante. 
         for(int i=0; i < triplesSize; i++) bucket[text[triples[i] + d]+1]++; 
 
@@ -178,8 +178,8 @@ void radixSort(unsigned char *text, int triplesSize, unsigned int *triples){
         }
 
         for(int i=0; i < triplesSize; i++) triples[i] = triplesTemp[i];
-        free(bucket);
     }
+    free(bucket);
     free(triplesTemp);
 }
 
