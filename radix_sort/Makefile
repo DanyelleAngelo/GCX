@@ -6,9 +6,9 @@ WORST_ENTRY=ABACABADABACABAEABACABADABACABA
 DNA_STRING=AGTTTTCATTCTGACTGAACAGCTTTTCATTCTGACTGCAAC
 STRING=banaananaanana
 
-TEXT=$(DNA_STRING)
+TEXT=$(STRING)
 NUMBER_OF_PERMUTATIONS=0
-FILE_NAME=in-plain-text.txt#"../dataset/pizza&chilli/english.50MB.txt"
+FILE_NAME=saida.txt#"../dataset/pizza&chilli/english.50MB.txt"
 COMPRESSED_FILE=compressed-file
 OUT_PLAIN_TEXT_FILE=out-plain-text.txt
 IN_PLAIN_TEXT_FILE=in-plain-text.txt
@@ -16,7 +16,7 @@ IN_PLAIN_TEXT_FILE=in-plain-text.txt
 all: $(TARGET)
 
 fraenkel: ../../fraenkel
-	./../../fraenkel 15 $(IN_PLAIN_TEXT_FILE)
+	./../../fraenkel 14 $(IN_PLAIN_TEXT_FILE)
 
 create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
@@ -38,7 +38,7 @@ compress:  radix main.cpp clean
 	$(CC) -c radix.cpp -o radix.o $(FLAGS)
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
 	$(CC) -o main radix.o main.o  $(FLAGS)
-	valgrind --leak-check=full ./main $(FILE_NAME) $(COMPRESSED_FILE) e
+	./main $(FILE_NAME) $(COMPRESSED_FILE) e
 
 decompress: radix main.cpp clean
 	$(CC) -c radix.cpp -o radix.o $(FLAGS)

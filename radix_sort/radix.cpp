@@ -26,7 +26,7 @@ void grammar(char *fileIn, char *fileOut, char op) {
             int levels = grammarInfo.at(0);
             cout << "\tCompressed file information:\n" <<
                     "\t\tAmount of levels: " << levels <<
-                    "\n\t\tStart symbol size (including $): "<< (int)grammarInfo.at(1) <<
+                    //"\n\t\tStart symbol size (including $): "<< grammarInfo.at(1) <<
                     endl;
 
             for(int i=levels-1,j=1; i >=0; i--,j++)
@@ -40,8 +40,8 @@ void grammar(char *fileIn, char *fileOut, char op) {
             int levels = (int)text[0];
             cout << "\tCompressed file information:\n" <<
                     "\t\tNumber of symbols: " << textSize <<
-                    "\n\t\tAmount of levels: " << levels <<
-                    "\n\t\tStart symbol size: " << text[1] << endl;
+                    "\n\t\tAmount of levels: " << levels << endl;
+                    //"\n\t\tStart symbol size: " << text[1] << endl;
             decode(text, textSize, levels-1, levels, fileOut);
             delete [] text;
             break;
@@ -120,9 +120,9 @@ void encode(unsigned char *text, int textSize, char *fileName, int level){
     if(qtyRules < triplesSize)
         encode(redText, redTextSize, fileName, ++level);
     else {
-        cout << "\tEncoded Text: ";
-        for(int i=0; i < redTextSize; i++)printf("%d.",redText[i]);
-        cout << endl;
+        //cout << "\tEncoded Text: ";
+        //for(int i=0; i < redTextSize; i++)printf("%d.",redText[i]);
+        //cout << endl;
         grammarInfo.insert(grammarInfo.begin(), level+1);
         storeStartSymbol(fileName, redText, redTextSize);
     }
@@ -153,9 +153,9 @@ void decode(unsigned char *text, int textSize, int level, int qtyLevels, char *f
 
     saveDecodedText(symbol,xsSize, fileName);
 
-    cout << "\n\tText: ";
-    for(int i=0; i < xsSize; i++)printf("%c",symbol[i]);
-    cout << endl;
+    //cout << "\n\tText: ";
+    //for(int i=0; i < xsSize; i++)printf("%c",symbol[i]);
+    //cout << endl;
     free(symbol);
 }
 
@@ -215,8 +215,7 @@ void storeStartSymbol(char *fileName, unsigned char *startSymbol, int size) {
     for(int i=0; i < grammarInfo.size(); i++)
         grammarFile << grammarInfo.at(i);
 
-    grammarFile.write((char*)&startSymbol[0], size);
-    //grammarFile << startSymbol;
+    grammarFile << startSymbol;
     grammarFile.close();
 }
 
