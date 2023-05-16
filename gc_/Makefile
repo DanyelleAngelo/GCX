@@ -31,7 +31,7 @@ create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
 	.././generate_text $(TEXT) $(NUMBER_OF_PERMUTATIONS) text/in-plain-text.txt
 
-main: $(FILE_CPP).cpp compressor-int.hpp main.cpp
+compressor: $(FILE_CPP).cpp compressor-int.hpp main.cpp
 	$(CC) -c $(FILE_CPP).cpp -o $(FILE_CPP).o $(FLAGS) $(LIBS) 
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
 	$(CC) -o main $(FILE_CPP).o main.o  $(FLAGS) $(LIBS)
