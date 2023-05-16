@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "radix.hpp"
+#include "compressor-int.hpp"
 
 using namespace std;
 
