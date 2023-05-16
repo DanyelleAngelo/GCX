@@ -7,6 +7,7 @@
 
 using namespace std;
 using namespace sdsl;
+int module;
 
 unsigned char *text;
 uint32_t *textC;
@@ -21,13 +22,13 @@ void print(T v[], int n){
      cout << endl;
 } 
 
-void grammar(char *fileIn, char *fileOut, char op) {
+void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
     long long int textSize;
+    module = ruleSize;
     switch (op){
         case 'e': {
             cout << "\n\n>>>> Encode <<<<\n";
             readPlainText(fileIn, textSize);
-
             uint32_t *uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
             encode(uText,textSize, fileOut, 0);
@@ -108,7 +109,7 @@ void readCompressedFile(char *fileName, long long int &textSize) {
     }
 
     nRulesLastLevel = grammarInfo[levels];
-    rules0 = (unsigned char*)malloc(nRulesLastLevel*3*sizeof(unsigned char));
+    rules0 = (unsigned char*)malloc(nRulesLastLevel*module*sizeof(unsigned char));
 
     fseek(file, 0, SEEK_END);
     textSize = (((int)ftell(file) - (grammarInfo.size()*4) - (nRulesLastLevel*module))/4);
@@ -117,29 +118,30 @@ void readCompressedFile(char *fileName, long long int &textSize) {
     fseek(file, grammarInfo.size()*sizeof(uint32_t), SEEK_SET);
     fread(textC, sizeof(uint32_t), textSize, file);
 
-    fread(rules0, sizeof(char), nRulesLastLevel*3, file);
+    fread(rules0, sizeof(char), nRulesLastLevel*module, file);
     fclose(file);
 }
 
 int calculatesNumberOfSentries(long long int textSize) {
-    if(textSize %3 == 1) return 2;
-    else if(textSize %3 ==2) return 1;
+    if(textSize % module == 1) return 2;
+    else if(textSize % module ==2) return 1;
     return 0;
 }
-void encode(uint32_t *uText, long long int textSize, char *fileName, int level){
-    long long int triplesSize = ceil((double)textSize/3);
-    uint32_t *rank = (uint32_t*) malloc(textSize * sizeof(uint32_t));
-    uint32_t * triples =  (uint32_t*) malloc(triplesSize * sizeof(uint32_t));
 
-    radixSort(uText, triplesSize, triples);
-    long int qtyRules = createLexNames(uText, triples, rank, triplesSize);
+void encode(uint32_t *uText, long long int textSize, char *fileName, int level){
+    long long int rulesIndexSize = ceil((double)textSize/module);
+    uint32_t *rank = (uint32_t*) malloc(textSize * sizeof(uint32_t));
+    uint32_t * rulesIndex =  (uint32_t*) malloc(rulesIndexSize * sizeof(uint32_t));
+
+    radixSort(uText, rulesIndexSize, rulesIndex);
+    long int qtyRules = createLexNames(uText, rulesIndex, rank, rulesIndexSize);
     grammarInfo.insert(grammarInfo.begin(), qtyRules);
 
-    long long int redTextSize =calculatesNumberOfSentries(triplesSize) + triplesSize;
+    long long int redTextSize =calculatesNumberOfSentries(rulesIndexSize) + rulesIndexSize;
     uint32_t *redText = (uint32_t*) malloc((redTextSize) * sizeof(uint32_t)); 
-    createReducedText(rank, redText, triplesSize, textSize, redTextSize);
+    createReducedText(rank, redText, rulesIndexSize, textSize, redTextSize);
 
-    if(qtyRules < triplesSize)
+    if(qtyRules < rulesIndexSize)
         encode(redText, redTextSize, fileName, level+1);
     else {
         //cout << "\tEncoded Text: ";
@@ -149,11 +151,11 @@ void encode(uint32_t *uText, long long int textSize, char *fileName, int level){
         storeStartSymbol(fileName, redText, redTextSize);
     }
     
-    if(level!=0)storeRules(uText, triples, rank, triplesSize, fileName);
-    else storeRules(text, triples, rank, triplesSize, fileName);
+    if(level!=0)storeRules(uText, rulesIndex, rank, rulesIndexSize, fileName);
+    else storeRules(text, rulesIndex, rank, rulesIndexSize, fileName);
 
     free(rank);
-    free(triples);
+    free(rulesIndex);
     free(redText);
 }
 
@@ -169,7 +171,7 @@ void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, c
         //printf("Level: %d - amount of rules: %d.\n", level, grammarInfo.at(l));
         //printf("Inicio das regras do  nível %d é %d.\n", level, startLevel);
         decodeSymbol(textC,symbol, xsSize, level, startLevel);
-        startLevel += (grammarInfo[l]*3);
+        startLevel += (grammarInfo[l]*module);
         //printf("Simbolo traduzido é: ");
         //print(symbol, xsSize);
         l++;
@@ -181,54 +183,54 @@ void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, c
     free(symbol);
 }
 
-void radixSort(uint32_t *uText, int triplesSize, uint32_t *triples){
-    uint32_t *triplesTemp = (uint32_t*) calloc(triplesSize, sizeof(uint32_t));
-    for(int i=0, j=0; i < triplesSize; i++, j+=3)triples[i] = j;
-    long int n = triplesSize*3;
+void radixSort(uint32_t *uText, int rulesIndexSize, uint32_t *rulesIndex){
+    uint32_t *rulesIndexTemp = (uint32_t*) calloc(rulesIndexSize, sizeof(uint32_t));
+    for(int i=0, j=0; i < rulesIndexSize; i++, j+=module)rulesIndex[i] = j;
+    long int n = rulesIndexSize*module;
     int *bucket = ( int*) calloc(n, sizeof( int));
     for(int d= module-1; d >=0; d--) {
         for(int i=0; i < n;i++)bucket[i]=0;
-        for(int i=0; i < triplesSize; i++) bucket[uText[triples[i] + d]+1]++; 
+        for(int i=0; i < rulesIndexSize; i++) bucket[uText[rulesIndex[i] + d]+1]++; 
         for(int i=1; i < n; i++) bucket[i] += bucket[i-1];
 
-        for(int i=0; i < triplesSize; i++) {
-            int index = bucket[uText[triples[i] + d]]++;
-            triplesTemp[index] = triples[i];
+        for(int i=0; i < rulesIndexSize; i++) {
+            int index = bucket[uText[rulesIndex[i] + d]]++;
+            rulesIndexTemp[index] = rulesIndex[i];
         }
-        for(int i=0; i < triplesSize; i++) triples[i] = triplesTemp[i];
+        for(int i=0; i < rulesIndexSize; i++) rulesIndex[i] = rulesIndexTemp[i];
     }
 
     free(bucket);
-    free(triplesTemp);
+    free(rulesIndexTemp);
 }
 
-long int createLexNames(uint32_t *uText, uint32_t *triples, uint32_t *rank, long int triplesSize) {
+long int createLexNames(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, long int rulesIndexSize) {
     long int i=0;
     long int uniqueTriple = 1;
-    rank[triples[i++]] = 1;
-    for(; i < triplesSize; i++) {
+    rank[rulesIndex[i++]] = 1;
+    for(; i < rulesIndexSize; i++) {
         bool equal = true;
         for(int j=0; j < module; j++)
-            if(uText[triples[i-1]+j] != uText[triples[i]+j]){
+            if(uText[rulesIndex[i-1]+j] != uText[rulesIndex[i]+j]){
                 equal = false;
                 break;
             }
-        if(equal)rank[triples[i]] = rank[triples[i-1]];
+        if(equal)rank[rulesIndex[i]] = rank[rulesIndex[i-1]];
         else {
-            rank[triples[i]] = rank[triples[i-1]] + 1;
+            rank[rulesIndex[i]] = rank[rulesIndex[i-1]] + 1;
             uniqueTriple++;
         }
     }
-    printf("Número de trincas = %ld, quantidade de trincas sem repetição: %ld, quantidade de trincas com repetição = %ld\n", triplesSize, uniqueTriple, triplesSize-uniqueTriple);
+    printf("Número de trincas = %ld, quantidade de trincas sem repetição: %ld, quantidade de trincas com repetição = %ld\n", rulesIndexSize, uniqueTriple, rulesIndexSize-uniqueTriple);
     return uniqueTriple;
 }
 
-void  createReducedText(uint32_t *rank, uint32_t *redText, long long int triplesSize, long long int textSize, long long int redTextSize) {
+void  createReducedText(uint32_t *rank, uint32_t *redText, long long int rulesIndexSize, long long int textSize, long long int redTextSize) {
     for(int i=0, j=0; j < textSize; i++, j+=3) 
         redText[i] = rank[j];
 
-    while(triplesSize < redTextSize)
-        redText[triplesSize++] = 0;
+    while(rulesIndexSize < redTextSize)
+        redText[rulesIndexSize++] = 0;
 }
 
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size) {
@@ -246,7 +248,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size) {
     fclose(file);
 }
 
-void storeRules(uint32_t *uText, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName){
+void storeRules(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName){
     int lastRank = 0;
 
     FILE*  file= fopen(fileName,"ab");
@@ -256,16 +258,16 @@ void storeRules(uint32_t *uText, uint32_t *triples, uint32_t *rank, int triplesS
         exit(EXIT_FAILURE);
     }
 
-    for(int i=0; i < triplesSize; i++) {
-        if(rank[triples[i]] == lastRank)
+    for(int i=0; i < rulesIndexSize; i++) {
+        if(rank[rulesIndex[i]] == lastRank)
             continue;
-        lastRank = rank[triples[i]];
-        fwrite(&uText[triples[i]], sizeof(uint32_t), module, file);
+        lastRank = rank[rulesIndex[i]];
+        fwrite(&uText[rulesIndex[i]], sizeof(uint32_t), module, file);
     }
     fclose(file);
 }
 
-void storeRules(unsigned char *text, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName){
+void storeRules(unsigned char *text, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName){
     int lastRank = 0;
     
     FILE*  file= fopen(fileName,"ab");
@@ -275,26 +277,25 @@ void storeRules(unsigned char *text, uint32_t *triples, uint32_t *rank, int trip
         exit(EXIT_FAILURE);
     }
 
-    for(int i=0; i < triplesSize; i++) {
-        if(rank[triples[i]] == lastRank)
+    for(int i=0; i < rulesIndexSize; i++) {
+        if(rank[rulesIndex[i]] == lastRank)
             continue;
-        lastRank = rank[triples[i]];
-        fwrite(&text[triples[i]], sizeof(char), module, file);
+        lastRank = rank[rulesIndex[i]];
+        fwrite(&text[rulesIndex[i]], sizeof(char), module, file);
     }
     fclose(file);
 }
 
 void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int l, int start) {
-    uint32_t *symbolTemp = (uint32_t*) malloc(xsSize*3* sizeof(uint32_t*));
+    uint32_t *symbolTemp = (uint32_t*) malloc(xsSize*module* sizeof(uint32_t*));
     int j = 0;
     for(int i=0; i < xsSize; i++) {
         int rule = symbol[i];
         if(rule==0)continue; 
-        int rightHand = start + ((rule-1)*3);
+        int rightHand = start + ((rule-1)*module);
         //cout << "\n---- Level: " << l << endl;
-        //cout << "The rule " << rule << " starts at " << rightHand << endl;
         //cout << "\nv" << rule << " -> ";
-        for(int k=0; k < 3; k++){
+        for(int k=0; k < module; k++){
             if(textC[rightHand+k] ==0)continue;
             symbolTemp[j++] = textC[rightHand+k];
             //if(isalpha(symbolTemp[j-1]))printf("%c . ", symbolTemp[j-1]);
@@ -317,10 +318,10 @@ void saveDecodedText(uint32_t *symbol, long long int textSize, char *fileName) {
         exit(EXIT_FAILURE);
     }
 
-    int n = textSize*3;
+    int n = textSize*module;
     char *str = (char*)malloc(n*sizeof(char));
     for(int i=0,k=0; i < textSize; i++){
-        int rightHand = (symbol[i]-1)*3;
+        int rightHand = (symbol[i]-1)*module;
         for(int j=0; j < module; j++){
             if(rules0[rightHand+j]==0){
                 n--;
