@@ -6,7 +6,6 @@
 
 using namespace std;
 
-const int module = 3;
 /**
  * @brief Identifica a operação escolhida pelo usuário, e chama o método responsável pela operação (encode ou decode).
  * 
@@ -14,7 +13,7 @@ const int module = 3;
  * @param fileOut arquivo vazio, onde será gravado o resultado da operação escolhida
  * @param op armazena a opção escolhida pelo usuário "e" para encode, e "d" para decode
  */
-void grammar(char *fileIn, char *fileOut, char op);
+void grammar(char *fileIn, char *fileOut, char op, int ruleSize);
 
 /**
  * @brief Realiza a leitura e armazena o texto decodificado em uma variável.
@@ -65,32 +64,32 @@ void decode(uint32_t *text, long long int textSize, int level, int qtyLevels, ch
  * @brief ordena o texto com base em trincas, iniciadas em números múltiplos de 3
  * 
  * @param uText texto a ser ordenado
- * @param triplesSize quantidade de trincas que devem ser ordenadas
- * @param triples array que ao final do método conterá os índices das trincas de forma ordenada
+ * @param rulesIndexSize quantidade de trincas que devem ser ordenadas
+ * @param rulesIndex array que ao final do método conterá os índices das trincas de forma ordenada
  */
-void radixSort(uint32_t *uText, int triplesSize, uint32_t *triples);
+void radixSort(uint32_t *uText, int rulesIndexSize, uint32_t *rulesIndex);
 
 /**
  * @brief cria lex-names para cada trinca ordenada do texto (usando o rank)
  * 
  * @param uText texto a ser codificado
- * @param triples trincas JÁ ORDENADAS
+ * @param rulesIndex trincas JÁ ORDENADAS
  * @param rank array que ao final do método armazenará todos os lex-names de cada trinca
- * @param triplesSize quantidade de trincas
+ * @param rulesIndexSize quantidade de trincas
  * @return int número de trincas sem repetição
  */
-long int createLexNames(uint32_t *uText, uint32_t *triples, uint32_t *rank, long int triplesSize);
+long int createLexNames(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, long int rulesIndexSize);
 
 /**
  * @brief cria um texto reduzido usando os lex-names definidos para cada trinca
  * 
  * @param rank array contendo lex-names
  * @param redText array que conterá o texto reduzido ao final do método
- * @param triplesSize número de trincas (número de trincas é o tamanho do texto reduzido excluindo $)
+ * @param rulesIndexSize número de trincas (número de trincas é o tamanho do texto reduzido excluindo $)
  * @param textSize tamanho do texto ainda não reduzido
  * @return int tamanho do texto reduzido (incluindo $)
  */
-void createReducedText(uint32_t *rank, uint32_t *redText, long long int triplesSize, long long int textSize, long long int redTextSize);
+void createReducedText(uint32_t *rank, uint32_t *redText, long long int rulesIndexSize, long long int textSize, long long int redTextSize);
 
 /**
  * @brief Abre o arquivo e posiciona o cursor no ínicio do arquivo. Grava as informações da gramática (quantidade de níveis, e quantidade de regras em cada nível), e em seguida grava o símbolo inicial.
@@ -105,13 +104,13 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size);
  * @brief Armazena regras geradas em cada nível
  * 
  * @param uText texto que representa a regra que deve ser armazenada
- * @param triples array contendo os índices iniciais de cada trinca em ordem
+ * @param rulesIndex array contendo os índices iniciais de cada trinca em ordem
  * @param rank classificação de cada trinca
- * @param triplesSize quantidade de trincas
+ * @param rulesIndexSize quantidade de trincas
  * @param fileName arquivo onde as regras devem ser salvas
  */
-void storeRules(uint32_t *uText, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName);
-void storeRules(unsigned char *text, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName);
+void storeRules(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName);
+void storeRules(unsigned char *text, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName);
 
 /**
  * @brief Decodifica o textp reduzido em determinado nível da gramática
