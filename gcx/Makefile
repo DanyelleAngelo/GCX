@@ -14,12 +14,12 @@ IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 
 ifeq ($(CODEC),elias)
 	FILE_CPP=compressor-elias
-	COMPRESSED_FILE=text/$(FILE)-compressed-elias
-	OUT_PLAIN_TEXT_FILE=text/$(FILE)-plain-text-elias
+	COMPRESSED_FILE=text/$(FILE)-rules$(RULES_SIZE)-cod-elias
+	OUT_PLAIN_TEXT_FILE=text/$(FILE)-rules$(RULES_SIZE)-plain-elias
 else
 	FILE_CPP=compressor-int
-	COMPRESSED_FILE=text/$(FILE)-compressed-int
-	OUT_PLAIN_TEXT_FILE=text/$(FILE)-plain-text-int
+	COMPRESSED_FILE=text/$(FILE)-rules$(RULES_SIZE)-cod-int
+	OUT_PLAIN_TEXT_FILE=text/$(FILE)-rules$(RULES_SIZE)-plain-int
 endif
 
 all: fraenkel
@@ -39,10 +39,10 @@ main: main.cpp compressor
 	$(CC) -o main $(FILE_CPP).o main.o  $(FLAGS) $(LIBS)
 
 compress: compressor main clean
-	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) e
+	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) e $(RULES_SIZE)
 
 decompress: main clean
-	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d
+	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES_SIZE)
 	diff $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE)
 
 clean:
