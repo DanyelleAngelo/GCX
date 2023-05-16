@@ -9,7 +9,7 @@ TEXT=$(DNA_STRING)
 NUMBER_OF_PERMUTATIONS=0
 
 DIR=../dataset/pizza_chilli
-FILE=dna.001.1
+FILE=dna.50MB
 IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 
 ifeq ($(CODEC),elias)
@@ -31,19 +31,16 @@ create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
 	.././generate_text $(TEXT) $(NUMBER_OF_PERMUTATIONS) text/in-plain-text.txt
 
-compressor: $(FILE_CPP).cpp compressor-int.hpp
-	$(CC) -c $(FILE_CPP).cpp -o $(FILE_CPP).o $(FLAGS) $(LIBS)
-
-main: main.cpp compressor
+main: $(FILE_CPP).cpp compressor-int.hpp main.cpp
+	$(CC) -c $(FILE_CPP).cpp -o $(FILE_CPP).o $(FLAGS) $(LIBS) 
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
 	$(CC) -o main $(FILE_CPP).o main.o  $(FLAGS) $(LIBS)
-
-compress: compressor main clean
-	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) e $(RULES_SIZE)
-
-decompress: main clean
+ifeq ($(MODE), d)
 	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES_SIZE)
-	diff $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE)
+	diff $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
+else
+	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) e $(RULES_SIZE)
+endif
 
 clean:
 	rm -rf *.o
