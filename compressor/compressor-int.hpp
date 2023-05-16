@@ -48,7 +48,7 @@ int calculatesNumberOfSentries(long long int textSize);
  * @param fileName nome do arquivo onde são gravadas as regras geradas a cada nível
  * @param level nível atual
  */
-void encode(uint64_t *text, long long int textSize, char *fileName, int level);
+void encode(uint32_t *text, long long int textSize, char *fileName, int level);
 
 /**
  * @brief realiza a descompressão do texto, por meio da decodificação do texto nível a nível.
@@ -59,7 +59,7 @@ void encode(uint64_t *text, long long int textSize, char *fileName, int level);
  * @param qtyLevels quantidade de níveis na gramática
  * @param fileName arquivo onde deve ser gravado o resultado da descompressão
  */
-void decode(uint64_t *text, long long int textSize, int level, int qtyLevels, char *fileName);
+void decode(uint32_t *text, long long int textSize, int level, int qtyLevels, char *fileName);
 
 /**
  * @brief ordena o texto com base em trincas, iniciadas em números múltiplos de 3
@@ -68,7 +68,7 @@ void decode(uint64_t *text, long long int textSize, int level, int qtyLevels, ch
  * @param triplesSize quantidade de trincas que devem ser ordenadas
  * @param triples array que ao final do método conterá os índices das trincas de forma ordenada
  */
-void radixSort(uint64_t *uText, int triplesSize, uint64_t *triples);
+void radixSort(uint32_t *uText, int triplesSize, uint32_t *triples);
 
 /**
  * @brief cria lex-names para cada trinca ordenada do texto (usando o rank)
@@ -79,7 +79,7 @@ void radixSort(uint64_t *uText, int triplesSize, uint64_t *triples);
  * @param triplesSize quantidade de trincas
  * @return int número de trincas sem repetição
  */
-long int createLexNames(uint64_t *uText, uint64_t *triples, uint64_t *rank, long int triplesSize);
+long int createLexNames(uint32_t *uText, uint32_t *triples, uint32_t *rank, long int triplesSize);
 
 /**
  * @brief cria um texto reduzido usando os lex-names definidos para cada trinca
@@ -90,7 +90,7 @@ long int createLexNames(uint64_t *uText, uint64_t *triples, uint64_t *rank, long
  * @param textSize tamanho do texto ainda não reduzido
  * @return int tamanho do texto reduzido (incluindo $)
  */
-void createReducedText(uint64_t *rank, uint64_t *redText, long long int triplesSize, long long int textSize, long long int redTextSize);
+void createReducedText(uint32_t *rank, uint32_t *redText, long long int triplesSize, long long int textSize, long long int redTextSize);
 
 /**
  * @brief Abre o arquivo e posiciona o cursor no ínicio do arquivo. Grava as informações da gramática (quantidade de níveis, e quantidade de regras em cada nível), e em seguida grava o símbolo inicial.
@@ -99,7 +99,7 @@ void createReducedText(uint64_t *rank, uint64_t *redText, long long int triplesS
  * @param startSymbol símbolo inicial
  * @param size: tamanho do símbolo inicial
  */
-void storeStartSymbol(char *fileName, uint64_t *startSymbol, int size);
+void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size);
 
 /**
  * @brief Armazena regras geradas em cada nível
@@ -110,8 +110,8 @@ void storeStartSymbol(char *fileName, uint64_t *startSymbol, int size);
  * @param triplesSize quantidade de trincas
  * @param fileName arquivo onde as regras devem ser salvas
  */
-void storeRules(uint64_t *uText, uint64_t *triples, uint64_t *rank, int triplesSize, char *fileName);
-void storeRules(unsigned char *text, uint64_t *triples, uint64_t *rank, int triplesSize, char *fileName);
+void storeRules(uint32_t *uText, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName);
+void storeRules(unsigned char *text, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName);
 
 /**
  * @brief Decodifica o textp reduzido em determinado nível da gramática
@@ -122,7 +122,7 @@ void storeRules(unsigned char *text, uint64_t *triples, uint64_t *rank, int trip
  * @param l nível atual
  * @param start índice onde as regras do nível "l" começam
  */
-void decodeSymbol(uint64_t* text, uint64_t *&symbol, long long int &xsSize, int l, int start);
+void decodeSymbol(uint32_t* text, uint32_t *&symbol, long long int &xsSize, int l, int start);
 
 /**
  * @brief abre o arquivo de saída e grava o texto decodificado
@@ -131,6 +131,6 @@ void decodeSymbol(uint64_t* text, uint64_t *&symbol, long long int &xsSize, int 
  * @param textSize tamanho do texto
  * @param fileName arquivo de saída
  */
-void saveDecodedText(uint64_t *symbol, long long int textSize, char *fileName);
+void saveDecodedText(uint32_t *symbol, long long int textSize, char *fileName);
 
 #endif

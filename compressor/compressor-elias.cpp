@@ -1,13 +1,8 @@
+#include "compressor-int.hpp"
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <cstring>
-#include <string>
 #include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <new>
-#include "compressor-int.hpp"
 #include <sdsl/int_vector.hpp>
 #include <sdsl/coder.hpp>
 
@@ -16,13 +11,13 @@ using namespace sdsl;
 coder::elias_gamma eg;
 
 unsigned char *text;
-uint64_t *textC;
+uint32_t *textC;
 int nRulesLastLevel;
 unsigned char *rules0;
-vector<uint64_t> grammarInfo;
-int_vector<64> arr;
-int_vector<64> encoded;
-int_vector<64> decoded;
+vector<uint32_t> grammarInfo;
+int_vector<32> arr;
+int_vector<32> encoded;
+int_vector<32> decoded;
 
 template <typename T>
 void print(T v[], int n){
@@ -38,8 +33,8 @@ void grammar(char *fileIn, char *fileOut, char op) {
             cout << "\n\n>>>> Encode <<<<\n";
             readPlainText(fileIn, textSize);
 
-            uint64_t *uText = (uint64_t*)malloc(textSize*sizeof(uint64_t));
-            for(int i=0; i < textSize; i++)uText[i] = (uint64_t)text[i];
+            uint32_t *uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
+            for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
             encode(uText,textSize, fileOut, 0);
 
             int levels = grammarInfo.at(0);
@@ -48,8 +43,8 @@ void grammar(char *fileIn, char *fileOut, char op) {
                     "\n\t\tStart symbol size (including $): "<< grammarInfo.at(1) <<
                     endl;
 
-            for(int i=grammarInfo.size()-1, j=0; i >0; i--,j++){
-                printf("\t\tLevel: %d - amount of rules: %llu.\n",j,grammarInfo[i]);
+            for(int i=grammarInfo.size()-1; i >0; i--){
+                printf("\t\tLevel: %d - amount of rules: %u.\n",i,grammarInfo[i]);
             }
             free(uText);
             free(text);
@@ -58,11 +53,11 @@ void grammar(char *fileIn, char *fileOut, char op) {
         case 'd': {
             cout << "\n\n>>>> Decode <<<<\n";
             readCompressedFile(fileIn, textSize);
-            // uint64_t levels = grammarInfo.at(0);
+            // uint32_t levels = grammarInfo.at(0);
             // cout << "\tCompressed file information:\n" <<
             //         "\n\t\tAmount of levels: " << levels << endl;
-            // for(int i=grammarInfo.size()-1, j=0; i >0; i--,j++){
-            //     printf("\t\tLevel: %d - amount of rules: %llu.\n",j,grammarInfo[i]);
+            // for(int i=grammarInfo.size()-1; i >0; i--){
+            //     printf("\t\tLevel: %d - amount of rules: %llu.\n",i,grammarInfo[i]);
             // }
             //decode(textC, textSize, levels-1, levels, fileOut);
             //free(rules0);
@@ -108,7 +103,7 @@ void readCompressedFile(char *fileName, long long int &textSize) {
     }
 
     uint32_t compressedInfoSize; 
-    uint64_t levels;
+    uint32_t levels;
     fread(&compressedInfoSize, sizeof(uint32_t), 1, file);
     cout << "Tamanho da info da gramática compactada eh " << compressedInfoSize << endl;
 
@@ -128,8 +123,8 @@ void readCompressedFile(char *fileName, long long int &textSize) {
     // grammarInfo.push_back(levels);
 
     // for(int i = levels-1; i >=0; i--){
-    //     uint64_t n;
-    //     fread(&n, sizeof(uint64_t), 1, file); 
+    //     uint32_t n;
+    //     fread(&n, sizeof(uint32_t), 1, file); 
     //     grammarInfo.push_back(n);
     // }
 
@@ -137,11 +132,11 @@ void readCompressedFile(char *fileName, long long int &textSize) {
     // rules0 = (unsigned char*)malloc(nRulesLastLevel*3*sizeof(unsigned char));
 
     // fseek(file, 0, SEEK_END);
-    // textSize = (((int)ftell(file) - (grammarInfo.size()*8) - (nRulesLastLevel*module))/8);
-    // textC = (uint64_t*)malloc(textSize*sizeof(uint64_t));
+    // textSize = (((int)ftell(file) - (grammarInfo.size()*4) - (nRulesLastLevel*module))/4);
+    // textC = (uint32_t*)malloc(textSize*sizeof(uint32_t));
 
-    // fseek(file, grammarInfo.size()*sizeof(uint64_t), SEEK_SET);
-    // fread(textC, sizeof(uint64_t), textSize, file);
+    // fseek(file, grammarInfo.size()*sizeof(uint32_t), SEEK_SET);
+    // fread(textC, sizeof(uint32_t), textSize, file);
 
     // fread(rules0, sizeof(char), nRulesLastLevel*3, file);
     fclose(file);
@@ -151,17 +146,17 @@ int calculatesNumberOfSentries(long long int textSize) {
     else if(textSize %3 ==2) return 1;
     return 0;
 }
-void encode(uint64_t *uText, long long int textSize, char *fileName, int level){
+void encode(uint32_t *uText, long long int textSize, char *fileName, int level){
     long long int triplesSize = ceil((double)textSize/3);
-    uint64_t *rank = (uint64_t*) malloc(textSize * sizeof(uint64_t));
-    uint64_t * triples =  (uint64_t*) malloc(triplesSize * sizeof(uint64_t));
+    uint32_t *rank = (uint32_t*) malloc(textSize * sizeof(uint32_t));
+    uint32_t * triples =  (uint32_t*) malloc(triplesSize * sizeof(uint32_t));
 
     radixSort(uText, triplesSize, triples);
     long int qtyRules = createLexNames(uText, triples, rank, triplesSize);
     grammarInfo.insert(grammarInfo.begin(), qtyRules);
 
     long long int redTextSize =calculatesNumberOfSentries(triplesSize) + triplesSize;
-    uint64_t *redText = (uint64_t*) malloc((redTextSize) * sizeof(uint64_t)); 
+    uint32_t *redText = (uint32_t*) malloc((redTextSize) * sizeof(uint32_t)); 
     createReducedText(rank, redText, triplesSize, textSize, redTextSize);
 
     if(qtyRules < triplesSize)
@@ -182,10 +177,10 @@ void encode(uint64_t *uText, long long int textSize, char *fileName, int level){
     free(redText);
 }
 
-void decode(uint64_t *textC, long long int textSize, int level, int qtyLevels, char *fileName){
+void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, char *fileName){
     int startLevel = 0;
     long long int xsSize = grammarInfo.at(1);
-    uint64_t *symbol = (uint64_t*)malloc(xsSize * sizeof(uint64_t));
+    uint32_t *symbol = (uint32_t*)malloc(xsSize * sizeof(uint32_t));
     for(int i=0; i < xsSize; i++)
         symbol[i] = textC[i];
     int l=1;
@@ -206,10 +201,10 @@ void decode(uint64_t *textC, long long int textSize, int level, int qtyLevels, c
     free(symbol);
 }
 
-void radixSort(uint64_t *uText, int triplesSize, uint64_t *triples){
-    uint64_t *triplesTemp = (uint64_t*) calloc(triplesSize, sizeof(uint64_t));
-    for(int i=0, j=0; i < triplesSize; i++, j+=3)triples[i] = j;
-    long int n = 267 + (triplesSize*3);
+void radixSort(uint32_t *uText, int triplesSize, uint32_t *triples){
+    uint32_t *triplesTemp = (uint32_t*) calloc(triplesSize, sizeof(uint32_t));
+    for(int i=0, j=0; i < triplesSize; i++, j+=module)triples[i] = j;
+    long int n = triplesSize*module;
     int *bucket = ( int*) calloc(n, sizeof( int));
     for(int d= module-1; d >=0; d--) {
         for(int i=0; i < n;i++)bucket[i]=0;
@@ -227,7 +222,7 @@ void radixSort(uint64_t *uText, int triplesSize, uint64_t *triples){
     free(triplesTemp);
 }
 
-long int createLexNames(uint64_t *uText, uint64_t *triples, uint64_t *rank, long int triplesSize) {
+long int createLexNames(uint32_t *uText, uint32_t *triples, uint32_t *rank, long int triplesSize) {
     long int i=0;
     long int uniqueTriple = 1;
     rank[triples[i++]] = 1;
@@ -248,7 +243,7 @@ long int createLexNames(uint64_t *uText, uint64_t *triples, uint64_t *rank, long
     return uniqueTriple;
 }
 
-void  createReducedText(uint64_t *rank, uint64_t *redText, long long int triplesSize, long long int textSize, long long int redTextSize) {
+void  createReducedText(uint32_t *rank, uint32_t *redText, long long int triplesSize, long long int textSize, long long int redTextSize) {
     for(int i=0, j=0; j < textSize; i++, j+=3) 
         redText[i] = rank[j];
 
@@ -256,7 +251,7 @@ void  createReducedText(uint64_t *rank, uint64_t *redText, long long int triples
         redText[triplesSize++] = 0;
 }
 
-void storeStartSymbol(char *fileName, uint64_t *startSymbol, int size) {
+void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size) {
     FILE*  file= fopen(fileName,"wb");
 
     if(file == NULL) {
@@ -271,7 +266,7 @@ void storeStartSymbol(char *fileName, uint64_t *startSymbol, int size) {
     eg.encode(arr, encoded);
     uint32_t encodedSize = encoded.size();
     fwrite(&encodedSize, sizeof(uint32_t), 1, file);
-    fwrite(&encoded[0], sizeof(uint64_t), encoded.size(), file);
+    fwrite(&encoded[0], sizeof(uint32_t), encoded.size(), file);
     
     eg.decode(encoded,decoded);
     cout << "Info compactada com elias\n";
@@ -284,10 +279,10 @@ void storeStartSymbol(char *fileName, uint64_t *startSymbol, int size) {
     arr.resize(size);
     for(int i=0; i < size; i++) arr[i] = startSymbol[i];
     eg.encode(arr, encoded);
-    fwrite(&encoded[0], sizeof(uint64_t), encoded.size(), file);
+    fwrite(&encoded[0], sizeof(uint32_t), encoded.size(), file);
 }
 
-void storeRules(uint64_t *uText, uint64_t *triples, uint64_t *rank, int triplesSize, char *fileName){
+void storeRules(uint32_t *uText, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName){
     int lastRank = 0;
     FILE*  file= fopen(fileName,"ab");
 
@@ -296,7 +291,7 @@ void storeRules(uint64_t *uText, uint64_t *triples, uint64_t *rank, int triplesS
         exit(EXIT_FAILURE);
     }
 
-    vector<uint64_t> v;
+    vector<uint32_t> v;
     for(int i=0; i < triplesSize; i++) {
         if(rank[triples[i]] == lastRank)
             continue;
@@ -311,10 +306,10 @@ void storeRules(uint64_t *uText, uint64_t *triples, uint64_t *rank, int triplesS
         }
     }
     eg.encode(arr, encoded);
-    fwrite(&encoded[0], sizeof(uint64_t), encoded.size(), file);
+    fwrite(&encoded[0], sizeof(uint32_t), encoded.size(), file);
 }
 
-void storeRules(unsigned char *text, uint64_t *triples, uint64_t *rank, int triplesSize, char *fileName){
+void storeRules(unsigned char *text, uint32_t *triples, uint32_t *rank, int triplesSize, char *fileName){
     int lastRank = 0;
     
     FILE*  file= fopen(fileName,"ab");
@@ -333,8 +328,8 @@ void storeRules(unsigned char *text, uint64_t *triples, uint64_t *rank, int trip
     fclose(file);
 }
 
-void decodeSymbol(uint64_t* textC, uint64_t *&symbol, long long int &xsSize, int l, int start) {
-    uint64_t *symbolTemp = (uint64_t*) malloc(xsSize*3* sizeof(uint64_t*));
+void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int l, int start) {
+    uint32_t *symbolTemp = (uint32_t*) malloc(xsSize*3* sizeof(uint32_t*));
     int j = 0;
     for(int i=0; i < xsSize; i++) {
         int rule = symbol[i];
@@ -354,12 +349,12 @@ void decodeSymbol(uint64_t* textC, uint64_t *&symbol, long long int &xsSize, int
     free(symbol);
 
     xsSize = j;
-    symbol = (uint64_t*) malloc(xsSize* sizeof(uint64_t*));
+    symbol = (uint32_t*) malloc(xsSize* sizeof(uint32_t*));
     for(int i=0; i < xsSize; i++) symbol[i] = symbolTemp[i];
     free(symbolTemp);
 }
 
-void saveDecodedText(uint64_t *symbol, long long int textSize, char *fileName) {
+void saveDecodedText(uint32_t *symbol, long long int textSize, char *fileName) {
     FILE*  file= fopen(fileName,"w");
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
