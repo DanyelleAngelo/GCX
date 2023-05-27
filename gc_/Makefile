@@ -9,7 +9,7 @@ TEXT=$(DNA_STRING)
 NUMBER_OF_PERMUTATIONS=0
 
 DIR=../dataset/pizza_chilli
-FILE=influenza
+FILE=dna.50MB
 IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 
 ifeq ($(CODEC),elias)
