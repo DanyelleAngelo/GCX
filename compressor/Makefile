@@ -9,7 +9,7 @@ TEXT=$(DNA_STRING)
 NUMBER_OF_PERMUTATIONS=0
 
 DIR=../dataset/pizza_chilli
-FILE=dna.50MB
+FILE=influenza
 IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 
 ifeq ($(CODEC),elias)
@@ -25,7 +25,7 @@ endif
 all: fraenkel
 
 fraenkel: ../../fraenkel
-	./../../fraenkel 20 $(IN_PLAIN_TEXT_FILE)
+	./../../fraenkel 25 $(IN_PLAIN_TEXT_FILE)
 
 create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
@@ -43,4 +43,4 @@ else
 endif
 
 clean:
-	rm -rf *.o
+	rm -rf *.o main

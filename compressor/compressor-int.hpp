@@ -64,32 +64,32 @@ void decode(uint32_t *text, long long int textSize, int level, int qtyLevels, ch
  * @brief ordena o texto com base em trincas, iniciadas em números múltiplos de 3
  * 
  * @param uText texto a ser ordenado
- * @param rulesIndexSize quantidade de trincas que devem ser ordenadas
- * @param rulesIndex array que ao final do método conterá os índices das trincas de forma ordenada
+ * @param tupleIndexSize quantidade de trincas que devem ser ordenadas
+ * @param tupleIndex array que ao final do método conterá os índices das trincas de forma ordenada
  */
-void radixSort(uint32_t *uText, int rulesIndexSize, uint32_t *rulesIndex);
+void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long int level);
 
 /**
  * @brief cria lex-names para cada trinca ordenada do texto (usando o rank)
  * 
  * @param uText texto a ser codificado
- * @param rulesIndex trincas JÁ ORDENADAS
+ * @param tupleIndex trincas JÁ ORDENADAS
  * @param rank array que ao final do método armazenará todos os lex-names de cada trinca
- * @param rulesIndexSize quantidade de trincas
+ * @param tupleIndexSize quantidade de trincas
  * @return int número de trincas sem repetição
  */
-long int createLexNames(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, long int rulesIndexSize);
+long int createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, long int tupleIndexSize);
 
 /**
  * @brief cria um texto reduzido usando os lex-names definidos para cada trinca
  * 
  * @param rank array contendo lex-names
  * @param redText array que conterá o texto reduzido ao final do método
- * @param rulesIndexSize número de trincas (número de trincas é o tamanho do texto reduzido excluindo $)
+ * @param tupleIndexSize número de trincas (número de trincas é o tamanho do texto reduzido excluindo $)
  * @param textSize tamanho do texto ainda não reduzido
  * @return int tamanho do texto reduzido (incluindo $)
  */
-void createReducedText(uint32_t *rank, uint32_t *redText, long long int rulesIndexSize, long long int textSize, long long int redTextSize);
+void createReducedText(uint32_t *rank, uint32_t *redText, long long int tupleIndexSize, long long int textSize, long long int redTextSize);
 
 /**
  * @brief Abre o arquivo e posiciona o cursor no ínicio do arquivo. Grava as informações da gramática (quantidade de níveis, e quantidade de regras em cada nível), e em seguida grava o símbolo inicial.
@@ -104,13 +104,13 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size);
  * @brief Armazena regras geradas em cada nível
  * 
  * @param uText texto que representa a regra que deve ser armazenada
- * @param rulesIndex array contendo os índices iniciais de cada trinca em ordem
+ * @param tupleIndex array contendo os índices iniciais de cada trinca em ordem
  * @param rank classificação de cada trinca
- * @param rulesIndexSize quantidade de trincas
+ * @param tupleIndexSize quantidade de trincas
  * @param fileName arquivo onde as regras devem ser salvas
  */
-void storeRules(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName);
-void storeRules(unsigned char *text, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName);
+void storeRules(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName);
+void storeRules(unsigned char *text, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName);
 
 /**
  * @brief Decodifica o textp reduzido em determinado nível da gramática
