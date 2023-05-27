@@ -5,12 +5,8 @@
 #include <math.h>
 
 using namespace std;
-int module;
 
 unsigned char *text;
-uint32_t *textC;
-int nRulesLastLevel;
-unsigned char *rules0;
 vector<uint32_t> grammarInfo;
 
 template <typename T>
@@ -22,15 +18,15 @@ void print(T v[], int n){
 
 void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
     long long int textSize;
-    module = ruleSize;
+    int module = ruleSize;
     switch (op){
         case 'e': {
             cout << "\n\n>>>> Encode <<<<\n";
-            readPlainText(fileIn, textSize);
+            readPlainText(fileIn, textSize, module);
             uint32_t *uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
             if(uText == NULL)exit(EXIT_FAILURE);
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
-            encode(uText,textSize, fileOut, 0);
+            encode(uText,textSize, fileOut, 0, module);
 
             int levels = grammarInfo.at(0);
             cout << "\tCompressed file information:\n" <<
@@ -47,8 +43,10 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
             break;
         }
         case 'd': {
+            unsigned char *rules0 = nullptr;
+            uint32_t *textC =nullptr;
             cout << "\n\n>>>> Decode <<<<\n";
-            readCompressedFile(fileIn, textSize);
+            readCompressedFile(fileIn, textC, textSize, rules0, module);
             uint32_t levels = grammarInfo.at(0);
             cout << "\tCompressed file information:\n" <<
                     "\t\tSize of Tuples: " << module <<
@@ -56,7 +54,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
             for(int i=grammarInfo.size()-1; i >0; i--){
                 printf("\t\tLevel: %d - amount of rules: %u.\n",i,grammarInfo[i]);
             }
-            decode(textC, textSize, levels-1, levels, fileOut);
+            decode(textC, textSize, levels-1, levels, fileOut, rules0, module);
             free(rules0);
             free(textC);
             break;
@@ -71,7 +69,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
     }
 }
 
-void readPlainText(char *fileName, long long int &textSize) {
+void readPlainText(char *fileName, long long int &textSize, int module) {
     FILE*  file= fopen(fileName,"r");
 
     if(file == NULL) {
@@ -82,7 +80,7 @@ void readPlainText(char *fileName, long long int &textSize) {
     fseek(file, 0, SEEK_END);
     textSize = ftell(file);
     long long int i = textSize;
-    int nSentries=calculatesNumberOfSentries(textSize);
+    int nSentries=calculatesNumberOfSentries(textSize, module);
     textSize += nSentries;
     text = (unsigned char*)malloc(textSize*sizeof(unsigned char));
     while(i < textSize) text[i++] =0;
@@ -91,7 +89,8 @@ void readPlainText(char *fileName, long long int &textSize) {
     fclose(file);
 }
 
-void readCompressedFile(char *fileName, long long int &textSize) {
+void readCompressedFile(char *fileName, uint32_t *&textC, long long int &textSize, unsigned char* &rules0, int module) {
+    int nRulesLastLevel;
     FILE*  file= fopen(fileName,"rb");
 
     if(file == NULL) {
@@ -123,7 +122,7 @@ void readCompressedFile(char *fileName, long long int &textSize) {
     fclose(file);
 }
 
-int calculatesNumberOfSentries(long long int textSize) {
+int calculatesNumberOfSentries(long long int textSize, int module) {
     if(textSize > module && textSize % module !=0) {
         return (ceil((double)textSize/module)*module) - textSize;
     }else if(textSize % module !=0){
@@ -132,35 +131,35 @@ int calculatesNumberOfSentries(long long int textSize) {
     return 0;
 }
 
-void encode(uint32_t *uText, long long int textSize, char *fileName, int level){
+void encode(uint32_t *uText, long long int textSize, char *fileName, int level, int module){
     long long int tupleIndexSize = textSize/module;
     uint32_t *rank = (uint32_t*) calloc(textSize, sizeof(uint32_t));
     uint32_t *tupleIndex = (uint32_t*) calloc(tupleIndexSize, sizeof(uint32_t));
 
-    radixSort(uText, tupleIndexSize, tupleIndex, level);
-    long int qtyRules = createLexNames(uText, tupleIndex, rank, tupleIndexSize);
+    radixSort(uText, tupleIndexSize, tupleIndex, level, module);
+    long int qtyRules = createLexNames(uText, tupleIndex, rank, tupleIndexSize, module);
     grammarInfo.insert(grammarInfo.begin(), qtyRules);
 
-    long long int redTextSize =  tupleIndexSize + calculatesNumberOfSentries(tupleIndexSize);
+    long long int redTextSize =  tupleIndexSize + calculatesNumberOfSentries(tupleIndexSize, module);
     uint32_t *redText = (uint32_t*) calloc(redTextSize, sizeof(uint32_t));
-    createReducedText(rank, redText, tupleIndexSize, textSize, redTextSize);
+    createReducedText(rank, redText, tupleIndexSize, textSize, redTextSize, module);
    
     if(qtyRules < tupleIndexSize){
-        encode(redText, redTextSize, fileName, level+1);
+        encode(redText, redTextSize, fileName, level+1, module);
     }
     else {
         grammarInfo.insert(grammarInfo.begin(), level+1);
         storeStartSymbol(fileName, redText, redTextSize);
     }
     
-    if(level!=0)storeRules(uText, tupleIndex, rank, tupleIndexSize, fileName);
-    else storeRules(text, tupleIndex, rank, tupleIndexSize, fileName);
+    if(level!=0)storeRules(uText, tupleIndex, rank, tupleIndexSize, fileName, module);
+    else storeRules(tupleIndex, rank, tupleIndexSize, fileName, module);
     free(redText);
     free(rank);
     free(tupleIndex);
 }
 
-void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, char *fileName){
+void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, char *fileName, unsigned char *rules0, int module){
     int startLevel = 0;
     long long int xsSize = grammarInfo.at(1);
     uint32_t *symbol = (uint32_t*)malloc(xsSize * sizeof(uint32_t));
@@ -169,17 +168,17 @@ void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, c
     int l=1;
     startLevel += xsSize; 
     while(level > 0 && l < qtyLevels) {
-        decodeSymbol(textC,symbol, xsSize, level, startLevel);
+        decodeSymbol(textC,symbol, xsSize, level, startLevel, module);
         startLevel += (grammarInfo[l]*module);
         l++;
         level--;
     }
 
-    saveDecodedText(symbol, xsSize, fileName);
+    saveDecodedText(symbol, xsSize, fileName, rules0, module);
     free(symbol);
 }
 
-void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long int level){
+void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long int level, int module){
     uint32_t *tupleIndexTemp = (uint32_t*) calloc(tupleIndexSize, sizeof(uint32_t));
     long int big=uText[0];
 
@@ -205,7 +204,7 @@ void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long i
     free(tupleIndexTemp);
 }
 
-long int createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, long int tupleIndexSize) {
+long int createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, long int tupleIndexSize, int module) {
     long int i=0;
     long int uniqueTriple = 1;
     rank[tupleIndex[i++]] = 1;
@@ -227,7 +226,7 @@ long int createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, l
     return uniqueTriple;
 }
 
-void  createReducedText(uint32_t *rank, uint32_t *redText, long long int tupleIndexSize, long long int textSize, long long int redTextSize) {
+void  createReducedText(uint32_t *rank, uint32_t *redText, long long int tupleIndexSize, long long int textSize, long long int redTextSize, int module) {
     for(int i=0, j=0; j < textSize; i++, j+=module) 
         redText[i] = rank[j];
 
@@ -250,7 +249,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size) {
     fclose(file);
 }
 
-void storeRules(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName){
+void storeRules(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName, int module){
     uint32_t lastRank = 0;
 
     FILE*  file= fopen(fileName,"ab");
@@ -269,7 +268,7 @@ void storeRules(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, int tuple
     fclose(file);
 }
 
-void storeRules(unsigned char *text, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName){
+void storeRules(uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName, int module){
     int lastRank = 0;
     
     FILE*  file= fopen(fileName,"ab");
@@ -288,7 +287,7 @@ void storeRules(unsigned char *text, uint32_t *tupleIndex, uint32_t *rank, int t
     fclose(file);
 }
 
-void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int l, int start) {
+void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int l, int start, int module) {
     uint32_t *symbolTemp = (uint32_t*) malloc(xsSize*module* sizeof(uint32_t*));
     int j = 0;
     for(int i=0; i < xsSize; i++) {
@@ -312,7 +311,7 @@ void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int
     free(symbolTemp);
 }
 
-void saveDecodedText(uint32_t *symbol, long long int symbolSize, char *fileName) {
+void saveDecodedText(uint32_t *symbol, long long int symbolSize, char *fileName, unsigned char* rules0, int module) {
     FILE*  file= fopen(fileName,"w");
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
