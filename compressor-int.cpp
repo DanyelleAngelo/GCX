@@ -3,10 +3,8 @@
 #include <vector>
 #include <cstring>
 #include <math.h>
-#include <sdsl/int_vector.hpp>
 
 using namespace std;
-using namespace sdsl;
 int module;
 
 unsigned char *text;
@@ -30,12 +28,14 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
             cout << "\n\n>>>> Encode <<<<\n";
             readPlainText(fileIn, textSize);
             uint32_t *uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
+            if(uText == NULL)exit(EXIT_FAILURE);
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
             encode(uText,textSize, fileOut, 0);
 
             int levels = grammarInfo.at(0);
             cout << "\tCompressed file information:\n" <<
-                    "\t\tAmount of levels: " << levels <<
+                    "\t\tSize of Tuples: " << module <<
+                    "\n\t\tAmount of levels: " << levels <<
                     "\n\t\tStart symbol size (including $): "<< grammarInfo.at(1) <<
                     endl;
 
@@ -51,6 +51,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
             readCompressedFile(fileIn, textSize);
             uint32_t levels = grammarInfo.at(0);
             cout << "\tCompressed file information:\n" <<
+                    "\t\tSize of Tuples: " << module <<
                     "\n\t\tAmount of levels: " << levels << endl;
             for(int i=grammarInfo.size()-1; i >0; i--){
                 printf("\t\tLevel: %d - amount of rules: %u.\n",i,grammarInfo[i]);
@@ -123,40 +124,40 @@ void readCompressedFile(char *fileName, long long int &textSize) {
 }
 
 int calculatesNumberOfSentries(long long int textSize) {
-    if(textSize % module == 1) return 2;
-    else if(textSize % module ==2) return 1;
+    if(textSize > module && textSize % module !=0) {
+        return (ceil((double)textSize/module)*module) - textSize;
+    }else if(textSize % module !=0){
+        return module - textSize;
+    }
     return 0;
 }
 
 void encode(uint32_t *uText, long long int textSize, char *fileName, int level){
-    long long int rulesIndexSize = ceil((double)textSize/module);
-    uint32_t *rank = (uint32_t*) malloc(textSize * sizeof(uint32_t));
-    uint32_t * rulesIndex =  (uint32_t*) malloc(rulesIndexSize * sizeof(uint32_t));
+    long long int tupleIndexSize = textSize/module;
+    uint32_t *rank = (uint32_t*) calloc(textSize, sizeof(uint32_t));
+    uint32_t *tupleIndex = (uint32_t*) calloc(tupleIndexSize, sizeof(uint32_t));
 
-    radixSort(uText, rulesIndexSize, rulesIndex);
-    long int qtyRules = createLexNames(uText, rulesIndex, rank, rulesIndexSize);
+    radixSort(uText, tupleIndexSize, tupleIndex, level);
+    long int qtyRules = createLexNames(uText, tupleIndex, rank, tupleIndexSize);
     grammarInfo.insert(grammarInfo.begin(), qtyRules);
 
-    long long int redTextSize =calculatesNumberOfSentries(rulesIndexSize) + rulesIndexSize;
-    uint32_t *redText = (uint32_t*) malloc((redTextSize) * sizeof(uint32_t)); 
-    createReducedText(rank, redText, rulesIndexSize, textSize, redTextSize);
-
-    if(qtyRules < rulesIndexSize)
+    long long int redTextSize =  tupleIndexSize + calculatesNumberOfSentries(tupleIndexSize);
+    uint32_t *redText = (uint32_t*) calloc(redTextSize, sizeof(uint32_t));
+    createReducedText(rank, redText, tupleIndexSize, textSize, redTextSize);
+   
+    if(qtyRules < tupleIndexSize){
         encode(redText, redTextSize, fileName, level+1);
+    }
     else {
-        //cout << "\tEncoded Text: ";
-        //for(int i=0; i < redTextSize; i++)printf("%d.",redText[i]);
-        //cout << endl;
         grammarInfo.insert(grammarInfo.begin(), level+1);
         storeStartSymbol(fileName, redText, redTextSize);
     }
     
-    if(level!=0)storeRules(uText, rulesIndex, rank, rulesIndexSize, fileName);
-    else storeRules(text, rulesIndex, rank, rulesIndexSize, fileName);
-
-    free(rank);
-    free(rulesIndex);
+    if(level!=0)storeRules(uText, tupleIndex, rank, tupleIndexSize, fileName);
+    else storeRules(text, tupleIndex, rank, tupleIndexSize, fileName);
     free(redText);
+    free(rank);
+    free(tupleIndex);
 }
 
 void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, char *fileName){
@@ -168,69 +169,70 @@ void decode(uint32_t *textC, long long int textSize, int level, int qtyLevels, c
     int l=1;
     startLevel += xsSize; 
     while(level > 0 && l < qtyLevels) {
-        //printf("Level: %d - amount of rules: %d.\n", level, grammarInfo.at(l));
-        //printf("Inicio das regras do  nível %d é %d.\n", level, startLevel);
         decodeSymbol(textC,symbol, xsSize, level, startLevel);
         startLevel += (grammarInfo[l]*module);
-        //printf("Simbolo traduzido é: ");
-        //print(symbol, xsSize);
         l++;
         level--;
     }
 
     saveDecodedText(symbol, xsSize, fileName);
-
     free(symbol);
 }
 
-void radixSort(uint32_t *uText, int rulesIndexSize, uint32_t *rulesIndex){
-    uint32_t *rulesIndexTemp = (uint32_t*) calloc(rulesIndexSize, sizeof(uint32_t));
-    for(int i=0, j=0; i < rulesIndexSize; i++, j+=module)rulesIndex[i] = j;
-    long int n = rulesIndexSize*module;
-    int *bucket = ( int*) calloc(n, sizeof( int));
-    for(int d= module-1; d >=0; d--) {
-        for(int i=0; i < n;i++)bucket[i]=0;
-        for(int i=0; i < rulesIndexSize; i++) bucket[uText[rulesIndex[i] + d]+1]++; 
-        for(int i=1; i < n; i++) bucket[i] += bucket[i-1];
+void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long int level){
+    uint32_t *tupleIndexTemp = (uint32_t*) calloc(tupleIndexSize, sizeof(uint32_t));
+    long int big=uText[0];
 
-        for(int i=0; i < rulesIndexSize; i++) {
-            int index = bucket[uText[rulesIndex[i] + d]]++;
-            rulesIndexTemp[index] = rulesIndex[i];
+    for(int i=1; i < tupleIndexSize*module;i++)if(uText[i] > big)big=uText[i];
+    for(int i=0, j=0; i < tupleIndexSize; i++, j+=module)tupleIndex[i] = j;
+    //Tentar entender qual deve ser o tamanho do alfabeto, definir este tamanho como sendo o maior valor em ordem lexicográfica está dando erro, sendo preciso incrementar
+    long int sigma = big+module;
+    int *bucket =(int*) calloc(sigma, sizeof(int));
+
+    for(int d= module-1; d >=0; d--) {
+        for(int i=0; i < sigma;i++)bucket[i]=0;
+        for(int i=0; i < tupleIndexSize; i++) bucket[uText[tupleIndex[i] + d]+1]++; 
+        for(int i=1; i < sigma; i++) bucket[i] += bucket[i-1];
+
+        for(int i=0; i < tupleIndexSize; i++) {
+            int index = bucket[uText[tupleIndex[i] + d]]++;
+            tupleIndexTemp[index] = tupleIndex[i];
         }
-        for(int i=0; i < rulesIndexSize; i++) rulesIndex[i] = rulesIndexTemp[i];
+        for(int i=0; i < tupleIndexSize; i++) tupleIndex[i] = tupleIndexTemp[i];
     }
 
     free(bucket);
-    free(rulesIndexTemp);
+    free(tupleIndexTemp);
 }
 
-long int createLexNames(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, long int rulesIndexSize) {
+long int createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, long int tupleIndexSize) {
     long int i=0;
     long int uniqueTriple = 1;
-    rank[rulesIndex[i++]] = 1;
-    for(; i < rulesIndexSize; i++) {
+    rank[tupleIndex[i++]] = 1;
+    for(; i < tupleIndexSize; i++) {
         bool equal = true;
         for(int j=0; j < module; j++)
-            if(uText[rulesIndex[i-1]+j] != uText[rulesIndex[i]+j]){
+            if(uText[tupleIndex[i-1]+j] != uText[tupleIndex[i]+j]){
                 equal = false;
                 break;
             }
-        if(equal)rank[rulesIndex[i]] = rank[rulesIndex[i-1]];
+        if(equal)rank[tupleIndex[i]] = rank[tupleIndex[i-1]];
         else {
-            rank[rulesIndex[i]] = rank[rulesIndex[i-1]] + 1;
+            rank[tupleIndex[i]] = rank[tupleIndex[i-1]] + 1;
             uniqueTriple++;
         }
     }
-    printf("Número de trincas = %ld, quantidade de trincas sem repetição: %ld, quantidade de trincas com repetição = %ld\n", rulesIndexSize, uniqueTriple, rulesIndexSize-uniqueTriple);
+   
+    printf("Número de trincas = %ld, quantidade de trincas sem repetição: %ld, quantidade de trincas com repetição = %ld\n", tupleIndexSize, uniqueTriple, tupleIndexSize-uniqueTriple);
     return uniqueTriple;
 }
 
-void  createReducedText(uint32_t *rank, uint32_t *redText, long long int rulesIndexSize, long long int textSize, long long int redTextSize) {
-    for(int i=0, j=0; j < textSize; i++, j+=3) 
+void  createReducedText(uint32_t *rank, uint32_t *redText, long long int tupleIndexSize, long long int textSize, long long int redTextSize) {
+    for(int i=0, j=0; j < textSize; i++, j+=module) 
         redText[i] = rank[j];
 
-    while(rulesIndexSize < redTextSize)
-        redText[rulesIndexSize++] = 0;
+    while(tupleIndexSize < redTextSize)
+        redText[tupleIndexSize++] = 0;
 }
 
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size) {
@@ -248,8 +250,8 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size) {
     fclose(file);
 }
 
-void storeRules(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName){
-    int lastRank = 0;
+void storeRules(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName){
+    uint32_t lastRank = 0;
 
     FILE*  file= fopen(fileName,"ab");
 
@@ -258,16 +260,16 @@ void storeRules(uint32_t *uText, uint32_t *rulesIndex, uint32_t *rank, int rules
         exit(EXIT_FAILURE);
     }
 
-    for(int i=0; i < rulesIndexSize; i++) {
-        if(rank[rulesIndex[i]] == lastRank)
+    for(int i=0; i < tupleIndexSize; i++) {
+        if(rank[tupleIndex[i]] == lastRank)
             continue;
-        lastRank = rank[rulesIndex[i]];
-        fwrite(&uText[rulesIndex[i]], sizeof(uint32_t), module, file);
+        lastRank = rank[tupleIndex[i]];
+        fwrite(&uText[tupleIndex[i]], sizeof(uint32_t), module, file);
     }
     fclose(file);
 }
 
-void storeRules(unsigned char *text, uint32_t *rulesIndex, uint32_t *rank, int rulesIndexSize, char *fileName){
+void storeRules(unsigned char *text, uint32_t *tupleIndex, uint32_t *rank, int tupleIndexSize, char *fileName){
     int lastRank = 0;
     
     FILE*  file= fopen(fileName,"ab");
@@ -277,11 +279,11 @@ void storeRules(unsigned char *text, uint32_t *rulesIndex, uint32_t *rank, int r
         exit(EXIT_FAILURE);
     }
 
-    for(int i=0; i < rulesIndexSize; i++) {
-        if(rank[rulesIndex[i]] == lastRank)
+    for(int i=0; i < tupleIndexSize; i++) {
+        if(rank[tupleIndex[i]] == lastRank)
             continue;
-        lastRank = rank[rulesIndex[i]];
-        fwrite(&text[rulesIndex[i]], sizeof(char), module, file);
+        lastRank = rank[tupleIndex[i]];
+        fwrite(&text[tupleIndex[i]], sizeof(char), module, file);
     }
     fclose(file);
 }
@@ -298,8 +300,7 @@ void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int
         for(int k=0; k < module; k++){
             if(textC[rightHand+k] ==0)continue;
             symbolTemp[j++] = textC[rightHand+k];
-            //if(isalpha(symbolTemp[j-1]))printf("%c . ", symbolTemp[j-1]);
-            //else printf("%d . ", symbolTemp[j-1]);
+            //printf("%d . ", symbolTemp[j-1]);
         }
     }
 
@@ -311,26 +312,26 @@ void decodeSymbol(uint32_t* textC, uint32_t *&symbol, long long int &xsSize, int
     free(symbolTemp);
 }
 
-void saveDecodedText(uint32_t *symbol, long long int textSize, char *fileName) {
+void saveDecodedText(uint32_t *symbol, long long int symbolSize, char *fileName) {
     FILE*  file= fopen(fileName,"w");
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
         exit(EXIT_FAILURE);
     }
 
-    int n = textSize*module;
-    char *str = (char*)malloc(n*sizeof(char));
-    for(int i=0,k=0; i < textSize; i++){
+    int textSize = symbolSize*module;
+    char *str = (char*)malloc(textSize*sizeof(char));
+    for(int i=0,k=0; i < symbolSize; i++){
         int rightHand = (symbol[i]-1)*module;
         for(int j=0; j < module; j++){
             if(rules0[rightHand+j]==0){
-                n--;
+                textSize--;
                 continue;
             }
             str[k++] = rules0[rightHand+j];
         }
     }
-    fwrite(&str[0], sizeof(char), n, file);
+    fwrite(&str[0], sizeof(char), textSize, file);
     free(str);
     fclose(file);
 }
