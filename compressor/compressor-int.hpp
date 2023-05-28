@@ -154,4 +154,5 @@ void decodeSymbol(uint32_t* text, uint32_t *&symbol, long long int &xsSize, int 
  */
 void saveDecodedText(uint32_t *symbol, long long int textSize, char *fileName, unsigned char *rules0, int module);
 
+
 #endif
