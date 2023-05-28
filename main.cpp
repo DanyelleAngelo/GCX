@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "compressor-int.hpp"
+#include "compressor-elias.hpp"
+#include "compressor.hpp"
 
 using namespace std;
 
