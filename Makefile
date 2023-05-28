@@ -31,10 +31,11 @@ create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
 	.././generate_text $(TEXT) $(NUMBER_OF_PERMUTATIONS) text/in-plain-text.txt
 
-compressor: $(FILE_CPP).cpp $(FILE_CPP).hpp main.cpp
+compressor: $(FILE_CPP).cpp $(FILE_CPP).hpp compressor.cpp compressor.hpp main.cpp
+	$(CC) -c compressor.cpp -o compressor.o $(FLAGS) $(LIBS) 
 	$(CC) -c $(FILE_CPP).cpp -o $(FILE_CPP).o $(FLAGS) $(LIBS) 
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
-	$(CC) -o main $(FILE_CPP).o main.o  $(FLAGS) $(LIBS)
+	$(CC) -o main compressor.o $(FILE_CPP).o main.o  $(FLAGS) $(LIBS)
 ifeq ($(MODE), d)
 	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES_SIZE)
 	diff $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
