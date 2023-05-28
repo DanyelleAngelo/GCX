@@ -5,11 +5,11 @@ LIBS=-I ~/include -L ~/lib -lsdsl -ldivsufsort -ldivsufsort64
 WORST_ENTRY=ABACABADABACABAEABACABADABACABA
 DNA_STRING=AGTTTTCATTCTGACTGAACAGCTTTTCATTCTGACTGCAAC
 STRING=banaananaanana
-TEXT=$(DNA_STRING)
+TEXT=$(STRING)
 NUMBER_OF_PERMUTATIONS=0
 
 DIR=../dataset/pizza_chilli
-FILE=dna.50MB
+FILE=dna.001.1
 IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 
 ifeq ($(CODEC),elias)
@@ -31,7 +31,7 @@ create_text: ../generate_text.cpp
 	$(CC) ../generate_text.cpp -o ../generate_text
 	.././generate_text $(TEXT) $(NUMBER_OF_PERMUTATIONS) text/in-plain-text.txt
 
-compressor: $(FILE_CPP).cpp compressor-int.hpp main.cpp
+compressor: $(FILE_CPP).cpp $(FILE_CPP).hpp main.cpp
 	$(CC) -c $(FILE_CPP).cpp -o $(FILE_CPP).o $(FLAGS) $(LIBS) 
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
 	$(CC) -o main $(FILE_CPP).o main.o  $(FLAGS) $(LIBS)
