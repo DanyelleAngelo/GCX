@@ -20,7 +20,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize);
 void readCompressedFile(char *fileName, int_vector<32> &decoded, int &levels);
 void encode(uint32_t *uText, long long int textSize, int level, int module);
 void decode(int_vector<32> decoded, int level, int qtyLevels, int module, char *fileName);
-void encodeTextWithEliasAndSave(char *fileName);
+void encodeTextWithEliasAndSave(char *fileName, uint32_t textSize, int module);
 void decodeSymbol(int_vector<32> decoded, uint32_t *&symbol, long long int &xsSize, int level, int startRules, int module);
 void saveDecodedText(int_vector<32> decoded, uint32_t *symbol, int xsSize, int module, char *fileName);
 
