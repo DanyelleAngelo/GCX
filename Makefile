@@ -15,11 +15,11 @@ IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 ifeq ($(CODEC),elias)
 	FILE_CPP=compressor-elias
 	COMPRESSED_FILE=text/$(FILE)-rules$(RULES_SIZE)-cod-elias
-	OUT_PLAIN_TEXT_FILE=text/$(FILE)-rules$(RULES_SIZE)-plain-elias
+	OUT_PLAIN_TEXT_FILE=text/$(FILE)-plain-elias
 else
 	FILE_CPP=compressor-int
 	COMPRESSED_FILE=text/$(FILE)-rules$(RULES_SIZE)-cod-int
-	OUT_PLAIN_TEXT_FILE=text/$(FILE)-rules$(RULES_SIZE)-plain-int
+	OUT_PLAIN_TEXT_FILE=text/$(FILE)-plain-int
 endif
 
 all: fraenkel

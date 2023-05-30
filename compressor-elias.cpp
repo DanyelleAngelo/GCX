@@ -6,12 +6,15 @@
 #include <math.h>
 #include <sdsl/int_vector.hpp>
 #include <sdsl/coder.hpp>
+#include <string>
 
 using namespace std;
 using namespace sdsl;
 
 vector<uint32_t> grammarInfo;
 unsigned char *text;
+FILE * report;
+const char fileReport[] = "report-elias.txt";
 
 template <typename T>
 void print(T v[], int n){
@@ -44,7 +47,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
                     "\n\t\tStart symbol size (including $): "<< grammarInfo.at(1) <<
                     endl;
 
-            encodeTextWithEliasAndSave(fileOut);
+            encodeTextWithEliasAndSave(fileOut, textSize, module);
             for(int i=levels; i >0; i--){
                 printf("\t\tLevel: %d - amount of rules: %u.\n",i,grammarInfo[i]);
             }
@@ -88,6 +91,10 @@ void readCompressedFile(char *fileName, int_vector<32> &decoded, int &levels) {
 }
 
 void encode(uint32_t *uText, long long int textSize, int level, int module){
+    if(level ==0){
+        report=fopen(fileReport, "w");
+    }
+
     long long int tupleIndexSize = textSize/module;
     uint32_t *rank = (uint32_t*) calloc(textSize, sizeof(uint32_t));
     uint32_t *tupleIndex = (uint32_t*) calloc(tupleIndexSize, sizeof(uint32_t));
@@ -99,7 +106,11 @@ void encode(uint32_t *uText, long long int textSize, int level, int module){
     long long int redTextSize =  tupleIndexSize + calculatesNumberOfSentries(tupleIndexSize, module);
     uint32_t *redText = (uint32_t*) calloc(redTextSize, sizeof(uint32_t));
     createReducedText(rank, redText, tupleIndexSize, textSize, redTextSize, module);
-   
+    
+    fprintf(report, "\n--- Nível %d:\n\tQuantidade de regras sem repetição: %lu;\n", level, qtyRules);
+    fprintf(report, "\tTamanho do texto recebido neste nível: %lld;\n\tTamanho da string reduzida gerada: %lld;\n\tTexto de entrada do próximo nível (%d):\n", textSize, redTextSize, level+1);
+    for(int i=0; i < redTextSize;i++)fprintf(report, "%u,",redText[i]);
+
     if(qtyRules < tupleIndexSize)
         encode(redText, redTextSize, level+1, module);
     else {
@@ -109,19 +120,39 @@ void encode(uint32_t *uText, long long int textSize, int level, int module){
     }
     
     uint32_t lastRank = 0;
-    for(int i=0; i < tupleIndexSize; i++) {
+    int_vector<32> v_rep;
+    v_rep.resize(qtyRules*module);
+    for(int i=0, k=0; i < tupleIndexSize; i++) {
         if(rank[tupleIndex[i]] == lastRank)
             continue;
         lastRank = rank[tupleIndex[i]];
-        for(int j=0; j < module;j++){
-            if(level!=0)grammarInfo.push_back(uText[tupleIndex[i]+j]);
-            else grammarInfo.push_back(text[tupleIndex[i]+j]);
+        if(level==0){
+            for(int j=0; j < module;j++){
+                grammarInfo.push_back(text[tupleIndex[i]+j]);
+                v_rep[k++]=text[tupleIndex[i]+j];
+            }
+        }else{
+            for(int j=0; j< module;j++){
+               grammarInfo.push_back(uText[tupleIndex[i]+j]);
+                v_rep[k++]=text[tupleIndex[i]+j];
+            }
         }
     }
+
+    //report
+    coder::elias_gamma eg;
+    int_vector<32> encoded;
+    string reportLevel = "report/report-level-" + to_string(level) + "-"+ to_string(module);
+    eg.encode(v_rep, encoded);
+    store_to_file(encoded, reportLevel);
+    FILE *reportLevel2 = fopen(reportLevel.c_str(), "a");
+    fprintf(reportLevel2, "\nNúmero de regras neste nível %llu.\nTamanho das regras codificadas %llu", v_rep.size(),encoded.size());
+
 
     free(redText);
     free(rank);
     free(tupleIndex);
+    if(level==0 && report!=NULL)fclose(report);
 }
 
 void decode(int_vector<32> decoded, int level, int qtyLevels, int module, char *fileName){
@@ -143,7 +174,7 @@ void decode(int_vector<32> decoded, int level, int qtyLevels, int module, char *
     free(symbol);
 }
 
-void encodeTextWithEliasAndSave(char *fileName){
+void encodeTextWithEliasAndSave(char *fileName, uint32_t textSize, int module){
     coder::elias_gamma eg;
     int_vector<32> v;
     int_vector<32> encoded;
@@ -154,7 +185,12 @@ void encodeTextWithEliasAndSave(char *fileName){
     eg.encode(v, encoded);
     store_to_file(encoded, fileName);
 
-    //TODO, armazenar texto do último nível em bytes irá reduzir o tamanho do arquivo
+    long int n=0;
+    for(int i=1; i <=grammarInfo[0]; i++)n+=grammarInfo[i];
+    report=fopen(fileReport, "a");
+    fprintf(report, "\n\n## Tamanho do texto original: %u;\n## Número de elementos no array codificado com Elias Gamma: %llu;\n## Quantidade de informações na gramática sem codificação: %lu;\n", textSize, encoded.size(), grammarInfo.size());
+
+    fprintf(report, "## Número total de regras na gramática: %lu;\n## Quantidade de símbolos necessários para representar todas as regras: %lu;\n## Tamanho do símbolo inicial: %u;\n## File name: %s",  n,(n*module), grammarInfo[1], fileName);
 }
 
 void decodeSymbol(int_vector<32> decoded, uint32_t *&symbol, long long int &xsSize, int level, int startRules, int module) {
