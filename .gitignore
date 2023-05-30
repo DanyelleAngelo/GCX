@@ -3,3 +3,5 @@ build
 *.o
 .DS_Store
 compressor/text/*
+compressor/report/*
+*report*
