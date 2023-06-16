@@ -8,7 +8,16 @@
 
 using namespace std;
 
-void readPlainText(char *fileName, unsigned char *&text, long long int &textSize, int module) {
+int numberOfSentries(int32_t textSize, int module){
+    if(textSize > module && textSize % module != 0) {
+        return module - (textSize % module);
+    } else if(textSize % module !=0) {
+        return module - textSize;
+    }
+    return 0;
+}
+
+void readPlainText(char *fileName, unsigned char *&text, int32_t &textSize, int module) {
     FILE*  file= fopen(fileName,"r");
 
     if(file == NULL) {
@@ -18,24 +27,14 @@ void readPlainText(char *fileName, unsigned char *&text, long long int &textSize
 
     fseek(file, 0, SEEK_END);
     textSize = ftell(file);
-    long long int i = textSize;
-    int nSentries=calculatesNumberOfSentries(textSize, module);
+    int32_t i = textSize;
+    int nSentries=numberOfSentries(textSize, module);
     textSize += nSentries;
     text = (unsigned char*)malloc(textSize*sizeof(unsigned char));
     while(i < textSize) text[i++] =0;
     fseek(file, 0, SEEK_SET);
     fread(text, 1, textSize-nSentries, file);
     fclose(file);
-}
-
-
-int calculatesNumberOfSentries(long long int textSize, int module) {
-    if(textSize > module && textSize % module !=0) {
-        return (ceil((double)textSize/module)*module) - textSize;
-    }else if(textSize % module !=0){
-        return module - textSize;
-    }
-    return 0;
 }
 
 void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long int level, int module){
@@ -64,32 +63,23 @@ void radixSort(uint32_t *uText, int tupleIndexSize, uint32_t *tupleIndex, long i
     free(tupleIndexTemp);
 }
 
-long int createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, long int tupleIndexSize, int module) {
-    long int i=0;
-    long int uniqueTriple = 1;
-    rank[tupleIndex[i++]] = 1;
-    for(; i < tupleIndexSize; i++) {
+void createLexNames(uint32_t *uText, uint32_t *tupleIndex, uint32_t *rank, long int nTuples, int module, int32_t &qtyRules) {
+    qtyRules= 1;
+    rank[tupleIndex[0]/module] = 1;
+    for(int32_t i=1; i < nTuples; i++) {
         bool equal = true;
         for(int j=0; j < module; j++)
             if(uText[tupleIndex[i-1]+j] != uText[tupleIndex[i]+j]){
                 equal = false;
                 break;
             }
-        if(equal)rank[tupleIndex[i]] = rank[tupleIndex[i-1]];
+        if(equal)rank[tupleIndex[i]/module] = rank[tupleIndex[i-1]/module];
         else {
-            rank[tupleIndex[i]] = rank[tupleIndex[i-1]] + 1;
-            uniqueTriple++;
+            rank[tupleIndex[i]/module] = rank[tupleIndex[i-1]/module] + 1;
+            qtyRules++;
         }
     }
-   
-    printf("Número de trincas = %ld, quantidade de trincas sem repetição: %ld, quantidade de trincas com repetição = %ld\n", tupleIndexSize, uniqueTriple, tupleIndexSize-uniqueTriple);
-    return uniqueTriple;
-}
-
-void  createReducedText(uint32_t *rank, uint32_t *redText, long long int tupleIndexSize, long long int textSize, long long int redTextSize, int module) {
-    for(int i=0, j=0; j < textSize; i++, j+=module) 
-        redText[i] = rank[j];
-
-    while(tupleIndexSize < redTextSize)
-        redText[tupleIndexSize++] = 0;
+    #if DEBUG == 1
+        printf("## Número de trincas %d, quantidade de trincas únicas: %d.\n", nTuples, qtyRules);
+    #endif
 }
