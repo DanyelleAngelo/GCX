@@ -22,6 +22,7 @@ void print(T v[], int n){
 void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
     vector<uint32_t> grammarInfo;
     unsigned char *text;
+    uint32_t *uText=nullptr;
     int32_t textSize;
     int module = ruleSize;
     int levels=0;
@@ -30,7 +31,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
         case 'e': {
             cout << "\n\n>>>> Encode with Elias Gamma <<<<\n";
             readPlainText(fileIn, text, textSize, module);
-            uint32_t *uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
+            uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
             if(uText == NULL)
                 exit(EXIT_FAILURE);
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
