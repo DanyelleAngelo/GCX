@@ -18,13 +18,14 @@ void print(T v[], int n){
 void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
     vector<uint32_t> grammarInfo;
     unsigned char *text;
+    uint32_t *uText = nullptr;
     int32_t textSize;
     int module = ruleSize;
     switch (op){
         case 'e': {
             cout << "\n\n>>>> Encode <<<<\n";
             readPlainText(fileIn, text, textSize, module);
-            uint32_t *uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
+            uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
             if(uText == NULL)exit(EXIT_FAILURE);
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
             encode(text, uText,textSize, fileOut, 0, module, grammarInfo);
@@ -45,9 +46,8 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
         }
         case 'd': {
             unsigned char *rules0 = nullptr;
-            uint32_t *textC =nullptr;
             cout << "\n\n>>>> Decode <<<<\n";
-            readCompressedFile(fileIn, textC, textSize, rules0, module, grammarInfo);
+            readCompressedFile(fileIn, uText, textSize, rules0, module, grammarInfo);
             uint32_t levels = grammarInfo.at(0);
             cout << "\tCompressed file information:\n" <<
                     "\t\tSize of Tuples: " << module <<
@@ -56,9 +56,9 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
             for(int i=grammarInfo.size()-1; i >0; i--){
                 printf("\t\tLevel: %d - amount of rules: %u.\n",i,grammarInfo[i]);
             }
-            decode(textC, textSize, levels-1, levels, fileOut, rules0, module, grammarInfo);
+            decode(uText, textSize, levels-1, levels, fileOut, rules0, module, grammarInfo);
             free(rules0);
-            free(textC);
+            free(uText);
             break;
         }
         default: {
@@ -71,7 +71,7 @@ void grammar(char *fileIn, char *fileOut, char op, int ruleSize) {
     }
 }
 
-void readCompressedFile(char *fileName, uint32_t *&textC, int32_t &textSize, unsigned char* &rules0, int module, vector<uint32_t> &grammarInfo) {
+void readCompressedFile(char *fileName, uint32_t *&uText, int32_t &textSize, unsigned char* &rules0, int module, vector<uint32_t> &grammarInfo) {
     int nRulesLastLevel;
     FILE*  file= fopen(fileName,"rb");
 
@@ -95,9 +95,9 @@ void readCompressedFile(char *fileName, uint32_t *&textC, int32_t &textSize, uns
 
     fseek(file, 0, SEEK_END);
     textSize = (((int)ftell(file) - (grammarInfo.size()*4) - (nRulesLastLevel*module))/4);
-    textC = (uint32_t*)malloc(textSize*sizeof(uint32_t));
+    uText = (uint32_t*)malloc(textSize*sizeof(uint32_t));
     fseek(file, grammarInfo.size()*sizeof(uint32_t), SEEK_SET);
-    fread(textC, sizeof(uint32_t), textSize, file);
+    fread(uText, sizeof(uint32_t), textSize, file);
 
     fread(rules0, sizeof(char), nRulesLastLevel*module, file);
     fclose(file);
@@ -127,18 +127,18 @@ void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileN
     free(tuples);
 }
 
-void decode(uint32_t *textC, int32_t textSize, int level, int qtyLevels, char *fileName, unsigned char *rules0, int module, vector<uint32_t> &grammarInfo){
+void decode(uint32_t *uText, int32_t textSize, int level, int qtyLevels, char *fileName, unsigned char *rules0, int module, vector<uint32_t> &grammarInfo){
     int startLevel = 0;
     int32_t xsSize = grammarInfo.at(1);
 
     uint32_t *symbol = (uint32_t*)malloc(xsSize * sizeof(uint32_t));
     for(int i=0; i < xsSize; i++)
-        symbol[i] = textC[i];
+        symbol[i] = uText[i];
     int l=1;
     startLevel += xsSize; 
 
     while(level > 0 && l < qtyLevels) {
-        decodeSymbol(textC,symbol, xsSize, level, startLevel, module);
+        decodeSymbol(uText,symbol, xsSize, level, startLevel, module);
 
         startLevel += (grammarInfo[l]*module);
         l++;
@@ -148,7 +148,7 @@ void decode(uint32_t *textC, int32_t textSize, int level, int qtyLevels, char *f
     free(symbol);
 }
 
-void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size, vector<uint32_t> &grammarInfo) {
+void storeStartSymbol(char *fileName, uint32_t *startSymbol, int32_t sizeSymbol, vector<uint32_t> &grammarInfo) {
     FILE*  file= fopen(fileName,"wb");
 
     if(file == NULL) {
@@ -156,7 +156,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size, vector<ui
         exit(EXIT_FAILURE);
     }
     fwrite(&grammarInfo[0], sizeof(uint32_t), grammarInfo.size(), file);
-    for(int i=0; i < size;i++){
+    for(int i=0; i < sizeSymbol;i++){
         if(startSymbol[i]!=0)
             fwrite(&startSymbol[i], sizeof(uint32_t), 1, file);
     }
@@ -166,7 +166,8 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, int size, vector<ui
 void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int nTuples, char *fileName, int module, int level){
     uint32_t lastRank = 0;
     FILE*  file= fopen(fileName,"ab");
-
+    vector<int32_t> u;
+    vector<char> t;
     if(file == NULL) {
         cout << "An error occurred while opening the file" << endl;
         exit(EXIT_FAILURE);
@@ -177,13 +178,32 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
             continue;
         lastRank = rank[tuples[i]/module];
         
-        if(level!=0)fwrite(&uText[tuples[i]], sizeof(uint32_t), module, file);
-        else fwrite(&text0[tuples[i]], sizeof(char), module, file);
+        if(level!=0){
+            fwrite(&uText[tuples[i]], sizeof(uint32_t), module, file);
+            u.push_back(uText[tuples[i]]);
+            u.push_back(uText[tuples[i]+1]);
+            u.push_back(uText[tuples[i]]+2);
+        }
+        else {
+            fwrite(&text0[tuples[i]], sizeof(unsigned char), module, file);
+            t.push_back(text0[tuples[i]]);
+            t.push_back(text0[tuples[i]+1]);
+            t.push_back(text0[tuples[i]]+2);
+        }
     }
     fclose(file);
+
+    #if LEVEL_REPORT==1
+        string reportLevel = "report/report-int-level-" + to_string(level);
+        FILE* fileReport=fopen(reportLevel.c_str(), "w");
+
+        if(level!=0)fwrite(&u[0], sizeof(int32_t), u.size(), fileReport);
+        else fwrite(&t[0], sizeof(char), t.size(), fileReport);
+        fclose(fileReport);
+    #endif
 }
 
-void decodeSymbol(uint32_t* textC, uint32_t *&symbol, int32_t &xsSize, int l, int start, int module) {
+void decodeSymbol(uint32_t* uText, uint32_t *&symbol, int32_t &xsSize, int l, int start, int module) {
     uint32_t *symbolTemp = (uint32_t*) malloc(xsSize*module* sizeof(uint32_t*));
     int j = 0;
 
@@ -195,11 +215,11 @@ void decodeSymbol(uint32_t* textC, uint32_t *&symbol, int32_t &xsSize, int l, in
         #endif
         int rightHand = start + ((rule-1)*module);
         for(int k=0; k < module; k++){
-            if(textC[rightHand+k] ==0)continue;
+            if(uText[rightHand+k] ==0)continue;
             #if DEBUG_RULES
-                if(l==9)printf("%u.", textC[rightHand+k]);
+                if(l==9)printf("%u.", uText[rightHand+k]);
             #endif
-            symbolTemp[j++] = textC[rightHand+k];
+            symbolTemp[j++] = uText[rightHand+k];
         }
     }
 

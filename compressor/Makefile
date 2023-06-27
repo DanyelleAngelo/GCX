@@ -9,7 +9,7 @@ TEXT=$(STRING)
 NUMBER_OF_PERMUTATIONS=0
 
 DIR=../dataset/pizza_chilli
-FILE=cere
+FILE=influenza
 IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
 
 ifeq ($(CODEC),elias)
@@ -45,7 +45,7 @@ endif
 
 compressor-2: compressor-variable-types.cpp compressor-variable-types.hpp compressor.cpp compressor.hpp main.cpp
 	$(CC) -c compressor.cpp -o compressor.o $(FLAGS) $(LIBS) 
-	$(CC) -D DEBUG_RULES=1 -c compressor-variable-types.cpp -o compressor-variable-types.o $(FLAGS) $(LIBS) 
+	$(CC) -D DEBUG_RULES=1 -D LEVEL_REPORT=1 -c compressor-variable-types.cpp -o compressor-variable-types.o $(FLAGS) $(LIBS) 
 	$(CC) -c main-2.cpp -o main-2.o  $(FLAGS)
 	$(CC) -o main-2 compressor.o compressor-variable-types.o main-2.o  $(FLAGS) $(LIBS)
 ifeq ($(MODE), d)
