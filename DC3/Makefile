@@ -7,7 +7,7 @@ MACROS:= DSA12=0 DRADIX=0 DREDUCED=0 DSA0=0 DMERGE=0 DMAPPING=0
 all: $(TARGET)
 
 fraenkel: ../../fraenkel
-	./../../fraenkel 25 large_text.txt
+	./../../fraenkel 26 large_text.txt
 
 dc3: dc3.cpp dc3.hpp
 	$(CC) -c dc3.cpp -o dc3.o $(addprefix -D, $(MACROS)) $(FLAGS)

@@ -41,7 +41,8 @@ TEST(DC3, receive_a_small_text_and_return_suffix_array) {
     ASSERT_EQ(sa[0], textSize-1) << " o menor do sufixo deveria ser T[0] = " <<  textSize -1 <<endl;
     
     for(long int i=1, j=2; j < textSize; i++, j++) {
-        long int lex = memcmp(text+sa[i], text+sa[j], textSize-max(sa[i],sa[j]));
+        long int n = (sa[i] < sa[j]) ? textSize-sa[j] : textSize -sa[i];
+        long int lex = memcmp(text+sa[i], text+sa[j], n);
         ASSERT_LE(lex,0);
     }
 
@@ -61,7 +62,8 @@ TEST(DC3, receive_a_large_text_and_return_suffix_array) {
     
     ASSERT_EQ(sa[0], textSize-1);
     for(long int i=1, j=2; j < textSize; i++, j++) {
-        long int lex = memcmp(text+sa[i], text+sa[j], textSize-max(sa[i],sa[j]));
+        long int n = (sa[i] < sa[j]) ? textSize-sa[j] : textSize -sa[i];
+        long int lex = memcmp(text+sa[i], text+sa[j], n-1);
         ASSERT_LE(lex,0);
     }
 
@@ -72,6 +74,6 @@ TEST(DC3, receive_a_large_text_and_return_suffix_array) {
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
-   ::testing::GTEST_FLAG(filter) = "*";
+   ::testing::GTEST_FLAG(filter) = "*receive_a_large_text_and_return_suffix_array";
     return RUN_ALL_TESTS();
 }
