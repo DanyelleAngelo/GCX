@@ -12,7 +12,7 @@ fraenkel: ../../fraenkel
 dc3: dc3.cpp dc3.hpp
 	$(CC) -c dc3.cpp -o dc3.o $(addprefix -D, $(MACROS)) $(FLAGS)
 
-test: fraenkel dc3 dc3_test.cpp
+test: dc3 dc3_test.cpp
 	$(CC) -c dc3_test.cpp -o dc3_test.o $(FLAGS)
 	$(CC) -o dc3_test dc3.o dc3_test.o -lgtest -lgtest_main -lpthread $(FLAGS)
 	./dc3_test
