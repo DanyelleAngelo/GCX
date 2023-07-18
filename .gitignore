@@ -5,3 +5,4 @@ build
 compressor/text/*
 compressor/report/*
 *report*
+large_text.txt
