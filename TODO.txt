@@ -1,2 +1,0 @@
-- No momento de criar lex-name salvar as regras (economia de tempo e espaço)
-- Entender problema do radix
