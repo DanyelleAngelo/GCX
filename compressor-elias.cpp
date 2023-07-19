@@ -187,8 +187,6 @@ void encodeTextWithEliasAndSave(char *fileName, uint32_t textSize, int module, v
     eg.encode(v, encoded);
     store_to_file(encoded, fileName);
 
-    FILE *teste = fopen("teste.txt", "a");
-    fwrite(&encoded[0], sizeof(int32_t), encoded.size(),teste);
     #if REPORT==1
         string fileReport = "report/general-report-elias.txt";
         report=fopen(fileReport.c_str(), "a");
