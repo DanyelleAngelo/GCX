@@ -1,5 +1,5 @@
 #include "compressor.hpp"
-#include "compressor-int.hpp"
+#include "compressor-types.hpp"
 #include <iostream>
 #include <vector>
 #include <cstring>
