@@ -76,7 +76,7 @@ void readCompressedFile(char *fileName, uint32_t *&uText, int32_t &textSize, uns
     FILE*  file= fopen(fileName,"rb");
 
     if(file == NULL) {
-        cout << "An error occurred while opening the file" << endl;
+        cout << "An error occurred while opening the compressed file" << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -149,10 +149,10 @@ void decode(uint32_t *uText, int32_t textSize, int level, int qtyLevels, char *f
 }
 
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, int32_t sizeSymbol, vector<uint32_t> &grammarInfo) {
-    FILE*  file= fopen(fileName,"wb");
-
+    FILE* file= fopen(fileName,"wb");
+    cout << fileName << endl;
     if(file == NULL) {
-        cout << "An error occurred while opening the file" << endl;
+        cout << "An error occurred while opening the file for store start symbol." << endl;
         exit(EXIT_FAILURE);
     }
     fwrite(&grammarInfo[0], sizeof(uint32_t), grammarInfo.size(), file);
@@ -169,7 +169,7 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
     vector<int32_t> u;
     vector<char> t;
     if(file == NULL) {
-        cout << "An error occurred while opening the file" << endl;
+        cout << "An error occurred while opening the file for store rules" << endl;
         exit(EXIT_FAILURE);
     }
 
