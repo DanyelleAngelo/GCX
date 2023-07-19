@@ -21,7 +21,7 @@ void readPlainText(char *fileName, unsigned char *&text, int32_t &textSize, int 
     FILE*  file= fopen(fileName,"r");
 
     if(file == NULL) {
-        cout << "An error occurred while opening the file" << endl;
+        cout << "An error occurred while opening the input plain file" << endl;
         exit(EXIT_FAILURE);
     }
 
