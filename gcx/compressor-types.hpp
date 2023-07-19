@@ -1,5 +1,5 @@
-#ifndef COMPRESSOR_H
-#define COMPRESSOR_H
+#ifndef COMPRESSOR_TYPES_H
+#define COMPRESSOR_TYPES_H
 
 #include <iostream>
 #include <cstdint>
