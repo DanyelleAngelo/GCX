@@ -13,11 +13,16 @@ all: fraenkel
 fraenkel: ../../fraenkel
 	./../../fraenkel 25 $(DIR)/$(FILE)
 
-compressor: compressor.cpp compressor.hpp compressor-$(CODEC).cpp compressor-$(CODEC).hpp
+compile: compressor.cpp compressor.hpp compressor-$(CODEC).cpp compressor-$(CODEC).hpp
 	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D, $(MACROS)) $(FLAGS) $(LIBS) 
 	$(CC) -c compressor-$(CODEC).cpp -o compressor-$(CODEC).o $(addprefix -D, $(MACROS)) $(FLAGS) $(LIBS)
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
 	$(CC) -o main compressor.o compressor-$(CODEC).o main.o  $(FLAGS) $(LIBS)
+
+run_compressor: 
+ifeq ($(wildcard "main"), )
+	$(MAKE) compile
+endif
 ifeq ($(MODE), d)
 	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES) $(CODEC)
 	cmp $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
