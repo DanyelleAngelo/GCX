@@ -13,7 +13,7 @@ DECOMPRESSION_INFO = {
 }
 
 RATIO_INFO = {
-    'col': 'ratio',
+    'col': 'ratio_percentage',
     'y_label': 'Taxa de compressão (%).',
     'title': 'Taxa de compressão de arquivos usando GCIS e DCX',
     'output_file': '../report/ratio.png'
