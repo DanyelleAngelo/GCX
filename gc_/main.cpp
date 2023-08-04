@@ -31,5 +31,5 @@ int main(int argc, char *argv[]) {
     }
 
     double duration = (double)(finish - start) / CLOCKS_PER_SEC;
-    printf("\x1b[32m\nTime: %5.6lf  seconds\n\x1b[0m",duration);
+    printf("%5.2lf",duration);
 }
