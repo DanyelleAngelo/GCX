@@ -1,0 +1,7 @@
+file,compressed_file,compression_time,decompression_time
+../dataset/pizza_chilli/proteins.001.1,../dataset/compressed_files/proteins.001.1-r3-int,33.95, 2.64
+../dataset/pizza_chilli/dblp.xml.0001.1,../dataset/compressed_files/dblp.xml.0001.1-r3-int,31.32, 2.36
+../dataset/pizza_chilli/dna.001.1,../dataset/compressed_files/dna.001.1-r3-int,21.19, 2.56
+../dataset/pizza_chilli/sources.001.2,../dataset/compressed_files/sources.001.2-r3-int,32.82, 2.99
+../dataset/pizza_chilli/cere,../dataset/compressed_files/cere-r3-int,105.71,12.13
+../dataset/pizza_chilli/influenza,../dataset/compressed_files/influenza-r3-int,30.77, 3.60
