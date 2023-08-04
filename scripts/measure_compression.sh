@@ -9,6 +9,7 @@ COMPRESSED_DIR="../dataset/compressed_files"
 REPORT_DIR="../report"
 FILE_PATHS=$(cat ../file_names.txt)
 PIZZA_URL="http://pizzachili.dcc.uchile.cl/repcorpus"
+EXECUTABLE="../compressor/./main"
 
 echo -e "\n\n${GREEN}%%% Creating directories for files in case don't exist ${RESET}."
 if [ ! -d "$PIZZA_DIR" ]; then
@@ -50,7 +51,7 @@ fi
     report="$REPORT_DIR/rules3_int_encoding.csv"
     if [ -e "$report" ]; then 
         rm -f $report; 
-        echo "compression_time,decompression_time,ratio_percentage" >> $report; 
+        echo "file,compressed_file,compression_time,decompression_time" >> $report; 
     fi
 
     for plain_file in $FILE_PATHS; do
@@ -61,9 +62,14 @@ fi
 
         echo -e "\n${BLUE}####### FILE: ${file_name[1]} ${RESET}"
         #compress
-        make run_compressor MODE=e CODEC=int RULES=3 IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed -C ../compressor/
+	    ../compressor/./main $in_plain $out_compressed e 3 int > output.txt
+        echo -n "$in_plain," >> $report 
+        echo -n "$out_compressed," >> $report 
+        echo -n "$(tail -n 1 output.txt)," >> $report
         #decompress
-        make run_compressor MODE=d CODEC=int RULES=3 IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed OUT_PLAIN_TEXT_FILE=$out_descompressed -C ../compressor/
+        ../compressor/./main $out_compressed $out_descompressed  d 3 int > output.txt
+        echo -n "$(tail -n 1 output.txt)" >> $report
+        rm output.txt
     done
     make clean -C ../compressor/
 )
@@ -79,4 +85,5 @@ fi
 
     echo -e "\n${GREEN}%%% Generates comparison charts between GCIS and DCX.${RESET}\n"
     python3 scripts/report.py ../$report ../gcis_result.csv
+    rm -R __pycache__
 )
