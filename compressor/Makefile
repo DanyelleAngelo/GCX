@@ -20,7 +20,7 @@ compile: compressor.cpp compressor.hpp compressor-$(CODEC).cpp compressor-$(CODE
 	$(CC) -o main compressor.o compressor-$(CODEC).o main.o  $(FLAGS) $(LIBS)
 
 run_compressor: 
-ifeq ($(wildcard "main"), )
+ifneq ($(wildcard "main"), )
 	$(MAKE) compile
 endif
 ifeq ($(MODE), d)
