@@ -68,7 +68,7 @@ fi
         echo -n "$(tail -n 1 output.txt)," >> $report
         #decompress
         ../compressor/./main $out_compressed $out_descompressed  d 3 int > output.txt
-        echo -n "$(tail -n 1 output.txt)" >> $report
+        echo "$(tail -n 1 output.txt)" >> $report
         rm output.txt
     done
     make clean -C ../compressor/
@@ -84,6 +84,5 @@ fi
     done
 
     echo -e "\n${GREEN}%%% Generates comparison charts between GCIS and DCX.${RESET}\n"
-    python3 scripts/report.py ../$report ../gcis_result.csv
-    rm -R __pycache__
+    python3 report.py ../$report ../gcis_result.csv
 )
