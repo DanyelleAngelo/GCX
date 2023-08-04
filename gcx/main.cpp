@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
 #include "compressor-int.hpp"
 
 using namespace std;
@@ -16,7 +17,6 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     clock_t start, finish;
-    double  duration;
 
     char op = argv[3][0];
     int ruleSize = atoi(&argv[4][0]);
@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
         cout << "\x1b[35m\n\tNo other grammar options available. Only integer encoding offered!\n\x1b[0m" << endl;
         exit(0);
     }
-	duration = (double)(finish - start) / CLOCKS_PER_SEC;
+
+    double duration = (double)(finish - start) / CLOCKS_PER_SEC;
     printf("\x1b[32m\nTime: %5.6lf  seconds\n\x1b[0m",duration);
 }
