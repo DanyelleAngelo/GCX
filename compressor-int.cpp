@@ -1,5 +1,6 @@
 #include "compressor.hpp"
 #include "compressor-int.hpp"
+#include "uarray.h"
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -31,16 +32,11 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int ruleSize) {
             break;
         }
         case 'd': {
-            unsigned char *charRules = nullptr;
             cout << "\n\n\x1b[32m>>>> Decode (plain int) <<<<\x1b[0m\n";
 
-            readCompressedFile(fileIn, uText, textSize, charRules, mod, header);
-
-            uint32_t levels = header.at(0);
-            grammarInfo(header, levels, mod);
-
-            decode(uText, textSize, levels-1, levels, fileOut, charRules, mod, header);
-            free(charRules);
+            decode(fileIn, fileOut, header, mod);
+           // uint32_t levels = header.at(0);
+            //grammarInfo(header, levels, mod);
             break;
         }
         default: {
@@ -82,6 +78,8 @@ void readCompressedFile(char *fileName, uint32_t *&uText, int32_t &textSize, uns
 
     nRulesLastLevel = header[levels];
     charRules = (unsigned char*)malloc(nRulesLastLevel*mod*sizeof(unsigned char));
+    fseek(file, -(nRulesLastLevel*mod), SEEK_END);
+    fread(charRules, sizeof(char), nRulesLastLevel*mod, file);
 
     fseek(file, 0, SEEK_END);
     textSize = (ftell(file) - (header.size()*sizeof(int32_t)) - (nRulesLastLevel*mod))/sizeof(int32_t);
@@ -89,7 +87,6 @@ void readCompressedFile(char *fileName, uint32_t *&uText, int32_t &textSize, uns
     fseek(file, header.size()*sizeof(uint32_t), SEEK_SET);
     fread(uText, sizeof(uint32_t), textSize, file);
 
-    fread(charRules, sizeof(char), nRulesLastLevel*mod, file);
     fclose(file);
 }
 
@@ -109,7 +106,7 @@ void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileN
         header.insert(header.begin(), level+1);
         storeStartSymbol(fileName, rank, header);
     }
-    storeRules(text0, uText, tuples, rank, nTuples, fileName, mod, level);
+    storeRules(text0, uText, tuples, rank, nTuples, fileName, mod, level, qtyRules);
 
     free(rank);
     free(tuples);
@@ -130,19 +127,53 @@ void decode(uint32_t *uText, int32_t textSize, int level, int qtyLevels, char *f
     free(xs);
 }
 
+void decode(char *compressedFile, char *decompressedFile, vector<uint32_t> &header, int mod) {
+    FILE*  file= fopen(compressedFile,"rb");
+    isFileOpen(file, "An error occurred while opening the compressed file.");
+
+    uint32_t levels;
+    fread(&levels, sizeof(uint32_t), 1, file);
+    header.push_back(levels);
+
+    for(int i = levels-1; i >=0; i--){
+        uint32_t n;
+        fread(&n, sizeof(uint32_t), 1, file); 
+        header.push_back(n);
+    }
+
+    int nRulesLastLevel = header[levels];
+    unsigned char*  charRules = (unsigned char*)malloc(nRulesLastLevel*mod*sizeof(unsigned char));
+    fseek(file, -(nRulesLastLevel*mod), SEEK_END);
+    fread(charRules, sizeof(char), nRulesLastLevel*mod, file);
+
+    fseek(file, header.size()*sizeof(uint32_t), SEEK_SET);
+
+    int nRules = header[1];
+    uarray *encodedXs = ua_alloc(nRules, ceil(log2(nRules)));
+    fread(&encodedXs, sizeof(encodedXs), 1, file);
+
+    unsigned long *xs = (unsigned long*)calloc(nRules, sizeof(unsigned long));
+    for(int i=0; i < nRules; i++)xs[i] = ua_get(encodedXs, i);
+  
+}
+
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &header) {
+    uarray *encodedSymbol = ua_alloc(header[1], ceil(log2(header[1])));
+    for(int i=0, j=0; i < header.at(1);i++){
+        if(startSymbol[i] ==0)break;
+        ua_put(encodedSymbol, j++, startSymbol[i]);
+    }
+
     FILE* file= fopen(fileName,"wb");
     isFileOpen(file, "An error occurred while opening the file for store start symbol.");
 
     fwrite(&header[0], sizeof(uint32_t), header.size(), file);
-    for(int i=0; i < header.at(1);i++){
-        if(startSymbol[i]==0)break;
-        fwrite(&startSymbol[i], sizeof(uint32_t), 1, file);
-    }
+    fwrite(&encodedSymbol, sizeof(encodedSymbol), 1, file);
+
     fclose(file);
 }
 
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level){
+void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level, int32_t qtyRules){
     FILE*  file= fopen(fileName,"ab"), *fileReport=nullptr;
     isFileOpen(file, "An error occurred while opening the file for store rules.");
 
@@ -153,15 +184,16 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
     #endif
 
     int32_t lastRank = 0;
-    for(int i=0; i < nTuples; i++) {
+    uarray *encodedSymbol;
+    if(level !=0)encodedSymbol = ua_alloc(qtyRules*mod, ceil(log2(qtyRules*mod)));
+
+    for(int32_t i=0, j=0; i < nTuples; i++) {
         if(rank[tuples[i]/mod] == lastRank)continue;
         lastRank = rank[tuples[i]/mod];
 
         if(level!=0){
-            fwrite(&uText[tuples[i]], sizeof(uint32_t), mod, file);
-            #if LEVEL_REPORT==1
-                fwrite(&uText[tuples[i]], sizeof(uint32_t), mod, fileReport);
-            #endif
+            for(int k=0; k < mod; k++)
+                ua_put(encodedSymbol, j++ ,uText[tuples[i]+k]);
         }
         else {
             fwrite(&text0[tuples[i]], sizeof(unsigned char), mod, file);
@@ -170,8 +202,15 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
             #endif
         }
     }
-    fclose(file);
 
+    if(level != 0){
+        fwrite(&encodedSymbol, sizeof(encodedSymbol), 1, file);
+        #if LEVEL_REPORT==1
+            fwrite(&encodedSymbol, sizeof(encodedSymbol), 1, fileReport);
+        #endif
+    }
+
+    fclose(file);
     if(fileReport != NULL)fclose(fileReport);
 }
 

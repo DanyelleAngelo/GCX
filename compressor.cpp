@@ -3,8 +3,6 @@
 #include <vector>
 #include <cstring>
 #include <math.h>
-#include <sdsl/int_vector.hpp>
-#include <sdsl/coder.hpp>
 
 #define ASCII_SIZE 255
 
