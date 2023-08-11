@@ -57,10 +57,10 @@ u64 mask[] = {
 **/
 uarray* ua_alloc(u64 size, u8 bits) {
 
-  uarray* A = malloc(sizeof(uarray));
+  uarray* A = (uarray*)malloc(sizeof(uarray));
   if (!A) return 0;
 
-  A->V = malloc((size*bits/64+1)*sizeof(u64));
+  A->V = (u64*)malloc((size*bits/64+1)*sizeof(u64));
   if (!A->V) {
     int e = errno;
     free(A);
@@ -87,10 +87,10 @@ uarray* ua_alloc(u64 size, u8 bits) {
 **/
 uarray* ua_allocz(u64 size, u8 bits) {
 
-  uarray* A = malloc(sizeof(uarray));
+  uarray* A = (uarray*)malloc(sizeof(uarray));
   if (!A) return 0;
 
-  A->V = calloc(size*bits/64+1,sizeof(u64));
+  A->V = (u64*)calloc(size*bits/64+1,sizeof(u64));
   if (!A->V) {
     int e = errno;
     free(A);
