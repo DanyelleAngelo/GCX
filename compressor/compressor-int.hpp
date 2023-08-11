@@ -66,6 +66,16 @@ void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileN
 void decode(uint32_t *text, int32_t textSize, int level, int qtyLevels, char *fileName, unsigned char *charRules, int mod, vector<uint32_t> &header);
 
 /**
+ * @brief Ler e decodifica arquivo nível por nível
+ * 
+ * @param compressedFile arquivo compactado
+ * @param decompressedFile arquivo onde deve ser gravado o resultado da descompactação
+ * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
+ * @param mod tamanho das tuplas do texto
+ */
+void decode(char *compressedFile, char *decompressedFile, vector<uint32_t> &header, int mod);
+
+/**
  * @brief Cria e abre o arquivo para gravar as informações da gramática, e em seguida grava o símbolo inicial.
  * 
  * @param fileName nome do arquivo
@@ -85,7 +95,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
  * @param fileName arquivo onde as regras devem ser salvas
  * @param level indica o nível em que as regras foram geradas.
  */
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level);
+void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level, int32_t qtyRules);
 
 /**
  * @brief Decodifica o texto reduzido em determinado nível da gramática
