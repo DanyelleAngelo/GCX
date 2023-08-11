@@ -14,15 +14,16 @@ fraenkel: ../../fraenkel
 	./../../fraenkel 25 $(DIR)/$(FILE)
 
 compile: compressor.cpp compressor.hpp compressor-$(CODEC).cpp compressor-$(CODEC).hpp
-	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D, $(MACROS)) $(FLAGS) $(LIBS) 
-	$(CC) -c compressor-$(CODEC).cpp -o compressor-$(CODEC).o $(addprefix -D, $(MACROS)) $(FLAGS) $(LIBS)
+	$(CC) -c uarray.c -o uarray.o $(FLAGS)
+	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D, $(MACROS)) $(FLAGS) 
+	$(CC) -c compressor-$(CODEC).cpp -o compressor-$(CODEC).o $(addprefix -D, $(MACROS)) $(FLAGS)
 	$(CC) -c main.cpp -o main.o  $(FLAGS)
-	$(CC) -o main compressor.o compressor-$(CODEC).o main.o  $(FLAGS) $(LIBS)
+	$(CC) -o main uarray.o compressor.o compressor-$(CODEC).o main.o  $(FLAGS)
 
-run_compressor: 
-ifneq ($(wildcard "main"), )
-	$(MAKE) compile
-endif
+run_compressor:
+	@if [ ! -x "main" ]; then\
+		$(MAKE) compile;\
+	fi
 ifeq ($(MODE), d)
 	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES) $(CODEC)
 	cmp $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
