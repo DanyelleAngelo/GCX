@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "uarray.h"
 
 using namespace std;
 
@@ -73,7 +74,7 @@ void decode(uint32_t *text, int32_t textSize, int level, int qtyLevels, char *fi
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
  * @param mod tamanho das tuplas do texto
  */
-void decode(char *compressedFile, char *decompressedFile, vector<uint32_t> &header, int mod);
+void decode(char *compressedFile, char *decompressedFile, uint32_t *header, int mod);
 
 /**
  * @brief Cria e abre o arquivo para gravar as informações da gramática, e em seguida grava o símbolo inicial.
@@ -107,7 +108,7 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
  * @param start índice  em `uText` onde as regras do nível "level" começam
  * @param mod tamanho das tuplas do texto
  */
-void decodeSymbol(uint32_t* uText, uint32_t *&xs, int32_t &xsSize, int level, int32_t start, int mod);
+void decodeSymbol(uarray *xs, uarray *rules, uint32_t *&text, int32_t textSize, int mod);
 
 /**
  * @brief abre o arquivo de saída e grava o texto decodificado
@@ -118,7 +119,6 @@ void decodeSymbol(uint32_t* uText, uint32_t *&xs, int32_t &xsSize, int level, in
  * @param charRules regras do último nível da recursão
  * @param mod tamanho das tuplas do texto
  */
-void saveDecodedText(uint32_t *xs, int32_t xsSize, char *fileName, unsigned char *charRules, int module);
-
+void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned char *rules, uint32_t nRules, int mod);
 
 #endif
