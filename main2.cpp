@@ -34,11 +34,13 @@ int main() {
     fclose(file);
 printf("Tamanho de v eh %lu\n", sizeof(v));
 
+cout << "TESTEEEE: " << endl;
+
    uarray *v2;
    FILE *file2 = fopen("teste.txt", "rb");
    fread(&v2, 8, 1, file2);
     printf("Teste de leitura 1o= %lu\n ", (unsigned long)ua_get(v2,0));
-    printf("Teste de leitura 2o= %lu\n ", (unsigned long)ua_get(v2,1));
-    printf("Teste de leitura 3o= %lu\n ", (unsigned long)ua_get(v2,2));
+    printf("Teste de leitura 2o= %lu\n ", (unsigned long)ua_get(v2,9));
+    printf("Teste de leitura 3o= %lu\n ", (unsigned long)ua_get(v2,10));
     fclose(file2);
 }
