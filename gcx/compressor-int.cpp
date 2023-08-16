@@ -32,9 +32,10 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int ruleSize) {
             break;
         }
         case 'd': {
+            uint32_t* header2=nullptr;
             cout << "\n\n\x1b[32m>>>> Decode (plain int) <<<<\x1b[0m\n";
 
-            decode(fileIn, fileOut, header, mod);
+            decode(fileIn, fileOut, header2,  mod);
            // uint32_t levels = header.at(0);
             //grammarInfo(header, levels, mod);
             break;
@@ -101,7 +102,7 @@ void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileN
     header.insert(header.begin(), qtyRules);
 
     if(qtyRules < nTuples){
-        encode(text0, rank, reducedSize, fileName, level+1, mod, header, qtyRules);
+        encode(NULL, rank, reducedSize, fileName, level+1, mod, header, qtyRules);
     }else {
         header.insert(header.begin(), level+1);
         storeStartSymbol(fileName, rank, header);
@@ -112,49 +113,42 @@ void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileN
     free(tuples);
 }
 
-void decode(uint32_t *uText, int32_t textSize, int level, int qtyLevels, char *fileName, unsigned char *charRules, int mod, vector<uint32_t> &header){
-    int32_t xsSize = header.at(1);
-    uint32_t *xs = (uint32_t*)calloc(xsSize, sizeof(uint32_t));
-    for(int i=0; i < xsSize; i++)xs[i] = uText[i];
-
-    int32_t startRules = xsSize; 
-    for(int i=1; level > 0 && i < qtyLevels; i++) {
-        decodeSymbol(uText,xs, xsSize, level, startRules, mod);
-        startRules += (header[i]*mod);
-        level--;
-    }
-    saveDecodedText(xs, xsSize, fileName, charRules, mod);
-    free(xs);
-}
-
-void decode(char *compressedFile, char *decompressedFile, vector<uint32_t> &header, int mod) {
+void decode(char *compressedFile, char *decompressedFile, uint32_t *header, int mod) {
     FILE*  file= fopen(compressedFile,"rb");
     isFileOpen(file, "An error occurred while opening the compressed file.");
-
+    
     uint32_t levels;
     fread(&levels, sizeof(uint32_t), 1, file);
-    header.push_back(levels);
+    header = (uint32_t*)calloc(levels+1, sizeof(uint32_t));
+    header[0]=levels;
+    fread(&header[1], sizeof(uint32_t), levels, file);
 
-    for(int i = levels-1; i >=0; i--){
-        uint32_t n;
-        fread(&n, sizeof(uint32_t), 1, file); 
-        header.push_back(n);
+    uint32_t *text;
+    int32_t textSize = header[1], i;
+    uarray *xs = ua_alloc(textSize, ceil(log2(textSize)));
+    fread(xs->V, sizeof(u64), (xs->n * xs->b/64)+1, file);//cada elemento em V armazena até 64 bits (n*b indica o número total de bits).
+
+    for(i=1; i < header[0]-1; i++) {
+        uint32_t nRules = header[i+1] * mod;
+        uarray *rules = ua_alloc(nRules, ceil(log2(nRules/mod)));
+        fread(rules->V, sizeof(u64), (rules->n * rules->b/64)+1, file);
+        
+        decodeSymbol(xs, rules, text , textSize, mod);
+
+        if(i==1) {
+            ua_free(xs);
+            xs = nullptr;
+        }
+        ua_free(rules);
     }
 
-    int nRulesLastLevel = header[levels];
-    unsigned char*  charRules = (unsigned char*)malloc(nRulesLastLevel*mod*sizeof(unsigned char));
-    fseek(file, -(nRulesLastLevel*mod), SEEK_END);
-    fread(charRules, sizeof(char), nRulesLastLevel*mod, file);
+    int32_t txtPlainSize = header[i] * mod;
+    unsigned char *rules = (unsigned char*)calloc(txtPlainSize, sizeof(unsigned char));
+    fread(&rules[0], sizeof(unsigned char), txtPlainSize, file);
+    print(rules, 10);
+    saveDecodedText(decompressedFile, text, textSize, rules, header[i], mod);
+    fclose(file);
 
-    fseek(file, header.size()*sizeof(uint32_t), SEEK_SET);
-
-    int nRules = header[1];
-    uarray *encodedXs = ua_alloc(nRules, ceil(log2(nRules)));
-    fread(&encodedXs, sizeof(encodedXs), 1, file);
-
-    unsigned long *xs = (unsigned long*)calloc(nRules, sizeof(unsigned long));
-    for(int i=0; i < nRules; i++)xs[i] = ua_get(encodedXs, i);
-  
 }
 
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &header) {
@@ -164,12 +158,12 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
         ua_put(encodedSymbol, j++, startSymbol[i]);
     }
 
-    FILE* file= fopen(fileName,"wb");
+    FILE* file = fopen(fileName,"wb");
     isFileOpen(file, "An error occurred while opening the file for store start symbol.");
-
     fwrite(&header[0], sizeof(uint32_t), header.size(), file);
-    fwrite(&encodedSymbol, sizeof(encodedSymbol), 1, file);
-
+    //cada elemento em V armazena até 64 bits (n*b indica o número total de bits).
+    size_t numElements = (encodedSymbol->n * encodedSymbol->b/64) + 1;
+    fwrite(encodedSymbol->V, sizeof(u64), numElements, file);
     fclose(file);
 }
 
@@ -177,83 +171,81 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
     FILE*  file= fopen(fileName,"ab"), *fileReport=nullptr;
     isFileOpen(file, "An error occurred while opening the file for store rules.");
 
-    #if LEVEL_REPORT==1
-        string reportLevel = "report/report-int-level-" + to_string(level);
-        fileReport=fopen(reportLevel.c_str(), "w");
-        isFileOpen(fileReport, "An error occurred while opening the file for report (store rules).");
-    #endif
+    int32_t lastRank = 0, n=0;
+    uarray *encodedSymbol = nullptr;
+    if(level !=0)encodedSymbol = ua_alloc(qtyRules*mod, ceil(log2(qtyRules)));
 
-    int32_t lastRank = 0;
-    uarray *encodedSymbol;
-    if(level !=0)encodedSymbol = ua_alloc(qtyRules*mod, ceil(log2(qtyRules*mod)));
-
-    for(int32_t i=0, j=0; i < nTuples; i++) {
+    for(int32_t i=0; i < nTuples; i++) {
         if(rank[tuples[i]/mod] == lastRank)continue;
         lastRank = rank[tuples[i]/mod];
 
         if(level!=0){
-            for(int k=0; k < mod; k++)
-                ua_put(encodedSymbol, j++ ,uText[tuples[i]+k]);
+            for(int k=0; k < mod; k++)ua_put(encodedSymbol, n++, uText[tuples[i]+k]);
         }
         else {
             fwrite(&text0[tuples[i]], sizeof(unsigned char), mod, file);
-            #if LEVEL_REPORT==1
-                fwrite(&text0[tuples[i]], sizeof(unsigned char), mod, fileReport);
-            #endif
         }
     }
 
     if(level != 0){
-        fwrite(&encodedSymbol, sizeof(encodedSymbol), 1, file);
-        #if LEVEL_REPORT==1
-            fwrite(&encodedSymbol, sizeof(encodedSymbol), 1, fileReport);
-        #endif
+        encodedSymbol->n = n;
+        size_t numElements = (encodedSymbol->n * encodedSymbol->b/64) + 1;
+        fwrite(encodedSymbol->V, sizeof(u64), numElements, file);
     }
 
     fclose(file);
     if(fileReport != NULL)fclose(fileReport);
 }
 
-void decodeSymbol(uint32_t *uText, uint32_t *&xs, int32_t &xsSize, int level, int32_t start, int mod)
-{
-    uint32_t *xsTemp = (uint32_t*) malloc(xsSize*mod * sizeof(uint32_t));
-    int32_t j = 0;
+void decodeSymbol(uarray *xs, uarray *rules, uint32_t *&text, int32_t textSize, int mod) {
+    uint32_t *temp = (uint32_t*)calloc(textSize*mod, sizeof(uint32_t));
+    int32_t j=0;
 
-    for(int32_t i=0; i < xsSize; i++) {
-        int32_t rule = xs[i];
-        if(rule==0)break;
-
-        int32_t rightHand = start + ((rule-1)*mod);
-        for(int k=0; k < mod; k++){
-            if(uText[rightHand+k] ==0)break;
-            xsTemp[j++] = uText[rightHand+k];
+    if(xs != nullptr) {
+        for(int i=0; i < textSize; i++) {
+            int32_t rule = ua_get(xs, i);
+            if(rule == 0)break;
+            for(int k=0; k < mod; k++) {
+                uint32_t ch = ua_get(rules, (rule-1)*mod+k);
+                if(ch == 0) break;
+                temp[j++] = ch;
+            }
+        }
+    } else {
+        for(int i =0; i < textSize; i++) {
+            int32_t rule = text[i];
+            if(rule ==0)break;
+            for(int k=0; k < mod; k++) {
+                uint32_t ch = ua_get(rules, (rule-1)+k);
+                if(ch == 0)break;
+                temp[j++] = ch;
+            }
         }
     }
-    xsSize = j;
 
-    free(xs);
-    xs = (uint32_t*) malloc(xsSize* sizeof(uint32_t*));
-    for(int i=0; i < xsSize; i++) xs[i] = xsTemp[i];
-    free(xsTemp);
+    textSize = j;
+    text = (uint32_t*)calloc(textSize, sizeof(uint32_t));
+    for(int i=0; i < textSize; i++)text[i] = temp[i];
+    free(temp);
 }
 
-void saveDecodedText(uint32_t *xs, int32_t xsSize, char *fileName, unsigned char* charRules, int mod) {
+void saveDecodedText(char *fileName, uint32_t *compressTxt, uint32_t compTxtSize, unsigned char *rules, uint32_t nRules, int mod) {
     FILE*  file= fopen(fileName,"w");
     isFileOpen(file, "An error occurred while trying to open the file to save the decoded text." );
 
-    int32_t textSize = xsSize*mod;
-    char *decodedText = (char*)malloc(textSize*sizeof(char));
-
-    for(int i=0,k=0; i < xsSize; i++){
-        int32_t rightHand = (xs[i]-1)*mod;
+    int32_t textSize = compTxtSize*mod;
+    char *plainTxt = (char*)malloc(textSize*sizeof(char));
+    //TODO limite
+    int teste =0;
+    for(int i=0,k=0; i < compTxtSize; i++){
+        int32_t rule = compressTxt[i];
         for(int j=0; j < mod; j++){
-            char ch = charRules[rightHand+j];
-            if(ch != 0)decodedText[k++] = ch;
+            char ch = rules[rule-1+j];
+            if(ch != 0)plainTxt[k++] = ch;
             else textSize--;
         }
     }
-
-    fwrite(&decodedText[0], sizeof(char), textSize, file);
-    free(decodedText);
+    fwrite(&plainTxt[0], sizeof(char), textSize, file);
+    free(plainTxt);
     fclose(file);
 }
