@@ -25,10 +25,10 @@ run_compressor:
 		$(MAKE) compile;\
 	fi
 ifeq ($(MODE), d)
-	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES) $(CODEC)
+	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES)
 	cmp $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
 else
-	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) e $(RULES) $(CODEC)
+	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) e $(RULES)
 endif
 
 clean:
