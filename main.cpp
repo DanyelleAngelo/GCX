@@ -26,5 +26,5 @@ int main(int argc, char *argv[]) {
     finish = clock();
 
     double duration = (double)(finish - start) / CLOCKS_PER_SEC;
-    printf("%5.2lf",duration);
+    printf("%5.2lf\n",duration);
 }
