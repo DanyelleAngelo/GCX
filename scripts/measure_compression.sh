@@ -11,7 +11,7 @@ compress_decompress_and_generate_report() {
     echo -e "\n${GREEN}%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original downloaded version${RESET}."
 
     make clean -C ../compressor/
-    make compile CODEC=int -C ../compressor/
+    make compile -C ../compressor/
 
     rulesSize=(3 4 5 6 7 8 9 15 30 60) 
 

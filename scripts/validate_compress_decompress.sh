@@ -42,7 +42,7 @@ compress_and_validate() {
     echo -e "\n${GREEN}%%% Validating DCX: Compile files to generate a grammar with rules stored as integer ${RESET}."
 
     make clean -C ../compressor/
-    make compile CODEC=int -C ../compressor/
+    make compile -C ../compressor/
 
     rulesSize=(3 4 5 6 7 8 9 15 30 60) 
 
@@ -51,7 +51,7 @@ compress_and_validate() {
         in_plain="$PIZZA_DIR/${file_name[1]}"
 
         for rule in "${rulesSize[@]}"; do
-            out_compressed="$COMPRESSED_DIR/${file_name[1]}-r$rule"
+            out_compressed="$COMPRESSED_DIR/${file_name[1]}-r$rule-int"
             out_descompressed=$out_compressed-plain
         
             echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
