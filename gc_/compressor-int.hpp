@@ -70,7 +70,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
  * @param fileName arquivo onde as regras devem ser salvas
  * @param level indica o nível em que as regras foram geradas.
  */
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level, int32_t qtyRules);
+void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level, int32_t qtyRules, int32_t sigma);
 
 /**
  * @brief Decodifica o texto reduzido em determinado nível da gramática
