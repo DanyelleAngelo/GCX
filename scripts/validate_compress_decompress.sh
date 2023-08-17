@@ -39,31 +39,33 @@ download_files() {
 }
 
 compress_and_validate() {
-    echo -e "\n${GREEN}%%% Compile files to generate a grammar with rules stored as integer ${RESET}."
+    echo -e "\n${GREEN}%%% Validating DCX: Compile files to generate a grammar with rules stored as integer ${RESET}."
 
     make clean -C ../compressor/
     make compile CODEC=int -C ../compressor/
 
-    rulesSize=(3 4 5 6 7 8 9 15 30 60)
+    rulesSize=(3 4 5 6 7 8 9 15 30 60) 
 
     for plain_file in $FILE_PATHS; do
         IFS="/" read -ra file_name <<< "$plain_file"
         in_plain="$PIZZA_DIR/${file_name[1]}"
 
-        for ruleSize in $rulesSize; do
-            out_compressed="$COMPRESSED_DIR/${file_name[1]}-r$ruleSize"
+        for rule in "${rulesSize[@]}"; do
+            out_compressed="$COMPRESSED_DIR/${file_name[1]}-r$rule"
             out_descompressed=$out_compressed-plain
         
-            echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $ruleSize ${RESET}"
+            echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
             #compress
-            make run_compressor MODE=e RULES=$rulesSize IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed -C ../compressor/ 
+            make run_compressor MODE=e RULES=$rule IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed -C ../compressor/ 
             #decompress
-            make run_compressor MODE=d RULES=$rulesSize COMPRESSED_FILE=$out_compressed OUT_PLAIN_TEXT_FILE=$out_descompressed  IN_PLAIN_TEXT_FILE=$in_plain -C ../compressor/
+            make run_compressor MODE=d RULES=$rule COMPRESSED_FILE=$out_compressed OUT_PLAIN_TEXT_FILE=$out_descompressed  IN_PLAIN_TEXT_FILE=$in_plain -C ../compressor/
         done
     done
     make clean -C ../compressor/
 }
 
-check_and_create_folder
-download_files
-compress_and_validate
+if [ "$0" = "$BASH_SOURCE" ]; then
+    check_and_create_folder
+    download_files
+    compress_and_validate
+fi
