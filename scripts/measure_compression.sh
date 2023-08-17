@@ -57,7 +57,9 @@ python_setup_and_generate_graphs() {
     python3 report.py ../$report ../gcis_result.csv
 }
 
-check_and_create_folder
-download_files
-compress_decompress_and_generate_report
+if [ "$0" = "$BASH_SOURCE" ]; then
+    check_and_create_folder
+    download_files
+    compress_decompress_and_generate_report
 #python_setup_and_generate_graphs
+fi
