@@ -24,19 +24,7 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int ruleSize);
  * @param levels número de níveis
  * @param mod tamanho das regras na gramática
  */
-void grammarInfo(vector<uint32_t> header, int levels, int mod);
-
-/**
- * @brief Realiza a leitura e armazena o texto codificado em uma variável.
- * 
- * @param fileName nome do arquivo contendo a gramática que comprime o texto
- * @param uText responsável por armazenar o texto compactado ao final do método
- * @param textSize armazena o tamanho tamanho do texto (excluindo as informaçoes da gramática,e as regras do último nível)
- * @param charRules armazena as regras do último nível da recursão, ou seja as regras que são originadas do texto plano
- * @param mod tamanho das tuplas do texto
- * @param header contém as informações da gramática, quantidade de níveis, bem como quantidade de regras por nível
- */
-void readCompressedFile(char *fileName, uint32_t *&uText, int32_t &textSize,  unsigned char* &charRules, int mod, vector<uint32_t> &header);
+void grammarInfo(uint32_t *header, int levels, int mod);
 
 /**
  * @brief realiza a compactação do texto por meio de sucessivas chamadas recursivas, onde são geradas regras que codificam o texto.
@@ -53,20 +41,6 @@ void readCompressedFile(char *fileName, uint32_t *&uText, int32_t &textSize,  un
 void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileName, int level, int mod, vector<uint32_t> &header, uint32_t sigma);
 
 /**
- * @brief realiza a descompressão do texto, por meio da decodificação do texto nível a nível.
- * 
- * @param text texto a ser decodificado
- * @param textSize tamanho do texto no nível atual
- * @param level nível atual
- * @param qtyLevels quantidade de níveis na gramática
- * @param fileName arquivo onde deve ser gravado o resultado da descompressão
- * @param rules0 armazena as regras do último nível da recursão, ou seja as regras que são originadas do texto plano
- * @param mod tamanho das tuplas do texto
- * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
- */
-void decode(uint32_t *text, int32_t textSize, int level, int qtyLevels, char *fileName, unsigned char *charRules, int mod, vector<uint32_t> &header);
-
-/**
  * @brief Ler e decodifica arquivo nível por nível
  * 
  * @param compressedFile arquivo compactado
@@ -74,7 +48,7 @@ void decode(uint32_t *text, int32_t textSize, int level, int qtyLevels, char *fi
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
  * @param mod tamanho das tuplas do texto
  */
-void decode(char *compressedFile, char *decompressedFile, uint32_t *header, int mod);
+void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int mod);
 
 /**
  * @brief Cria e abre o arquivo para gravar as informações da gramática, e em seguida grava o símbolo inicial.
@@ -104,21 +78,19 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
  * @param uText conteúdo compactado lido do arquivo de entrado
  * @param xs texto reduzido a ser decodificado, ao final conterá o símbolo já decodficado
  * @param xsSize tamanho do símbolo a ser decodificado (ao final, conterá o tamanho do símbolo já decodificado)
- * @param level nível atual
- * @param start índice  em `uText` onde as regras do nível "level" começam
  * @param mod tamanho das tuplas do texto
  */
-void decodeSymbol(uarray *xs, uarray *rules, uint32_t *&text, int32_t textSize, int mod);
+void decodeSymbol(uarray *rules, uint32_t *&xs, int32_t &xsSize, int mod);
 
 /**
  * @brief abre o arquivo de saída e grava o texto decodificado
  * 
- * @param text texto decodificado
- * @param textSize tamanho do texto
- * @param fileName arquivo de saída
- * @param charRules regras do último nível da recursão
+ * @param fileName nome do arquivo
+ * @param xs texto codificado
+ * @param xsSize tamanho de xs
+ * @param rules regras do último nível da recursão
  * @param mod tamanho das tuplas do texto
  */
-void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned char *rules, uint32_t nRules, int mod);
+void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned char *rules, int mod);
 
 #endif
