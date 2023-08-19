@@ -8,11 +8,15 @@
 
 using namespace std;
 
+void error(const char *msg) {
+    cout << "\x1b[31m[ERROR]\x1b[0m " << msg << endl;
+    exit(EXIT_FAILURE);
+}
+
 void isFileOpen(FILE * file, const char *msg) {
     if(file != NULL) return;
 
-    cout << "\x1b[31m[ERROR]\x1b[0m " << msg << endl;
-    exit(EXIT_FAILURE);
+    error(msg);
 }
 
 int padding(int32_t textSize, int coverage){
