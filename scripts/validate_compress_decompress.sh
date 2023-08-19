@@ -51,12 +51,12 @@ compress_and_validate() {
         in_plain="$PIZZA_DIR/${file_name[1]}"
 
         for rule in "${rulesSize[@]}"; do
-            out_compressed="$COMPRESSED_DIR/${file_name[1]}-r$rule-int"
+            out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$rule-int"
             out_descompressed=$out_compressed-plain
         
             echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
             #compress
-            make run_compressor MODE=e RULES=$rule IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed -C ../compressor/ 
+            make run_compressor MODE=c RULES=$rule IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed -C ../compressor/
             #decompress
             make run_compressor MODE=d RULES=$rule COMPRESSED_FILE=$out_compressed OUT_PLAIN_TEXT_FILE=$out_descompressed  IN_PLAIN_TEXT_FILE=$in_plain -C ../compressor/
         done

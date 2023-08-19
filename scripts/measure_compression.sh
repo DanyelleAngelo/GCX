@@ -21,16 +21,16 @@ compress_decompress_and_generate_report() {
             rm -f $report; 
             echo "file,compressed_file,compression_time,decompression_time" >> $report; 
         fi
-
+§w§s
         for plain_file in $FILE_PATHS; do
                 IFS="/" read -ra file_name <<< "$plain_file"
                 in_plain="$PIZZA_DIR/${file_name[1]}"
-                out_compressed="$COMPRESSED_DIR/${file_name[1]}-r$rule-int"
+                out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$rule-int"
                 out_descompressed=$out_compressed-plain
 
                 echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
                 #compress
-                ../compressor/./main $in_plain $out_compressed e $rule > output.txt
+                ../compressor/./main $in_plain $out_compressed c $rule > output.txt
                 echo -n "$in_plain," >> $report 
                 echo -n "$out_compressed," >> $report 
                 echo -n "$(tail -n 1 output.txt)," >> $report
