@@ -184,6 +184,12 @@ u64 ua_get(uarray* A, u64 pos) {
   }
 }
 
+void ua_print(uarray* A) {
+    for(int i = 0; i < A->n; i++) {
+        printf("%llu ", ua_get(A, i));
+    }
+    printf("\n");
+}
 
 
 /*
