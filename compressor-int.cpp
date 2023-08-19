@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#define GET_RULE_INDEX() (xs[i]-1)*coverage
+
 void grammarInteger(char *fileIn, char *fileOut, char op, int ruleSize) {
     uint32_t *uText = nullptr;
     int32_t textSize;
@@ -21,8 +23,7 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int ruleSize) {
             uText = (uint32_t*)calloc(textSize,sizeof(uint32_t));
             if(uText == NULL)exit(EXIT_FAILURE);
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
-
-            compress(text, uText,textSize, fileOut, 0, ruleSize, header, 0);
+            compress(text, uText,textSize, strcat(fileOut, ".dcx"), 0, ruleSize, header, 0);
 
             uint32_t levels = header.at(0);
             grammarInfo(header.data(), levels, ruleSize);
@@ -70,14 +71,13 @@ void compress(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fil
     radixSort(uText, nTuples, tuples, sigma, coverage);
     createLexNames(uText, tuples, rank, qtyRules, nTuples, coverage);
     header.insert(header.begin(), qtyRules);
-
     if(qtyRules < nTuples){
         compress(text0, rank, reducedSize, fileName, level+1, coverage, header, qtyRules);
     }else {
         header.insert(header.begin(), level+1);
         storeStartSymbol(fileName, rank, header);
     }
-    storeRules(text0, uText, tuples, rank, nTuples, fileName, coverage, level, qtyRules, sigma);
+    storeRules(text0, uText, tuples, rank, nTuples, fileName, coverage, level, header, qtyRules);
 
     free(rank);
     free(tuples);
@@ -87,7 +87,7 @@ void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int
     FILE*  file= fopen(compressedFile,"rb");
     isFileOpen(file, "An error occurred while opening the compressed file.");
 
-    uint32_t levels, nRules;
+    uint32_t levels, chQty;
     fread(&levels, sizeof(uint32_t), 1, file);
     header = (uint32_t*)calloc(levels+1, sizeof(uint32_t));
     header[0]=levels;
@@ -101,19 +101,17 @@ void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int
     ua_free(xsEncoded);
 
     int32_t i=0;
-    for(i=1; i < header[0]; i++) {
-        nRules = header[i] * coverage;
-        uarray *rules = ua_alloc(nRules, ceil(log2(header[i+1])));
+    for(i=1; i < levels; i++) {
+        chQty = header[i] * coverage;
+        uarray *rules = ua_alloc(chQty, ceil(log2(header[i+1]))+1);
         fread(rules->V, sizeof(u64), (rules->n * rules->b/64)+1, file);
-
-        decodeSymbol(rules, xs , xsSize, coverage);
+        decodeSymbol(rules, xs , xsSize, coverage, i);
         ua_free(rules);
     }
 
-    nRules = header[header[0]]*coverage;
-    unsigned char *rules = (unsigned char*)calloc(nRules, sizeof(unsigned char));
-    fread(&rules[0], sizeof(unsigned char), nRules, file);
-
+    chQty = header[levels]*coverage;
+    unsigned char *rules = (unsigned char*)calloc(chQty, sizeof(unsigned char));
+    fread(&rules[0], sizeof(unsigned char), chQty, file);
     fclose(file);
 
     saveDecodedText(decompressedFile, xs, xsSize, rules, coverage);
@@ -136,20 +134,22 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
     fclose(file);
 }
 
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level, int32_t qtyRules, int32_t sigma){
+void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level,vector<uint32_t> header, int32_t qtyRules){
     FILE*  file= fopen(fileName,"ab"), *fileReport=nullptr;
     isFileOpen(file, "An error occurred while opening the file for store rules.");
-
     int32_t lastRank = 0, n=0;
+    int32_t level_in_header = header[0]-level;
     uarray *encodedSymbol = nullptr;
-    if(level !=0)encodedSymbol = ua_alloc(qtyRules*coverage, ceil(log2(sigma))+1);
+    if(level !=0)encodedSymbol = ua_alloc(header[level_in_header]*coverage, ceil(log2(header[level_in_header+1]))+1);
 
     for(int32_t i=0; i < nTuples; i++) {
         if(rank[tuples[i]/coverage] == lastRank)continue;
         lastRank = rank[tuples[i]/coverage];
 
         if(level!=0) {
-            for(int k=0; k < coverage; k++)ua_put(encodedSymbol, n++, uText[tuples[i]+k]);
+            for(int k=0; k < coverage; k++){
+                ua_put(encodedSymbol, n++, uText[tuples[i]+k]);
+            }
         } else {
             fwrite(&text0[tuples[i]], sizeof(unsigned char), coverage, file);
         }
@@ -165,23 +165,22 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
     if(fileReport != NULL)fclose(fileReport);
 }
 
-void decodeSymbol(uarray *rules, uint32_t *&xs, int32_t &xsSize, int coverage) {
+void decodeSymbol(uarray *rules, uint32_t *&xs, int32_t &xsSize, int coverage, int level) {
     uint32_t *temp = (uint32_t*)calloc(xsSize*coverage, sizeof(uint32_t));
     int32_t j=0;
-
+    
     for(int i =0; i < xsSize; i++) {
-        int32_t rule = (xs[i]-1)*coverage;
-        if(rule < 0)break;
+        int32_t rule = GET_RULE_INDEX();
+        if(xs[i] == 0)break;
         for(int k=0; k < coverage; k++) {
             uint32_t ch = ua_get(rules, rule+k);
-            if(ch == 0)break;
             temp[j++] = ch;
         }
     }
 
     xsSize = j;
     xs = (uint32_t*)calloc(xsSize, sizeof(uint32_t));
-    for(int i=0; i < xsSize; i++)xs[i] = temp[i];
+    for(int i=0,j=0; i < xsSize; i++)xs[j++] = temp[i];
     free(temp);
 }
 
@@ -192,16 +191,17 @@ void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned cha
     int32_t plainTxtSize = xsSize*coverage;
     char *plainTxt = (char*)malloc(plainTxtSize*sizeof(char));
 
-    for(int i=0, k=0; i < xsSize; i++){
-        int32_t rule = (xs[i]-1)*coverage;
+    int32_t size=0;
+    for(int i=0; i < xsSize; i++){
+        int32_t rule = GET_RULE_INDEX();
+        if(xs[i] == 0)continue;
         for(int j=0; j < coverage; j++) {
             char ch = rules[rule+j];
-            if(ch != 0)plainTxt[k++] = ch;
-            else plainTxtSize--;
+            if(ch != 0)plainTxt[size++] = ch;
         }
     }
 
-    fwrite(&plainTxt[0], sizeof(char), plainTxtSize, file);
+    fwrite(&plainTxt[0], sizeof(char), size, file);
     free(plainTxt);
     fclose(file);
 }

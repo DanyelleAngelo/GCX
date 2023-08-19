@@ -6,14 +6,21 @@
 using namespace std;
 
 template <typename T>
-void print(T v[], int n){
+void print(T v[], int n, const char *msg){
+    printf("\n%s", msg);
     cout << *(v);
     for(int i=1; i < n ; i++) cout  << ", " << *(v+i);
      cout << endl;
 } 
+/**
+ * @brief Recebe uma mensagem de erro, a exibe e encerra o programa.
+ * 
+ * @param msg mensagem de erro.
+ */
+void error(const char *msg);
 
 /**
- * @brief Verifica se FILE é diferente de NULL, em caso negativo exibe uma mensagem de erro e  encerra o programa.
+ * @brief Verifica se FILE é diferente de NULL, em caso negativo chama a função error passando uma mensagem como parâmetro.
  * 
  * @param file arquivo a ser verificado.
  * @param msg mensagem de erro, contendo o contexto do uso do arquivo.
@@ -48,7 +55,7 @@ void readPlainText(char *fileName,unsigned char *&text, int32_t &textSize, int c
  * @param coverage tamanho das tuplas do texto
  * @param sigma tamanho do alfabeto
  */
-void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t sigma, int coverage); 
+void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t &sigma, int coverage); 
 
 /**
  * @brief cria lex-names para cada tupla ordenada do texto.
