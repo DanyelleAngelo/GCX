@@ -27,7 +27,7 @@ run_compressor:
 ifeq ($(MODE), d)
 	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES)
 	cmp $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
-ifeq ($(MODE), c)
+else ifeq ($(MODE), c)
 	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) c $(RULES)
 else
 	./main $(COMPRESSED_FILE) $(COMPRESSED_FILE) e $(RULES)
