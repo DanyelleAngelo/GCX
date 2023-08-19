@@ -56,9 +56,9 @@ compress_and_validate() {
         
             echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
             #compress
-            make run_compressor MODE=c RULES=$rule IN_PLAIN_TEXT_FILE=$in_plain COMPRESSED_FILE=$out_compressed -C ../compressor/
+            make run_compressor MODE=c RULES=$rule FILE_IN=$in_plain FILE_OUT=$out_compressed -C ../compressor/
             #decompress
-            make run_compressor MODE=d RULES=$rule COMPRESSED_FILE=$out_compressed OUT_PLAIN_TEXT_FILE=$out_descompressed  IN_PLAIN_TEXT_FILE=$in_plain -C ../compressor/
+            make run_compressor MODE=d RULES=$rule FILE_IN=$out_compressed FILE_OUT=$out_descompressed  ORIGINAL=$in_plain -C ../compressor/
         done
     done
     make clean -C ../compressor/

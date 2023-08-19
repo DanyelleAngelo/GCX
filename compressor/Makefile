@@ -3,11 +3,6 @@ FLAGS=-Wall -std=c++14 -g -fsanitize=address
 LIBS=-I ~/include -L ~/lib -lsdsl -ldivsufsort -ldivsufsort64
 MACROS:= DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0
 
-DIR=../dataset/pizza_chilli/real
-IN_PLAIN_TEXT_FILE=$(DIR)/$(FILE)
-COMPRESSED_FILE=text/$(FILE)-r$(RULES)-int
-OUT_PLAIN_TEXT_FILE=text/$(FILE)-PLAIN-int
-
 all: fraenkel
 
 fraenkel: ../../fraenkel
@@ -25,12 +20,12 @@ run_compressor:
 		$(MAKE) compile;\
 	fi
 ifeq ($(MODE), d)
-	./main $(COMPRESSED_FILE) $(OUT_PLAIN_TEXT_FILE) d $(RULES)
-	cmp $(OUT_PLAIN_TEXT_FILE) $(IN_PLAIN_TEXT_FILE) 
+	./main $(FILE_IN) $(FILE_OUT) d $(RULES)
+	cmp $(FILE_OUT) $(ORIGINAL) 
 else ifeq ($(MODE), c)
-	./main $(IN_PLAIN_TEXT_FILE) $(COMPRESSED_FILE) c $(RULES)
+	./main $(FILE_IN) $(FILE_OUT) c $(RULES)
 else
-	./main $(COMPRESSED_FILE) $(COMPRESSED_FILE) e $(RULES)
+	./main $(FILE_IN) $(COMPRESSED_FILE) e $(RULES)
 endif
 
 clean:
