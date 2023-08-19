@@ -12,8 +12,7 @@ int main(int argc, char *argv[]) {
                 "\t\tInput file  for encode or decode\n" <<
                 "\t\tOutput file, contains the result of the chosen operation)\n" <<
                 "\t\tOperation - for encode choose: \"e\", for decode choose: \"d\" \n" <<
-                "\t\tSize of rules\n" << 
-                "\t\tType of encode - options: int\n" << endl;
+                "\t\tSize of rules\n"  << endl;
         exit(EXIT_FAILURE);
     }
     clock_t start, finish;
