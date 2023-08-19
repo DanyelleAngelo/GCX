@@ -7,3 +7,4 @@ compressor/report/*
 large_text.txt
 dataset/*
 *__pycache__*
+main
