@@ -44,21 +44,21 @@ compress_and_validate() {
     make clean -C ../compressor/
     make compile -C ../compressor/
 
-    rulesSize=(3 4 5 6 7 8 9 15 30 60) 
+    coverageList=(3 4 5 6 7 8 9 15 30 60) 
 
     for plain_file in $FILE_PATHS; do
         IFS="/" read -ra file_name <<< "$plain_file"
         in_plain="$PIZZA_DIR/${file_name[1]}"
 
-        for rule in "${rulesSize[@]}"; do
-            out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$rule-int"
+        for coverage in "${coverageList[@]}"; do
+            out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$coverage-int"
             out_descompressed=$out_compressed-plain
         
-            echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
+            echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $coverage ${RESET}"
             #compress
-            make run_compressor MODE=c RULES=$rule FILE_IN=$in_plain FILE_OUT=$out_compressed -C ../compressor/
+            make run_compressor MODE=c COVERAGE=$coverage FILE_IN=$in_plain FILE_OUT=$out_compressed -C ../compressor/
             #decompress
-            make run_compressor MODE=d RULES=$rule FILE_IN=$out_compressed FILE_OUT=$out_descompressed  ORIGINAL=$in_plain -C ../compressor/
+            make run_compressor MODE=d COVERAGE=$coverage FILE_IN=$out_compressed FILE_OUT=$out_descompressed  ORIGINAL=$in_plain -C ../compressor/
         done
     done
     make clean -C ../compressor/

@@ -20,12 +20,12 @@ run_compressor:
 		$(MAKE) compile;\
 	fi
 ifeq ($(MODE), d)
-	./main $(FILE_IN) $(FILE_OUT) d $(RULES)
+	./main $(FILE_IN) $(FILE_OUT) d $(COVERAGE)
 	cmp $(FILE_OUT) $(ORIGINAL) 
 else ifeq ($(MODE), c)
-	./main $(FILE_IN) $(FILE_OUT) c $(RULES)
+	./main $(FILE_IN) $(FILE_OUT) c $(COVERAGE)
 else
-	./main $(FILE_IN) $(COMPRESSED_FILE) e $(RULES)
+	./main $(FILE_IN) $(COMPRESSED_FILE) e $(COVERAGE)
 endif
 
 clean:

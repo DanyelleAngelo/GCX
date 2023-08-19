@@ -13,10 +13,10 @@ compress_decompress_and_generate_report() {
     make clean -C ../compressor/
     make compile -C ../compressor/
 
-    rulesSize=(3 4 5 6 7 8 9 15 30 60) 
+    coverageList=(3 4 5 6 7 8 9 15 30 60) 
 
-    for rule in "${rulesSize[@]}"; do
-        report="$REPORT_DIR/rules$rule-dcx-encoding.csv"
+    for coverage in "${coverageList[@]}"; do
+        report="$REPORT_DIR/coverage$coverage-dcx-encoding.csv"
         if [ -e "$report" ]; then 
             rm -f $report; 
             echo "file,compressed_file,compression_time,decompression_time" >> $report; 
@@ -25,17 +25,17 @@ compress_decompress_and_generate_report() {
         for plain_file in $FILE_PATHS; do
                 IFS="/" read -ra file_name <<< "$plain_file"
                 in_plain="$PIZZA_DIR/${file_name[1]}"
-                out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$rule-int"
+                out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$coverage-int"
                 out_descompressed=$out_compressed-plain
 
-                echo -e "\n${BLUE}####### FILE: ${file_name[1]} RULE SIZE: $rule ${RESET}"
+                echo -e "\n${BLUE}####### FILE: ${file_name[1]} coverage SIZE: $coverage ${RESET}"
                 #compress
-                ../compressor/./main $in_plain $out_compressed c $rule > output.txt
+                ../compressor/./main $in_plain $out_compressed c $coverage > output.txt
                 echo -n "$in_plain," >> $report 
                 echo -n "$out_compressed," >> $report 
                 echo -n "$(tail -n 1 output.txt)," >> $report
                 #decompress
-                ../compressor/./main $out_compressed $out_descompressed  d $rule > output.txt
+                ../compressor/./main $out_compressed $out_descompressed  d $coverage > output.txt
                 echo "$(tail -n 1 output.txt)" >> $report
                 rm output.txt
         done
