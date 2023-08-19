@@ -69,8 +69,9 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
  * @param nTuples quantidade de tuplas
  * @param fileName arquivo onde as regras devem ser salvas
  * @param level indica o nível em que as regras foram geradas.
+ * @param header usado para capturar a quantidade de regras no nível atual, e no nível anterior (indica o tamanho do alfabeto nesse nível)
  */
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level, int32_t qtyRules, int32_t sigma);
+void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level, vector<uint32_t>  header, int32_t qtyRules);
 
 /**
  * @brief Decodifica o texto reduzido em determinado nível da gramática
@@ -79,8 +80,9 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
  * @param xs texto reduzido a ser decodificado, ao final conterá o símbolo já decodficado
  * @param xsSize tamanho do símbolo a ser decodificado (ao final, conterá o tamanho do símbolo já decodificado)
  * @param coverage tamanho das tuplas do texto
+ * @param level nível atual
  */
-void decodeSymbol(uarray *rules, uint32_t *&xs, int32_t &xsSize, int coverage);
+void decodeSymbol(uarray *rules, uint32_t *&xs, int32_t &xsSize, int coverage, int level);
 
 /**
  * @brief abre o arquivo de saída e grava o texto decodificado
