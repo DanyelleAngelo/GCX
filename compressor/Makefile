@@ -1,6 +1,6 @@
 CC=g++
-FLAGS=-Wall -std=c++14 -g -fsanitize=address
-LIBS=-I ~/include -L ~/lib -lsdsl -ldivsufsort -ldivsufsort64
+FLAGS_DEBUG=-g -fsanitize=address
+FLAGS=-Wall -std=c++14 $(FLAGS_DEBUG)
 MACROS:= DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0
 
 all: fraenkel
