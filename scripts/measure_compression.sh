@@ -25,7 +25,7 @@ compress_decompress_and_generate_report() {
         for plain_file in $FILE_PATHS; do
                 IFS="/" read -ra file_name <<< "$plain_file"
                 in_plain="$PIZZA_DIR/${file_name[1]}"
-                out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$coverage-int"
+                out_compressed="$COMPRESSED_DIR/${file_name[1]}-coverage$coverage"
                 out_descompressed=$out_compressed-plain
 
                 echo -e "\n${BLUE}####### FILE: ${file_name[1]} coverage SIZE: $coverage ${RESET}"
@@ -35,7 +35,7 @@ compress_decompress_and_generate_report() {
                 echo -n "$out_compressed," >> $report 
                 echo -n "$(tail -n 1 output.txt)," >> $report
                 #decompress
-                ../compressor/./main $out_compressed $out_descompressed  d $coverage > output.txt
+                ../compressor/./main $out_compressed.dcx $out_descompressed  d $coverage > output.txt
                 echo "$(tail -n 1 output.txt)" >> $report
                 rm output.txt
         done
