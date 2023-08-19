@@ -36,5 +36,6 @@ void ua_free(uarray* A);
 
 void ua_put(uarray* A, u64 pos, u64 value);
 u64 ua_get(uarray* A, u64 pos);
+void ua_print(uarray* A);
 
 #endif
