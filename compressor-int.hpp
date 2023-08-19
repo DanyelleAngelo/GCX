@@ -22,9 +22,9 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int ruleSize);
  * 
  * @param header armazena quantidade de níveis e número de regras por nível da gramática
  * @param levels número de níveis
- * @param coverage tamanho das regras na gramática
+ * @param mod tamanho das regras na gramática
  */
-void grammarInfo(uint32_t *header, int levels, int coverage);
+void grammarInfo(uint32_t *header, int levels, int mod);
 
 /**
  * @brief realiza a compactação do texto por meio de sucessivas chamadas recursivas, onde são geradas regras que codificam o texto.
@@ -34,11 +34,11 @@ void grammarInfo(uint32_t *header, int levels, int coverage);
  * @param textSize tamanho do texto
  * @param fileName nome do arquivo onde são gravadas as regras geradas a cada nível
  * @param level nível atual
- * @param coverage tamanho das tuplas do texto
+ * @param mod tamanho das tuplas do texto
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
  * @param sigma armazena o tamanho do alfabeto a ser usado nesse nível (é a quantidade de regras do nível anterior.)
  */
-void compress(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileName, int level, int coverage, vector<uint32_t> &header, uint32_t sigma);
+void encode(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileName, int level, int mod, vector<uint32_t> &header, uint32_t sigma);
 
 /**
  * @brief Ler e decodifica arquivo nível por nível
@@ -46,9 +46,9 @@ void compress(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fil
  * @param compressedFile arquivo compactado
  * @param decompressedFile arquivo onde deve ser gravado o resultado da descompactação
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
- * @param coverage tamanho das tuplas do texto
+ * @param mod tamanho das tuplas do texto
  */
-void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int coverage);
+void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int mod);
 
 /**
  * @brief Cria e abre o arquivo para gravar as informações da gramática, e em seguida grava o símbolo inicial.
@@ -70,7 +70,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
  * @param fileName arquivo onde as regras devem ser salvas
  * @param level indica o nível em que as regras foram geradas.
  */
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level, int32_t qtyRules, int32_t sigma);
+void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int mod, int level, int32_t qtyRules, int32_t sigma);
 
 /**
  * @brief Decodifica o texto reduzido em determinado nível da gramática
@@ -78,9 +78,9 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
  * @param uText conteúdo compactado lido do arquivo de entrado
  * @param xs texto reduzido a ser decodificado, ao final conterá o símbolo já decodficado
  * @param xsSize tamanho do símbolo a ser decodificado (ao final, conterá o tamanho do símbolo já decodificado)
- * @param coverage tamanho das tuplas do texto
+ * @param mod tamanho das tuplas do texto
  */
-void decodeSymbol(uarray *rules, uint32_t *xs, int32_t &xsSize, int coverage);
+void decodeSymbol(uarray *rules, uint32_t *&xs, int32_t &xsSize, int mod);
 
 /**
  * @brief abre o arquivo de saída e grava o texto decodificado
@@ -89,8 +89,8 @@ void decodeSymbol(uarray *rules, uint32_t *xs, int32_t &xsSize, int coverage);
  * @param xs texto codificado
  * @param xsSize tamanho de xs
  * @param rules regras do último nível da recursão
- * @param coverage tamanho das tuplas do texto
+ * @param mod tamanho das tuplas do texto
  */
-void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned char *rules, int coverage);
+void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned char *rules, int mod);
 
 #endif
