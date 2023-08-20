@@ -1,0 +1,11 @@
+
+[0;32m%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original downloaded version[0m.
+rm -rf *.o main
+g++ -c uarray.c -o uarray.o -Wall -std=c++14 -O3
+g++ -c compressor.cpp -o compressor.o -Wall -std=c++14 -O3 
+g++ -c compressor-int.cpp -o compressor-int.o -Wall -std=c++14 -O3
+g++ -c main.cpp -o main.o  -Wall -std=c++14 -O3
+g++ -o main uarray.o compressor.o compressor-int.o main.o  -Wall -std=c++14 -O3
+
+[34m####### FILE: proteins.001.1 coverage SIZE: 3 [0m
+rm -rf *.o main
