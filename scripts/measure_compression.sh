@@ -11,7 +11,7 @@ FILE_PATHS=$(cat ../file_names.txt)
 PIZZA_URL="http://pizzachili.dcc.uchile.cl/repcorpus"
 EXECUTABLE="../compressor/./main"
 
-formatted_date=$(date +"%Y-%m-%d_%H-%M-%S")
+formatted_date=$(date +"%Y-%m-%d_%H-%M")
 
 check_and_create_folder() {
     echo -e "\n\n${GREEN}%%% Creating directories for files in case don't exist ${RESET}."
