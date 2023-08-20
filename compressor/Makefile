@@ -1,6 +1,6 @@
 CC=g++
 FLAGS_DEBUG=-g -fsanitize=address
-FLAGS=-Wall -std=c++14 $(FLAGS_DEBUG)
+FLAGS=-Wall -std=c++14 -O3
 MACROS:= DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0
 
 all: fraenkel
