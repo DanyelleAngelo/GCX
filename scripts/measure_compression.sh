@@ -1,11 +1,6 @@
 #!/bin/bash
 REPORT_DIR="../report"
 
-source validate_compress_decompress.sh
-
-if [ ! -d "$REPORT_DIR" ]; then
-    mkdir -p "$REPORT_DIR"
-fi
 GREEN='\033[0;32m'
 BLUE='\033[34m'
 RESET='\033[0m'
@@ -25,6 +20,9 @@ check_and_create_folder() {
     fi
     if [ ! -d "$COMPRESSED_DIR" ]; then
         mkdir -p "$COMPRESSED_DIR"
+    fi
+    if [ ! -d "$REPORT_DIR" ]; then
+        mkdir -p "$REPORT_DIR"
     fi
 }
 
@@ -46,6 +44,7 @@ download_files() {
         fi
     done
 }
+
 compress_decompress_and_generate_report() {
     echo -e "\n${GREEN}%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original downloaded version${RESET}."
 
@@ -106,10 +105,10 @@ python_setup_and_generate_graphs() {
     python3 report.py ../$report ../gcis_result.csv
 }
 
-check_and_create_folder
-download_files
-compress_decompress_and_generate_report
 
-#if [ "$0" = "$BASH_SOURCE" ]; then
+if [ "$0" = "$BASH_SOURCE" ]; then
+    check_and_create_folder
+    download_files
+    compress_decompress_and_generate_report
 #   python_setup_and_generate_graphs
-#fi
+fi
