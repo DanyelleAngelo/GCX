@@ -131,6 +131,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
     fwrite(&header[0], sizeof(uint32_t), header.size(), file);
     size_t numElements = (encodedSymbol->n * encodedSymbol->b/64) + 1;
     fwrite(encodedSymbol->V, sizeof(u64), numElements, file);
+    ua_free(encodedSymbol);
     fclose(file);
 }
 
@@ -161,6 +162,7 @@ void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_
         fwrite(encodedSymbol->V, sizeof(u64), numElements, file);
     }
 
+    ua_free(encodedSymbol);
     fclose(file);
     if(fileReport != NULL)fclose(fileReport);
 }
