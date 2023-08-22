@@ -1,0 +1,2 @@
+file,coverage,peak_comp,stack_comp,compression_time,peak_decomp,stack_decomp,decompression_time,compressed_size,plain_size
+dblp.xml.0001.1,3,947402690,6291456,18,96,350054088,6291456, 0,92,17290668,104857600

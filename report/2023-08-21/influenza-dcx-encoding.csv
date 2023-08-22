@@ -1,0 +1,2 @@
+file,coverage,peak_comp,stack_comp,compression_time,peak_decomp,stack_decomp,decompression_time,compressed_size,plain_size
+influenza,3,1397814436,6291456,16,44,516716752,6291456, 1,48,24786827,154808555
