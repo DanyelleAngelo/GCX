@@ -1,7 +1,7 @@
 CC=g++
 
-FLAGS_DEBUG=-g -fsanitize=address
-FLAGS=-Wall -std=c++14 -O3 -I../external/malloc_count
+FLAGS_DEBUG=-g -fsanitize=address -Wall
+FLAGS=-std=c++14 -O3 -I../external/malloc_count
 
 LIBS=-ldl
 MACROS:= DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0
