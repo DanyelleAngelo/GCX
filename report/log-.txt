@@ -1,0 +1,148 @@
+
+
+[0;32m%%% Creating directories for files in case don't exist [0m.
+
+[0;32m%%% Download files from a list, then descompress the files and remove the compressed files.[0m.
+
+[34m  % http://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/proteins.001.1.gz [0m
+
+[34m  % http://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/dblp.xml.0001.1.gz [0m
+
+[34m  % http://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/dna.001.1.gz [0m
+
+[34m  % http://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/sources.001.2.gz [0m
+
+[34m  % http://pizzachili.dcc.uchile.cl/repcorpus/real/cere.gz [0m
+
+[34m  % http://pizzachili.dcc.uchile.cl/repcorpus/real/influenza.gz [0m
+
+[0;32m%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original version[0m.
+make: Entering directory '/home/dany/Documents/DCX-Danyelle/GCIS/compressor'
+rm -rf *.o main
+make: Leaving directory '/home/dany/Documents/DCX-Danyelle/GCIS/compressor'
+make: Entering directory '/home/dany/Documents/DCX-Danyelle/GCIS/compressor'
+g++ -c ../external/malloc_count/malloc_count.c -o malloc_count.o -Wall -std=c++14 -O3 -I../external/malloc_count -ldl
+make: Leaving directory '/home/dany/Documents/DCX-Danyelle/GCIS/compressor'
+
+[34m####### FILE: proteins.001.1, COVERAGE: 3 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 4 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 5 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 6 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 7 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 8 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 9 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 15 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 30 [0m
+
+[34m####### FILE: proteins.001.1, COVERAGE: 60 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 3 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 4 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 5 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 6 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 7 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 8 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 9 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 15 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 30 [0m
+
+[34m####### FILE: dblp.xml.0001.1, COVERAGE: 60 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 3 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 4 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 5 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 6 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 7 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 8 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 9 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 15 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 30 [0m
+
+[34m####### FILE: dna.001.1, COVERAGE: 60 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 3 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 4 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 5 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 6 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 7 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 8 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 9 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 15 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 30 [0m
+
+[34m####### FILE: sources.001.2, COVERAGE: 60 [0m
+
+[34m####### FILE: cere, COVERAGE: 3 [0m
+
+[34m####### FILE: cere, COVERAGE: 4 [0m
+
+[34m####### FILE: cere, COVERAGE: 5 [0m
+
+[34m####### FILE: cere, COVERAGE: 6 [0m
+
+[34m####### FILE: cere, COVERAGE: 7 [0m
+
+[34m####### FILE: cere, COVERAGE: 8 [0m
+
+[34m####### FILE: cere, COVERAGE: 9 [0m
+
+[34m####### FILE: cere, COVERAGE: 15 [0m
+
+[34m####### FILE: cere, COVERAGE: 30 [0m
+
+[34m####### FILE: cere, COVERAGE: 60 [0m
+
+[34m####### FILE: influenza, COVERAGE: 3 [0m
+
+[34m####### FILE: influenza, COVERAGE: 4 [0m
+
+[34m####### FILE: influenza, COVERAGE: 5 [0m
+
+[34m####### FILE: influenza, COVERAGE: 6 [0m
+
+[34m####### FILE: influenza, COVERAGE: 7 [0m
+
+[34m####### FILE: influenza, COVERAGE: 8 [0m
+
+[34m####### FILE: influenza, COVERAGE: 9 [0m
+
+[34m####### FILE: influenza, COVERAGE: 15 [0m
+
+[34m####### FILE: influenza, COVERAGE: 30 [0m
+
+[34m####### FILE: influenza, COVERAGE: 60 [0m
+make: Entering directory '/home/dany/Documents/DCX-Danyelle/GCIS/compressor'
+rm -rf *.o main
+make: Leaving directory '/home/dany/Documents/DCX-Danyelle/GCIS/compressor'
