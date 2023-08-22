@@ -8,3 +8,4 @@ large_text.txt
 dataset/*
 *__pycache__*
 main
+external/malloc_count
