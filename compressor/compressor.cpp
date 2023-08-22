@@ -54,7 +54,6 @@ void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t &sig
     sigma = (sigma < ASCII_SIZE + coverage) ? ASCII_SIZE +coverage : sigma+coverage;
     uint32_t *bucket =(uint32_t*) calloc(sigma, sizeof(uint32_t));
 
-
     for(int d= coverage-1; d >=0; d--) {
         for(int i=0; i < sigma;i++)bucket[i]=0;//TODO
         for(int i=0; i < nTuples; i++) bucket[uText[tuples[i] + d]+1]++; 
