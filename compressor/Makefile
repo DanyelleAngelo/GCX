@@ -4,7 +4,7 @@ FLAGS_DEBUG=-g -fsanitize=address -Wall
 FLAGS=-std=c++14 -O3 -I../external/malloc_count
 
 LIBS=-ldl
-MACROS:= DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0
+MACROS:= D_EXTRACT=0 DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0
 
 all: fraenkel
 
@@ -28,8 +28,11 @@ ifeq ($(MODE), d)
 	cmp $(FILE_OUT) $(ORIGINAL) 
 else ifeq ($(MODE), c)
 	./main $(FILE_IN) $(FILE_OUT) c $(COVERAGE)
-else
-	./main $(FILE_IN) $(COMPRESSED_FILE) e $(COVERAGE)
+else ifeq ($(MODE), e)
+	./main $(FILE_IN) $(FILE_OUT) e $(COVERAGE) $(l) $(r)
+	python3 ../utils/extract.py $(ORIGINAL) extract_temp.txt $(l) $(r)
+	diff extract_temp.txt $(FILE_OUT)
+	rm extract_temp.txt
 endif
 
 clean:
