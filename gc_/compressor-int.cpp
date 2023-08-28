@@ -134,8 +134,8 @@ void extract(char *fileIn, char *fileOut, int32_t l, int32_t r, int coverage){
     start_node = l/n_nodes;
     end_node = r/n_nodes;
     xsSize = end_node - start_node + 1;
-    int32_t l2 = (l/n_nodes > 0) ? l%n_nodes : l;
-    int32_t r2 = (r/n_nodes == 0) ? r%n_nodes : r;
+    int32_t l2 = l%n_nodes;
+    int32_t r2 = r;
 
     xs = (uint32_t*)calloc(xsSize, sizeof(uint32_t));
     for(int i=start_node, j=0; j < xsSize; i++) {
@@ -283,8 +283,8 @@ void searchInterval(FILE *compressedFile, unsigned char *&plainTxt, uint32_t *xs
         end_node = r/n_nodes;
         size = end_node - start_node + 1;
         //update range of text for next level
-        l = (start_node > 0) ? l%n_nodes : l;
-        r = (end_node == 0) ? r%n_nodes : r;
+        l = l%n_nodes;
+        //r = (end_node == 0) ? r%n_nodes : r;
         xsSize = size;
 
         //updating Xs
