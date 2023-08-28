@@ -29,14 +29,24 @@ int main(int argc, char *argv[]) {
                 "\t\tSize of rules\n"  << endl;
         exit(EXIT_FAILURE);
     }
+    if(argv[3][0] == 'e' && argc < 7) {
+        cout << "\n\x1b[31m[ERROR]\x1b[0m  Number of invalid arguments! \n" <<
+                "\tTo perform the extract, you need to provide the interval [l,r].\n"  << endl;
+        exit(EXIT_FAILURE);
+    }
 
     clock_t start, finish;
+    int32_t l=0, r=0;
     char op = argv[3][0];
     int ruleSize = atoi(&argv[4][0]);
+    if(op == 'e') {
+        l = atoi(&argv[5][0]);
+        r = atoi(&argv[6][0]);
+    }
     void* base = stack_count_clear();
 
     start = clock();
-    grammarInteger(argv[1], argv[2], op, ruleSize);
+    grammarInteger(argv[1], argv[2], op, l, r, ruleSize);
     finish = clock();
 
     double duration = (double)(finish - start) / CLOCKS_PER_SEC;
