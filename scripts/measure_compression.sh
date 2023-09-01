@@ -90,6 +90,20 @@ dcx_generate_report() {
             echo -n $(stat -f%z  "$out_compressed.dcx")"," >> $report
             echo  $(stat -f%z  "$in_plain") >> $report
         done
+	output_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}
+	#CODEC = elias-fano
+	./../external/gc-is-codec -c $in_plain "$output_file-gcis-ef" -ef
+	./../external/gc-is-codec -d "$output_file-gcis-ef" "$output_file-gcis-ef-plain" -ef
+	echo -n "${file_name[1]}-gcis-ef, 0, 0, 0, 0, 0,0, 0," >> $report
+	echo -n $(stat -f%z "$output_file-gcis-ef")"," >> $report
+	echo $(stat -f%z "$in_plain") >> $report
+	#CODEC = Simple8b	
+	./../external/gc-is-codec -c $in_plain "$output_file-gcis-s8b" -s8b	
+	./../external/gc-is-codec -d "$output_file-gcis-s8b" "$output_file-gcis-s8b-plain" -s8b
+	echo -n "${file_name[1]}-gcis-s8b, 0, 0, 0, 0, 0,0, 0," >> $report
+	echo -n $(stat -f%z "$output_file-gcis-ef")"," >> $report
+	echo -n $(stat -f%z "$output_file-gcis-s8b")"," >> $report
+	echo $(stat -f%z "$in_plain") >> $report
     done
     make clean -C ../compressor/
 }
