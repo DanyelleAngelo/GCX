@@ -1,3 +1,6 @@
 [submodule "external/malloc_count"]
 	path = external/malloc_count
 	url = https://github.com/bingmann/malloc_count
+[submodule "external/GCIS"]
+	path = external/GCIS
+	url = https://github.com/danielsaad/GCIS.git
