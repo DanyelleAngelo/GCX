@@ -11,7 +11,7 @@ REPORT_DIR="../report"
 PIZZA_DIR="../dataset/pizza_chilli"
 COMPRESSED_DIR="../dataset/compressed_files"
 
-GENERAL_REPORT="$REPORT_DIR/$CURRENT_DATE-general-report.csv"
+GENERAL_REPORT="$REPORT_DIR/$CURRENT_DATE-general-report-errors.csv"
 FILE_PATHS=$(cat ../file_names.txt)
 HEADER="file,coverage,peak_comp,stack_comp,compression_time,peak_decomp,stack_decomp,decompression_time,compressed_size,plain_size" 
 
@@ -59,6 +59,17 @@ validate_compression_and_decompression() {
     fi 
 }
 
+gcis_generate_report() {
+    CODEC=$1
+    PLAIN=$2
+    OUTPUT=$3
+    REPORT=$4
+    ./../external/gc-is-codec -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC"
+	./../external/gc-is-codec -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC"
+	echo -n $(stat -c %s "$OUTPUT-gcis-$CODEC")"," >> "$REPORT"
+	echo $(stat -c %s "$PLAIN") >> "$REPORT"
+}
+
 dcx_generate_report() {
     echo -e "\n${GREEN}%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original version${RESET}."
 
@@ -90,19 +101,13 @@ dcx_generate_report() {
             echo -n $(stat -c %s  "$out_compressed.dcx")"," >> $report
             echo  $(stat -c %s  "$in_plain") >> $report
         done
-	output_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
-	#CODEC = elias-fano
-	./../external/gc-is-codec -c $in_plain "$output_file-gcis-ef" -ef
-	./../external/gc-is-codec -d "$output_file-gcis-ef" "$output_file-gcis-ef-plain" -ef
-	echo -n "${file_name[1]}-gcis-ef, 0, 0, 0, 0, 0,0, 0," >> $report
-	echo -n $(stat -c %s "$output_file-gcis-ef")"," >> $report
-	echo $(stat -c %s "$in_plain") >> $report
-	#CODEC = Simple8b	
-	./../external/gc-is-codec -c $in_plain "$output_file-gcis-s8b" -s8b	
-	./../external/gc-is-codec -d "$output_file-gcis-s8b" "$output_file-gcis-s8b-plain" -s8b
-	echo -n "${file_name[1]}-gcis-s8b, 0, 0, 0, 0, 0,0, 0," >> $report
-	echo -n $(stat -c %s "$output_file-gcis-s8b")"," >> $report
-	echo $(stat -c %s "$in_plain") >> $report
+	    output_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
+	    #CODEC = elias-fano
+	    echo -n "${file_name[1]}-gcis-ef,0," >> $report
+        gcis_generate_report "ef" "$in_plain" "$output_file" "$report"
+	    #CODEC = Simple8b
+	    echo -n "${file_name[1]}-gcis-s8b,0," >> $report
+        gcis_generate_report "s8b" "$in_plain" "$output_file" "$report"
     done
     make clean -C ../compressor/
 }

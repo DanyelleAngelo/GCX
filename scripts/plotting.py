@@ -14,18 +14,19 @@ def plot_text(file_names, results,va_pos, ha_pos):
     for i in range(len(file_names)):
         plt.text(file_names[i], results[i], str(results[i]), ha=ha_pos, va=va_pos, fontsize=8, weight='bold')
 
-def generate_line_chart(file_names, results_gcis, results_dcx, information):
+def generate_line_chart(file_names, results_dcx, results_gcis, information):
     col = information['col']
     plt.figure(figsize=(10,8))
 
-    plt.plot(file_names, results_gcis[col], marker='o', markersize=4, linestyle='--', label="GCIS")
-    plot_text(file_names, results_gcis[col], 'top', 'left')
+    #plt.plot(results_dcx[col],results_gcis[col], marker='o', markersize=4, linestyle='--', label="GCIS")
+    #plot_text(file_names, results_gcis[col], 'top', 'left')
 
-    plt.plot(file_names, results_dcx[col], marker='s', markersize=4, linestyle=':', label="DCX")
-    plot_text(file_names, results_dcx[col], 'bottom', 'left')
+    #plt.plot(file_names, results_dcx[col], marker='s', markersize=4, linestyle=':', label="DCX")
+    #plot_text(file_names, results_dcx[col], 'bottom', 'left')
 
-    customize_chart(information['y_label'], information['title'])
-    plt.savefig(information['output_file'])
+    #customize_chart(information['y_label'], information['title'])
+    plt.show()
+    #plt.savefig(information['output_file'])
 
 def generate_bar_chart(file_names, results_gcis, results_dcx, information):
     col = information['col']
