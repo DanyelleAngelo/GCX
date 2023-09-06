@@ -2,8 +2,7 @@
 GREEN='\033[0;32m'
 BLUE='\033[34m'
 RESET='\033[0m'
-CURRENT_DATE="2023-09-05-macbook"
-#$(date +"%Y-%m-%d")
+CURRENT_DATE=$(date +"%Y-%m-%d")
 
 #url to download the files
 PIZZA_URL="http://pizzachili.dcc.uchile.cl/repcorpus"
