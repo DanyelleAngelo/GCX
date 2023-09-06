@@ -2,7 +2,8 @@
 GREEN='\033[0;32m'
 BLUE='\033[34m'
 RESET='\033[0m'
-CURRENT_DATE=$(date +"%Y-%m-%d")
+CURRENT_DATE="2023-09-05-macbook"
+#$(date +"%Y-%m-%d")
 
 #url to download the files
 PIZZA_URL="http://pizzachili.dcc.uchile.cl/repcorpus"
@@ -136,7 +137,7 @@ run_extract() {
         extract_dir="$REPORT_DIR/$CURRENT_DATE/extract/${file_name[1]}"
         report="$REPORT_DIR/$CURRENT_DATE/${file_name[1]}-dcx-extract.csv"
 
-        #python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
+        python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
 
         echo "alg,substring_size,peak,stack,time" > $report;
         compressed_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
@@ -172,9 +173,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    check_and_create_folder
-    download_files
-    dcx_generate_report
+#    check_and_create_folder
+#    download_files
+#    dcx_generate_report
     run_extract
 #    generate_graphs
 fi
