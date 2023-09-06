@@ -42,6 +42,7 @@ check_and_create_folder() {
     if [ ! -d "$REPORT_DIR/$CURRENT_DATE" ]; then
         mkdir -p "$REPORT_DIR/$CURRENT_DATE"
         mkdir -p "$COMPRESSED_DIR/$CURRENT_DATE/extract"
+        mkdir -p "$COMPRESSED_DIR/$CURRENT_DATE/graphs"
     fi
 }
 
@@ -155,23 +156,25 @@ run_extract() {
 
 }
 
-python_setup_and_generate_graphs() {
-    libraries="pandas matplotlib"
-    for lib in $libraries; do
-        if ! python3 -c "import $lib" &> /dev/null; then
-            echo -e "\n${GREEN}%%%Installing $lib library${RESET}."
-            pip3 install $lib
-        fi
-    done
+generate_graphs() {
+    echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-    echo -e "\n${GREEN}%%% Generates comparison charts between GCIS and DCX.${RESET}\n"
-    python3 report.py ../$report ../gcis_result.csv
+    for plain_file in $FILE_PATHS; do
+        IFS="/" read -ra file_name <<< "$plain_file"
+        in_plain="$PIZZA_DIR/${file_name[1]}"
+        report="$REPORT_DIR/$CURRENT_DATE/${file_name[1]}-dcx-encoding.csv"
+
+        echo -e "\n\tGenerate graphs for ${file_name[1]}"
+
+        python3 report.py "$report" "$REPORT_DIR/$CURRENT_DATE/graphs"
+    done
+    echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-#    check_and_create_folder
-#    download_files
-#    dcx_generate_report
+    check_and_create_folder
+    download_files
+    dcx_generate_report
     run_extract
-#   python_setup_and_generate_graphs
+#    generate_graphs
 fi
