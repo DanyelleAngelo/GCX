@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import constants as cons
 
-colors=['palegreen', 'orange', 'red', 'red', 'red']
+colors=['purple', 'brown', 'gray', 'cyan', 'magenta', 'lime', 'olive', 'teal', 'navy', 'black', 'yellow']
 
 def customize_chart(y_label, title):
     plt.xlabel("Variações de cobertura para o DCX.")
@@ -33,5 +34,29 @@ def generate_chart(file_names, results_dcx, results_gcis, information, output_di
     max_value = max(max(results_gcis[col]), max(results_dcx[col]))
     plt.ylim(0, max_value + 10)
 
+    file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
+    plt.savefig(file)
+
+def generate_memory_chart(file_names, results_dcx, results_gcis, information, output_dir):
+    plt.figure(figsize=(10,8))
+
+    indexes = np.arange(len(cons.COVERAGE))
+    width_bar = 0.2
+
+    plt.bar(indexes - width_bar, results_dcx[information['peak']], label='DCX - Peak', width=width_bar, align='center')
+    plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center')
+
+    i=0
+    for index, row in results_gcis.iterrows():
+        codec = index.split("-")[2].upper()
+        plt.axhline(y=row[information['peak']], linestyle=cons.LINE_STYLE[i], color=colors[i], label=f"GCIS {codec} - peak")
+        i+=1
+        plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=colors[i], label=f"GCIS {codec} - stack")
+        i+=1
+
+
+    customize_chart(information['y_label'], f"{information['title']} {results_dcx.index[0].upper()}")
+    plt.xticks(indexes, cons.COVERAGE)
+ 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)

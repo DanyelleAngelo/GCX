@@ -31,9 +31,10 @@ def main(argv):
     results_gcis = results_dcx[results_dcx.index.str.contains('gcis')]
     results_dcx = results_dcx.drop(results_gcis.index)
 
-    plt.generate_chart(file_names, results_dcx, results_gcis, constants.COMPRESSION_INFO, output_dir)
-    plt.generate_chart(file_names, results_dcx, results_gcis, constants.DECOMPRESSION_INFO, output_dir)
+    plt.generate_chart(file_names, results_dcx, results_gcis, constants.COMPRESSION_TIME, output_dir)
+    plt.generate_chart(file_names, results_dcx, results_gcis, constants.DECOMPRESSION_TIME, output_dir)
     plt.generate_chart(file_names, results_dcx, results_gcis, constants.RATIO_INFO, output_dir)
+    plt.generate_memory_chart(file_names, results_dcx, results_gcis, constants.MEMORY_USAGE[0], output_dir)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
