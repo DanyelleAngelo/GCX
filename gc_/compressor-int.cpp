@@ -145,18 +145,20 @@ void extract(char *fileIn, char *fileOut, int32_t l, int32_t r, int coverage){
 
     searchInterval(compressedFile, plainTxt, xs, header, xsSize, txtSize, l2, r2, coverage);
     
-    #if D_EXTRACT == 1
+    #if SCREEN_OUTPUT == 1
         int msgSize = snprintf(NULL, 0, "The size of the substring[%d,%d] is: ",l,r);
         char msg[msgSize+1];
         snprintf(msg,msgSize+1, "The size of the substring[%d,%d] is: ",l,r);
         print(plainTxt, txtSize, msg);
     #endif
 
-    FILE*  fileOutput = fopen(fileOut,"w");
-    isFileOpen(fileOutput, "An error occurred while opening the compressed file.");
-    fwrite(&plainTxt[0], sizeof(char), txtSize, fileOutput);
-    free(plainTxt);
-    fclose(fileOutput);
+    #if FILE_OUTPUT == 1
+        FILE*  fileOutput = fopen(fileOut,"w");
+        isFileOpen(fileOutput, "An error occurred while opening the compressed file.");
+        fwrite(&plainTxt[0], sizeof(char), txtSize, fileOutput);
+        free(plainTxt);
+        fclose(fileOutput);
+    #endif
 }
 
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &header) {
