@@ -173,8 +173,8 @@ generate_graphs() {
 
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
-#    download_files
-#    dcx_generate_report
-#    run_extract
+    download_files
+    dcx_generate_report
+    run_extract
     generate_graphs
 fi
