@@ -1,8 +1,8 @@
 CC=g++
 
 FLAGS_DEBUG=-g -fsanitize=address -Wall
-FLAGS=-std=c++14 -O3 -I../external/malloc_count
-
+FLAGS=-std=c++14 -I../external/malloc_count $(FLAGS_DEBUG)
+#-O3
 LIBS=-ldl
 MACROS:= D_EXTRACT=0 DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0 SCREEN_OUTPUT=0 FILE_OUTPUT=0
 
@@ -37,3 +37,8 @@ endif
 
 clean:
 	rm -rf *.o main
+ifeq ($(shell uname -s),Darwin)
+	if [ -d "main.dSYM" ]; then\
+		rm -R main.dSYM;\
+	fi
+endif

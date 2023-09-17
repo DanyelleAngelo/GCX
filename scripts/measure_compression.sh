@@ -21,6 +21,7 @@ GCIS_EXECUTABLE_PATH="../../GCIS/build/src/./gc-is-codec"
 os_name=$(uname -s)
 if [ "$os_name" = "Darwin" ]; then
     stat_options="-f %z"
+    CURRENT_DATE="$CURRENT_DATE-mac"
 else
     stat_options="-c %s"
 fi
