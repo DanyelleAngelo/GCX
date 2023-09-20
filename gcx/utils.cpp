@@ -30,9 +30,9 @@ int padding(i32 textSize, int coverage){
     return 0;
 }
 
-void radixSort(i32 *text, i32 nTuples, i32 *tuples, i32 sigma, int coverage){
+void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
     i32 *tupleIndexTemp = (i32*) calloc(nTuples, sizeof(i32));
-    
+
     for(int i=0, j=0; i < nTuples; i++, j+=coverage)tuples[i] = j;
     i32 *bucket =(i32*)malloc(sigma*sizeof(i32));
 
@@ -68,9 +68,6 @@ void createLexNames(i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int n
     }
 
     qtyRules = name;
-    #if DEBUG == 1
-        printf("## Número de trincas %d, quantidade de trincas únicas: %d.\n", nTuples, qtyRules);
-    #endif
 }
 
 void generateReport(char *fileName, double duration, void *base) {

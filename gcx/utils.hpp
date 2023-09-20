@@ -48,7 +48,7 @@ int padding(i32 textSize, int coverage);
  * @param sigma tamanho do alfabeto
  * @param coverage tamanho das tuplas do texto
  */
-void radixSort(i32 *text, i32 nTuples, i32 *tuples, i32 sigma, int coverage); 
+void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage); 
 
 /**
  * @brief cria lex-names para cada tupla ordenada do texto.
