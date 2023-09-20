@@ -1,0 +1,7 @@
+../dataset/pizza_chilli/dna.001.1 and ../dataset/compressed_files/2023-10-20/dna.001.1-dc128-plain are different.
+../dataset/pizza_chilli/cere and ../dataset/compressed_files/2023-10-20/cere-dc32-plain are different.
+../dataset/pizza_chilli/cere and ../dataset/compressed_files/2023-10-20/cere-dc64-plain are different.
+../dataset/pizza_chilli/cere and ../dataset/compressed_files/2023-10-20/cere-dc128-plain are different.
+../dataset/pizza_chilli/influenza and ../dataset/compressed_files/2023-10-20/influenza-dc32-plain are different.
+../dataset/pizza_chilli/influenza and ../dataset/compressed_files/2023-10-20/influenza-dc64-plain are different.
+../dataset/pizza_chilli/influenza and ../dataset/compressed_files/2023-10-20/influenza-dc128-plain are different.

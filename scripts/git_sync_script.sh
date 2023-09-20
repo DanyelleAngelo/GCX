@@ -2,7 +2,7 @@
 
 source measure_compression.sh
 
-report_execution=$REPORT_DIR/log-$CUR_DATE.txt
+report_execution=$REPORT_DIR/log-$CURR_DATE.txt
 
 check_and_create_folder | tee -a "$report_execution"
 download_files | tee -a "$report_execution"
