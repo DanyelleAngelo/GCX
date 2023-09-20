@@ -4,7 +4,6 @@
 #include <cstring>
 #include <math.h>
 
-#define ASCII_SIZE 255
 
 using namespace std;
 
@@ -46,12 +45,10 @@ void readPlainText(char *fileName, unsigned char *&text, int32_t &textSize, int 
     fclose(file);
 }
 
-void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t &sigma, int coverage){
+void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t sigma, int coverage){
     uint32_t *tupleIndexTemp = (uint32_t*) calloc(nTuples, sizeof(uint32_t));
     
     for(int i=0, j=0; i < nTuples; i++, j+=coverage)tuples[i] = j;
-
-    sigma = (sigma < ASCII_SIZE + coverage) ? ASCII_SIZE +coverage : sigma+coverage;
     uint32_t *bucket =(uint32_t*) calloc(sigma, sizeof(uint32_t));
 
     for(int d= coverage-1; d >=0; d--) {
@@ -83,8 +80,12 @@ void createLexNames(uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t &
             }
         }
 
-        if(equal)rank[tuples[i]/coverage] = name;
-        else rank[tuples[i]/coverage] = ++name;
+        if(equal) {
+            rank[tuples[i]/coverage] = name;
+        }
+        else {
+            rank[tuples[i]/coverage] = ++name;
+        }
     }
 
     qtyRules = name;

@@ -8,9 +8,9 @@
 
 using namespace std;
 
+#define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
-
-void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, int ruleSize) {
+void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, int coverage) {
     uint32_t *uText = nullptr;
     int32_t textSize;
     switch (op){
@@ -19,30 +19,36 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, 
             unsigned char *text;
             cout << "\n\n\x1b[32m>>>> Encode <<<<\x1b[0m\n";
 
-            readPlainText(fileIn, text, textSize, ruleSize);
+            readPlainText(fileIn, text, textSize, coverage);
             uText = (uint32_t*)calloc(textSize,sizeof(uint32_t));
             if(uText == NULL)exit(EXIT_FAILURE);
             for(int i=0; i < textSize; i++)uText[i] = (uint32_t)text[i];
-            compress(text, uText,textSize, strcat(fileOut, ".dcx"), 0, ruleSize, header, 0);
+            
+            int32_t nTuples = textSize/coverage;
+            uint32_t *tuples = (uint32_t*) malloc(nTuples * sizeof(uint32_t));
+            uint32_t *rank = (uint32_t*) calloc(nTuples+ padding(nTuples, coverage), sizeof(uint32_t));
+            compress(text, uText, tuples, textSize, strcat(fileOut, ".dcx"), 0, coverage, header, ASCII_SIZE);
 
             uint32_t levels = header.at(0);
-            grammarInfo(header.data(), levels, ruleSize);
+            grammarInfo(header.data(), levels, coverage);
 
             free(text);
+            free(rank);
+            free(tuples);
             break;
         }
         case 'd': {
             uint32_t* header=nullptr;
             cout << "\n\n\x1b[32m>>>> Decode <<<<\x1b[0m\n";
 
-            decode(fileIn, fileOut, header,  ruleSize);
+            decode(fileIn, fileOut, header,  coverage);
             uint32_t levels = header[0];
-            grammarInfo(header, levels, ruleSize);
+            grammarInfo(header, levels, coverage);
             break;
         }
         case 'e': {
             cout << "\n\n\x1b[32m>>>> Extract T[" << l <<"," << r << "]<<<<\x1b[0m\n";
-            extract(fileIn, fileOut, l, r, ruleSize);
+            extract(fileIn, fileOut, l, r, coverage);
             break;
         }
         default: {
@@ -68,25 +74,33 @@ void grammarInfo(uint32_t *header, int levels, int coverage) {
     }
 }
 
-void compress(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileName, int level, int coverage, vector<uint32_t> &header, uint32_t sigma){
+void compress(unsigned char *text0, uint32_t *uText, uint32_t *tuples, int32_t textSize, char *fileName, int level, int coverage, vector<uint32_t> &header, uint32_t sigma){
     int32_t nTuples = textSize/coverage, qtyRules=0;
     int32_t reducedSize =  nTuples + padding(nTuples, coverage);
     uint32_t *rank = (uint32_t*) calloc(reducedSize, sizeof(uint32_t));
-    uint32_t *tuples = (uint32_t*) calloc(nTuples, sizeof(uint32_t));
 
+    uarray *encdIntRules = nullptr;
+    unsigned char *leafRules = nullptr;
+
+    sigma+=coverage;
     radixSort(uText, nTuples, tuples, sigma, coverage);
     createLexNames(uText, tuples, rank, qtyRules, nTuples, coverage);
     header.insert(header.begin(), qtyRules);
+
+    if(level !=0)selectUniqueRules(uText, encdIntRules, tuples, rank, nTuples, coverage, level, qtyRules, sigma-coverage);
+    else selectUniqueRules(text0, leafRules, tuples, rank, nTuples, coverage, level, qtyRules);
+
     if(qtyRules < nTuples){
-        compress(text0, rank, reducedSize, fileName, level+1, coverage, header, qtyRules);
+        compress(text0, rank, tuples, reducedSize, fileName, level+1, coverage, header, qtyRules);
     }else {
         header.insert(header.begin(), level+1);
         storeStartSymbol(fileName, rank, header);
     }
-    storeRules(text0, uText, tuples, rank, nTuples, fileName, coverage, level, header, qtyRules);
+    storeRules(fileName, encdIntRules, leafRules, level, qtyRules*coverage);
 
+    if(encdIntRules != nullptr) ua_free(encdIntRules);
+    else if(leafRules != nullptr) free(leafRules);
     free(rank);
-    free(tuples);
 }
 
 void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int coverage) {
@@ -94,7 +108,6 @@ void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int
     isFileOpen(file, "An error occurred while opening the compressed file.");
 
     int32_t xsSize;
-    uint32_t chQty;
     uarray *xsEncoded = nullptr;
 
     getHeaderAndXs(file, header, xsEncoded, xsSize, coverage);
@@ -177,36 +190,49 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
     fclose(file);
 }
 
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level,vector<uint32_t> header, int32_t qtyRules){
-    FILE*  file= fopen(fileName,"ab"), *fileReport=nullptr;
-    isFileOpen(file, "An error occurred while opening the file for store rules.");
+void selectUniqueRules(unsigned char *text, unsigned char *&rules, uint32_t *tuples, uint32_t *rank, int32_t nTuples, int coverage, int level, i32 qtyRules) {
     int32_t lastRank = 0, n=0;
-    int32_t level_in_header = header[0]-level;
-    uarray *encodedSymbol = nullptr;
-    if(level !=0)encodedSymbol = ua_alloc(header[level_in_header]*coverage, ceil(log2(header[level_in_header+1]))+1);
+    rules = (unsigned char*)malloc(qtyRules*coverage*sizeof(unsigned char));
 
     for(int32_t i=0; i < nTuples; i++) {
         if(rank[tuples[i]/coverage] == lastRank)continue;
         lastRank = rank[tuples[i]/coverage];
 
-        if(level!=0) {
-            for(int k=0; k < coverage; k++){
-                ua_put(encodedSymbol, n++, uText[tuples[i]+k]);
-            }
-        } else {
-            fwrite(&text0[tuples[i]], sizeof(unsigned char), coverage, file);
+        for(int k=0; k < coverage; k++){
+            rules[n++] = text[tuples[i]+k];
         }
     }
+}
 
-    if(level != 0){
-        encodedSymbol->n = n;
-        size_t numElements = (encodedSymbol->n * encodedSymbol->b/64) + 1;
-        fwrite(encodedSymbol->V, sizeof(u64), numElements, file);
+void selectUniqueRules(uint32_t *text, uarray *&rules, uint32_t *tuples, uint32_t *rank, int32_t nTuples, int coverage, int level, i32 qtyRules, i32 sigma){
+    int32_t lastRank = 0, n=0;
+    rules = ua_alloc(qtyRules*coverage, ceil(log2(sigma))+1);
+
+    for(int32_t i=0; i < nTuples; i++) {
+        if(rank[tuples[i]/coverage] == lastRank)continue;
+        lastRank = rank[tuples[i]/coverage];
+
+        for(int k=0; k < coverage; k++){
+            ua_put(rules, n++, text[tuples[i]+k]);
+        }
+    }
+    rules->n = n;
+}
+
+void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, int level, int32_t size) {
+    FILE*  file= fopen(fileName,"ab");
+    isFileOpen(file, "An error occurred while opening the file for store rules.");
+
+    if(level != 0 && encdIntRules != NULL){
+        size_t numElements = (encdIntRules->n * encdIntRules->b/64) + 1;
+        fwrite(encdIntRules->V, sizeof(u64), numElements, file);
+    } else if(leafRules != NULL) {
+        fwrite(&leafRules[0], sizeof(unsigned char), size, file);
+    } else {
+        error("Error while trying to store rules.");
     }
 
-    ua_free(encodedSymbol);
     fclose(file);
-    if(fileReport != NULL)fclose(fileReport);
 }
 
 void getHeaderAndXs(FILE *compressedFile, uint32_t *&header, uarray *&xsEncoded, int32_t &xsSize, int coverage) {

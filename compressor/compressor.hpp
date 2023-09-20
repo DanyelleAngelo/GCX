@@ -56,7 +56,7 @@ void readPlainText(char *fileName,unsigned char *&text, int32_t &textSize, int c
  * @param coverage tamanho das tuplas do texto
  * @param sigma tamanho do alfabeto
  */
-void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t &sigma, int coverage); 
+void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t sigma, int coverage); 
 
 /**
  * @brief cria lex-names para cada tupla ordenada do texto.
