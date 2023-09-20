@@ -17,7 +17,7 @@ using namespace std;
  * @param r limite superior do intervalo de extract
  * @param rulesSize tamanho das regras que devemos gerar
  */
-void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, int coverage);
+void grammarInteger(char *fileIn, char *fileOut, char op, i32 l, i32 r, int coverage);
 
 /**
  * @brief Exibe na tela as informações da gramática
@@ -26,7 +26,7 @@ void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, 
  * @param levels número de níveis
  * @param coverage tamanho das regras na gramática
  */
-void grammarInfo(uint32_t *header, int levels, int coverage);
+void grammarInfo(i32 *header, int levels, int coverage);
 
 /**
  * @brief realiza a compactação do texto por meio de sucessivas chamadas recursivas, onde são geradas regras que codificam o texto.
@@ -40,7 +40,7 @@ void grammarInfo(uint32_t *header, int levels, int coverage);
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
  * @param sigma armazena o tamanho do alfabeto a ser usado nesse nível (é a quantidade de regras do nível anterior.)
  */
-void compress(unsigned char *text0, uint32_t *uText, uint32_t *tuples, int32_t textSize, char *fileName, int level, int coverage, vector<uint32_t> &header, uint32_t sigma);
+void compress(unsigned char *text0, i32 *uText, i32 *tuples, i32 textSize, char *fileName, int level, int coverage, vector<i32> &header, i32 sigma);
 
 /**
  * @brief Ler e decodifica arquivo nível por nível
@@ -50,7 +50,7 @@ void compress(unsigned char *text0, uint32_t *uText, uint32_t *tuples, int32_t t
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
  * @param coverage tamanho das tuplas do texto
  */
-void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int coverage);
+void decode(char *compressedFile, char *decompressedFile, i32 *&header, int coverage);
 
 /**
  * @brief Extraí e salva, a partir do texto codificado, o texto decodificado correspondente ao intervalo [l, r]. Se r for maior que o limite do texto original, retorna o texto compreendido entre [l,n] sendo n o tamanho do texto original.
@@ -61,7 +61,7 @@ void decode(char *compressedFile, char *decompressedFile, uint32_t *&header, int
  * @param r limite superior
  * @param coverage cobertura (tamanho de regra)
  */
-void extract(char *fileIn, char *fileOut, int32_t l, int32_t r, int coverage);
+void extract(char *fileIn, char *fileOut, i32 l, i32 r, int coverage);
 
 /**
  * @brief Cria e abre o arquivo para gravar as informações da gramática, e em seguida grava o símbolo inicial.
@@ -70,7 +70,7 @@ void extract(char *fileIn, char *fileOut, int32_t l, int32_t r, int coverage);
  * @param startSymbol símbolo inicial
  * @param header contém as informações da gramática
  */
-void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &header);
+void storeStartSymbol(char *fileName, i32 *startSymbol, vector<i32> &header);
 
 /**
  * @brief Seleciona as regras únicas do nível atual da recursão, e as armazena em ordem lexicográfica (em relação ao símbolo não terminal) em uma estrutura de dados, para posteriormente serem gravadas em um arquivo.
@@ -84,7 +84,7 @@ void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &h
  * @param level indica o nível em que as regras foram geradas
  * @param qtyRules quantidade de regras
  */
-void selectUniqueRules(unsigned char *text, unsigned char *&rules, uint32_t *tuples, uint32_t *rank, int32_t nTuples, int coverage, int level, i32 qtyRules);
+void selectUniqueRules(unsigned char *text, unsigned char *&rules, i32 *tuples, i32 *rank, i32 nTuples, int coverage, int level, i32 qtyRules);
 
 /**
  * @brief Seleciona as regras únicas do nível atual da recursão, e as armazena em ordem lexicográfica (em relação ao símbolo não terminal) em uma estrutura de dados, para posteriormente serem gravadas em um arquivo.
@@ -98,7 +98,7 @@ void selectUniqueRules(unsigned char *text, unsigned char *&rules, uint32_t *tup
  * @param qtyRules quantidade de regras
  * @param sigma tamanho do alfabeto usado para compor as regras
  */
-void selectUniqueRules(uint32_t *text, uarray *&rules, uint32_t *tuples, uint32_t *rank, int32_t nTuples, int coverage, int level, i32 qtyRules, i32 sigma);
+void selectUniqueRules(i32 *text, uarray *&rules, i32 *tuples, i32 *rank, i32 nTuples, int coverage, int level, i32 qtyRules, i32 sigma);
 
  /**
   * @brief 
@@ -109,7 +109,7 @@ void selectUniqueRules(uint32_t *text, uarray *&rules, uint32_t *tuples, uint32_
   * @param level nível atual
   * @param size quantidade de símbolos a serem armazenados
   */
-void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, int level, int32_t size);
+void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, int level, i32 size);
 
 /**
  * @brief Faz a leitura do cabeçalho da gramática e do símbolo inicial
@@ -120,7 +120,7 @@ void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, 
  * @param xsSize tamanho do símbolo inicial (obitido diretamente de header)
  * @param coverage cobertura da gramática (tamanho das regras)
  */
-void getHeaderAndXs(FILE *compressedFile, uint32_t *&header, uarray *&xsEncoded, int32_t &xsSize, int coverage);
+void getHeaderAndXs(FILE *compressedFile, i32 *&header, uarray *&xsEncoded, i32 &xsSize, int coverage);
 
 /**
  * @brief Ler ar regras do próximo nível e as usa pra decodificar Xs atual
@@ -132,7 +132,7 @@ void getHeaderAndXs(FILE *compressedFile, uint32_t *&header, uarray *&xsEncoded,
  * @param xsSize tamanho do símbolo a ser decodificado (ao final, conterá o tamanho do símbolo já decodificado)
  * @param coverage tamanho das tuplas do texto
  */
-void decodeSymbol(FILE *compressedFile, int32_t sizeRules, int32_t sigma, uint32_t *&xs, int32_t &xsSize, int coverage);
+void decodeSymbol(FILE *compressedFile, i32 sizeRules, i32 sigma, i32 *&xs, i32 &xsSize, int coverage);
 
 /**
  * @brief captura as regras do último nível, e fecha o arquivo de leitura.
@@ -141,7 +141,7 @@ void decodeSymbol(FILE *compressedFile, int32_t sizeRules, int32_t sigma, uint32
  * @param size quantidade de símbolos a serem lidos no último nível, obtido a partir do cabeçalho que armazena a quantidade de regras em cada nível. 
  * @param rules array onde será salvo as regras lidas.
  */
-void getRulesInTheLastLevel(FILE *file, int32_t size, unsigned char *&rules);
+void getRulesInTheLastLevel(FILE *file, i32 size, unsigned char *&rules);
 
 /**
  * @brief abre o arquivo de saída e grava o texto decodificado
@@ -152,7 +152,7 @@ void getRulesInTheLastLevel(FILE *file, int32_t size, unsigned char *&rules);
  * @param rules regras do último nível da recursão
  * @param coverage tamanho das tuplas do texto
  */
-void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned char *rules, int coverage);
+void saveDecodedText(char *fileName, i32 *xs, i32 xsSize, unsigned char *rules, int coverage);
 
 /**
  * @brief Extrai o texto compreendido entre [l,r] do texto codificado
@@ -167,6 +167,6 @@ void saveDecodedText(char *fileName, uint32_t *xs, uint32_t xsSize, unsigned cha
  * @param r limite superior
  * @param coverage área de cobertura (tamanho da regra)
  */
-void searchInterval(FILE *compressedFile, unsigned char *&plainTxt, uint32_t *xs, uint32_t *header, int32_t xsSize, int32_t &txtSize, int32_t l, int32_t r, int coverage);
+void searchInterval(FILE *compressedFile, unsigned char *&plainTxt, i32 *xs, i32 *header, i32 xsSize, i32 &txtSize, i32 l, i32 r, int coverage);
 
 #endif
