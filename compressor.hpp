@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdint>
+#include "abbrevs.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ void isFileOpen(FILE * file, const char *msg);
  * @return quantidade de $ que devem ser anexadas ao final do texto
  * @param coverage tamanho das tuplas do texto
  */
-int padding(int32_t textSize, int coverage);
+int padding(i32 textSize, int coverage);
 
 /**
  * @brief Realiza a leitura do texto plano.
@@ -45,7 +46,7 @@ int padding(int32_t textSize, int coverage);
  * @param textSize iniciada em 0, ao final da função conterá o tamanho do texto, incluindo $
  * @param coverage tamanho das tuplas do texto
  */
-void readPlainText(char *fileName,unsigned char *&text, int32_t &textSize, int coverage);
+void readPlainText(char *fileName,unsigned char *&text, i32 &textSize, int coverage);
 
 /**
  * @brief ordena o texto com base em tuplas, iniciadas em números múltiplos de `coverage`
@@ -56,7 +57,7 @@ void readPlainText(char *fileName,unsigned char *&text, int32_t &textSize, int c
  * @param coverage tamanho das tuplas do texto
  * @param sigma tamanho do alfabeto
  */
-void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t sigma, int coverage); 
+void radixSort(i32 *uText, i32 nTuples, i32 *tuples, i32 sigma, int coverage); 
 
 /**
  * @brief cria lex-names para cada tupla ordenada do texto.
@@ -68,6 +69,6 @@ void radixSort(uint32_t *uText, int32_t nTuples, uint32_t *tuples, uint32_t sigm
  * @param nTuples quantidade de tuplas
  * @param coverageule tamanho das tuplas do texto
  */
-void createLexNames(uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t &qtyRules, long int nTuples, int coverage);
+void createLexNames(i32 *uText, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage);
 
 #endif
