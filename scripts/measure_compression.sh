@@ -1,10 +1,10 @@
 #!/bin/bash
 source utils.sh
 
-COV_LIST=(3 4 5 6 7 8 9 11 15 30 60)
+COV_LIST=(32 64 128)
 STR_LEN=(1 10 100 1000 10000)
 
-HEADER="file|coverage|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
+HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 
 compress_and_decompress_with_gcis() {
@@ -14,7 +14,7 @@ compress_and_decompress_with_gcis() {
     FILE_NAME=$4
     SIZE_PLAIN=$5
     OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
-	echo -n "GCIS-${CODEC^^}|-|" >> $report
+	echo -n "$FILE_NAME|GCIS-${CODEC}|" >> $report
     "$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
 	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
 	echo $(stat "$stat_options" "$OUTPUT-gcis-$CODEC")"|$SIZE_PLAIN" >> $REPORT
@@ -38,7 +38,7 @@ compress_and_decompress_with_dcx() {
             echo -e "\n${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
             file_out="$COMP_DIR/$CURR_DATE/$file-dc$cover"
             #adding file name and coverage to the report
-            echo -n "$file|$cover|" >> $report
+            echo -n "$file|DC$cover|" >> $report
             #perform compress
             ../compressor/./main $plain_file_path $file_out c $cover $report
             #perform decompress
@@ -120,7 +120,7 @@ run_extract() {
             query="$extract_dir/$file.${length}_query"
 
             #collect metrics from GCIS execution
-            echo -n "$file|GCIS-EF|" >> $report
+            echo -n "$file|GCIS-ef|" >> $report
             "$GCIS_EXECUTABLE" -e "$compressed_file" $query -ef $report
             echo "$length" >> $report
             for cover in "${COV_LIST[@]}"; do
@@ -155,9 +155,9 @@ generate_graphs() {
 
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
-    download_files
-#    compress_and_decompress_with_dcx
+#    download_files
+    compress_and_decompress_with_dcx
 #    valid_dcx_extract
 #    run_extract
-    generate_graphs
+#    generate_graphs
 fi
