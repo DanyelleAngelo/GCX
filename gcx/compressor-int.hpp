@@ -17,7 +17,7 @@ using namespace std;
  * @param r limite superior do intervalo de extract
  * @param rulesSize tamanho das regras que devemos gerar
  */
-void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, int ruleSize);
+void grammarInteger(char *fileIn, char *fileOut, char op, int32_t l, int32_t r, int coverage);
 
 /**
  * @brief Exibe na tela as informações da gramática
@@ -40,7 +40,7 @@ void grammarInfo(uint32_t *header, int levels, int coverage);
  * @param header contém as informações da gramática, quantidade de níveis, quantidade de regras por nível
  * @param sigma armazena o tamanho do alfabeto a ser usado nesse nível (é a quantidade de regras do nível anterior.)
  */
-void compress(unsigned char *text0, uint32_t *uText, int32_t textSize, char *fileName, int level, int coverage, vector<uint32_t> &header, uint32_t sigma);
+void compress(unsigned char *text0, uint32_t *uText, uint32_t *tuples, int32_t textSize, char *fileName, int level, int coverage, vector<uint32_t> &header, uint32_t sigma);
 
 /**
  * @brief Ler e decodifica arquivo nível por nível
@@ -73,18 +73,43 @@ void extract(char *fileIn, char *fileOut, int32_t l, int32_t r, int coverage);
 void storeStartSymbol(char *fileName, uint32_t *startSymbol, vector<uint32_t> &header);
 
 /**
- * @brief Armazena regras geradas em cada nível
+ * @brief Seleciona as regras únicas do nível atual da recursão, e as armazena em ordem lexicográfica (em relação ao símbolo não terminal) em uma estrutura de dados, para posteriormente serem gravadas em um arquivo.
  * 
  * @param text0 contém as regras do último nível da recursão
- * @param uText contém as regras dos demais níveis
+ * @param rules array onde serão armazenadas as regras únicas
  * @param tuples array contendo os índices iniciais de cada tupla em ordem lexicográfica
  * @param rank classificação de cada tupla
  * @param nTuples quantidade de tuplas
- * @param fileName arquivo onde as regras devem ser salvas
- * @param level indica o nível em que as regras foram geradas.
- * @param header usado para capturar a quantidade de regras no nível atual, e no nível anterior (indica o tamanho do alfabeto nesse nível)
+ * @param coverage tamanho das regras
+ * @param level indica o nível em que as regras foram geradas
+ * @param qtyRules quantidade de regras
  */
-void storeRules(unsigned char *text0, uint32_t *uText, uint32_t *tuples, uint32_t *rank, int32_t nTuples, char *fileName, int coverage, int level, vector<uint32_t>  header, int32_t qtyRules);
+void selectUniqueRules(unsigned char *text, unsigned char *&rules, uint32_t *tuples, uint32_t *rank, int32_t nTuples, int coverage, int level, i32 qtyRules);
+
+/**
+ * @brief Seleciona as regras únicas do nível atual da recursão, e as armazena em ordem lexicográfica (em relação ao símbolo não terminal) em uma estrutura de dados, para posteriormente serem gravadas em um arquivo.
+ * @param uText contém as regras dos demais níveis
+ * @param rules array onde serão armazenadas as regras únicas
+ * @param tuples array contendo os índices iniciais de cada tupla em ordem lexicográfica
+ * @param rank classificação de cada tupla
+ * @param nTuples quantidade de tuplas
+ * @param coverage tamanho das regras
+ * @param level indica o nível em que as regras foram geradas
+ * @param qtyRules quantidade de regras
+ * @param sigma tamanho do alfabeto usado para compor as regras
+ */
+void selectUniqueRules(uint32_t *text, uarray *&rules, uint32_t *tuples, uint32_t *rank, int32_t nTuples, int coverage, int level, i32 qtyRules, i32 sigma);
+
+ /**
+  * @brief 
+  * 
+  * @param fileName arquivo onde as regras devem ser salvas
+  * @param encdIntRules regras dos níveis internos
+  * @param leafRules regras do último nível da recursão
+  * @param level nível atual
+  * @param size quantidade de símbolos a serem armazenados
+  */
+void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, int level, int32_t size);
 
 /**
  * @brief Faz a leitura do cabeçalho da gramática e do símbolo inicial
