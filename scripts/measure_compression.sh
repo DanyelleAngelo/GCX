@@ -11,11 +11,12 @@ REPORT_DIR="../report"
 PIZZA_DIR="../dataset/pizza_chilli"
 COMPRESSED_DIR="../dataset/compressed_files"
 COVERAGE_LIST=(3 4 5 6 7 8 9 15 30 60)
+SUBSTRING_SIZE=(1 10 100 1000 10000)
 
 
-GENERAL_REPORT="$REPORT_DIR/$CURRENT_DATE-general-report-errors.csv"
+GENERAL_REPORT="$REPORT_DIR/$CURRENT_DATE/errors"
 FILE_PATHS=$(cat ../file_names.txt)
-HEADER="file,coverage,peak_comp,stack_comp,compression_time,peak_decomp,stack_decomp,decompression_time,compressed_size,plain_size"
+HEADER="file|coverage|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 GCIS_EXECUTABLE_PATH="../../GCIS/build/src/./gc-is-codec"
 
 os_name=$(uname -s)
@@ -41,9 +42,9 @@ check_and_create_folder() {
         mkdir -p "$REPORT_DIR"
     fi
     if [ ! -d "$REPORT_DIR/$CURRENT_DATE" ]; then
-        mkdir -p "$REPORT_DIR/$CURRENT_DATE"
-        mkdir -p "$COMPRESSED_DIR/$CURRENT_DATE/extract"
-        mkdir -p "$COMPRESSED_DIR/$CURRENT_DATE/graphs"
+        mkdir -p "$REPORT_DIR/$CURRENT_DATE/extract"
+        mkdir -p "$REPORT_DIR/$CURRENT_DATE/graphs"
+        mkdir -p "$REPORT_DIR/$CURRENT_DATE/errors"
     fi
 }
 
@@ -68,7 +69,7 @@ download_files() {
 
 validate_compression_and_decompression() {
     if ! cmp -s "$1" "$2"; then
-        echo "$1 and $2 are different." >> $GENERAL_REPORT
+        echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors.txt"
     fi 
 }
 
@@ -79,10 +80,10 @@ gcis_generate_report() {
     FILE_NAME=$4
     SIZE_PLAIN=$5
     OUTPUT="$COMPRESSED_DIR/$CURRENT_DATE/$FILE_NAME"
-	echo -n "$FILE_NAME-gcis-$CODEC,-," >> $report
+	echo -n "$FILE_NAME-gcis-$CODEC|-|" >> $report
     "$GCIS_EXECUTABLE_PATH" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
 	"$GCIS_EXECUTABLE_PATH" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
-	echo -n $(stat "$stat_options" "$OUTPUT-gcis-$CODEC")"," >> "$REPORT"
+	echo -n $(stat "$stat_options" "$OUTPUT-gcis-$CODEC")"|" >> "$REPORT"
 	echo  "$SIZE_PLAIN" >> $REPORT
 }
 
@@ -105,31 +106,62 @@ dcx_generate_report() {
             out_compressed="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}-coverage$coverage"
             out_descompressed=$out_compressed-plain
             #adding file name and coverage to the report
-            echo -n "${file_name[1]}," >> $report 
-            echo -n "$coverage," >> $report
+            echo -n "${file_name[1]}|" >> $report
+            echo -n "$coverage|" >> $report
             #perform compress
             ../compressor/./main $in_plain $out_compressed c $coverage $report
             #perform decompress
             ../compressor/./main $out_compressed.dcx $out_descompressed  d $coverage $report
             validate_compression_and_decompression "$in_plain" "$out_descompressed"
             #adding file size information to the report
-            echo -n $(stat "$stat_options"  "$out_compressed.dcx")"," >> $report
+            echo -n $(stat "$stat_options"  "$out_compressed.dcx")"|" >> $report
             echo  "$size_plain" >> $report
         done
 	    #compresses and decompresses the file using GCIS, with the Elias-Fano and Simple8B codec.
         gcis_generate_report "ef" "$in_plain" "$report" "${file_name[1]}" "$size_plain"
         gcis_generate_report "s8b" "$in_plain" "$report" "${file_name[1]}" "$size_plain"
+        #break
     done
     make clean -C ../compressor/
 }
 
-run_extract() {
-    echo -e "\n${GREEN}%%% Running the extract - GCIS and DCX ${RESET}."
-    SUBSTRING_SIZE=(10)
-    #(1 10 100 1000 10000)
-
+validate_extract() {
     make clean -C ../compressor/
     make compile -C ../compressor/
+
+    echo -e "\n${BLUE}####### Extract validation ${RESET}"
+
+    for plain_file in $FILE_PATHS; do
+        IFS="/" read -ra file_name <<< "$plain_file"
+        in_plain="$PIZZA_DIR/${file_name[1]}"
+        extract_dir="$REPORT_DIR/$CURRENT_DATE/extract/${file_name[1]}"
+
+        #python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
+
+        compressed_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
+        for interval_size in "${SUBSTRING_SIZE[@]}"; do
+            for coverage in "${COVERAGE_LIST[@]}"; do
+                echo -e "\n${BLUE}####### INTERVAL SIZE: $interval_size, FILE: ${file_name[1]}, COVERAGE: ${coverage} ${RESET}"
+
+                ../compressor/./main "$compressed_file-coverage$coverage.dcx" "result_extract_temp.txt" e $coverage "$extract_dir-input.${interval_size}_query"
+
+                python3 ../utils/extract.py $in_plain extract_answer_key.txt "$extract_dir-input.${interval_size}_query"
+
+                if ! cmp -s "result_extract_temp.txt" "extract_answer_key.txt"; then
+                    echo "** Extract ** Erro ao extrair strings de tamanho $interval_size, para o arquivo ${file_name[1]}, com tamanho de regra para o DCX igual à $coverage" >> "$GENERAL_REPORT/errors.txt"
+                    cp "result_extract_temp.txt" "$GENERAL_REPORT/extract-dc$coverage-range_$interval_size.txt"
+                fi
+                rm "result_extract_temp.txt" "extract_answer_key.txt"
+            done
+        done
+    done
+}
+
+run_extract() {
+    echo -e "\n${GREEN}%%% Running the extract - GCIS and DCX ${RESET}."
+
+    make clean -C ../compressor/
+    make compile MACROS="REPORT=1" -C ../compressor/
     
     for plain_file in $FILE_PATHS; do
         IFS="/" read -ra file_name <<< "$plain_file"
@@ -137,22 +169,23 @@ run_extract() {
         extract_dir="$REPORT_DIR/$CURRENT_DATE/extract/${file_name[1]}"
         report="$REPORT_DIR/$CURRENT_DATE/${file_name[1]}-dcx-extract.csv"
 
-        #python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
+        python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
 
-        echo "alg,substring_size,peak,stack,time" > $report;
+        echo "file|coverage|substring_size|peak|stack|time" > $report;
         compressed_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
         for interval_size in "${SUBSTRING_SIZE[@]}"; do
-            echo -n "GCIS-ef,$interval_size," >> $report
+            echo -n "${file_name[1]}-gcis-ef|-|$interval_size|" >> $report
             "$GCIS_EXECUTABLE_PATH" -e "$compressed_file-gcis-ef" "$extract_dir-input.${interval_size}_query" -ef "$report"
             echo "" >> $report
             for coverage in "${COVERAGE_LIST[@]}"; do
-                echo -e "\n${BLUE}####### FILE: ${file_name[1]}, COVERAGE: ${coverage} ${RESET}"
-                echo -n "DC$coverage,$interval_size," >> $report
+                echo -e "\n${BLUE}####### INTERVAL SIZE $interval_size, FILE: ${file_name[1]}, COVERAGE: ${coverage} ${RESET}"
+                echo -n "${file_name[1]}|$coverage|$interval_size|" >> $report
                 #todo: não sobrescrever valores de extract
                 ../compressor/./main "$compressed_file-coverage$coverage.dcx" "result_extract_temp.txt" e $coverage "$extract_dir-input.${interval_size}_query" "$report"
                 echo "" >> $report
             done
         done
+        break
     done
 
 }
@@ -175,7 +208,8 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-    dcx_generate_report
+#    dcx_generate_report
+#    validate_extract
     run_extract
-    generate_graphs
+#    generate_graphs
 fi

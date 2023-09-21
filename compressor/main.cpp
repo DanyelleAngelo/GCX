@@ -15,7 +15,7 @@ void generateReport(char *fileName, double duration, void *base) {
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
 
-    fprintf(file, "%lld|%lld|%5.4lf|", peak,stack,duration);
+    fprintf(file, "%lld|%lld|%5.4lf", peak,stack,duration);
     fclose(file);
 }
 
@@ -53,7 +53,9 @@ int main(int argc, char *argv[]) {
         finish = clock();
         fclose(query);
         duration = (double)(finish - start) / CLOCKS_PER_SEC;
-        if(argc == 7)generateReport(argv[6], duration, base);
+        #if REPORT == 1
+            generateReport(argv[6], duration, base);
+        #endif
     } else {
         start = clock();
         grammarInteger(argv[1], argv[2], op, l,r, ruleSize);

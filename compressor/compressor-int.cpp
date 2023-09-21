@@ -18,7 +18,9 @@ void grammarInteger(char *fileIn, char *fileOut, char op, i32 l, i32 r, int cove
         case 'c': {
             vector<i32> header;
             unsigned char *text;
-            cout << "\n\n\x1b[32m>>>> Encode <<<<\x1b[0m\n";
+            #if (FILE_OUTPUT == 1) || (SCREEN_OUTPUT==1)
+                cout << "\n\n\x1b[32m>>>> Encode <<<<\x1b[0m\n";
+            #endif
 
             readPlainText(fileIn, text, textSize, coverage);
             uText = (i32*)calloc(textSize,sizeof(i32));
@@ -27,28 +29,37 @@ void grammarInteger(char *fileIn, char *fileOut, char op, i32 l, i32 r, int cove
             
             i32 nTuples = textSize/coverage;
             i32 *tuples = (i32*) malloc(nTuples * sizeof(i32));
-            i32 *rank = (i32*) calloc(nTuples+ padding(nTuples, coverage), sizeof(i32));
+            //i32 *rank = (i32*) calloc(nTuples+ padding(nTuples, coverage), sizeof(i32));
             compress(text, uText, tuples, textSize, strcat(fileOut, ".dcx"), 0, coverage, header, ASCII_SIZE);
 
-            i32 levels = header.at(0);
-            grammarInfo(header.data(), levels, coverage);
-
+            #if (FILE_OUTPUT == 1) || (SCREEN_OUTPUT==1)
+                i32 levels = header.at(0);
+                grammarInfo(header.data(), levels, coverage);
+            #endif
             free(text);
-            free(rank);
+            //free(rank);
             free(tuples);
             break;
         }
         case 'd': {
             i32* header=nullptr;
-            cout << "\n\n\x1b[32m>>>> Decode <<<<\x1b[0m\n";
+            #if (FILE_OUTPUT == 1) || (SCREEN_OUTPUT==1)
+                cout << "\n\n\x1b[32m>>>> Decode <<<<\x1b[0m\n";
+            #endif
 
             decode(fileIn, fileOut, header,  coverage);
-            i32 levels = header[0];
-            grammarInfo(header, levels, coverage);
+
+            #if (FILE_OUTPUT == 1) || (SCREEN_OUTPUT==1)
+                i32 levels = header[0];
+                grammarInfo(header, levels, coverage);
+            #endif
             break;
         }
         case 'e': {
-            cout << "\n\n\x1b[32m>>>> Extract T[" << l <<"," << r << "]<<<<\x1b[0m\n";
+            #if (FILE_OUTPUT == 1) || (SCREEN_OUTPUT==1)
+                cout << "\n\n\x1b[32m>>>> Extract T[" << l <<"," << r << "]<<<<\x1b[0m\n";
+            #endif
+
             extract(fileIn, fileOut, l, r, coverage);
             break;
         }
@@ -131,7 +142,6 @@ void decode(char *compressedFile, char *decompressedFile, i32 *&header, int cove
 void extract(char *fileIn, char *fileOut, i32 l, i32 r, int coverage){
     FILE*  compressedFile = fopen(fileIn,"rb");
     isFileOpen(compressedFile, "An error occurred while opening the compressed file.");
-
     if(l > r) {
         error("The value of r must be greater than or equal to l.");
     }
@@ -139,8 +149,8 @@ void extract(char *fileIn, char *fileOut, i32 l, i32 r, int coverage){
     unsigned char *plainTxt = nullptr;
     i32 *header = nullptr, *xs=nullptr;
     uarray *xsEncoded = nullptr;
-    i32 xsSize, n_nodes, start_node, end_node, txtSize = r-l;
-
+    i32 xsSize, n_nodes, start_node, end_node, txtSize = r-l+1;
+    r++;
     getHeaderAndXs(compressedFile, header, xsEncoded, xsSize, coverage);
 
     //Determines the interval in Xs that we need to decode
@@ -149,7 +159,7 @@ void extract(char *fileIn, char *fileOut, i32 l, i32 r, int coverage){
     end_node = r/n_nodes;
     xsSize = end_node - start_node + 1;
     i32 l2 = l%n_nodes;
-    i32 r2 = r;
+    i32 r2 = r - (start_node*n_nodes);
 
     xs = (i32*)calloc(xsSize, sizeof(i32));
     for(int i=start_node, j=0; j < xsSize; i++) {
@@ -167,9 +177,11 @@ void extract(char *fileIn, char *fileOut, i32 l, i32 r, int coverage){
     #endif
 
     #if FILE_OUTPUT == 1
-        FILE*  fileOutput = fopen(fileOut,"w");
+        FILE*  fileOutput = fopen(fileOut,"a");
         isFileOpen(fileOutput, "An error occurred while opening the compressed file.");
+        fprintf(fileOutput, "[%d,%d]\n", l,r);
         fwrite(&plainTxt[0], sizeof(char), txtSize, fileOutput);
+        fprintf(fileOutput, "\n");
         free(plainTxt);
         fclose(fileOutput);
     #endif
@@ -265,7 +277,7 @@ void decodeSymbol(FILE *compressedFile, i32 sizeRules, i32 sigma, i32 *&xs, i32 
     }
     ua_free(rules);
 
-    xsSize = j;
+    xsSize = xsSize*coverage;
     xs = (i32*)calloc(xsSize, sizeof(i32));
     for(int i=0,j=0; i < xsSize; i++)xs[j++] = temp[i];
     free(temp);
@@ -310,35 +322,36 @@ void searchInterval(FILE *compressedFile, unsigned char *&plainTxt, i32 *xs, i32
         n_nodes = pow(coverage, header[0]-i);
         start_node = l/n_nodes;
         end_node = r/n_nodes;
-        size = end_node - start_node + 1;
-        //update range of text for next level
+        size = end_node - start_node+1;
+
+        //symbol to translate in the next level
+        i32 *temp = (i32*)calloc(size, sizeof(i32));
+        for(int i=start_node, j=0; j < size && i < xsSize; i++) {
+            temp[j++] = xs[i];
+        }
+        for(int j=0; j < size; j++)xs[j] = temp[j];
+        free(temp);
+
         l = l%n_nodes;
-        //r = (end_node == 0) ? r%n_nodes : r;
-        xsSize = size;
-
-        //updating Xs
-        i32 *xsTemp = (i32*)calloc(size, sizeof(i32));
-        for(int i=start_node, j=0; j < size; i++)xsTemp[j++] = xs[i];
-        free(xs);
-        xs = (i32*) (i32*)calloc(size, sizeof(i32));
-        for(int j=0; j < size; j++)xs[j] = xsTemp[j];
-        free(xsTemp);
+        r -= start_node*n_nodes;
+        r++;
     }
-
+    
     unsigned char *rules = nullptr;
     getRulesInTheLastLevel(compressedFile, header[header[0]]*coverage, rules);
-
     //decode the last level
-    plainTxt = (unsigned char*)calloc(txtSize, sizeof(unsigned char));
+    plainTxt = (unsigned char*)calloc(txtSize+1, sizeof(unsigned char));
     int i,k;
+
+    l= l % n_nodes;
     for(i=0,k=0; i < size && k < txtSize; i++){
         i32 rule = GET_RULE_INDEX();
         if(xs[i] == 0)continue;
-        for(int j=l; j < coverage; j++) {
+        for(int j= (i == 0) ? l : 0; j < coverage && k < txtSize; j++) {
             char ch = rules[rule+j];
             if(ch != 0)plainTxt[k++] = ch;
         }
-        l=0;
     }
+    free(rules);
    txtSize = (k < txtSize) ? k : txtSize;
 }
