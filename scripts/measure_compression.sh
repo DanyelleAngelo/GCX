@@ -49,12 +49,10 @@ compress_and_decompress_with_dcx() {
             #adding file size information to the report
             echo -n $(stat $stat_options $file_out.dcx) >> $report
             echo "|$size_plain" >> $report
-            break
         done
 	    #compresses and decompresses the file using GCIS, with the Elias-Fano and Simple8B codec.
         compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
         compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
-        break
     done
     make clean -C ../compressor/
 }
@@ -134,11 +132,8 @@ run_extract() {
                 echo $query
                 ../compressor/./main "$compressed_file-dc$cover.dcx" "result_extract_temp.txt" e $cover $query $report
                 echo "$length" >> $report
-                break
             done
-            break
         done
-        break
     done
 
 }
@@ -162,10 +157,10 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-#    check_and_create_folder
-#    download_files
-#    compress_and_decompress_with_dcx
-#    valid_dcx_extract
+    check_and_create_folder
+    download_files
+    compress_and_decompress_with_dcx
+    valid_dcx_extract
     run_extract
 #    generate_graphs
 fi
