@@ -1,10 +1,9 @@
 CC=g++
 
 FLAGS_DEBUG=-g -fsanitize=address -Wall
-FLAGS=-std=c++14 -I../external/malloc_count $(FLAGS_DEBUG)
-#-O3
+FLAGS=-std=c++14 -I../external/malloc_count -O3
 LIBS=-ldl
-MACROS:= D_EXTRACT=0 DEBUG_RULES=0 REPORT=0 LEVEL_REPORT=0 SCREEN_OUTPUT=0 FILE_OUTPUT=0
+MACROS:= D_EXTRACT=0 DEBUG_RULES=0 LEVEL_REPORT=0 SCREEN_OUTPUT=0 FILE_OUTPUT=0
 
 all: fraenkel
 
@@ -15,9 +14,9 @@ compile: compressor.cpp compressor.hpp compressor-int.cpp compressor-int.hpp
 	$(CC) -c ../external/malloc_count/malloc_count.c -o malloc_count.o $(FLAGS) $(LIBS)
 	$(CC) -c ../external/malloc_count/stack_count.c -o stack_count.o $(FLAGS) $(LIBS)
 	$(CC) -c uarray.c -o uarray.o $(FLAGS)
-	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D, $(MACROS)) $(FLAGS) 
-	$(CC) -c compressor-int.cpp -o compressor-int.o $(FLAGS)
-	$(CC) main.cpp malloc_count.o stack_count.o uarray.o compressor.o compressor-int.o -o main  $(FLAGS)
+	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D , $(MACROS)) $(FLAGS) 
+	$(CC) -c compressor-int.cpp -o compressor-int.o $(addprefix -D , $(MACROS)) $(FLAGS)
+	$(CC) main.cpp malloc_count.o stack_count.o uarray.o compressor.o compressor-int.o -o main $(addprefix -D , $(MACROS)) $(FLAGS)
 
 run_compressor:
 	@if [ ! -x "main" ]; then\
