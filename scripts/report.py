@@ -22,7 +22,7 @@ def compute_and_set_ratio_percentage(results_dcx):
 
 def main(argv):
     file_names = get_file_names()
-    results_dcx = pd.read_csv(argv[1])
+    results_dcx = pd.read_csv(argv[1], sep='|')
     output_dir = argv[2]
     results_dcx['ratio_percentage'] = compute_and_set_ratio_percentage(results_dcx)
     results_dcx.drop(columns=['plain_size', 'compressed_size'], inplace=True)
