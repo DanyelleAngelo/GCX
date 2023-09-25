@@ -10,12 +10,11 @@ using namespace std;
 
 void generateReport(char *fileName, double duration, void *base) {
     FILE *file = fopen(fileName, "a");
-    isFileOpen(file, "Unable to open report to enter time and memory consumption informatio");
+    isFileOpen(file, "Unable to open report to enter time and memory consumption information");
 
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
-
-    fprintf(file, "%lld|%lld|%5.4lf", peak,stack,duration);
+    fprintf(file, "%lld|%lld|%5.4lf|", peak,stack,duration);
     fclose(file);
 }
 
@@ -61,7 +60,9 @@ int main(int argc, char *argv[]) {
         grammarInteger(argv[1], argv[2], op, l,r, ruleSize);
         finish = clock();
         duration = (double)(finish - start) / CLOCKS_PER_SEC;
-        if(argc == 6)generateReport(argv[5], duration, base);
+        #if REPORT == 1
+            if(argc == 6)generateReport(argv[5], duration, base);
+        #endif
     }
 
     printf("Time: %5.2lf(s)\n",duration);
