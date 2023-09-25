@@ -1,191 +1,126 @@
 #!/bin/bash
-GREEN='\033[0;32m'
-BLUE='\033[34m'
-RESET='\033[0m'
-CURRENT_DATE=$(date +"%Y-%m-%d")
+source utils.sh
 
-#url to download the files
-PIZZA_URL="http://pizzachili.dcc.uchile.cl/repcorpus"
-#directories
-REPORT_DIR="../report"
-PIZZA_DIR="../dataset/pizza_chilli"
-COMPRESSED_DIR="../dataset/compressed_files"
-COVERAGE_LIST=(3 4 5 6 7 8 9 15 30 60)
-SUBSTRING_SIZE=(1 10 100 1000 10000)
+COV_LIST=(3 4 5 6 7 8 9 15 30 60)
+STR_LEN=(1 10 100 1000 10000)
 
-
-GENERAL_REPORT="$REPORT_DIR/$CURRENT_DATE/errors"
-FILE_PATHS=$(cat ../file_names.txt)
 HEADER="file|coverage|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
-GCIS_EXECUTABLE_PATH="../../GCIS/build/src/./gc-is-codec"
+GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 
-os_name=$(uname -s)
-if [ "$os_name" = "Darwin" ]; then
-    stat_options="-f %z"
-    CURRENT_DATE="$CURRENT_DATE-mac"
-else
-    stat_options="-c %s"
-fi
-
-check_and_create_folder() {
-    echo -e "\n\n${GREEN}%%% Creating directories for files in case don't exist ${RESET}."
-    if [ ! -d "$PIZZA_DIR" ]; then
-        mkdir -p "$PIZZA_DIR"
-    fi
-    if [ ! -d "$COMPRESSED_DIR" ]; then
-        mkdir -p "$COMPRESSED_DIR"
-    fi
-    if [ ! -d "$COMPRESSED_DIR/$CURRENT_DATE" ]; then
-        mkdir -p "$COMPRESSED_DIR/$CURRENT_DATE"
-    fi
-    if [ ! -d "$REPORT_DIR" ]; then
-        mkdir -p "$REPORT_DIR"
-    fi
-    if [ ! -d "$REPORT_DIR/$CURRENT_DATE" ]; then
-        mkdir -p "$REPORT_DIR/$CURRENT_DATE/extract"
-        mkdir -p "$REPORT_DIR/$CURRENT_DATE/graphs"
-        mkdir -p "$REPORT_DIR/$CURRENT_DATE/errors"
-    fi
-}
-
-download_files() {
-    echo -e "\n${GREEN}%%% Download files from a list, then descompress the files and remove the compressed files.${RESET}."
-
-    for file in $FILE_PATHS; do
-        IFS="/" read -ra file_name <<< "$file"
-        compressed_files="$PIZZA_DIR/${file_name[1]}.gz"
-        descompressed_file="$PIZZA_DIR/${file_name[1]}"
-
-        if [ ! -e "$compressed_files" ] && [ ! -e "$descompressed_file" ]; then
-            echo -e "\n${BLUE}  % $PIZZA_URL/$file.gz ${RESET}"
-            curl --output "$compressed_files" "$PIZZA_URL/$file.gz"
-            gzip -d "$compressed_files"
-        elif [ ! -e "$descompressed_file" ]; then
-            echo -e "\n${BLUE}  % $PIZZA_URL/$file.gz ${RESET}"
-            gzip -d "$compressed_files"
-        fi
-    done
-}
-
-validate_compression_and_decompression() {
-    if ! cmp -s "$1" "$2"; then
-        echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors.txt"
-    fi 
-}
-
-gcis_generate_report() {
+compress_and_decompress_with_gcis() {
     CODEC=$1
     PLAIN=$2
     REPORT=$3
     FILE_NAME=$4
     SIZE_PLAIN=$5
-    OUTPUT="$COMPRESSED_DIR/$CURRENT_DATE/$FILE_NAME"
+    OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
 	echo -n "$FILE_NAME-gcis-$CODEC|-|" >> $report
-    "$GCIS_EXECUTABLE_PATH" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
-	"$GCIS_EXECUTABLE_PATH" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
-	echo -n $(stat "$stat_options" "$OUTPUT-gcis-$CODEC")"|" >> "$REPORT"
-	echo  "$SIZE_PLAIN" >> $REPORT
+    "$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
+	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
+	echo $(stat "$stat_options" "$OUTPUT-gcis-$CODEC")"|$SIZE_PLAIN" >> $REPORT
 }
 
-dcx_generate_report() {
+compress_and_decompress_with_dcx() {
     echo -e "\n${GREEN}%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original version${RESET}."
 
     make clean -C ../compressor/
-    make compile -C ../compressor/
+    make compile MACROS="REPORT=1" -C ../compressor/
 
-    for plain_file in $FILE_PATHS; do
-        IFS="/" read -ra file_name <<< "$plain_file"
-        in_plain="$PIZZA_DIR/${file_name[1]}"
-        report="$REPORT_DIR/$CURRENT_DATE/${file_name[1]}-dcx-encoding.csv"
-        
-        #create a file header
+    for file in $PLAIN_FILES_PATH; do
+        report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
+        plain_file_path="$PIZZA_DIR/$file"
         echo $HEADER > $report; 
-        size_plain=$(stat "$stat_options" "$in_plain")
-        for coverage in "${COVERAGE_LIST[@]}"; do
-            echo -e "\n${BLUE}####### FILE: ${file_name[1]}, COVERAGE: ${coverage} ${RESET}"
-            out_compressed="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}-coverage$coverage"
-            out_descompressed=$out_compressed-plain
+        size_plain=$(stat "$stat_options" "$plain_file_path")
+
+        for cover in "${COV_LIST[@]}"; do
+            echo -e "\n${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
+            file_out="$COMP_DIR/$CURR_DATE/$file-dc$cover"
             #adding file name and coverage to the report
-            echo -n "${file_name[1]}|" >> $report
-            echo -n "$coverage|" >> $report
+            echo -n "$file|$cover|" >> $report
             #perform compress
-            ../compressor/./main $in_plain $out_compressed c $coverage $report
+            ../compressor/./main $plain_file_path $file_out c $cover $report
             #perform decompress
-            ../compressor/./main $out_compressed.dcx $out_descompressed  d $coverage $report
-            validate_compression_and_decompression "$in_plain" "$out_descompressed"
+            ../compressor/./main $file_out.dcx $file_out-plain d $cover $report
+            #validate compressed file
+            validate_compression_and_decompression "$plain_file_path" "$file_out-plain"
             #adding file size information to the report
-            echo -n $(stat "$stat_options"  "$out_compressed.dcx")"|" >> $report
-            echo  "$size_plain" >> $report
+            echo -n $(stat "$stat_options" "$file_out.dcx") >> $report
+            echo "|$size_plain" >> $report
         done
 	    #compresses and decompresses the file using GCIS, with the Elias-Fano and Simple8B codec.
-        gcis_generate_report "ef" "$in_plain" "$report" "${file_name[1]}" "$size_plain"
-        gcis_generate_report "s8b" "$in_plain" "$report" "${file_name[1]}" "$size_plain"
-        #break
+        compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
+        compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
     done
     make clean -C ../compressor/
 }
 
-validate_extract() {
+valid_dcx_extract() {
     make clean -C ../compressor/
-    make compile -C ../compressor/
+    make compile MACROS="FILE_OUTPUT=1" -C ../compressor/
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
 
-    for plain_file in $FILE_PATHS; do
-        IFS="/" read -ra file_name <<< "$plain_file"
-        in_plain="$PIZZA_DIR/${file_name[1]}"
-        extract_dir="$REPORT_DIR/$CURRENT_DATE/extract/${file_name[1]}"
+    for file in $PLAIN_FILES_PATH; do
+        plain_file_path="$PIZZA_DIR/$file"
+        extract_dir="$REPORT_DIR/$CURR_DATE/extract"
+        compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
-        #python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
+        #generates intervals
+        python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+        for length in "${STR_LEN[@]}"; do
+            extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
+            query="$extract_dir/$file.${length}_query"
 
-        compressed_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
-        for interval_size in "${SUBSTRING_SIZE[@]}"; do
-            for coverage in "${COVERAGE_LIST[@]}"; do
-                echo -e "\n${BLUE}####### INTERVAL SIZE: $interval_size, FILE: ${file_name[1]}, COVERAGE: ${coverage} ${RESET}"
+            #generates valid response based on plain text
+            python3 ../utils/extract.py $plain_file_path $extract_answer $query
+            for cover in "${COV_LIST[@]}"; do
+                echo -e "\n${BLUE}####### INTERVAL SIZE: $length, FILE: $file COVERAGE: ${cover} ${RESET}"
 
-                ../compressor/./main "$compressed_file-coverage$coverage.dcx" "result_extract_temp.txt" e $coverage "$extract_dir-input.${interval_size}_query"
+                #execute extract
+                extract_output="$extract_dir/${file}_result_extract_dc${cover}_len${length}.txt"
+                ../compressor/./main "$compressed_file-dc$cover.dcx" $extract_output e $cover $query
 
-                python3 ../utils/extract.py $in_plain extract_answer_key.txt "$extract_dir-input.${interval_size}_query"
-
-                if ! cmp -s "result_extract_temp.txt" "extract_answer_key.txt"; then
-                    echo "** Extract ** Erro ao extrair strings de tamanho $interval_size, para o arquivo ${file_name[1]}, com tamanho de regra para o DCX igual à $coverage" >> "$GENERAL_REPORT/errors.txt"
-                    cp "result_extract_temp.txt" "$GENERAL_REPORT/extract-dc$coverage-range_$interval_size.txt"
+                #checks equality
+                if ! diff -s $extract_output $extract_answer; then
+                    echo "** Extract ** Erro ao extrair strings de tamanho $length, para o arquivo $file com tamanho de regra para o DCX igual à $cover" >> "$GENERAL_REPORT/errors/errors.txt"
                 fi
-                rm "result_extract_temp.txt" "extract_answer_key.txt"
             done
         done
     done
 }
 
 run_extract() {
-    echo -e "\n${GREEN}%%% Running the extract - GCIS and DCX ${RESET}."
+    echo -e "\n${GREEN}%%% Running the extract - GCIS and DCX ${RESET}"
 
     make clean -C ../compressor/
     make compile MACROS="REPORT=1" -C ../compressor/
     
-    for plain_file in $FILE_PATHS; do
-        IFS="/" read -ra file_name <<< "$plain_file"
-        in_plain="$PIZZA_DIR/${file_name[1]}"
-        extract_dir="$REPORT_DIR/$CURRENT_DATE/extract/${file_name[1]}"
-        report="$REPORT_DIR/$CURRENT_DATE/${file_name[1]}-dcx-extract.csv"
+    for file in $PLAIN_FILES_PATH; do
+        extract_dir="$REPORT_DIR/$CURR_DATE/extract"
+        compressed_file="$COMP_DIR/$CURR_DATE/$file"
+        report="$REPORT_DIR/$CURR_DATE/$file-dcx-extract.csv"
 
-        python3 ../../GCIS/scripts/generate_extract_input.py "$in_plain" "$extract_dir-input"
+        #generates intervals
+        python3 ../../GCIS/scripts/generate_extract_input.py "$PIZZA_DIR/$file" "$extract_dir/$file"
 
-        echo "file|coverage|substring_size|peak|stack|time" > $report;
-        compressed_file="$COMPRESSED_DIR/$CURRENT_DATE/${file_name[1]}"
-        for interval_size in "${SUBSTRING_SIZE[@]}"; do
-            echo -n "${file_name[1]}-gcis-ef|-|$interval_size|" >> $report
-            "$GCIS_EXECUTABLE_PATH" -e "$compressed_file-gcis-ef" "$extract_dir-input.${interval_size}_query" -ef "$report"
-            echo "" >> $report
-            for coverage in "${COVERAGE_LIST[@]}"; do
-                echo -e "\n${BLUE}####### INTERVAL SIZE $interval_size, FILE: ${file_name[1]}, COVERAGE: ${coverage} ${RESET}"
-                echo -n "${file_name[1]}|$coverage|$interval_size|" >> $report
-                #todo: não sobrescrever valores de extract
-                ../compressor/./main "$compressed_file-coverage$coverage.dcx" "result_extract_temp.txt" e $coverage "$extract_dir-input.${interval_size}_query" "$report"
-                echo "" >> $report
+        echo "file|coverage|peak|stack|time|substring_size" > $report;
+        for length in "${STR_LEN[@]}"; do
+            query="$extract_dir/$file.${length}_query"
+
+            #collect metrics from GCIS execution
+            echo -n "$file-gcis-ef|-|" >> $report
+            "$GCIS_EXECUTABLE" -e "$compressed_file-gcis-ef" $query -ef $report
+            echo "$length" >> $report
+            for cover in "${COV_LIST[@]}"; do
+                echo -e "\n${BLUE}####### INTERVAL SIZE $length, FILE: $file COVERAGE: ${cover} ${RESET}"
+                echo -n "$file|$cover|" >> $report
+                echo $query
+                ../compressor/./main "$compressed_file-dc$cover.dcx" "result_extract_temp.txt" e $cover $query $report
+
+                echo "$length" >> $report
+                rm result_extract_temp.txt
             done
         done
-        break
     done
 
 }
@@ -193,14 +128,12 @@ run_extract() {
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-    for plain_file in $FILE_PATHS; do
-        IFS="/" read -ra file_name <<< "$plain_file"
-        in_plain="$PIZZA_DIR/${file_name[1]}"
-        report="$REPORT_DIR/$CURRENT_DATE/${file_name[1]}-dcx-encoding.csv"
+    for file in $PLAIN_FILES_PATH; do
+        report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
 
-        echo -e "\n\tGenerate graphs for ${file_name[1]}"
+        echo -e "\n\tGenerate graphs for $file"
 
-        python3 report.py "$report" "$REPORT_DIR/$CURRENT_DATE/graphs"
+        python3 report.py "$report" "$REPORT_DIR/$CURR_DATE/graphs"
     done
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
@@ -208,8 +141,8 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-#    dcx_generate_report
-#    validate_extract
+    compress_and_decompress_with_dcx
+    valid_dcx_extract
     run_extract
 #    generate_graphs
 fi
