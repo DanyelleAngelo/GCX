@@ -281,7 +281,7 @@ int main(int argc, char *argv[]) {
     double duration = (double)(finish_dcx - start_dcx) / CLOCKS_PER_SEC;
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
-    fprintf(report_dcx, "%lld|%lld|%5.4lf", peak,stack,duration);
+    fprintf(report_dcx, "%lld|%lld|%5.4lf|", peak,stack,duration);
     printf("Time inserted into the DCX report: %5.4lf\n", duration);
     fclose(report_dcx);
     return 0;
