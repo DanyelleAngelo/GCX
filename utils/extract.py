@@ -11,8 +11,8 @@ def extract(input_file, output_file, input_queries):
         for line in queries:
             l, r = line.split(' ')
             l = int(l)
-            r = int(r)+1
-            extracted_text = text[l:r]
+            r = int(r)
+            extracted_text = text[l:r+1]
             with open(output_file, 'a+') as file:
                 file.write(f"[{l},{r}]\n")
                 file.write(extracted_text)
