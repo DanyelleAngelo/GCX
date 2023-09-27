@@ -8,7 +8,6 @@ CURR_DATE=$(date +"%Y-%m-%d")
 
 #files to compress
 FILES=$(cat ../file_names.txt)
-PLAIN_FILES_PATH=()
 
 #directories
 REPORT_DIR="../report"
@@ -23,12 +22,6 @@ else
 fi
 
 GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"
-
-
-for plain_file in $FILES; do
-    IFS="/" read -ra file_name <<< "$plain_file"
-    PLAIN_FILES_PATH=("${file_name[1]}" "${PLAIN_FILES_PATH[@]}")
-done
 
 check_and_create_folder() {
     echo -e "\n\n${GREEN}%%% Creating directories for files in case don't exist ${RESET}."

@@ -25,8 +25,10 @@ compress_and_decompress_with_dcx() {
 
     make clean -C ../compressor/
     make compile MACROS="REPORT=1" -C ../compressor/
+    for file_path in $FILES; do
+        IFS="/" read -ra file_name <<< "$file_path"
+        file="${file_name[1]}"
 
-    for file in $PLAIN_FILES_PATH; do
         report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
         plain_file_path="$PIZZA_DIR/$file"
         echo $HEADER > $report; 
@@ -60,7 +62,10 @@ valid_dcx_extract() {
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
 
-    for file in $PLAIN_FILES_PATH; do
+    for file_path in $FILES; do
+        IFS="/" read -ra file_name <<< "$file_path"
+        file="${file_name[1]}"
+
         plain_file_path="$PIZZA_DIR/$file"
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
@@ -93,9 +98,13 @@ run_extract() {
     echo -e "\n${GREEN}%%% Running the extract - GCIS and DCX ${RESET}"
 
     make clean -C ../compressor/
-    make compile MACROS="REPORT=1" -C ../compressor/
-    
-    for file in $PLAIN_FILES_PATH; do
+    make compile MACROS="REPORT=1 SCREEN_OUTPUT=0 FILE_OUTPUT=0" -C ../compressor/
+    #a macro FILE_OUTPUT desabilita o armazenamento do resultado do extract
+
+    for file_path in $FILES; do
+        IFS="/" read -ra file_name <<< "$file_path"
+        file="${file_name[1]}"
+
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
         report="$REPORT_DIR/$CURR_DATE/$file-dcx-extract.csv"
@@ -116,9 +125,7 @@ run_extract() {
                 echo -n "$file|$cover|" >> $report
                 echo $query
                 ../compressor/./main "$compressed_file-dc$cover.dcx" "result_extract_temp.txt" e $cover $query $report
-
                 echo "$length" >> $report
-                rm result_extract_temp.txt
             done
         done
     done
