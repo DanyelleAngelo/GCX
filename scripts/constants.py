@@ -1,16 +1,24 @@
-COMPRESSION_TIME = {
-    "col": "compression_time",
-    "y_label": "Tempo gasto para compressão (s).",
-    "title": "Velocidade de compressão para ",
-    "output_file": "compression_time"
-}
 
-DECOMPRESSION_TIME = {
-    "col": "decompression_time",
-    "y_label": "Tempo gasto para descompressão (s).",
-    "title": "Velocidade de descompressão para textos repetitivos",
-    "output_file": "decompression_time"
-}
+TIME = [
+    {
+        "col": "compression_time",
+        "y_label": "Tempo gasto para compressão (s).",
+        "title": "Velocidade de compressão para ",
+        "output_file": "compression_time"
+    },
+    {
+        "col": "decompression_time",
+        "y_label": "Tempo gasto para descompressão (s).",
+        "title": "Velocidade de descompressão para textos repetitivos",
+        "output_file": "decompression_time"
+    },
+    {
+        "col": "time",
+        "y_label": "Tempo gasto para extração de 1000 substrings.",
+        "title": "Tempo de extração",
+        "output_file": "extracting_time"
+    }
+]
 
 MEMORY_USAGE = [
     {
@@ -36,6 +44,6 @@ RATIO_INFO = {
     "output_file": "ratio"
 }
 
-COVERAGE = ["DC3","DC4","DC5","DC6","DC7","DC8","DC9","DC15","DC30","DC60"]
+COVERAGE = ["DC3","DC4"]#,"DC5","DC6","DC7","DC8","DC9","DC15","DC30","DC60"]
 
 LINE_STYLE = ["--", ":", "-.", "-","--"]
