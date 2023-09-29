@@ -37,7 +37,7 @@ def generate_chart(file_names, results_dcx, results_gcis, information, output_di
     max_value = max(max(results_gcis[col]), max(results_dcx[col]))
     if(operation!="ratio"):
         max_value=locale.atof(max_value)
-    plt.ylim(0, max_value + 10)
+    #plt.ylim(0, max_value + 10)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)

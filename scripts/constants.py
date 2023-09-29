@@ -44,6 +44,6 @@ RATIO_INFO = {
     "output_file": "ratio"
 }
 
-COVERAGE = ["DC3","DC4"]#,"DC5","DC6","DC7","DC8","DC9","DC15","DC30","DC60"]
+COVERAGE = ["DC3","DC4","DC5","DC6","DC7","DC8","DC9","DC15","DC30","DC60"]
 
 LINE_STYLE = ["--", ":", "-.", "-","--"]

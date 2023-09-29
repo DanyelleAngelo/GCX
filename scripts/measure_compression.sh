@@ -135,12 +135,17 @@ run_extract() {
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-    for file in $PLAIN_FILES_PATH; do
-        report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
+    for file_path in $FILES; do
+        IFS="/" read -ra file_name <<< "$file_path"
+        file="${file_name[1]}"
+
+        report_compress="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
+        report_extract="$REPORT_DIR/$CURR_DATE/$file-dcx-extract.csv"
 
         echo -e "\n\tGenerate graphs for $file"
 
-        python3 report.py "$report" "$REPORT_DIR/$CURR_DATE/graphs"
+        python3 report.py "$report_compress" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
+        #python3 report.py "$report_extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
     done
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
@@ -148,8 +153,8 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-    compress_and_decompress_with_dcx
-    valid_dcx_extract
-    run_extract
-#    generate_graphs
+#    compress_and_decompress_with_dcx
+#    valid_dcx_extract
+#    run_extract
+    generate_graphs
 fi
