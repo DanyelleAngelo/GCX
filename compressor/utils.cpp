@@ -80,6 +80,6 @@ void generateReport(char *fileName, double duration, void *base) {
 
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
-    fprintf(file, "%lld|%lld|%5.4lf|", peak,stack,duration);
+    fprintf(file, "%lld|%lld|%5.15lf|", peak,stack,duration);
     fclose(file);
 }
