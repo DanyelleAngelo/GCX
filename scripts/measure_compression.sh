@@ -155,6 +155,6 @@ if [ "$0" = "$BASH_SOURCE" ]; then
     download_files
 #    compress_and_decompress_with_dcx
 #    valid_dcx_extract
-#    run_extract
-    generate_graphs
+    run_extract
+#    generate_graphs
 fi
