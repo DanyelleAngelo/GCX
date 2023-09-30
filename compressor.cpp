@@ -9,13 +9,15 @@
 #include <fstream>
 
 using namespace std;
+using namespace std::chrono;
+using timer = std::chrono::high_resolution_clock;
 
 #define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
     clock_t start, finish;
-    double duration = 0.0;
+    double duration =0.0;
     i32 textSize;
     void* base = stack_count_clear();
     switch (op){
@@ -29,12 +31,12 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             free(text);
 
             //starting process
-            start = clock();
+            auto start = timer::now();
             i32 nTuples = textSize/coverage;
             i32 *tuples = (i32*) malloc(nTuples * sizeof(i32));
             compress(uText, tuples, textSize, strcat(fileOut,".dcx"), 0, coverage, header, ASCII_SIZE);
-            finish = clock();
-            duration = (double)(finish - start) / CLOCKS_PER_SEC;
+            auto stop = timer::now();
+            duration = (double)duration_cast<seconds>(stop - start).count();
 
             //printing compressed informations
             #if SCREEN_OUTPUT==1
@@ -57,10 +59,10 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             readCompressedFile(fileIn, header, encodedSymbols, xsSize, coverage, leafLevelRules);
 
             //starting process
-            start = clock();
+            auto start = timer::now();
             decode(text, header, encodedSymbols, xsSize, leafLevelRules, coverage);
-            finish = clock();
-            duration = (double)(finish - start) / CLOCKS_PER_SEC;
+            auto stop = timer::now();
+            duration = (double)duration_cast<seconds>(stop - start).count();
 
             //saving output
             saveDecodedText(fileOut, text, xsSize);
@@ -93,14 +95,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             file.close();
 
             //start process
-            start = clock();
             levels=subtree_size[0];
             for(int i=0; i < levels; i++)subtree_size[i] = pow(coverage, levels-i);
             txtSize = queries[0].second-queries[0].first+1;
             text = (unsigned char*)calloc(txtSize+1, sizeof(unsigned char));
-            extract_batch(fileOut, text, subtree_size, encodedSymbols, leafLevelRules, coverage, txtSize, queries, levels);
-            finish = clock();
-            duration = (double)(finish - start) / CLOCKS_PER_SEC;
+            duration = extract_batch(fileOut, text, subtree_size, encodedSymbols, leafLevelRules, coverage, txtSize, queries, levels);
 
             free(leafLevelRules);
             free(text);
@@ -122,7 +121,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
     #if REPORT == 1
         generateReport(reportFile, duration, base);
     #endif
-    printf("Time: %5.2lf(s)\n",duration);
+    printf("Time: %5.15lf(s)\n",duration);
 }
 
 void readPlainText(char *fileName, unsigned char *&text, i32 &textSize, int coverage) {
@@ -233,67 +232,73 @@ void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsS
     free(xs);
 }
 
-void extract_batch(char *fileName, unsigned char *&text, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, vector<pair<i32, i32>> queries, int levels) {
-    i32 l,r;
-    for(auto interval : queries) {
-        l=interval.first, r=interval.second;
-        extract(text, subtree_size, encodedSymbols, leafLevelRules, coverage, txtSize, l, r, levels);
+double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, vector<pair<i32, i32>> queries, int levels) {
+    i32 *temp = (i32*)malloc(50000*sizeof(i32));
+    i32 *xs = (i32*)malloc(50000*sizeof(i32));
+
+    duration<double> duration;
+    auto first = timer::now();
+    auto total_time = timer::now();
+    for(auto i : queries) {
+        auto t0 = timer::now();
+        extract(text, temp, xs, subtree_size, encodedSymbols, leafLevelRules, coverage, txtSize, i.first, i.second, levels);
+        auto t1 = timer::now();
+        total_time += t1-t0;
 
         #if FILE_OUTPUT == 1
             FILE* fileOutput = fopen(fileName,"a");
             isFileOpen(fileOutput, "An error occurred while opening the compressed file.");
-            fprintf(fileOutput, "[%d,%d]\n", l,r);
-            fwrite(&text[0], sizeof(char), r-l+1, fileOutput);
+            fprintf(fileOutput, "[%d,%d]\n", i.first,i.second);
+            fwrite(&text[0], sizeof(char), i.second-i.first+1, fileOutput);
             fprintf(fileOutput, "\n");
             fclose(fileOutput);
         #endif
     }
+    duration = total_time - first;
+    free(temp);
+    free(xs);
+    return duration.count();
 }
 
-void extract(unsigned char *&text, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, i32 l, i32 r, int levels){
-    if(l > r) {
-        error("The value of r must be greater than or equal to l.");
-    }
-
+void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, i32 l, i32 r, int levels){
     //Determines the interval in Xs that we need to decode
     i32 start_node = l/subtree_size[0], end_node = r/subtree_size[0], size;
     i32 xsSize = end_node - start_node + 1;
     l = l%subtree_size[0], r = r - (start_node*subtree_size[0]);
-    //get xs
-    i32 *xs = (i32*)malloc(xsSize*sizeof(i32));
-    for(int i=start_node, j=0; j < xsSize; i++) {
-        xs[j++] = (i32)ua_get(encodedSymbols[0], i);
-    }
 
-     for(int i=1; i < levels; i++) {
-        decodeSymbol(encodedSymbols[i], xs, xsSize, coverage);
-    
+    //get xs
+    for(int i=start_node, j=0; j < xsSize; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
+
+    for(int j=1; j < levels; j++) {
+        for(int i =0,p=0; i < xsSize; i++) {
+            if(xs[i] == 0)break;
+            for(int k=0; k < coverage; k++) {
+                temp[p++] = ua_get(encodedSymbols[j], GET_RULE_INDEX()+k);
+            }
+        }
+        xsSize *=coverage;
+
         //Choose rules (nodes) that we will use in the next iteration
-        start_node = l/subtree_size[i];
-        end_node = r/subtree_size[i];
+        start_node = l/subtree_size[j];
+        end_node = r/subtree_size[j];
         size = end_node - start_node+1;
-        i32 *temp = (i32*)calloc(size, sizeof(i32));
 
         //symbol to translate in the next level
-        for(int i=start_node, j=0; j < size && i < xsSize; i++) temp[j++] = xs[i];
-        for(int j=0; j < size; j++)xs[j] = temp[j];
-        free(temp);
+        for(int m=0, k=start_node; m < size && k < xsSize; k++)xs[m++] = temp[k];
 
-        l = l%subtree_size[i];
-        r -= start_node*subtree_size[i];
+        l = l%subtree_size[j];
+        r -= start_node*subtree_size[j];
     }
-    
+
     int k= l % subtree_size[levels-1];
     char ch;
     for(int i=0,j=0; i < size && j < txtSize; i++){
-        if(xs[i] == 0)continue;
         for(; k < coverage && j < txtSize; k++) {
             ch = leafLevelRules[GET_RULE_INDEX()+k];
             if(ch != 0)text[j++] = ch;
         }
         k=0;
     }
-    free(xs);
 }
 
 void storeStartSymbol(char *fileName, i32 *startSymbol, vector<i32> &header) {
@@ -358,7 +363,7 @@ void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, 
 }
 
 void decodeSymbol(uarray *encodedSymbols, i32 *&xs, i32 &xsSize, int coverage) {
-    i32 *temp = (i32*)malloc(xsSize*coverage*sizeof(i32));
+    i32 *temp = (i32*)malloc(xsSize*coverage*sizeof(i32));//tirar mover
 
     for(int i =0,j=0; i < xsSize; i++) {
         if(xs[i] == 0)break;
@@ -368,10 +373,10 @@ void decodeSymbol(uarray *encodedSymbols, i32 *&xs, i32 &xsSize, int coverage) {
     }
 
     xsSize *=coverage;
-    free(xs);
+    free(xs);//mover
     xs = (i32*)malloc(xsSize*sizeof(i32));
     for(int i=0,j=0; i < xsSize; i++)xs[j++] = temp[i];
-    free(temp);
+    free(temp);//mover
 }
 
 void saveDecodedText(char *fileName, unsigned char* text, i32 size) {
