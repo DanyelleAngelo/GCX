@@ -9,5 +9,5 @@ dataset/*
 *__pycache__*
 main
 external/malloc_count
-reports/*/extract/*extract_answer*
-reports/*/extract/*result_extract*
+reports/*/extract/*extract_answer*.txt
+reports/*/extract/*result_extract*.txt
