@@ -88,8 +88,11 @@ valid_dcx_extract() {
                 #checks equality
                 if ! diff -s $extract_output $extract_answer; then
                     echo "** Extract ** Erro ao extrair strings de tamanho $length, para o arquivo $file com tamanho de regra para o DCX igual à $cover" >> "$GENERAL_REPORT/errors/errors.txt"
+                else
+                    rm $extract_output
                 fi
             done
+            rm $extract_answer
         done
     done
 }
