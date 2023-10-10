@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstring>
 #include <math.h>
+#include <chrono>
 #include <fstream>
 
 using namespace std;
@@ -14,7 +15,6 @@ using timer = std::chrono::high_resolution_clock;
 
 #define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
-
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
     clock_t start, finish;
@@ -296,8 +296,9 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
     int k= l % subtree_size[levels-1];
     char ch;
     for(int i=0,j=0; i < size && j < txtSize; i++){
-        for(; k < coverage && j < txtSize; k++) {
-            ch = leafLevelRules[GET_RULE_INDEX()+k];
+        i32 rule = GET_RULE_INDEX();
+        for(; k < coverage; k++) {
+            ch = leafLevelRules[rule+k];
             if(ch != 0)text[j++] = ch;
         }
         k=0;
