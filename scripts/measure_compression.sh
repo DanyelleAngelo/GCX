@@ -46,7 +46,7 @@ compress_and_decompress_with_dcx() {
             #validate compressed file
             validate_compression_and_decompression "$plain_file_path" "$file_out-plain"
             #adding file size information to the report
-            echo -n $(stat "$stat_options" "$file_out.dcx") >> $report
+            echo -n $(stat $stat_options $file_out.dcx) >> $report
             echo "|$size_plain" >> $report
         done
 	    #compresses and decompresses the file using GCIS, with the Elias-Fano and Simple8B codec.
@@ -156,8 +156,8 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-    compress_and_decompress_with_dcx
-    valid_dcx_extract
-    run_extract
-#    generate_graphs
+#    compress_and_decompress_with_dcx
+#    valid_dcx_extract
+#    run_extract
+    generate_graphs
 fi
