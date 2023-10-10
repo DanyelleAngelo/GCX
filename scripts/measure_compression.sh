@@ -1,7 +1,7 @@
 #!/bin/bash
 source utils.sh
 
-COV_LIST=(3 4 5 6 7 8 9 15 30 60)
+COV_LIST=(3 4 5 6 7 8 9 11 15 30 60)
 STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|coverage|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
@@ -32,7 +32,7 @@ compress_and_decompress_with_dcx() {
         report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
         plain_file_path="$PIZZA_DIR/$file"
         echo $HEADER > $report; 
-        size_plain=$(stat "$stat_options" "$plain_file_path")
+        size_plain=$(stat $stat_options $plain_file_path)
 
         for cover in "${COV_LIST[@]}"; do
             echo -e "\n${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
@@ -158,6 +158,6 @@ if [ "$0" = "$BASH_SOURCE" ]; then
     download_files
     compress_and_decompress_with_dcx
     valid_dcx_extract
-#    run_extract
+    run_extract
 #    generate_graphs
 fi
