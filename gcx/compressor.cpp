@@ -165,7 +165,7 @@ void readCompressedFile(char *fileName, i32 *&header, uarray **&encodedSymbols, 
     }
 
     //get leaf nodes
-    i32 size = header[header[0]]*coverage;
+    i32 size = header[levels]*coverage;
     leafLevelRules = (unsigned char*)malloc(size*sizeof(unsigned char));
     fread(&leafLevelRules[0], sizeof(unsigned char), size, file);
 
@@ -194,7 +194,7 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, i
     createLexNames(text, tuples, rank, qtyRules, nTuples, coverage);
     header.insert(header.begin(), qtyRules);
 
-    if(level !=0)selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, coverage, level, qtyRules, sigma);
+    if(level !=0)selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, coverage, level, qtyRules, sigma-coverage);
     else selectUniqueRules(text, leafRules, tuples, rank, nTuples, coverage, level, qtyRules);
 
     if(qtyRules < nTuples){
@@ -205,9 +205,9 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, i
     }
     storeRules(fileName, encdIntRules, leafRules, level, qtyRules*coverage);
 
-    if(encdIntRules != nullptr) ua_free(encdIntRules);
-    else if(leafRules != nullptr) free(leafRules);
-    free(rank);
+    //if(encdIntRules != nullptr) ua_free(encdIntRules);
+    //else if(leafRules != nullptr) free(leafRules);
+    //free(rank);
 }
 
 void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsSize, unsigned char *leafLevelRules, int coverage) {
@@ -220,16 +220,17 @@ void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsS
     }
 
     //decode last level
-    i32 size=xsSize*coverage, i=0;
-    text = (unsigned char*)malloc(size*sizeof(unsigned char));
-    for(i=0, size=0; i < xsSize; i++){
+    i32 plainTxtSize=xsSize*coverage, k=0;
+    text = (unsigned char*)malloc(plainTxtSize*sizeof(unsigned char));
+    for(int i=0; i < xsSize; i++){
+        i32 rule = GET_RULE_INDEX();
         if(xs[i] == 0)continue;
         for(int j=0; j < coverage; j++) {
-            char ch = leafLevelRules[GET_RULE_INDEX()+j];
-            if(ch != 0)text[size++] = ch;
+            char ch = leafLevelRules[rule+j];
+            if(ch != 0)text[k++] = ch;
         }
     }
-    xsSize = size;
+    xsSize = k;
     free(xs);
 }
 
@@ -273,9 +274,9 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
     for(int j=1; j < levels; j++) {
         for(int i =0,p=0; i < xsSize; i++) {
             if(xs[i] == 0)break;
-            i32 rule = (xs[i]-1)*coverage;
+            i32 rule = GET_RULE_INDEX();
             for(int k=0; k < coverage && rule+k < encodedSymbols[j]->n; k++) {
-                temp[p++] = ua_get(encodedSymbols[j], GET_RULE_INDEX()+k);
+                temp[p++] = ua_get(encodedSymbols[j], rule+k);
             }
         }
         xsSize *=coverage;
@@ -366,15 +367,16 @@ void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, 
 
 void decodeSymbol(uarray *encodedSymbols, i32 *&xs, i32 &xsSize, int coverage) {
     i32 *temp = (i32*)malloc(xsSize*coverage*sizeof(i32));//tirar mover
-
-    for(int i =0,j=0; i < xsSize; i++) {
+    int j=0;
+    for(int i =0; i < xsSize; i++) {
+        i32 rule=GET_RULE_INDEX();
         if(xs[i] == 0)break;
         for(int k=0; k < coverage; k++) {
-            temp[j++] = ua_get(encodedSymbols, GET_RULE_INDEX()+k);
+            temp[j++] = ua_get(encodedSymbols, rule+k);
         }
     }
 
-    xsSize *=coverage;
+    xsSize =j;
     free(xs);//mover
     xs = (i32*)malloc(xsSize*sizeof(i32));
     for(int i=0,j=0; i < xsSize; i++)xs[j++] = temp[i];
