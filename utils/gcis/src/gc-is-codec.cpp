@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
     char * file_dcx = argv[5];
     clock_t start_dcx, finish_dcx;
     void* base = stack_count_clear();
+    double duration =0.0;
 
     if(codec_flag == "-s8b"){
         d = new gcis_dictionary<gcis_s8b_codec>();
@@ -77,10 +78,9 @@ int main(int argc, char *argv[]) {
 #endif
 
         auto start = timer::now();
-        start_dcx = clock();
         d->encode(str);
-        finish_dcx = clock();
         auto stop = timer::now();
+        duration = (double)duration_cast<seconds>(stop - start).count();
 
 #ifdef MEM_MONITOR
         mm.event("GC-IS Save");
@@ -88,8 +88,7 @@ int main(int argc, char *argv[]) {
 
         cout << "input:\t" << strlen(str) << " bytes" << endl;
         cout << "output:\t" << d->size_in_bytes() << " bytes" << endl;
-        cout << "time: " << (double)duration_cast<seconds>(stop - start).count()
-             << " seconds" << endl;
+        cout << "time: " << duration << " seconds" << endl;
 
         d->serialize(output);
         output.close();
@@ -109,17 +108,13 @@ int main(int argc, char *argv[]) {
 #endif
 
         auto start = timer::now();
-        start_dcx = clock();
         char *str = d->decode();
-        finish_dcx = clock();
         auto stop = timer::now();
+        duration=(double)duration_cast<seconds>(stop - start).count();
 
         cout << "input:\t" << d->size_in_bytes() << " bytes" << endl;
         cout << "output:\t" << strlen(str) << " bytes" << endl;
-        cout << "time: "
-             << (double)duration_cast<milliseconds>(stop - start).count() /
-                    1000.0
-             << setprecision(2) << fixed << " seconds" << endl;
+        cout << "time: " << duration << setprecision(2) << fixed << " seconds" << endl;
 
         output.write(str, strlen(str));
         input.close();
@@ -258,9 +253,7 @@ int main(int argc, char *argv[]) {
         while (query >> l >> r) {
             v_query.push_back(make_pair(l, r));
         }
-        start_dcx = clock();
-        d->extract_batch(v_query);
-        finish_dcx = clock();
+        duration = d->extract_batch(v_query);
     } else {
         std::cerr << "Invalid mode, use: " << endl
                   << "-c for compression;" << endl
@@ -278,7 +271,6 @@ int main(int argc, char *argv[]) {
 
     //To DCX
     FILE *report_dcx = fopen(file_dcx, "a");
-    double duration = (double)(finish_dcx - start_dcx) / CLOCKS_PER_SEC;
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
     fprintf(report_dcx, "%lld|%lld|%5.4lf|", peak,stack,duration);
