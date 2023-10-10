@@ -273,7 +273,8 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
     for(int j=1; j < levels; j++) {
         for(int i =0,p=0; i < xsSize; i++) {
             if(xs[i] == 0)break;
-            for(int k=0; k < coverage; k++) {
+            i32 rule = (xs[i]-1)*coverage;
+            for(int k=0; k < coverage && rule+k < encodedSymbols[j]->n; k++) {
                 temp[p++] = ua_get(encodedSymbols[j], GET_RULE_INDEX()+k);
             }
         }
