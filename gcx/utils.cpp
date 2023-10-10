@@ -55,7 +55,6 @@ void radixSort(i32 *text, i32 nTuples, i32 *tuples, i32 sigma, int coverage){
 void createLexNames(i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage) {
     i32 name = 1;
     rank[tuples[0]/coverage] = name;
-
     for(i32 i=1; i < nTuples; i++) {
         bool equal = true;
         for(int j=0; j < coverage; j++){

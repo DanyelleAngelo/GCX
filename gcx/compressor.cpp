@@ -15,6 +15,7 @@ using timer = std::chrono::high_resolution_clock;
 #define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
+
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
     clock_t start, finish;
     double duration =0.0;
@@ -193,8 +194,8 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, i
     createLexNames(text, tuples, rank, qtyRules, nTuples, coverage);
     header.insert(header.begin(), qtyRules);
 
-    if(level !=0)selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, coverage, level, qtyRules, sigma-coverage);
-   else selectUniqueRules(text, leafRules, tuples, rank, nTuples, coverage, level, qtyRules);
+    if(level !=0)selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, coverage, level, qtyRules, sigma);
+    else selectUniqueRules(text, leafRules, tuples, rank, nTuples, coverage, level, qtyRules);
 
     if(qtyRules < nTuples){
         compress(rank, tuples, reducedSize, fileName, level+1, coverage, header, qtyRules);
