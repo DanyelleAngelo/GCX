@@ -1,17 +1,24 @@
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import numpy as np
 import constants as cons
-import locale
+import random
+import pandas as pd
 
-locale.setlocale(locale.LC_NUMERIC, 'pt_BR.utf-8')  
-colors=['purple', 'brown', 'gray', 'cyan', 'magenta', 'lime', 'olive', 'teal', 'navy', 'black', 'yellow']
+cmap= {
+    'compress': cm.get_cmap('tab10'),
+    'decompress': cm.get_cmap('tab20'),
+    'ratio': cm.get_cmap('Dark2'),
+    'memory': cm.get_cmap('Set1'),
+}
+
 width_bar = 0.2
 
-def customize_chart(y_label, x_label, title):
-    plt.xlabel(x_label)
-    plt.ylabel(y_label)
+def customize_chart(information, title, legend):
+    plt.xlabel(information['x_label'])
+    plt.ylabel(information['y_label'])
     plt.title(title)
-    plt.legend()
+    plt.legend(title=legend)
 
     plt.xticks(rotation=45)
     plt.tight_layout(pad=3.0)  
@@ -21,23 +28,16 @@ def generate_chart(file_names, results_dcx, results_gcis, information, output_di
     col = information['col']
     plt.figure(figsize=(10,8))
 
-    i=0
-    plt.bar(cons.COVERAGE, results_dcx[col], width=0.5, color=colors[i], edgecolor='black', label="DCX")
+    plt.bar(cons.COVERAGE, results_dcx[col], width=0.5, color=cmap[operation](0), edgecolor='black', label="DCX")
 
     j=0
     for index, row in results_gcis.iterrows():
-        i = i+1
-        codec = index.split("-")[2].upper()
-        plt.axhline(y=row[col], linestyle=cons.LINE_STYLE[j], linewidth=2, color=colors[i], label=f"GCIS {codec}")
-        if j > len(cons.LINE_STYLE)-1:
-            j=0
-        j=j+1
+        plt.axhline(y=row[col], color=cmap[operation](j+1), linestyle=cons.LINE_STYLE[j], linewidth=2, label=index)
+        j+=1
 
-    customize_chart(information['y_label'], f"{information['title']} {results_dcx.index[0].upper()}", "Variações de cobertura para o DCX.")
+    customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
     max_value = max(max(results_gcis[col]), max(results_dcx[col]))
-    if(operation!="ratio"):
-        max_value=locale.atof(max_value)
-    #plt.ylim(0, max_value + 10)
+    plt.ylim(0, max_value + 3)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
@@ -46,54 +46,44 @@ def generate_memory_chart(file_names, results_dcx, results_gcis, information, ou
     plt.figure(figsize=(10,8))
 
     indexes = np.arange(len(cons.COVERAGE))
+    operation='memory'
 
-    plt.bar(indexes - width_bar, results_dcx[information['peak']], label='DCX - Peak', width=width_bar, align='center')
-    plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center')
+    plt.bar(indexes - width_bar, results_dcx[information['peak']], label='DCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
+    plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center', color=cmap[operation](1))
 
     i=0
     for index, row in results_gcis.iterrows():
-        codec = index.split("-")[2].upper()
-        plt.axhline(y=row[information['peak']], linestyle=cons.LINE_STYLE[i], color=colors[i], label=f"GCIS {codec} - peak")
+        plt.axhline(y=row[information['peak']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - peak")
         i+=1
-        plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=colors[i], label=f"GCIS {codec} - stack")
+        plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - stack")
         i+=1
 
-
-    customize_chart(information['y_label'], f"{information['title']} {results_dcx.index[0].upper()}", "Variações de cobertura para o DCX.")
+    plt.yscale('log')
+    customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
     plt.xticks(indexes, cons.COVERAGE)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
 
-def generate_extract_chart(file_names, results_dcx, results_gcis, information, output_dir):
-    plt.figure(figsize=(10,8))
+def generate_extract_chart(file_names, results, information, output_dir):
+    fig = plt.figure(figsize=(15,10))
+    ax = fig.add_subplot(1, 1, 1)
 
-    #agrupa as informações de tempo por tamanho de substring
-    time_by_substring_size = {}
-    for index, row in results_dcx.iterrows():
-        key = str(row['substring_size'])
-        if key in time_by_substring_size:
-            time_by_substring_size[key].append(row['time'])
-        else:
-            time_by_substring_size[key] = [row['time']]
+    #para preservar a ordem dos dados mesmos após o groupby
+    results['algorithm'] = pd.Categorical(results['algorithm'], categories=results['algorithm'].unique(), ordered=True)
+    results = results.sort_values(by='algorithm')
+    group = results.groupby(['algorithm', 'substring_size'])[information['col']].mean().unstack()
 
-    substring_size = list(time_by_substring_size.keys())
-    position = np.arange(len(substring_size))
+    algorithm = group.index
+    substring_list = group.columns
+    time = group.values
+    start = np.arange(len(algorithm)) 
+    for i, substring_size in enumerate(substring_list):
+        ax.bar(start + width_bar * i, time[:, i], width_bar, label=substring_size)
 
-    #monta o gráfico efetivamente (informações do dcx)
-    for i, coverage in enumerate(cons.COVERAGE):
-        time = [time_by_substring_size[size][i] for size in substring_size]
-        plt.bar(position + i * width_bar, time, width_bar, label=coverage)
-    #gráfico do GCIS
-    for index, row in results_gcis.iterrows():
-        plt.axhline(y=row['time'], linestyle=cons.LINE_STYLE[i], label=f"GCIS - Tamanho de substring {row['substring_size']}")
+    ax.set_yscale('log')
+    customize_chart(information, f"{information['title']} - {results.index[0].upper()}", "Tamanho do intervalo extraído")
+    plt.xticks(np.arange(len(algorithm)), algorithm)
 
-    customize_chart(information['y_label'], f"{information['title']} {results_dcx.index[0].upper()}", "Tamanho da Substring")
-    plt.xticks(position + width_bar * (len(cons.COVERAGE) - 1) / 2, substring_size) 
-    file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
+    file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)
-
-
-
-
-
