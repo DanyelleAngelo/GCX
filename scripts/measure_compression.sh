@@ -14,7 +14,7 @@ compress_and_decompress_with_gcis() {
     FILE_NAME=$4
     SIZE_PLAIN=$5
     OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
-	echo -n "$FILE_NAME-gcis-$CODEC|-|" >> $report
+	echo -n "GCIS-${CODEC^^}|-|" >> $report
     "$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
 	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
 	echo $(stat "$stat_options" "$OUTPUT-gcis-$CODEC")"|$SIZE_PLAIN" >> $REPORT
@@ -115,17 +115,17 @@ run_extract() {
         #generates intervals
         python3 ../../GCIS/scripts/generate_extract_input.py "$PIZZA_DIR/$file" "$extract_dir/$file"
 
-        echo "file|coverage|peak|stack|time|substring_size" > $report;
+        echo "file|algorithm|peak|stack|time|substring_size" > $report;
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/$file.${length}_query"
 
             #collect metrics from GCIS execution
-            echo -n "$file-gcis-ef|-|" >> $report
-            "$GCIS_EXECUTABLE" -e "$compressed_file-gcis-ef" $query -ef $report
+            echo -n "$file|GCIS-EF|" >> $report
+            "$GCIS_EXECUTABLE" -e "$compressed_file" $query -ef $report
             echo "$length" >> $report
             for cover in "${COV_LIST[@]}"; do
                 echo -e "\n${BLUE}####### INTERVAL SIZE $length, FILE: $file COVERAGE: ${cover} ${RESET}"
-                echo -n "$file|$cover|" >> $report
+                echo -n "$file|DC$cover|" >> $report
                 echo $query
                 ../compressor/./main "$compressed_file-dc$cover.dcx" "result_extract_temp.txt" e $cover $query $report
                 echo "$length" >> $report
@@ -148,7 +148,7 @@ generate_graphs() {
         echo -e "\n\tGenerate graphs for $file"
 
         python3 report.py "$report_compress" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
-        #python3 report.py "$report_extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
+        python3 report.py "$report_extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
     done
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
