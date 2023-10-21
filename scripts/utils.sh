@@ -56,7 +56,7 @@ download_files() {
 
         if [ ! -e "$compressed_files" ] && [ ! -e "$descompressed_file" ]; then
             echo -e "\n${BLUE}  % $PIZZA_URL/$file.gz ${RESET}"
-            curl --output "$compressed_files" "$PIZZA_URL/$file.gz"
+            curl -L -o "$compressed_files" "$PIZZA_URL/$file.gz"
             gzip -d "$compressed_files"
         elif [ ! -e "$descompressed_file" ]; then
             echo -e "\n${BLUE}  % $PIZZA_URL/$file.gz ${RESET}"
