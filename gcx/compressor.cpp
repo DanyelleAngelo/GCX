@@ -9,12 +9,14 @@
 #include <chrono>
 #include <fstream>
 
+//HEADER: levels, |xs| , |rule_level_1|, |rule_level_2|, ..., |rule_level_n|
+
 using namespace std;
 using namespace std::chrono;
 using timer = std::chrono::high_resolution_clock;
 
 #define ASCII_SIZE 255
-#define DEFAULT_LCP 3
+#define DEFAULT_LCP 7
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
@@ -27,7 +29,6 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             vector<i32> header;
             vector<int> levelCoverage;
             levelCoverage.push_back(coverage);
-
             //preparing text
             unsigned char *text;
             readPlainText(fileIn, text, textSize, coverage);
@@ -63,10 +64,9 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
 
             //starting process
             auto start = timer::now();
-            decode(text, header, encodedSymbols, xsSize, leafLevelRules, levelCoverage);
+            decode(text, header[0], encodedSymbols, xsSize, leafLevelRules, levelCoverage);
             auto stop = timer::now();
             duration = (double)duration_cast<seconds>(stop - start).count();
-
             //saving output
             saveDecodedText(fileOut, text, xsSize);
 
@@ -159,28 +159,28 @@ void readCompressedFile(char *fileName, i32 *&header, uarray **&encodedSymbols, 
     //get header
     i32 levels;
     fread(&levels, sizeof(i32), 1, file);
-    header = (i32*)calloc(levels+1, sizeof(i32));
+    header = (i32*)calloc(levels+2, sizeof(i32));//for number of levels and size initial symbol
     levelCoverage = (i32*)calloc(levels+1, sizeof(int));
     header[0]=levels;
-    fread(&header[1], sizeof(i32), levels, file);
+    fread(&header[1], sizeof(i32), levels+1, file);
     fread(&levelCoverage[0], sizeof(int), levels+1, file);
     //for(int i=0; i < levels+1; i++)levelCoverage[i] = 3;
     
     //get xs and internal nodes
     encodedSymbols = (uarray**)malloc(header[0]*sizeof(uarray));
     xsSize = header[1];
-    for(i32 i=0; i < header[0]; i++) {
-        if(i == 0) {
-            encodedSymbols[0] = ua_alloc(xsSize, ceil(log2(xsSize))+1);
+    for(i32 i=1, j=0; j < header[0]; i++, j++) {
+        if(j == 0) {
+            encodedSymbols[j] = ua_alloc(xsSize, ceil(log2(xsSize))+1);
         } else {
-            encodedSymbols[i] = ua_alloc(header[i]*levelCoverage[i], ceil(log2(header[i+1]))+1);
+            encodedSymbols[j] = ua_alloc(header[i]*levelCoverage[j], ceil(log2(header[i+1]))+1);
         }
         /*cada V[i] armazena até 64b (n*b=número total de bits).*/
-        fread(encodedSymbols[i]->V, sizeof(u64), (encodedSymbols[i]->n * encodedSymbols[i]->b/64)+1, file);
+        fread(encodedSymbols[j]->V, sizeof(u64), (encodedSymbols[j]->n * encodedSymbols[j]->b/64)+1, file);
     }
 
     //get leaf nodes
-    i32 size = header[levels]*levelCoverage[levels];
+    i32 size = header[levels+1]*levelCoverage[levels];
     leafLevelRules = (unsigned char*)malloc(size*sizeof(unsigned char));
     fread(&leafLevelRules[0], sizeof(unsigned char), size, file);
 
@@ -191,8 +191,9 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
     cout << "\tCompressed file information:\n" <<
             "\n\t\tAmount of levels: " << levels << endl;
 
-    for(int i=levels; i >0; i--){
-        printf("\t\tLevel: %d - amount of rules: %u - size of rules %d.\n",i,header[i], levelCoverage[i]);
+    printf("\t\tInitial symbol size: %d\n", header[1]);
+    for(int i=levels+1, j=levels; i >1; i--, j--){
+        printf("\t\tLevel: %d - amount of rules: %u - size of rules %d.\n",j,header[i], levelCoverage[j]);
     }
 }
 
@@ -218,11 +219,22 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
         selectUniqueRules(text, leafRules, tuples, rank, nTuples, x, level, qtyRules);
     }
 
-    if(qtyRules < nTuples && checkCoverageConvergence(level, levelCoverage)){
+    int convergence = checkCoverageConvergence(level, levelCoverage);
+    if(qtyRules < nTuples && convergence){
         compress(rank, tuples, reducedSize, fileName, level+1, levelCoverage, header, qtyRules);
     }else {
         header.insert(header.begin(), level+1);
-        storeStartSymbol(fileName, rank, header, levelCoverage);
+        if(qtyRules == nTuples){
+            //o símbolo inicial não contém repetições
+            header.insert(header.begin()+1, nTuples);
+            storeStartSymbol(fileName, rank, header, levelCoverage);
+        }
+        else if(!convergence){
+            //o processo de compressão é interrompido quando ainda há repetição no símbolo inicial
+            header.insert(header.begin()+1, reducedSize);
+            storeStartSymbol(fileName, rank, header, levelCoverage);
+        }
+        else error("Error while trying to store start symbol.");
     }
 
     storeRules(fileName, encdIntRules, leafRules, level, qtyRules*x);
@@ -252,7 +264,7 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
 }
 
 int checkCoverageConvergence(int level, vector<int> levelCoverage) {
-    if(level < 2) return 1;
+    if(level < 3) return 1;
     if(levelCoverage[1] == levelCoverage[2] && levelCoverage[1] == DEFAULT_LCP+1)return 0;
     return 1;
 }
@@ -286,12 +298,15 @@ void selectUniqueRules(i32 *text, uarray *&rules, i32 *tuples, i32 *rank, i32 nT
     rules->n = n;
 }
 
-void storeStartSymbol(char *fileName, i32 *startSymbol, vector<i32> &header, vector<int> &levelCoverage) {
+void storeStartSymbol(char *fileName, i32 *text, vector<i32> &header, vector<int> &levelCoverage) {
     uarray *encodedSymbol = ua_alloc(header[1], ceil(log2(header[1]))+1);
-    for(int i=0, j=0; i < header.at(1);i++){
-        if(startSymbol[i] ==0)break;
-        ua_put(encodedSymbol, j++, startSymbol[i]);
+    i32 size=0;
+    for(int i=0; i < header[1]; i++){
+        if(text[i] ==0)break;
+        ua_put(encodedSymbol, size++, text[i]);
     }
+    encodedSymbol->n = size;
+    header[1]=size;
 
     FILE* file = fopen(fileName,"wb");
     isFileOpen(file, "An error occurred while opening the file for store start symbol.");
@@ -321,18 +336,18 @@ void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, 
     fclose(file);
 }
 
-void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsSize, unsigned char *leafLevelRules, int *levelCoverage) {
+void decode(unsigned char *&text, int levels, uarray **encodedSymbols, i32 &xsSize, unsigned char *leafLevelRules, int *levelCoverage) {
     i32 *xs = (i32*)calloc(xsSize, sizeof(i32));
     for(int i=0; i < xsSize; i++)xs[i] = (i32)ua_get(encodedSymbols[0], i);
 
     //decode internal nodes
-    for(i32 i=1, j=header[0]; i < header[0]; i++, j--) {
+    for(i32 i=1; i < levels; i++) {
         decodeSymbol(encodedSymbols[i], xs, xsSize, levelCoverage[i]);
     }
 
     //decode last level
-    int coverage = levelCoverage[header[0]];
-    i32 plainTxtSize=xsSize*levelCoverage[header[0]], k=0;
+    int coverage = levelCoverage[levels];
+    i32 plainTxtSize=xsSize*levelCoverage[levels], k=0;
     text = (unsigned char*)malloc(plainTxtSize*sizeof(unsigned char));
     for(int i=0; i < xsSize; i++){
         if(xs[i] == 0)continue;

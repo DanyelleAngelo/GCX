@@ -117,11 +117,11 @@ void selectUniqueRules(i32 *text, uarray *&rules, i32 *tuples, i32 *rank, i32 nT
  * @brief Cria e abre o arquivo para gravar as informações da gramática, e em seguida grava o símbolo inicial.
  * 
  * @param fileName nome do arquivo
- * @param startSymbol símbolo inicial
+ * @param text símbolo inicial
  * @param header contém as informações da gramática
  * @param levelCoverage vetor com o tamanho das regras por nível
  */
-void storeStartSymbol(char *fileName, i32 *startSymbol, vector<i32> &header, vector<int> &levelCoverage);
+void storeStartSymbol(char *fileName, i32 *text, vector<i32> &header, vector<int> &levelCoverage);
 
  /**
   * @brief armazena as regras da gramática
@@ -138,13 +138,13 @@ void storeRules(char *fileName, uarray *encdIntRules, unsigned char *leafRules, 
  * @brief Decodifica texto
  * 
  * @param text array que conterá o texto decodificado
- * @param header array com informações de regras por nível
+ * @param levels número de níveis na gramática
  * @param encodedSymbols matriz de regras no formato codificado, cada linha representa as regras de um nível
  * @param xsSize tamanho do símbolo inicial, ao final do algoritmo conterá o tamanho do texto decodificado
  * @param leafLevelRules array contendo as regras do último nível do processo recursivo
  * @param levelCoverage vetor com o tamanho das regras
  */
-void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsSize, unsigned char *leafLevelRules, int *levelCoverage);
+void decode(unsigned char *&text, int levels, uarray **encodedSymbols, i32 &xsSize, unsigned char *leafLevelRules, int *levelCoverage);
 
 /**
  * @brief decodifica um símbolo xs
