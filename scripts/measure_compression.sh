@@ -6,6 +6,7 @@ STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
+#set -x
 
 compress_and_decompress_with_gcis() {
     CODEC=$1
@@ -48,10 +49,12 @@ compress_and_decompress_with_dcx() {
             #adding file size information to the report
             echo -n $(stat $stat_options $file_out.dcx) >> $report
             echo "|$size_plain" >> $report
+            break
         done
 	    #compresses and decompresses the file using GCIS, with the Elias-Fano and Simple8B codec.
         compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
         compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+        break
     done
     make clean -C ../compressor/
 }
@@ -105,6 +108,7 @@ run_extract() {
     #a macro FILE_OUTPUT desabilita o armazenamento do resultado do extract
 
     for file_path in $FILES; do
+        echo -e "\n${BLUE}####### FILE: $file${RESET}"
         IFS="/" read -ra file_name <<< "$file_path"
         file="${file_name[1]}"
 
@@ -119,18 +123,22 @@ run_extract() {
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/$file.${length}_query"
 
+            echo -e "\n\t${BLUE} GCIS - INTERVAL SIZE $length ${RESET}"
             #collect metrics from GCIS execution
             echo -n "$file|GCIS-ef|" >> $report
-            "$GCIS_EXECUTABLE" -e "$compressed_file" $query -ef $report
+            $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
             echo "$length" >> $report
             for cover in "${COV_LIST[@]}"; do
-                echo -e "\n${BLUE}####### INTERVAL SIZE $length, FILE: $file COVERAGE: ${cover} ${RESET}"
+                echo -e "\n\t${BLUE} DCX - INTERVAL SIZE $length, INITIAL COVERAGE $cover ${RESET}"
                 echo -n "$file|DC$cover|" >> $report
                 echo $query
                 ../compressor/./main "$compressed_file-dc$cover.dcx" "result_extract_temp.txt" e $cover $query $report
                 echo "$length" >> $report
+                break
             done
+            break
         done
+        break
     done
 
 }
@@ -154,10 +162,10 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    check_and_create_folder
-    download_files
-    compress_and_decompress_with_dcx
-    valid_dcx_extract
+#    check_and_create_folder
+#    download_files
+#    compress_and_decompress_with_dcx
+#    valid_dcx_extract
     run_extract
 #    generate_graphs
 fi
