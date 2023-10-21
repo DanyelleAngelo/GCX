@@ -28,7 +28,9 @@ def generate_chart(file_names, results_dcx, results_gcis, information, output_di
     col = information['col']
     plt.figure(figsize=(10,8))
 
-    plt.bar(cons.COVERAGE, results_dcx[col], width=0.5, color=cmap[operation](0), edgecolor='black', label="DCX")
+    algorithm = results_dcx['algorithm'].unique().tolist()
+
+    plt.bar(algorithm, results_dcx[col], width=0.5, color=cmap[operation](0), edgecolor='black', label="DCX")
 
     j=0
     for index, row in results_gcis.iterrows():
@@ -45,7 +47,9 @@ def generate_chart(file_names, results_dcx, results_gcis, information, output_di
 def generate_memory_chart(file_names, results_dcx, results_gcis, information, output_dir):
     plt.figure(figsize=(10,8))
 
-    indexes = np.arange(len(cons.COVERAGE))
+    algorithm = results_dcx['algorithm'].unique().tolist()
+
+    indexes = np.arange(len(algorithm))
     operation='memory'
 
     plt.bar(indexes - width_bar, results_dcx[information['peak']], label='DCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
@@ -60,7 +64,7 @@ def generate_memory_chart(file_names, results_dcx, results_gcis, information, ou
 
     plt.yscale('log')
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
-    plt.xticks(indexes, cons.COVERAGE)
+    plt.xticks(indexes, algorithm)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
