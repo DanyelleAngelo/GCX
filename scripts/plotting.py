@@ -39,7 +39,7 @@ def generate_chart(file_names, results_dcx, results_gcis, information, output_di
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
     max_value = max(max(results_gcis[col]), max(results_dcx[col]))
-    plt.ylim(0, max_value + 3)
+    plt.ylim(0, 100)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
@@ -88,6 +88,7 @@ def generate_extract_chart(file_names, results, information, output_dir):
     ax.set_yscale('log')
     customize_chart(information, f"{information['title']} - {results.index[0].upper()}", "Tamanho do intervalo extraído")
     plt.xticks(np.arange(len(algorithm)), algorithm)
+    plt.ylim(0, 100)
 
     file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)

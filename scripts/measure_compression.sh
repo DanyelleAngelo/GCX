@@ -7,7 +7,7 @@ STR_LEN=(1 10 100 1000 10000)
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 #set -x
-
+CURR_DATE="2023-10-28"
 compress_and_decompress_with_gcis() {
     CODEC=$1
     PLAIN=$2
@@ -136,9 +136,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    check_and_create_folder
-    download_files
-    compress_and_decompress_with_dcx
-    run_extract
-#    generate_graphs
+#    check_and_create_folder
+#    download_files
+#    compress_and_decompress_with_dcx
+#    run_extract
+    generate_graphs
 fi
