@@ -19,7 +19,7 @@ compress_and_decompress_with_gcis() {
     "$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
 	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
     size_file=$(stat "$stat_options" "$OUTPUT-gcis-$CODEC")
-    size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
+    #size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
 	echo "$size_file|$SIZE_PLAIN" >> $REPORT
 }
 
@@ -38,7 +38,7 @@ compress_and_decompress_with_dcx() {
 
         plain_file_path="$PIZZA_DIR/$file"
         size_plain=$(stat $stat_options $plain_file_path)
-        size_plain=$(echo "scale=2; $size_plain / (1024 * 1024)" | bc)
+        #size_plain=$(echo "scale=2; $size_plain / (1024 * 1024)" | bc)
 
         for cover in "${COV_LIST[@]}"; do
             echo -e "\n${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
@@ -56,7 +56,7 @@ compress_and_decompress_with_dcx() {
 
             #adding file size information to the report
             size_file=$(stat $stat_options $file_out.dcx)
-            size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
+            #size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
             echo "$size_file|$size_plain" >> $report
         done
 
@@ -109,9 +109,8 @@ run_extract() {
                 #checks equality
                 if ! diff -s $extract_output $extract_answer; then
                     echo "** Extract ** Erro ao extrair strings de tamanho $length, para o arquivo $file com tamanho de regra para o DCX igual à $cover" >> "$GENERAL_REPORT/errors/errors.txt"
-                else
-                    rm $extract_output
-                fi
+      		fi
+                rm $extract_output
             done
             rm $extract_answer
         done
@@ -137,9 +136,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-#    check_and_create_folder
-#    download_files
-#    compress_and_decompress_with_dcx
+    check_and_create_folder
+    download_files
+    compress_and_decompress_with_dcx
     run_extract
-    generate_graphs
+#    generate_graphs
 fi

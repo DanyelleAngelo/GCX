@@ -1,0 +1,1 @@
+** Extract ** Erro ao extrair strings de tamanho 10000, para o arquivo sources.001.2 com tamanho de regra para o DCX igual à 128
