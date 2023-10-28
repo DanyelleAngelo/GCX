@@ -80,10 +80,10 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma);
  * @brief verifica se a geração de regras continua a covergir
  * 
  * @param level nível atual da recursão
- * @param levelCoverage  vetor que armazena o tamanho (cobertura) das regras por nível
- * @return int - retorna 0, se 2 níveis seguidos tiverem a mesma cobertura. Retorna 1 se o nível da recursão atual for menor do que 1, ou se a condição anterior não for atendida.
+ * @param lcp_mean  lcp_mean calculado neste nível, indica o tamanho das regras
+ * @return int - retorna 0, se o nível tiver qtyRules = nTuples, ou quando a condição anteriror for falsa mas lcp_mean = 1. Retorna 1 caso nenhuma das condições anteriores for atendida.
  */
-int checkCoverageConvergence(int level, vector<int> levelCoverage);
+int checkCoverageConvergence(int level, int lcp_mean, i32 qtyRules, i32 nTuples);
 
 /**
  * @brief Seleciona as regras únicas do nível atual da recursão, e as armazena em ordem lexicográfica (em relação ao símbolo não terminal) em uma estrutura de dados, para posteriormente serem gravadas em um arquivo.

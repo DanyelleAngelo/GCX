@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     char op = argv[3][0];
     int coverage = atoi(&argv[4][0]);
     char *reportFile = nullptr, *queriesFile = nullptr;
-
+    
     if (op=='e') {
         queriesFile = argv[5];
         if(argc==7)reportFile = argv[6];
