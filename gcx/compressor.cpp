@@ -160,7 +160,7 @@ void readCompressedFile(char *fileName, i32 *&header, uarray **&encodedSymbols, 
     i32 levels;
     fread(&levels, sizeof(i32), 1, file);
     header = (i32*)calloc(levels+2, sizeof(i32));//for number of levels and size initial symbol
-    levelCoverage = (i32*)calloc(levels+1, sizeof(int));
+    levelCoverage = (i32*)calloc(levels+1, sizeof(i32));
     header[0]=levels;
     fread(&header[1], sizeof(i32), levels+1, file);
     fread(&levelCoverage[0], sizeof(int), levels+1, file);
@@ -191,6 +191,7 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
     cout << "\tCompressed file information:\n" <<
             "\n\t\tAmount of levels: " << levels << endl;
 
+    printf("\t\tSize initial partition: %d\n", header[0]);
     printf("\t\tInitial symbol size: %d\n", header[1]);
     for(int i=levels+1, j=levels; i >1; i--, j--){
         printf("\t\tLevel: %d - amount of rules: %u - size of rules %d.\n",j,header[i], levelCoverage[j]);
@@ -198,11 +199,11 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
 }
 
 void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, vector<int> &levelCoverage, vector<i32> &header, i32 sigma){
-    int x = getLcpMean(text, tuples, textSize, levelCoverage[0], sigma) +1;
+    int lcp_mean = getLcpMean(text, tuples, textSize, levelCoverage[level], sigma);
+    int x = (lcp_mean > 1) ? lcp_mean+1 : levelCoverage[0];
     levelCoverage.insert(levelCoverage.begin()+1, x);
 
     i32 nTuples = textSize/x, qtyRules=0;
-    //TODO: como definir o padding que deve ser aplicado no próximo nível, sem calcular o lcp médio (coverage) antes? Atualmente estamos passando o X enviado como parâmetro na url. 
     i32 reducedSize =  nTuples + padding(nTuples, levelCoverage[0]);
     i32 *rank = (i32*) calloc(reducedSize, sizeof(i32));
     uarray *encdIntRules = nullptr;
@@ -219,22 +220,12 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
         selectUniqueRules(text, leafRules, tuples, rank, nTuples, x, level, qtyRules);
     }
 
-    int convergence = checkCoverageConvergence(level, levelCoverage);
-    if(qtyRules < nTuples && convergence){
+    if(checkCoverageConvergence(level, lcp_mean, qtyRules, nTuples)){
         compress(rank, tuples, reducedSize, fileName, level+1, levelCoverage, header, qtyRules);
     }else {
         header.insert(header.begin(), level+1);
-        if(qtyRules == nTuples){
-            //o símbolo inicial não contém repetições
-            header.insert(header.begin()+1, nTuples);
-            storeStartSymbol(fileName, rank, header, levelCoverage);
-        }
-        else if(!convergence){
-            //o processo de compressão é interrompido quando ainda há repetição no símbolo inicial
-            header.insert(header.begin()+1, reducedSize);
-            storeStartSymbol(fileName, rank, header, levelCoverage);
-        }
-        else error("Error while trying to store start symbol.");
+        header.insert(header.begin()+1, reducedSize);
+        storeStartSymbol(fileName, rank, header, levelCoverage);
     }
 
     storeRules(fileName, encdIntRules, leafRules, level, qtyRules*x);
@@ -259,13 +250,12 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
             qtyRules++;
         }
     }
-    lcpMean = ceil(lcpMean/qtyRules);
-    return (lcpMean > 1) ? lcpMean : DEFAULT_LCP;
+    return ceil((double)lcpMean/qtyRules);
 }
 
-int checkCoverageConvergence(int level, vector<int> levelCoverage) {
-    if(level < 3) return 1;
-    if(levelCoverage[1] == levelCoverage[2] && levelCoverage[1] == DEFAULT_LCP+1)return 0;
+int checkCoverageConvergence(int level, int lcp_mean, i32 qtyRules, i32 nTuples) {
+    if(qtyRules == nTuples) return 0;
+    if(lcp_mean <= 1) return 0;
     return 1;
 }
 
