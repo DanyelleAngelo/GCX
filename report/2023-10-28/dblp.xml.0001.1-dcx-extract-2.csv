@@ -1,0 +1,5 @@
+file|algorithm|peak|stack|time|substring_size
+dblp.xml.0001.1|GCIS-ef|1913172|6291456|26.3981|10000
+dblp.xml.0001.1|DC32|10000
+dblp.xml.0001.1|DC64|10000
+dblp.xml.0001.1|DC128|10000

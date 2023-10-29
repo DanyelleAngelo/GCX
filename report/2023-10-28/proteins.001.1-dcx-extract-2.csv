@@ -1,0 +1,5 @@
+file|algorithm|peak|stack|time|substring_size
+proteins.001.1|GCIS-ef|6123460|6291456|30.5159|10000
+proteins.001.1|DC32|10000
+proteins.001.1|DC64|10000
+proteins.001.1|DC128|10000
