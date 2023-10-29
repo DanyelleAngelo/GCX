@@ -7,6 +7,6 @@ download_files
 compress_and_decompress_with_dcx
 run_extract
 
-git add ../report/*
+git add ../report/$CURR_DATE
 git commit -m "reports and logs"
 git push

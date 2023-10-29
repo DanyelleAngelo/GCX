@@ -93,6 +93,10 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             //preparing data
             readCompressedFile(fileIn, subtreeSize, encodedSymbols, xsSize, levelCoverage, leafLevelRules);
 
+            //printing compressed informations
+            cout << "\n\n\x1b[32m>>>> Extract <<<<\x1b[0m\n";
+            grammarInfo(subtreeSize, subtreeSize[0], levelCoverage);
+
             ifstream file(queriesFile);
             if (!file.is_open())error("Unable to open file with intervals");
             while (file >> l >> r) queries.push_back(make_pair(l, r));
@@ -143,7 +147,7 @@ void readPlainText(char *fileName, unsigned char *&text, i32 &textSize, int cove
     i32 i = textSize;
     int nSentries= padding(textSize, coverage);
     
-    textSize += (nSentries==0) ? coverage : nSentries;
+    textSize += nSentries;
     text = (unsigned char*)malloc((textSize)*sizeof(unsigned char));
     while(i < textSize) text[i++] =0;
 
@@ -191,7 +195,7 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
     cout << "\tCompressed file information:\n" <<
             "\n\t\tAmount of levels: " << levels << endl;
 
-    printf("\t\tSize initial partition: %d\n", header[0]);
+    printf("\t\tSize initial partition: %d\n", levelCoverage[0]);
     printf("\t\tInitial symbol size: %d\n", header[1]);
     for(int i=levels+1, j=levels; i >1; i--, j--){
         printf("\t\tLevel: %d - amount of rules: %u - size of rules %d.\n",j,header[i], levelCoverage[j]);
@@ -200,24 +204,24 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
 
 void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, vector<int> &levelCoverage, vector<i32> &header, i32 sigma){
     int lcp_mean = getLcpMean(text, tuples, textSize, levelCoverage[level], sigma);
-    int x = (lcp_mean > 1) ? lcp_mean+1 : levelCoverage[0];
-    levelCoverage.insert(levelCoverage.begin()+1, x);
+    int cover = (lcp_mean > 1) ? lcp_mean + 1 : DEFAULT_LCP+1;
+    levelCoverage.insert(levelCoverage.begin()+1, cover);
 
-    i32 nTuples = textSize/x, qtyRules=0;
-    i32 reducedSize =  nTuples + padding(nTuples, levelCoverage[0]);
+    i32 nTuples = textSize/cover, qtyRules=0;
+    i32 reducedSize =  nTuples + padding(nTuples, cover);
     i32 *rank = (i32*) calloc(reducedSize, sizeof(i32));
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
 
-    radixSort(text, nTuples, tuples, sigma+x, x);
-    createLexNames(text, tuples, rank, qtyRules, nTuples, x);
+    radixSort(text, nTuples, tuples, sigma+cover, cover);
+    createLexNames(text, tuples, rank, qtyRules, nTuples, cover);
     header.insert(header.begin(), qtyRules);
 
     if(level !=0) {
-        selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, x, level, qtyRules, sigma);
+        selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, cover, level, qtyRules, sigma);
     }
     else {
-        selectUniqueRules(text, leafRules, tuples, rank, nTuples, x, level, qtyRules);
+        selectUniqueRules(text, leafRules, tuples, rank, nTuples, cover, level, qtyRules);
     }
 
     if(checkCoverageConvergence(level, lcp_mean, qtyRules, nTuples)){
@@ -228,7 +232,7 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
         storeStartSymbol(fileName, rank, header, levelCoverage);
     }
 
-    storeRules(fileName, encdIntRules, leafRules, level, qtyRules*x);
+    storeRules(fileName, encdIntRules, leafRules, level, qtyRules*cover);
 
     if(encdIntRules != nullptr) ua_free(encdIntRules);
     else if(leafRules != nullptr) free(leafRules);
