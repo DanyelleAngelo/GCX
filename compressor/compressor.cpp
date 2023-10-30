@@ -396,7 +396,7 @@ double extractBatch(char *fileName, unsigned char *&text, int *subtreeSize, uarr
             FILE* fileOutput = fopen(fileName,"a");
             isFileOpen(fileOutput, "An error occurred while opening the compressed file.");
             fprintf(fileOutput, "[%d,%d]\n", i.first,i.second);
-            fwrite(&text[0], sizeof(char), i.second-i.first+1, fileOutput);
+            fwrite(&text[0], sizeof(char), txtSize, fileOutput);
             fprintf(fileOutput, "\n");
             fclose(fileOutput);
         #endif
@@ -445,7 +445,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
     char ch;
     for(int i=0,j=0; i < size && j < txtSize; i++){
         i32 rule = GET_RULE_INDEX();
-        for(; k < coverage; k++) {
+        for(; k < coverage && j <txtSize; k++) {
             ch = leafLevelRules[rule+k];
             if(ch != 0)text[j++] = ch;
         }
