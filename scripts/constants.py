@@ -16,7 +16,7 @@ TIME = [
     },
     {
         "col": "time",
-        "y_label": "Tempo gasto para extração de 1000 substrings (em escala logarítmica).",
+        "y_label": "Tempo gasto para extração de 1000 substrings.",
         "x_label": "Algoritmo usado para extração",
         "title": "Tempo de extração (s)",
         "output_file": "extracting_time"
@@ -25,7 +25,7 @@ TIME = [
 
 MEMORY_USAGE = [
     {
-        "peak": "peak_comp",
+        "col": "peak_comp",
         "stack": "stack_comp",
         "y_label": "Consumo de memória em MB (log)",
         "x_label": "Variações de cobertura para o DCX.",
@@ -33,7 +33,7 @@ MEMORY_USAGE = [
         "output_file": "memory_usage_comp"
     },
     {
-        "peak": "peak_decomp",
+        "col": "peak_decomp",
         "stack": "stack_decomp",
         "y_label": "Consumo de memória em MB (log)",
         "x_label": "Variações de cobertura para o DCX.",
@@ -57,7 +57,7 @@ MEMORY_USAGE = [
 ]
 
 RATIO_INFO = {
-    "col": "ratio_percentage",
+    "col": "compressed_size",
     "y_label": "Taxa de compressão (%).",
     "x_label": "Variações de cobertura para o DCX.",
     "title": "Taxa de compressão de arquivos usando GCIS e DCX - ",
