@@ -138,7 +138,7 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
 #    download_files
-    compress_and_decompress_with_dcx
+#    compress_and_decompress_with_dcx
     run_extract
 #    generate_graphs
 fi
