@@ -7,7 +7,7 @@ STR_LEN=(1 10 100 1000 10000)
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 #set -x
-CURR_DATE="2023-10-28"
+
 compress_and_decompress_with_gcis() {
     CODEC=$1
     PLAIN=$2
@@ -120,12 +120,8 @@ run_extract() {
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compression_time"
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "decompression_time"
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "memory_compress"
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "memory_decompress"
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compressed_size"
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract_time"
+    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
+    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
