@@ -35,7 +35,7 @@ def generate_chart(results_dcx, results_gcis, information, output_dir, max_value
 
     j=0
     for index, row in results_gcis.iterrows():
-        plt.axhline(y=row[col], color=cmap[col](j+1), linestyle=cons.LINE_STYLE[j], linewidth=2, label=index)
+        plt.axhline(y=row[col], color=cmap[col](j+1), linestyle=cons.LINE_STYLE[j], linewidth=2, label=row['algorithm'])
         j+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
