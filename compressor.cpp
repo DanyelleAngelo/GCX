@@ -297,7 +297,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
     char ch;
     for(int i=0,j=0; i < size && j < txtSize; i++){
         i32 rule = GET_RULE_INDEX();
-        for(; k < coverage; k++) {
+        for(; k < coverage && j < txtSize; k++) {
             ch = leafLevelRules[rule+k];
             if(ch != 0)text[j++] = ch;
         }
