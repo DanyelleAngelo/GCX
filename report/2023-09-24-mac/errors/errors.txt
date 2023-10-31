@@ -1,2 +1,0 @@
-** Extract ** Erro ao extrair strings de tamanho 1, para o arquivo proteins.001.1 com tamanho de regra para o DCX igual à 3
-** Extract ** Erro ao extrair strings de tamanho 1, para o arquivo proteins.001.1 com tamanho de regra para o DCX igual à 3
