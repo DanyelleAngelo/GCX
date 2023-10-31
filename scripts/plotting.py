@@ -4,6 +4,7 @@ import numpy as np
 import constants as cons
 import random
 import pandas as pd
+import math
 
 cmap= {
     'compression_time': cm.get_cmap('tab10'),
@@ -38,10 +39,12 @@ def generate_chart(results_dcx, results_gcis, information, output_dir, max_value
         j+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
+    plt.yticks(np.arange(0, max_value+5, max_value/10))
     plt.ylim(0, max_value+5)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
+    plt.close()
 
 def generate_memory_chart(results_dcx, results_gcis, information, output_dir, max_value):
     plt.figure(figsize=(10,8))
@@ -61,32 +64,25 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
         plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - stack")
         i+=1
 
-    plt.yscale('log')
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
     plt.xticks(indexes, algorithm)
+    plt.ylim(0, max_value+5)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
+    plt.close()
 
-def generate_extract_chart(results, information, output_dir, max_value):
-    fig = plt.figure(figsize=(15,10))
-    ax = fig.add_subplot(1, 1, 1)
+def generate_extract_chart(results, information, output_dir, max_value, min_value):
+    plt.figure(figsize=(10,8))
 
-    #para preservar a ordem dos dados mesmos após o groupby
-    results['algorithm'] = pd.Categorical(results['algorithm'], categories=results['algorithm'].unique(), ordered=True)
-    results = results.sort_values(by='algorithm')
-    group = results.groupby(['algorithm', 'substring_size'])[information['col']].mean().unstack()
-
-    algorithm = group.index
-    substring_list = group.columns
-    time = group.values
-    start = np.arange(len(algorithm)) 
-    for i, substring_size in enumerate(substring_list):
-        ax.bar(start + width_bar * i, time[:, i], width_bar, label=substring_size)
+    for algorithm, group in results.groupby('algorithm'):
+        plt.plot(group['substring_size'], group['time'], marker='o', linewidth=0.5, label=algorithm)
+    
+    plt.ylim([min_value, max_value+5])
+    plt.xscale('log')
+    plt.yscale('log')
 
     customize_chart(information, f"{information['title']} - {results.index[0].upper()}", "Tamanho do intervalo extraído")
-    plt.xticks(np.arange(len(algorithm)), algorithm)
-    plt.ylim(0, max_value+5)
-
     file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)
+    plt.close()
