@@ -1,71 +1,105 @@
 import sys
 import os
+import glob
 import pandas as pd
 import constants
 import plotting as plt
 
+compress_max_values = {
+    'peak_comp': 0.0,
+    'peak_decomp': 0.0,
+    'compression_time': 0.0,
+    'decompression_time': 0.0,
+    'compressed_size': 0.0
+}
+
+extract_values = {
+    'peak': 0.0,
+    'time': 0.0,
+    'min_time':sys.float_info.max,
+}
 
 def bytes_to_mb(bytes):
     return bytes / (1024 * 1024)
 
-def get_file_names():
-    file_names = []
+def compute_ratio_percentage(compressed_size, plain_size):
+    return (compressed_size/plain_size)*100
 
-    with open("../file_names.txt", "r") as file:
-        for line in file:
-            file_names.append(line.rstrip().split("/")[1])
-    return file_names
+def generate_extract_chart(df_list, output_dir):
+    for df in df_list:
+        print(f"\n## FILE: {df.index[0]}")
+        print(f"\t- Creating charts extract comparison between DCX and GCIS")
+        plt.generate_extract_chart(df, constants.EXTRACT["time"], output_dir, extract_values["time"], extract_values["min_time"])
+        #plt.generate_extract_chart(df, constants.EXTRACT["peak"], output_dir, extract_values["peak"])
 
-def compute_and_set_ratio_percentage(results_dcx):
-    ratio_percentage=[]
-    for index, row in results_dcx.iterrows():
-        ratio= (row['compressed_size']/row['plain_size'])*100
-        ratio_percentage.append(ratio)
-    return ratio_percentage
+def generate_chart(results_dcx, results_gcis, function, information, output_dir, metric, max_value):
+    print(f"\t- Creating charts to {metric} comparison between DCX and GCIS")
+    getattr(plt, function)(results_dcx, results_gcis, information, output_dir, max_value)
 
-def compress(results_dcx, output_dir, file_names):
-    results_dcx['ratio_percentage'] = compute_and_set_ratio_percentage(results_dcx)
+def generate_compress_chart(df_list, output_dir):
+    max_time = max(compress_max_values["compression_time"], compress_max_values["decompression_time"])
+    max_memory = max(compress_max_values["peak_comp"], compress_max_values["peak_decomp"])
+
+    for df in df_list:
+        filter = df['algorithm'].str.contains('GCIS') 
+        gcis = df[filter]
+        dcx = df[~filter]
+        
+        print(f"\n## FILE: {df.index[0]}")
+        generate_chart(dcx, gcis, "generate_chart", constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir, "compression time", max_time)
+        generate_chart(dcx, gcis, "generate_chart", constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir, "decompression time", max_time)
+        generate_chart(dcx, gcis, "generate_chart", constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, "compressed size ratio", compress_max_values["compressed_size"])
+        generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, "memory usage", max_memory)
+        generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, "memory usage", max_memory)
+
+def set_max_values(max_values, df):
+    for key in max_values.keys():
+        if key in df:
+            column_max = df[key].max()
+            if column_max > max_values[key]:
+                max_values[key] = column_max
+        elif key == "min_time":
+            min_value = df['time'].min()
+            max_values[key] = min_value if min_value < max_values[key] else max_values[key]
+
+def prepare_dataset(df):
+    plain_size = df['plain_size'][0]
+    #calculate compression rate
+    df['compressed_size'] = df['compressed_size'].apply(lambda x: compute_ratio_percentage(x, plain_size))
     #convert bytes to MB
-    results_dcx['peak_comp'] = results_dcx['peak_comp'].apply(lambda x: bytes_to_mb(x))
-    results_dcx['stack_comp'] = results_dcx['stack_comp'].apply(lambda x: bytes_to_mb(x))
-    results_dcx['peak_decomp'] = results_dcx['peak_decomp'].apply(lambda x: bytes_to_mb(x))
-    results_dcx['stack_decomp'] = results_dcx['stack_decomp'].apply(lambda x: bytes_to_mb(x))
+    df['peak_comp'] = df['peak_comp'].apply(lambda x: bytes_to_mb(x))
+    df['peak_decomp'] = df['peak_comp'].apply(lambda x: bytes_to_mb(x))
+    df['stack_comp'] = df['stack_comp'].apply(lambda x: bytes_to_mb(x))
+    df['stack_decomp'] = df['stack_comp'].apply(lambda x: bytes_to_mb(x))
 
-    results_dcx.drop(columns=['plain_size', 'compressed_size'], inplace=True)
-    results_dcx.set_index('file', inplace=True)
+def get_data_frame(path, operation):
+    files = glob.glob(f"{path}*.csv")
+    df_list = []
 
-    filter = results_dcx['algorithm'].str.contains('GCIS') 
-    results_gcis = results_dcx[filter]
-    results_dcx = results_dcx[~filter]
+    for file in files:
+        df = pd.read_csv(file, sep='|', decimal=".")
+        df.set_index('file', inplace=True)
+        if operation == "compress":
+            prepare_dataset(df)
+            set_max_values(compress_max_values, df)
+        elif operation == "extract":
+            set_max_values(extract_values, df)
+        df_list.append(df)
 
-    print("## Creating charts to compression time comparison between DCX and GCIS")
-    plt.generate_chart(file_names, results_dcx, results_gcis, constants.TIME[0], output_dir, "compress")
-    print("## Creating charts to decompression time comparison between DCX and GCIS")
-    plt.generate_chart(file_names, results_dcx, results_gcis, constants.TIME[1], output_dir, "decompress")
-    print("## Creating charts to compressed size ratio comparison between DCX and GCIS")
-    plt.generate_chart(file_names, results_dcx, results_gcis, constants.RATIO_INFO, output_dir, "ratio")
-    print("## Creating charts to compare memory usage during compression with DCX and GCIS")
-    plt.generate_memory_chart(file_names, results_dcx, results_gcis, constants.MEMORY_USAGE[0], output_dir)
-    print("## Creating charts to compare memory usage during decompression with DCX and GCIS")
-    plt.generate_memory_chart(file_names, results_dcx, results_gcis, constants.MEMORY_USAGE[1], output_dir)
-
-def extract(results_dcx, output_dir, file_names):
-    results_dcx.set_index('file', inplace=True)
-
-    plt.generate_extract_chart(file_names, results_dcx, constants.TIME[2], output_dir)
-    plt.generate_extract_chart(file_names, results_dcx, constants.MEMORY_USAGE[2], output_dir)
-    plt.generate_extract_chart(file_names, results_dcx, constants.MEMORY_USAGE[3], output_dir)
+    return df_list
 
 def main(argv):
-    file_names = get_file_names()
-    results_dcx = pd.read_csv(argv[1], sep='|', decimal=".")
+    path = argv[1]
     output_dir = argv[2]
     operation = argv[3]
 
+    df_list = get_data_frame(path, operation)
     if operation == "compress":
-        compress(results_dcx, output_dir, file_names)
+        print("\n\t------ Compress and Decompress ------")
+        generate_compress_chart(df_list, output_dir)
     elif operation == "extract":
-        extract(results_dcx, output_dir, file_names)
+        print("\n\t------ Extract ------")
+        generate_extract_chart(df_list, output_dir)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))

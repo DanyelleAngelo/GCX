@@ -4,11 +4,12 @@ import numpy as np
 import constants as cons
 import random
 import pandas as pd
+import math
 
 cmap= {
-    'compress': cm.get_cmap('tab10'),
-    'decompress': cm.get_cmap('tab20'),
-    'ratio': cm.get_cmap('Dark2'),
+    'compression_time': cm.get_cmap('tab10'),
+    'decompression_time': cm.get_cmap('tab20'),
+    'compressed_size': cm.get_cmap('Dark2'),
     'memory': cm.get_cmap('Set1'),
 }
 
@@ -24,27 +25,28 @@ def customize_chart(information, title, legend):
     plt.tight_layout(pad=3.0)  
     plt.grid(linestyle=':', alpha=0.5)
 
-def generate_chart(file_names, results_dcx, results_gcis, information, output_dir, operation):
+def generate_chart(results_dcx, results_gcis, information, output_dir, max_value):
     col = information['col']
     plt.figure(figsize=(10,8))
 
     algorithm = results_dcx['algorithm'].unique().tolist()
 
-    plt.bar(algorithm, results_dcx[col], width=0.5, color=cmap[operation](0), edgecolor='black', label="DCX")
+    plt.bar(algorithm, results_dcx[col], width=0.5, color=cmap[col](0), edgecolor='black', label="DCX")
 
     j=0
     for index, row in results_gcis.iterrows():
-        plt.axhline(y=row[col], color=cmap[operation](j+1), linestyle=cons.LINE_STYLE[j], linewidth=2, label=index)
+        plt.axhline(y=row[col], color=cmap[col](j+1), linestyle=cons.LINE_STYLE[j], linewidth=2, label=index)
         j+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
-    max_value = max(max(results_gcis[col]), max(results_dcx[col]))
-    plt.ylim(0, max_value + 3)
+    plt.yticks(np.arange(0, max_value+5, max_value/10))
+    plt.ylim(0, max_value+5)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
+    plt.close()
 
-def generate_memory_chart(file_names, results_dcx, results_gcis, information, output_dir):
+def generate_memory_chart(results_dcx, results_gcis, information, output_dir, max_value):
     plt.figure(figsize=(10,8))
 
     algorithm = results_dcx['algorithm'].unique().tolist()
@@ -52,42 +54,35 @@ def generate_memory_chart(file_names, results_dcx, results_gcis, information, ou
     indexes = np.arange(len(algorithm))
     operation='memory'
 
-    plt.bar(indexes - width_bar, results_dcx[information['peak']], label='DCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
+    plt.bar(indexes - width_bar, results_dcx[information['col']], label='DCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
     plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center', color=cmap[operation](1))
 
     i=0
     for index, row in results_gcis.iterrows():
-        plt.axhline(y=row[information['peak']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - peak")
+        plt.axhline(y=row[information['col']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - col")
         i+=1
         plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - stack")
         i+=1
 
-    plt.yscale('log')
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
     plt.xticks(indexes, algorithm)
+    plt.ylim(0, max_value+5)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
+    plt.close()
 
-def generate_extract_chart(file_names, results, information, output_dir):
-    fig = plt.figure(figsize=(15,10))
-    ax = fig.add_subplot(1, 1, 1)
+def generate_extract_chart(results, information, output_dir, max_value, min_value):
+    plt.figure(figsize=(10,8))
 
-    #para preservar a ordem dos dados mesmos após o groupby
-    results['algorithm'] = pd.Categorical(results['algorithm'], categories=results['algorithm'].unique(), ordered=True)
-    results = results.sort_values(by='algorithm')
-    group = results.groupby(['algorithm', 'substring_size'])[information['col']].mean().unstack()
+    for algorithm, group in results.groupby('algorithm'):
+        plt.plot(group['substring_size'], group['time'], marker='o', linewidth=0.5, label=algorithm)
+    
+    plt.ylim([min_value, max_value+5])
+    plt.xscale('log')
+    plt.yscale('log')
 
-    algorithm = group.index
-    substring_list = group.columns
-    time = group.values
-    start = np.arange(len(algorithm)) 
-    for i, substring_size in enumerate(substring_list):
-        ax.bar(start + width_bar * i, time[:, i], width_bar, label=substring_size)
-
-    ax.set_yscale('log')
     customize_chart(information, f"{information['title']} - {results.index[0].upper()}", "Tamanho do intervalo extraído")
-    plt.xticks(np.arange(len(algorithm)), algorithm)
-
     file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)
+    plt.close()
