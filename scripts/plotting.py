@@ -39,8 +39,8 @@ def generate_chart(results_dcx, results_gcis, information, output_dir, max_value
         j+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
-    plt.yticks(np.arange(0, max_value+5, max_value/10))
-    plt.ylim(0, max_value+5)
+    plt.yticks(np.arange(0, 100, 3))
+    plt.ylim(0, 101)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)

@@ -118,6 +118,7 @@ run_extract() {
 }
 
 generate_graphs() {
+    CURR_DATE="2023-10-28"
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
     python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
