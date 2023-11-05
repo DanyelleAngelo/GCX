@@ -1,7 +1,7 @@
 #!/bin/bash
 source utils.sh
 
-COV_LIST=(32 64 128)
+COV_LIST=(16 32 64 128)
 STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
@@ -118,7 +118,6 @@ run_extract() {
 }
 
 generate_graphs() {
-    CURR_DATE="2023-10-28"
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
     python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"

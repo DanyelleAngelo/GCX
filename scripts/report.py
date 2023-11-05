@@ -25,12 +25,12 @@ def bytes_to_mb(bytes):
 def compute_ratio_percentage(compressed_size, plain_size):
     return (compressed_size/plain_size)*100
 
-def generate_extract_chart(df_list, output_dir):
+def generate_chart_line(df_list, output_dir):
     for df in df_list:
         print(f"\n## FILE: {df.index[0]}")
         print(f"\t- Creating charts extract comparison between DCX and GCIS")
-        plt.generate_extract_chart(df, constants.EXTRACT["time"], output_dir, extract_values["time"], extract_values["min_time"])
-        #plt.generate_extract_chart(df, constants.EXTRACT["peak"], output_dir, extract_values["peak"])
+        plt.generate_chart_line(df, constants.EXTRACT["time"], output_dir, extract_values["time"], extract_values["min_time"])
+        #plt.generate_chart_line(df, constants.EXTRACT["peak"], output_dir, extract_values["peak"])
 
 def generate_chart(results_dcx, results_gcis, function, information, output_dir, metric, max_value):
     print(f"\t- Creating charts to {metric} comparison between DCX and GCIS")
@@ -46,9 +46,9 @@ def generate_compress_chart(df_list, output_dir):
         dcx = df[~filter]
         
         print(f"\n## FILE: {df.index[0]}")
-        generate_chart(dcx, gcis, "generate_chart", constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir, "compression time", max_time)
-        generate_chart(dcx, gcis, "generate_chart", constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir, "decompression time", max_time)
-        generate_chart(dcx, gcis, "generate_chart", constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, "compressed size ratio", compress_max_values["compressed_size"])
+        generate_chart(dcx, gcis, "generate_chart_bar", constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir, "compression time", max_time+5)
+        generate_chart(dcx, gcis, "generate_chart_bar", constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir, "decompression time", max_time+5)
+        generate_chart(dcx, gcis, "generate_chart_bar", constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, "compressed size ratio", 100)
         generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, "memory usage", max_memory)
         generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, "memory usage", max_memory)
 
@@ -99,7 +99,7 @@ def main(argv):
         generate_compress_chart(df_list, output_dir)
     elif operation == "extract":
         print("\n\t------ Extract ------")
-        generate_extract_chart(df_list, output_dir)
+        generate_chart_line(df_list, output_dir)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
