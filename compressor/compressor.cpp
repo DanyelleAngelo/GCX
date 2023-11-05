@@ -16,7 +16,6 @@ using namespace std::chrono;
 using timer = std::chrono::high_resolution_clock;
 
 #define ASCII_SIZE 255
-#define DEFAULT_LCP 7
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
