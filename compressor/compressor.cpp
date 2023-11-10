@@ -203,11 +203,11 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
 
 void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, vector<int> &levelCoverage, vector<i32> &header, i32 sigma){
     int lcp_mean = getLcpMean(text, tuples, textSize, levelCoverage[level], sigma);
-    int cover = (lcp_mean > 1) ? lcp_mean : levelCoverage[level];
+    int cover = (lcp_mean > 1) ? lcp_mean : levelCoverage[1];
     levelCoverage.insert(levelCoverage.begin()+1, cover);
 
     i32 nTuples = textSize/cover, qtyRules=0;
-    i32 reducedSize =  nTuples + padding(nTuples, levelCoverage[0]);
+    i32 reducedSize =  nTuples + padding(nTuples, cover);
     i32 *rank = (i32*) calloc(reducedSize, sizeof(i32));
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
