@@ -203,7 +203,7 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
 
 void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, vector<int> &levelCoverage, vector<i32> &header, i32 sigma){
     int lcp_mean = getLcpMean(text, tuples, textSize, levelCoverage[level], sigma);
-    int cover = (lcp_mean > 1) ? lcp_mean + 1 : levelCoverage[level];
+    int cover = (lcp_mean > 1) ? lcp_mean : levelCoverage[level];
     levelCoverage.insert(levelCoverage.begin()+1, cover);
 
     i32 nTuples = textSize/cover, qtyRules=0;
@@ -253,7 +253,7 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
             qtyRules++;
         }
     }
-    return ceil((double)lcpMean/qtyRules);
+    return lcpMean/qtyRules;
 }
 
 int checkCoverageConvergence(int level, int lcp_mean, i32 qtyRules, i32 nTuples) {
