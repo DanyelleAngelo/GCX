@@ -1,0 +1,40 @@
+g++ -c ../external/malloc_count/malloc_count.c -o malloc_count.o -std=c++14 -I../external/malloc_count -O3 -ldl
+g++ -c ../external/malloc_count/stack_count.c -o stack_count.o -std=c++14 -I../external/malloc_count -O3 -ldl
+g++ -c uarray.c -o uarray.o -std=c++14 -I../external/malloc_count -O3
+g++ -c utils.cpp -o utils.o -D D_EXTRACT=0 -D DEBUG_RULES=0 -D LEVEL_REPORT=0 -D SCREEN_OUTPUT=1 -D FILE_OUTPUT=1 -std=c++14 -I../external/malloc_count -O3
+g++ -c compressor.cpp -o compressor.o -D D_EXTRACT=0 -D DEBUG_RULES=0 -D LEVEL_REPORT=0 -D SCREEN_OUTPUT=1 -D FILE_OUTPUT=1 -std=c++14 -I../external/malloc_count -O3
+g++ main.cpp malloc_count.o stack_count.o uarray.o utils.o compressor.o -o main -D D_EXTRACT=0 -D DEBUG_RULES=0 -D LEVEL_REPORT=0 -D SCREEN_OUTPUT=1 -D FILE_OUTPUT=1 -std=c++14 -I../external/malloc_count -O3
+./main ../dataset/pizza_chilli/dna.001.1 text/dna-64 c 64
+
+
+[32m>>>> Encode <<<<[0m
+	Compressed file information:
+
+		Amount of levels: 4
+		Size initial partition: 64
+		Initial symbol size: 16718
+		Level: 4 - amount of rules: 362190 - size of rules 28.
+		Level: 3 - amount of rules: 163575 - size of rules 4.
+		Level: 2 - amount of rules: 125630 - size of rules 2.
+		Level: 1 - amount of rules: 16717 - size of rules 28.
+Time: 45,000000000000000(s)
+g++ -c ../external/malloc_count/malloc_count.c -o malloc_count.o -std=c++14 -I../external/malloc_count -O3 -ldl
+g++ -c ../external/malloc_count/stack_count.c -o stack_count.o -std=c++14 -I../external/malloc_count -O3 -ldl
+g++ -c uarray.c -o uarray.o -std=c++14 -I../external/malloc_count -O3
+g++ -c utils.cpp -o utils.o -D D_EXTRACT=0 -D DEBUG_RULES=0 -D LEVEL_REPORT=0 -D SCREEN_OUTPUT=1 -D FILE_OUTPUT=1 -std=c++14 -I../external/malloc_count -O3
+g++ -c compressor.cpp -o compressor.o -D D_EXTRACT=0 -D DEBUG_RULES=0 -D LEVEL_REPORT=0 -D SCREEN_OUTPUT=1 -D FILE_OUTPUT=1 -std=c++14 -I../external/malloc_count -O3
+g++ main.cpp malloc_count.o stack_count.o uarray.o utils.o compressor.o -o main -D D_EXTRACT=0 -D DEBUG_RULES=0 -D LEVEL_REPORT=0 -D SCREEN_OUTPUT=1 -D FILE_OUTPUT=1 -std=c++14 -I../external/malloc_count -O3
+./main ../dataset/pizza_chilli/dna.001.1 text/dna-64 c 64
+
+
+[32m>>>> Encode <<<<[0m
+	Compressed file information:
+
+		Amount of levels: 4
+		Size initial partition: 64
+		Initial symbol size: 16722
+		Level: 4 - amount of rules: 362190 - size of rules 28.
+		Level: 3 - amount of rules: 163575 - size of rules 4.
+		Level: 2 - amount of rules: 125631 - size of rules 2.
+		Level: 1 - amount of rules: 16720 - size of rules 28.
+Time: 46,000000000000000(s)
