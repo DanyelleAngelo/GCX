@@ -207,7 +207,7 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
     levelCoverage.insert(levelCoverage.begin()+1, cover);
 
     i32 nTuples = textSize/cover, qtyRules=0;
-    i32 reducedSize =  nTuples + padding(nTuples, cover);
+    i32 reducedSize =  nTuples + padding(nTuples, levelCoverage[0]);
     i32 *rank = (i32*) calloc(reducedSize, sizeof(i32));
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
