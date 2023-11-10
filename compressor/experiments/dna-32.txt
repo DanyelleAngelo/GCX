@@ -1,0 +1,155 @@
+## Critério de parada está relacionado unicamente à lcpMean<=1
+	### LCP mean é somada à 1 e é considerado o teto da divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 4
+                Size initial partition: 32
+                Initial symbol size: 8533
+                Level: 4 - amount of rules: 165408 - size of rules 16.
+                Level: 3 - amount of rules: 104312 - size of rules 8.
+                Level: 2 - amount of rules: 76438 - size of rules 6.
+                Level: 1 - amount of rules: 8533 - size of rules 16.
+            Time: 47,000000000000000(s)
+            Tamanho do arquivo: 5,7M
+
+    ### LCP Mean não é somado à 1 e é considerado o teto na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 2
+                Size initial partition: 32
+                Initial symbol size: 466034
+                Level: 2 - amount of rules: 1083675 - size of rules 15.
+                Level: 1 - amount of rules: 465861 - size of rules 15.
+            Time: 46,000000000000000(s)
+            Tamanho do arquivo: 35M
+
+    ### LCP Mean é somado à 1 e é considerado o chão na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 2
+                Size initial partition: 32
+                Initial symbol size: 466034
+                Level: 2 - amount of rules: 1083675 - size of rules 15.
+                Level: 1 - amount of rules: 465861 - size of rules 15.
+        Time: 46,000000000000000(s)
+        Tamanho do arquivo: 35M
+    
+    ### LCP Mean não é somado à 1 e é considerado o chão na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 2
+                Size initial partition: 32
+                Initial symbol size: 534988
+                Level: 2 - amount of rules: 594415 - size of rules 14.
+                Level: 1 - amount of rules: 348329 - size of rules 14.
+            Time: 45,000000000000000(s)
+            Tamanho do arquivo: 21M
+
+## Critério de parada está relacionado unicamente à qtyRules==nTuples
+    ### LCP mean é somada à 1 e é considerado o teto da divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 4
+                Size initial partition: 32
+                Initial symbol size: 8533
+                Level: 4 - amount of rules: 165408 - size of rules 16.
+                Level: 3 - amount of rules: 104312 - size of rules 8.
+                Level: 2 - amount of rules: 76438 - size of rules 6.
+                Level: 1 - amount of rules: 8533 - size of rules 16.
+            Time: 45,000000000000000(s)
+            Tamanho do arquivo: 5,7M
+    
+    ### LCP Mean não é somado à 1 e é considerado o teto na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 3
+                Size initial partition: 32
+                Initial symbol size: 31069
+                Level: 3 - amount of rules: 1083675 - size of rules 15.
+                Level: 2 - amount of rules: 465861 - size of rules 15.
+                Level: 1 - amount of rules: 31069 - size of rules 15.
+            Time: 45,000000000000000(s)
+            Tamanho do arquivo:  35M
+
+    ### LCP Mean é somado à 1 e é considerado o chão na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 3
+                Size initial partition: 32
+                Initial symbol size: 31069
+                Level: 3 - amount of rules: 1083675 - size of rules 15.
+                Level: 2 - amount of rules: 465861 - size of rules 15.
+                Level: 1 - amount of rules: 31069 - size of rules 15.
+            Time: 46,000000000000000(s)
+            Tamanho do arquivo: 35M
+
+    ### LCP Mean não é somado à 1 e é considerado o chão na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 3
+                Size initial partition: 32
+                Initial symbol size: 38214
+                Level: 3 - amount of rules: 594415 - size of rules 14.
+                Level: 2 - amount of rules: 348329 - size of rules 14.
+                Level: 1 - amount of rules: 38214 - size of rules 14.
+            Time: 45,000000000000000(s)
+            Tamanho do arquivo: 21M
+
+## Critério de parada é lcpMean<=1 || qtyRules==nTuples
+    ### LCP Mean não é somado à 1 e é considerado o teto na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 2
+                Size initial partition: 32
+                Initial symbol size: 466034
+                Level: 2 - amount of rules: 1083675 - size of rules 15.
+                Level: 1 - amount of rules: 465861 - size of rules 15.
+            Time: 46,000000000000000(s)
+            Tamanho do arquivo: 35M
+
+    ### LCP Mean é somado à 1 e é considerado o chão na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 2
+                Size initial partition: 32
+                Initial symbol size: 466034
+                Level: 2 - amount of rules: 1083675 - size of rules 15.
+                Level: 1 - amount of rules: 465861 - size of rules 15.
+            Time: 46,000000000000000(s)
+            Tamanho do arquivo: 35M
+    
+    ### LCP Mean não é somado à 1 e é considerado o chão na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 2
+                Size initial partition: 32
+                Initial symbol size: 534988
+                Level: 2 - amount of rules: 594415 - size of rules 14.
+                Level: 1 - amount of rules: 348329 - size of rules 14.
+            Time: 45,000000000000000(s)
+            Tamanho do arquivo: 21M
+
+    ### LCP Mean é somado à 1 e é considerado o teto na divisão
+        >>>> Encode <<<<
+            Compressed file information:
+
+                Amount of levels: 4
+                Size initial partition: 32
+                Initial symbol size: 8533
+                Level: 4 - amount of rules: 165408 - size of rules 16.
+                Level: 3 - amount of rules: 104312 - size of rules 8.
+                Level: 2 - amount of rules: 76438 - size of rules 6.
+                Level: 1 - amount of rules: 8533 - size of rules 16.
+            Time: 45,000000000000000(s)
+            Tamanho do arquivo: 5,7M
