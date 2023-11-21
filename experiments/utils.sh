@@ -56,24 +56,24 @@ download_files() {
 
         echo -e "\n${BLUE}  % $file_name ${RESET}"
         if [ ! -e "$compressed_file" ] && [ ! -e "$descompressed_file" ]; then
-	    echo -e "\t--Download file\n"
+	        echo -e "\t--Download file\n"
             curl -L -o "$compressed_file" $url
-	fi
-	if [ ! -e "$descompressed_file" ]; then
-           extension="${file_name##*.}"
-	   echo -e "\t--Unzipping the file (format $extension)"
-	   if [ "$extension" = "bz2" ]; then
-	       bzip2 -d "$compressed_file"
-	   elif [ "$extension" = "gz" ]; then
-	       	gzip -d "$compressed_file"
-	   else
-		echo -e "\tUnidentifed file format for descompression."
-		echo -e "\tURL=$url."
-	   fi
+	    fi
+	    if [ ! -e "$descompressed_file" ]; then
+            extension="${file_name##*.}"
+            echo -e "\t--Unzipping the file (format $extension)"
+	        if [ "$extension" = "bz2" ]; then
+	            bzip2 -d "$compressed_file"
+	        elif [ "$extension" = "gz" ]; then
+	            gzip -d "$compressed_file"
+	        else
+                echo -e "\tUnidentifed file format for descompression."
+                echo -e "\tURL=$url."
+            fi
         fi
-	if [ -e "$descompressed_file" ]; then
-	    FILE+=("${file_name%.*}")
-	fi
+	    if [ -e "$descompressed_file" ]; then
+	        FILE+=("${file_name%.*}")
+	    fi
     done
 }
 
