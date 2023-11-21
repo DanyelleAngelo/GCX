@@ -1,0 +1,1 @@
+https://hgdownload.cse.ucsc.edu/goldenpath/hg19/chromosomes/chr19.fa.gz

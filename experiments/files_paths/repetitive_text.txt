@@ -1,0 +1,17 @@
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/proteins.001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dblp.xml.0001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dblp.xml.0001.2.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dblp.xml.00001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dblp.xml.00001.2.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dna.001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/sources.001.2.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/english.001.2.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/cere.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/influenza.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/Escherichia_Coli.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/kernel.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/para.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/world_leaders.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/coreutils.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/einstein.de.txt.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/einstein.en.txt.gz

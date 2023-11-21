@@ -1,0 +1,6 @@
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/proteins.001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dblp.xml.0001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/dna.001.1.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/pseudo-real/sources.001.2.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/cere.gz
+https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/real/influenza.gz

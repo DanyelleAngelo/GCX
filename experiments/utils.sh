@@ -7,12 +7,13 @@ RESET='\033[0m'
 CURR_DATE=$(date +"%Y-%m-%d")
 
 #files to compress
-FILES=$(cat ../file_names.txt)
+FILE_URLS= ($(cat files_paths/repetitive_text.txt) $(cat files_paths/regular_text.txt))
+FILES= ()
 
 #directories
 REPORT_DIR="../report"
 COMP_DIR="../dataset/compressed_files"
-PIZZA_DIR="../dataset/pizza_chilli"
+RAW_FILES_DIR="../dataset/raw_files"
 
 if [ "$(uname -s)" = "Darwin" ]; then
     stat_options="-f %z"
@@ -25,8 +26,8 @@ GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"
 
 check_and_create_folder() {
     echo -e "\n\n${GREEN}%%% Creating directories for files in case don't exist ${RESET}."
-    if [ ! -d "$PIZZA_DIR" ]; then
-        mkdir -p "$PIZZA_DIR"
+    if [ ! -d "$RAW_FILES_DIR" ]; then
+        mkdir -p "$RAW_FILES_DIR"
     fi
     if [ ! -d "$COMP_DIR" ]; then
         mkdir -p "$COMP_DIR"
@@ -45,22 +46,19 @@ check_and_create_folder() {
 }
 
 download_files() {
-    PIZZA_URL="http://pizzachili.dcc.uchile.cl/repcorpus"
-
     echo -e "\n${GREEN}%%% Download files from a list, then descompress the files and remove the compressed files.${RESET}."
 
-    for file in $FILES; do
-        IFS="/" read -ra file_name <<< "$file"
-        compressed_files="$PIZZA_DIR/${file_name[1]}.gz"
-        descompressed_file="$PIZZA_DIR/${file_name[1]}"
+    for url in $FILE_URLS; do
+        file_name=$(basename "$url")
+        compressed_file="$RAW_FILES_DIR/$file_name"
+        descompressed_file="$RAW_FILES_DIR/${file_name%.*}"
 
-        if [ ! -e "$compressed_files" ] && [ ! -e "$descompressed_file" ]; then
-            echo -e "\n${BLUE}  % $PIZZA_URL/$file.gz ${RESET}"
-            curl -L -o "$compressed_files" "$PIZZA_URL/$file.gz"
-            gzip -d "$compressed_files"
-        elif [ ! -e "$descompressed_file" ]; then
-            echo -e "\n${BLUE}  % $PIZZA_URL/$file.gz ${RESET}"
-            gzip -d "$compressed_files"
+        echo -e "\n${BLUE}  % $file_name ${RESET}"
+        if [ ! -e "$compressed_file" ] && [ ! -e "$descompressed_file" ]; then
+            curl -L -o "$compressed_file" $url
+        if [ ! -e "$descompressed_file" ]; then
+            gzip -d "$compressed_file"
+            FILES+=(${file_name%.*})
         fi
     done
 }
