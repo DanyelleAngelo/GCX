@@ -25,7 +25,7 @@ def customize_chart(information, title, legend):
     plt.tight_layout(pad=3.0)  
     plt.grid(linestyle=':', alpha=0.5)
 
-def generate_chart(results_dcx, results_gcis, information, output_dir, max_value):
+def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_value):
     col = information['col']
     plt.figure(figsize=(10,8))
 
@@ -39,8 +39,8 @@ def generate_chart(results_dcx, results_gcis, information, output_dir, max_value
         j+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
-    plt.yticks(np.arange(0, max_value+5, max_value/10))
-    plt.ylim(0, max_value+5)
+    plt.yticks(np.arange(0, max_value, 3))
+    plt.ylim(0, max_value)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)
@@ -72,7 +72,7 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
     plt.savefig(file)
     plt.close()
 
-def generate_extract_chart(results, information, output_dir, max_value, min_value):
+def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.figure(figsize=(10,8))
 
     for algorithm, group in results.groupby('algorithm'):

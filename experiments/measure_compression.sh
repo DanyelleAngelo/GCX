@@ -24,19 +24,15 @@ compress_and_decompress_with_gcis() {
 }
 
 compress_and_decompress_with_dcx() {
-    echo -e "\n${GREEN}%%% REPORT: Compresses the files from pizza_chilli, decompresses them, and compares the result with the original version${RESET}."
+    echo -e "\n${GREEN}%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version${RESET}."
 
     make clean -C ../compressor/
     make compile MACROS="REPORT=1" -C ../compressor/
-
-    for file_path in $FILES; do
-        IFS="/" read -ra file_name <<< "$file_path"
-        file="${file_name[1]}"
-
+    for file in $FILES; do
         report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
         echo $HEADER > $report; 
 
-        plain_file_path="$PIZZA_DIR/$file"
+        plain_file_path="$RAW_FILES_DIR/$file"
         size_plain=$(stat $stat_options $plain_file_path)
         #size_plain=$(echo "scale=2; $size_plain / (1024 * 1024)" | bc)
 
@@ -72,11 +68,8 @@ run_extract() {
     make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
-    for file_path in $FILES; do
-        IFS="/" read -ra file_name <<< "$file_path"
-        file="${file_name[1]}"
-
-        plain_file_path="$PIZZA_DIR/$file"
+    for file in $FILES; do
+        plain_file_path="$RAW_FILES_DIR/$file"
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
@@ -90,7 +83,7 @@ run_extract() {
 
             #generates valid response based on plain text
             extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
-            python3 ../utils/extract.py $plain_file_path $extract_answer $query
+            python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
             #collect metrics from GCIS execution
             echo -e "\n\t${BLUE} GCIS - INTERVAL SIZE $length ${RESET}"
@@ -120,15 +113,15 @@ run_extract() {
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
-    python3 report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
+    python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
+    python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-#    check_and_create_folder
-#    download_files
-#    compress_and_decompress_with_dcx
-#    run_extract
-    generate_graphs
+    check_and_create_folder
+    download_files
+    compress_and_decompress_with_dcx
+    run_extract
+#    generate_graphs
 fi

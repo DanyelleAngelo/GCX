@@ -29,7 +29,7 @@ else ifeq ($(MODE), c)
 	./main $(FILE_IN) $(FILE_OUT) c $(COVERAGE)
 else ifeq ($(MODE), e)
 	./main $(FILE_IN) $(FILE_OUT) e $(COVERAGE) $(QUERIES)
-	python3 ../utils/extract.py $(ORIGINAL) extract_temp.txt $(QUERIES)
+	python3 ../scripts/extract.py $(ORIGINAL) extract_temp.txt $(QUERIES)
 	diff extract_temp.txt $(FILE_OUT)
 	rm extract_temp.txt $(FILE_OUT)
 endif
