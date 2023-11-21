@@ -7,7 +7,6 @@ RESET='\033[0m'
 CURR_DATE=$(date +"%Y-%m-%d")
 
 #files to compress
-FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt)
 FILES=()
 
 #directories
@@ -18,8 +17,10 @@ RAW_FILES_DIR="../dataset/raw_files"
 if [ "$(uname -s)" = "Darwin" ]; then
     stat_options="-f %z"
     CURR_DATE="$CURR_DATE-mac"
+    FILE_URLS=$(cat files_paths/initial_test_files.txt)
 else
     stat_options="-c %s"
+    FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt)
 fi
 
 GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"
@@ -56,7 +57,7 @@ download_files() {
         echo -e "\n${BLUE}  % $file_name ${RESET}"
         if [ ! -e "$compressed_file" ] && [ ! -e "$descompressed_file" ]; then
 	    echo -e "\t--Download file\n"
-            curl -L -o $compressed_file $url
+            curl -L -o "$compressed_file" $url
 	fi
 	if [ ! -e "$descompressed_file" ]; then
            extension="${file_name##*.}"
