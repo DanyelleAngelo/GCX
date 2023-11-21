@@ -71,9 +71,9 @@ download_files() {
                 echo -e "\tURL=$url."
             fi
         fi
-	    if [ -e "$descompressed_file" ]; then
-	        FILE+=("${file_name%.*}")
-	    fi
+        if [ -e "$descompressed_file" ]; then
+            FILES+=("${file_name%.*}")
+        fi
     done
 }
 
