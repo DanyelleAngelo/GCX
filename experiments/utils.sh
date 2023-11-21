@@ -7,8 +7,8 @@ RESET='\033[0m'
 CURR_DATE=$(date +"%Y-%m-%d")
 
 #files to compress
-FILE_URLS= ($(cat files_paths/repetitive_text.txt) $(cat files_paths/regular_text.txt))
-FILES= ()
+FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt)
+FILES=()
 
 #directories
 REPORT_DIR="../report"
@@ -55,11 +55,24 @@ download_files() {
 
         echo -e "\n${BLUE}  % $file_name ${RESET}"
         if [ ! -e "$compressed_file" ] && [ ! -e "$descompressed_file" ]; then
-            curl -L -o "$compressed_file" $url
-        if [ ! -e "$descompressed_file" ]; then
-            gzip -d "$compressed_file"
-            FILES+=(${file_name%.*})
+	    echo -e "\t--Download file\n"
+            curl -L -o $compressed_file $url
+	fi
+	if [ ! -e "$descompressed_file" ]; then
+           extension="${file_name##*.}"
+	   echo -e "\t--Unzipping the file (format $extension)"
+	   if [ "$extension" = "bz2" ]; then
+	       bzip2 -d "$compressed_file"
+	   elif [ "$extension" = "gz" ]; then
+	       	gzip -d "$compressed_file"
+	   else
+		echo -e "\tUnidentifed file format for descompression."
+		echo -e "\tURL=$url."
+	   fi
         fi
+	if [ -e "$descompressed_file" ]; then
+	    FILE+=("${file_name%.*}")
+	fi
     done
 }
 
