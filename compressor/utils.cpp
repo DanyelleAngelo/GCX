@@ -23,10 +23,9 @@ void isFileOpen(FILE * file, const char *msg) {
 }
 
 int padding(i32 textSize, int coverage){
-    if(textSize < coverage && textSize % coverage != 0)
+    if(textSize % coverage != 0){
         return coverage - (textSize % coverage);
-    // else if(textSize % coverage !=0)
-    //     return (ceil(textSize/coverage)*coverage) - textSize;
+    }
     return coverage;
 }
 
