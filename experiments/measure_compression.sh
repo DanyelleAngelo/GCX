@@ -21,6 +21,8 @@ compress_and_decompress_with_gcis() {
     size_file=$(stat "$stat_options" "$OUTPUT-gcis-$CODEC")
     #size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
 	echo "$size_file|$SIZE_PLAIN" >> $REPORT
+    #validate compressed file
+    checks_equality "$PLAIN" "$OUTPUT-gcis-$CODEC-plain" "gcis"
 }
 
 compress_and_decompress_with_dcx() {
@@ -29,7 +31,7 @@ compress_and_decompress_with_dcx() {
     make clean -C ../compressor/
     make compile MACROS="REPORT=1" -C ../compressor/
 
-    for file in $FILES; do
+    for file in $files; do
         report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
         echo $HEADER > $report; 
 
@@ -49,7 +51,7 @@ compress_and_decompress_with_dcx() {
             ../compressor/./main $file_out.dcx $file_out-plain d $cover $report
 
             #validate compressed file
-            validate_compression_and_decompression "$plain_file_path" "$file_out-plain"
+            checks_equality "$plain_file_path" "$file_out-plain" "dcx"
 
             #adding file size information to the report
             size_file=$(stat $stat_options $file_out.dcx)
@@ -69,7 +71,7 @@ run_extract() {
     make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
-    for file in $FILES; do
+    for file in $files; do
         plain_file_path="$RAW_FILES_DIR/$file"
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
@@ -101,9 +103,7 @@ run_extract() {
                 echo "$length" >> $report
 
                 #checks equality
-                if ! diff -s $extract_output $extract_answer; then
-                    echo "** Extract ** Erro ao extrair strings de tamanho $length, para o arquivo $file com tamanho de regra para o DCX igual à $cover" >> "$GENERAL_REPORT/errors/errors.txt"
-      		fi
+                checks_equality "$extract_output" "$extract_answer" "extract"
                 rm $extract_output
             done
             rm $extract_answer
