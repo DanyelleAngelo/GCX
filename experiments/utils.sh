@@ -72,7 +72,7 @@ download_files() {
             fi
         fi
         if [ -e "$descompressed_file" ]; then
-            files+=("${file_name%.*}")
+            files+="${file_name%.*} "
         fi
     done
 }
