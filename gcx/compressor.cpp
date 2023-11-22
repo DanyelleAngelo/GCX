@@ -19,7 +19,6 @@ using timer = std::chrono::high_resolution_clock;
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
-    clock_t start, finish;
     double duration =0.0;
     i32 textSize;
     void* base = stack_count_clear();
@@ -239,7 +238,7 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
 }
 
 int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
-    i32 nTuples = textSize/coverage, lcpMean =0, lcpMax =0;
+    i32 nTuples = textSize/coverage, lcpMean =0;
     int qtyRules=0;
     radixSort(text, nTuples, tuples, sigma+coverage, coverage);
     for(int i=1; i < nTuples; i++) {
