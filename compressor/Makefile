@@ -24,7 +24,7 @@ run_compressor:
 	fi
 ifeq ($(MODE), d)
 	./main $(FILE_IN) $(FILE_OUT) d $(COVERAGE)
-	cmp $(FILE_OUT) $(ORIGINAL) 
+	diff $(FILE_OUT) $(ORIGINAL)
 else ifeq ($(MODE), c)
 	./main $(FILE_IN) $(FILE_OUT) c $(COVERAGE)
 else ifeq ($(MODE), e)

@@ -25,9 +25,7 @@ void isFileOpen(FILE * file, const char *msg) {
 int padding(i32 textSize, int coverage){
     if(textSize > coverage && textSize % coverage != 0)
         return coverage - (textSize % coverage);
-    else if(textSize % coverage !=0)
-        return coverage - textSize;
-    return 0;
+    return 1;
 }
 
 void radixSort(i32 *text, i32 nTuples, i32 *tuples, i32 sigma, int coverage){
