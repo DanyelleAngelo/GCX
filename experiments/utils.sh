@@ -7,7 +7,7 @@ RESET='\033[0m'
 CURR_DATE=$(date +"%Y-%m-%d")
 
 #files to compress
-FILES=()
+files=()
 
 #directories
 REPORT_DIR="../report"
@@ -71,13 +71,13 @@ download_files() {
             fi
         fi
         if [ -e "$descompressed_file" ]; then
-            FILES+="${file_name%.*} "
+            files+="${file_name%.*} "
         fi
     done
 }
 
-validate_compression_and_decompression() {
+checks_equality() {
     if ! cmp -s "$1" "$2"; then
-        echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-compress.txt"
+        echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
     fi 
 }
