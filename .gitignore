@@ -8,6 +8,7 @@ large_text.txt
 dataset/*
 *__pycache__*
 main
+*main.dSYM*
 external/malloc_count
 reports/*/extract/*extract_answer*.txt
 reports/*/extract/*result_extract*.txt
