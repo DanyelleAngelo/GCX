@@ -4,7 +4,8 @@
 GREEN='\033[0;32m'
 BLUE='\033[34m'
 RESET='\033[0m'
-CURR_DATE=$(date +"%Y-%m-%d")
+CURR_DATE="2023-11-22"
+#$(date +"%Y-%m-%d")
 
 #files to compress
 files=()
@@ -48,7 +49,6 @@ check_and_create_folder() {
 
 download_files() {
     echo -e "\n${GREEN}%%% Download files from a list, then descompress the files and remove the compressed files.${RESET}."
-
     for url in $FILE_URLS; do
         file_name=$(basename "$url")
         compressed_file="$RAW_FILES_DIR/$file_name"
