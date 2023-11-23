@@ -4,7 +4,8 @@
 GREEN='\033[0;32m'
 BLUE='\033[34m'
 RESET='\033[0m'
-CURR_DATE=$(date +"%Y-%m-%d")
+CURR_DATE="2023-11-22"
+#$(date +"%Y-%m-%d")
 
 #files to compress
 files=()
