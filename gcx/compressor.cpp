@@ -30,13 +30,13 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             //preparing text
             unsigned char *text;
             readPlainText(fileIn, text, textSize, coverage);
-            i32* uText = (i32*)calloc(textSize,sizeof(i32));
+            i32* uText = (i32*)calloc(textSize+coverage,sizeof(i32));
             for(int i=0; i < textSize; i++)uText[i] = (i32)text[i];
             free(text);
 
             //starting process
             auto start = timer::now();
-            i32 *tuples = (i32*) malloc((textSize) * sizeof(i32));
+            i32 *tuples = (i32*) malloc(textSize * sizeof(i32));
             compress(uText, tuples, textSize, strcat(fileOut,".dcx"), 0, levelCoverage, header, ASCII_SIZE);
             auto stop = timer::now();
             duration = (double)duration_cast<seconds>(stop - start).count();
@@ -205,9 +205,9 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
     int cover = (lcp_mean > 1) ? lcp_mean : levelCoverage[1];
     levelCoverage.insert(levelCoverage.begin()+1, cover);
 
-    i32 nTuples = textSize/cover, qtyRules=0;
+    i32 nTuples = ceil((double)textSize/cover), qtyRules=0;
     i32 reducedSize =  nTuples + padding(nTuples, cover);
-    i32 *rank = (i32*) calloc(reducedSize, sizeof(i32));
+    i32 *rank = (i32*) calloc(reducedSize+cover, sizeof(i32));
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
 

@@ -26,7 +26,7 @@ int padding(i32 textSize, int coverage){
     if(textSize % coverage != 0){
         return coverage - (textSize % coverage);
     }
-    return coverage;
+    return 1;
 }
 
 void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
