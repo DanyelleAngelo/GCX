@@ -71,7 +71,10 @@ run_extract() {
     make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
-    for file in $files; do
+    if [ ${#compressed_success_files[@]} -eq 0 ]; then
+        compressed_success_files="$files"
+    fi
+    for file in $compressed_success_files; do
         plain_file_path="$RAW_FILES_DIR/$file"
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
@@ -122,7 +125,7 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-    compress_and_decompress_with_dcx
+#    compress_and_decompress_with_dcx
     run_extract
 #    generate_graphs
 fi

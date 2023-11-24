@@ -9,6 +9,7 @@ CURR_DATE="2023-11-22"
 
 #files to compress
 files=()
+compressed_success_files=()
 
 #directories
 REPORT_DIR="../report"
@@ -80,5 +81,8 @@ download_files() {
 checks_equality() {
     if ! cmp -s "$1" "$2"; then
         echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
+    elif [ "$3" = "dcx" ]; then
+        local file=$1
+        compressed_success_files+="${file##*/} "
     fi 
 }
