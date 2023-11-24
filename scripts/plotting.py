@@ -6,12 +6,21 @@ import random
 import pandas as pd
 import math
 
-cmap= {
-    'compression_time': cm.get_cmap('tab10'),
-    'decompression_time': cm.get_cmap('tab20'),
-    'compressed_size': cm.get_cmap('Dark2'),
+color_map= {
+    'compression_time': {
+        "default_color": "#007599", "highlighted_color": "#00ffff", "gcis": cm.get_cmap('PiYG')
+    },
+    'decompression_time': {
+        "default_color": "#007599", "highlighted_color": "#00ffff", "gcis": cm.get_cmap('PiYG')
+    },
+    'compressed_size': {
+        "default_color": "#bc5090", "highlighted_color": "#ffa600", "gcis": cm.get_cmap('coolwarm')
+    },
     'memory': cm.get_cmap('Set1'),
+    'default': cm.get_cmap('winter')
 }
+
+
 
 width_bar = 0.2
 
@@ -31,11 +40,16 @@ def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_v
 
     algorithm = results_dcx['algorithm'].unique().tolist()
 
-    plt.bar(algorithm, results_dcx[col], width=0.5, color=cmap[col](0), edgecolor='black', label="DCX")
+    dcx_column = algorithm.index('DCX')
+    default_color = color_map[col]["default_color"]
+    colors = [default_color] * len(algorithm)
+    colors[dcx_column] = color_map[col]["highlighted_color"]
+
+    plt.bar(algorithm, results_dcx[col], width=0.5, color=colors, edgecolor='black', label="DCX")
 
     j=0
     for index, row in results_gcis.iterrows():
-        plt.axhline(y=row[col], color=cmap[col](j+1), linestyle=cons.LINE_STYLE[j], linewidth=2, label=row['algorithm'])
+        plt.axhline(y=row[col], color=color_map[col]["gcis"](j), linestyle=cons.LINE_STYLE[j], linewidth=2, label=row['algorithm'])
         j+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
@@ -54,14 +68,14 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
     indexes = np.arange(len(algorithm))
     operation='memory'
 
-    plt.bar(indexes - width_bar, results_dcx[information['col']], label='DCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
-    plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center', color=cmap[operation](1))
+    plt.bar(indexes - width_bar, results_dcx[information['col']], label='DCX - Peak', width=width_bar, align='center', color=color_map[operation](0))
+    plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center', color=color_map[operation](1))
 
     i=0
     for index, row in results_gcis.iterrows():
-        plt.axhline(y=row[information['col']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - col")
+        plt.axhline(y=row[information['col']], linestyle=cons.LINE_STYLE[i], color=color_map[operation](i+2), label=f"GCIS {index} - col")
         i+=1
-        plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=cmap[operation](i+2), label=f"GCIS {index} - stack")
+        plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=color_map[operation](i+2), label=f"GCIS {index} - stack")
         i+=1
 
     customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
