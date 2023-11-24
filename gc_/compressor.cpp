@@ -262,45 +262,60 @@ double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, ua
 }
 
 void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, i32 l, i32 r, int levels){
+    int k, end, p;
     //Determines the interval in Xs that we need to decode
-    i32 start_node = l/subtree_size[0], end_node = r/subtree_size[0], size;
-    i32 xsSize = end_node - start_node + 1;
-    l = l%subtree_size[0], r = r - (start_node*subtree_size[0]);
-
+    i32 startNode = l/subtree_size[0], endNode = r/subtree_size[0], size;
+    i32 xsSize = endNode - startNode + 1;
     //get xs
-    for(int i=start_node, j=0; j < xsSize; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
-
+    for(int i=startNode, j=0; i <= endNode; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
+    
+    l = l%subtree_size[0], r = r%subtree_size[0];
     for(int j=1; j < levels; j++) {
-        for(int i =0,p=0; i < xsSize; i++) {
+        //trim interval
+        if(subtree_size[j] > l) startNode = 0;
+        else {
+            startNode = l/subtree_size[j];
+            l = l%subtree_size[j];
+        }
+        if(subtree_size[j] > r) endNode =0;
+        else{
+            endNode = r/subtree_size[j];
+            r = r%subtree_size[j];
+        }
+
+        p=0;
+        for(int i =0; i < xsSize; i++) {
             if(xs[i] == 0)break;
             i32 rule = GET_RULE_INDEX();
-            for(int k=0; k < coverage && rule+k < encodedSymbols[j]->n; k++) {
+            k=0;
+            end = coverage;
+            if(i==0)k=startNode;
+            else if(j==0) end = endNode;
+            while(k < end) {
                 temp[p++] = ua_get(encodedSymbols[j], rule+k);
+                k++;
             }
         }
-        xsSize *=coverage;
 
-        //Choose rules (nodes) that we will use in the next iteration
-        start_node = l/subtree_size[j];
-        end_node = r/subtree_size[j];
-        size = end_node - start_node+1;
-
-        //symbol to translate in the next level
-        for(int m=0, k=start_node; m < size && k < xsSize; k++)xs[m++] = temp[k];
-
-        l = l%subtree_size[j];
-        r -= start_node*subtree_size[j];
+        xsSize = p;
+        for(int i=0; i < xsSize; i++)xs[i] = temp[i];
     }
 
-    int k= l % subtree_size[levels-1];
+    startNode = l;
+    endNode = r;
     char ch;
-    for(int i=0,j=0; i < size && j < txtSize; i++){
+    for(int i=0, j=0; i < xsSize && j < txtSize; i++){
+        if(xs[i] == 0)break;
         i32 rule = GET_RULE_INDEX();
-        for(; k < coverage && j < txtSize; k++) {
+        k=0;
+        end = coverage;
+        if(i==0)k=startNode;
+        else if(j==0) end = endNode;
+        while(k < end) {
             ch = leafLevelRules[rule+k];
             if(ch != 0)text[j++] = ch;
+            k++;
         }
-        k=0;
     }
 }
 
