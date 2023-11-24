@@ -70,7 +70,10 @@ run_extract() {
     make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
-    for file in $files; do
+    if [ ${#compressed_success_files[@]} -eq 0 ]; then
+        compressed_success_files="$files"
+    fi
+    for file in $compressed_success_files; do
         plain_file_path="$RAW_FILES_DIR/$file"
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
@@ -102,9 +105,7 @@ run_extract() {
                 echo "$length" >> $report
 
                 #checks equality
-                if ! diff -s $extract_output $extract_answer; then
-                    echo "** Extract ** Erro ao extrair strings de tamanho $length, para o arquivo $file com tamanho de regra para o DCX igual à $cover" >> "$GENERAL_REPORT/errors/errors.txt"
-      		fi
+                checks_equality "$extract_output" "$extract_answer" "extract"
                 rm $extract_output
             done
             rm $extract_answer
