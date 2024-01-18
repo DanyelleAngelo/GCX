@@ -48,7 +48,7 @@ int padding(i32 textSize, int coverage);
  * @param sigma tamanho do alfabeto
  * @param coverage tamanho das tuplas do texto
  */
-void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage); 
+void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage); 
 
 /**
  * @brief cria lex-names para cada tupla ordenada do texto.
@@ -60,7 +60,7 @@ void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage);
  * @param nTuples quantidade de tuplas
  * @param coverage tamanho das tuplas do texto
  */
-void createLexNames(i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage);
+void createLexNames(const i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage);
 
 /**
  * @brief insere uma linha contendo informações de consumo de tempo e memória em um relatório csv
