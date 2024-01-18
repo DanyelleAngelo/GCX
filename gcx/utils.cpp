@@ -29,11 +29,14 @@ int padding(i32 textSize, int coverage){
     return 1;
 }
 
-void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
-    i32 *tupleIndexTemp = (i32*) calloc(nTuples, sizeof(i32));
+void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
+    i32 *tupleIndexTemp = &tuples[nTuples];
+    i32 *bucket;
+
+    if((nTuples*2)+sigma <= nTuples * coverage) bucket = &tuples[nTuples*2];
+    else bucket = (i32*)malloc(sigma*sizeof(i32));
 
     for(int i=0, j=0; i < nTuples; i++, j+=coverage)tuples[i] = j;
-    i32 *bucket =(i32*)malloc(sigma*sizeof(i32));
 
     for(int d= coverage-1; d >=0; d--) {
         for(int i=0; i < sigma;i++)bucket[i]=0;//TODO
@@ -47,11 +50,9 @@ void radixSort(i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
         for(int i=0; i < nTuples; i++) tuples[i] = tupleIndexTemp[i];
     }
 
-    free(bucket);
-    free(tupleIndexTemp);
 }
 
-void createLexNames(i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage) {
+void createLexNames(const i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage) {
     i32 name = 1;
     rank[tuples[0]/coverage] = name;
     for(i32 i=1; i < nTuples; i++) {
