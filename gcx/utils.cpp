@@ -44,8 +44,7 @@ void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int covera
         for(int i=1; i < sigma; i++) bucket[i] += bucket[i-1];
 
         for(int i=0; i < nTuples; i++) {
-            int index = bucket[text[tuples[i] + d]]++;
-            tupleIndexTemp[index] = tuples[i];
+            tupleIndexTemp[bucket[text[tuples[i] + d]]++] = tuples[i];
         }
         for(int i=0; i < nTuples; i++) tuples[i] = tupleIndexTemp[i];
     }

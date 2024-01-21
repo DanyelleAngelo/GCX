@@ -46,8 +46,6 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             i32 levels = header.at(0);
             grammarInfo(header.data(), levels, levelCoverage.data());
 
-            free(uText);
-            free(tuples);
             break;
         }
         case 'd': {
@@ -207,34 +205,34 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
 
     i32 nTuples = ceil((double)textSize/cover), qtyRules=0;
     i32 reducedSize =  nTuples + padding(nTuples, cover);
-    i32 *rank = (i32*) calloc(reducedSize+cover, sizeof(i32));
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
 
     radixSort(text, nTuples, tuples, sigma+cover, cover);
-    createLexNames(text, tuples, rank, qtyRules, nTuples, cover);
+    createLexNames(text, tuples, &tuples[nTuples], qtyRules, nTuples, cover);
     header.insert(header.begin(), qtyRules);
 
     if(level !=0) {
-        selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, cover, level, qtyRules, sigma);
+        selectUniqueRules(text, encdIntRules, tuples, &tuples[nTuples], nTuples, cover, level, qtyRules, sigma);
     }
     else {
-        selectUniqueRules(text, leafRules, tuples, rank, nTuples, cover, level, qtyRules);
+        selectUniqueRules(text, leafRules, tuples, &tuples[nTuples], nTuples, cover, level, qtyRules);
+        free(text);
     }
 
-    if(checkCoverageConvergence(level, lcp_mean, qtyRules, nTuples)){
-        compress(rank, tuples, reducedSize, fileName, level+1, levelCoverage, header, qtyRules);
+    if(qtyRules != nTuples && lcp_mean > 1){
+        compress(&tuples[nTuples], tuples, reducedSize, fileName, level+1, levelCoverage, header, qtyRules);
     }else {
         header.insert(header.begin(), level+1);
         header.insert(header.begin()+1, reducedSize);
-        storeStartSymbol(fileName, rank, header, levelCoverage);
+        storeStartSymbol(fileName, &tuples[nTuples], header, levelCoverage);
+        free(tuples);
     }
 
     storeRules(fileName, encdIntRules, leafRules, level, qtyRules*cover);
 
     if(encdIntRules != nullptr) ua_free(encdIntRules);
     else if(leafRules != nullptr) free(leafRules);
-    free(rank);
 }
 
 int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
@@ -253,12 +251,6 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
         }
     }
     return lcpMean/qtyRules;
-}
-
-int checkCoverageConvergence(int level, int lcp_mean, i32 qtyRules, i32 nTuples) {
-    if(qtyRules == nTuples) return 0;
-    if(lcp_mean <= 1) return 0;
-    return 1;
 }
 
 void selectUniqueRules(i32 *text, unsigned char *&rules, i32 *tuples, i32 *rank, i32 nTuples, int coverage, int level, i32 qtyRules) {
