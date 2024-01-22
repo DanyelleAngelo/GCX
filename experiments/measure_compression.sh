@@ -19,9 +19,9 @@ compress_and_decompress_with_gcis() {
     "$GCIS_EXECUTABLE" -c "$PLAIN" "$OUTPUT-gcis-$CODEC" "-$CODEC" "$REPORT"
 	"$GCIS_EXECUTABLE" -d "$OUTPUT-gcis-$CODEC" "$OUTPUT-gcis-$CODEC-plain" "-$CODEC" "$REPORT"
     size_file=$(stat "$stat_options" "$OUTPUT-gcis-$CODEC")
-    #size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
 	echo "$size_file|$SIZE_PLAIN" >> $REPORT
-    #validate compressed file
+
+    echo -e "\n\t\t ${YELLOW} Checking if the decoded file is the same as the original ${RESET}\n"
     checks_equality "$PLAIN" "$OUTPUT-gcis-$CODEC-plain" "gcis"
 }
 
@@ -37,31 +37,35 @@ compress_and_decompress_with_dcx() {
 
         plain_file_path="$RAW_FILES_DIR/$file"
         size_plain=$(stat $stat_options $plain_file_path)
-        #size_plain=$(echo "scale=2; $size_plain / (1024 * 1024)" | bc)
 
+        echo -e "\n ${YELLOW}Starting compression/decompression operations on the $file file. ${RESET}\n"
+        echo -e "\n\t ${YELLOW}Starting compression/decompression using DCX ${RESET}\n"
         for cover in "${COV_LIST[@]}"; do
             echo -e "\n${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
-
-            file_out="$COMP_DIR/$CURR_DATE/$file-dc$cover"
-
             #adding file name and coverage to the report
             echo -n "$file|DC$cover|" >> $report
+
+            file_out="$COMP_DIR/$CURR_DATE/$file-dc$cover"
             #perform compress and decompress
             ../compressor/./main $plain_file_path $file_out c $cover $report
             ../compressor/./main $file_out.dcx $file_out-plain d $cover $report
 
-            #validate compressed file
+            echo -e "\n\t\t ${YELLOW} Checking if the decoded file is the same as the original ${RESET}\n"
             checks_equality "$plain_file_path" "$file_out-plain" "dcx"
 
             #adding file size information to the report
             size_file=$(stat $stat_options $file_out.dcx)
-            #size_file=$(echo "scale=2; $size_file / (1024 * 1024)" | bc)
             echo "$size_file|$size_plain" >> $report
+            break
         done
 
-	    #compresses and decompresses the file using GCIS
+        echo -e "\n\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
         compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
         compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+        
+        echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
+        break
+        
     done
     make clean -C ../compressor/
 }
@@ -125,7 +129,7 @@ generate_graphs() {
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-#    compress_and_decompress_with_dcx
-    run_extract
+    compress_and_decompress_with_dcx
+#    run_extract
 #    generate_graphs
 fi
