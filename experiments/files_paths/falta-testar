@@ -1,0 +1,15 @@
+
+https://people.unipmn.it/manzini/lightweight/corpus/gcc-3.0.tar.bz2
+https://people.unipmn.it/manzini/lightweight/corpus/linux-2.4.5.tar.bz2
+
+https://www.samba.org/ftp/tridge/large-corpus/emacs.bz2 :
+DCX descompactou corretamente, no momento de fazer o cmp, é encontrado uma diferença na linha 1, 12o caractere, esse caractere é um espaço no arquivo decodificado pelo DCX. No arquivo baixado da internet é o caractere 00000000 (em binário). O GCIS não conseguiu descompactar esse texto, ocorre uma falha de segmentação.
+
+
+https://www.samba.org/ftp/tridge/large-corpus/samba.bz2
+GCIS gera uma falha de segmentação no momento de descompactar. DCX também não conseguiu descompactar.
+
+
+https://pizzachili.dcc.uchile.cl/texts/music/pitches.gz
+GCIS e DCX traduziram errado
+
