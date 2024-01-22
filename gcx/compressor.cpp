@@ -205,6 +205,7 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
 
     i32 nTuples = ceil((double)textSize/cover), qtyRules=0;
     i32 reducedSize =  nTuples + padding(nTuples, cover);
+    
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
 
