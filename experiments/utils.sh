@@ -6,8 +6,7 @@ BLUE='\033[34m'
 YELLOW='\033[33m'
 RED='\033[31m'
 RESET='\033[0m'
-CURR_DATE="2023-11-22"
-#$(date +"%Y-%m-%d")
+CURR_DATE=$(date +"%Y-%m-%d")
 
 #files to compress
 files=()
@@ -86,10 +85,10 @@ download_files() {
 
 checks_equality() {
     if ! cmp -s "$1" "$2"; then
-        echo -e "\n\t\t ${RED} The files are the differents. ${RESET}\n"
+        echo -e "\n\t\t\t ${RED} The files are the differents. ${RESET}\n"
         echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
     elif [ "$3" = "dcx" ]; then
-        echo -e "\n\t\t ${GREEN} The files are the same. ${RESET}\n"
+        echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
         local file=$1
         compressed_success_files+="${file##*/} "
     fi 

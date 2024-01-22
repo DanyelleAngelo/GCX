@@ -41,7 +41,7 @@ compress_and_decompress_with_dcx() {
         echo -e "\n ${YELLOW}Starting compression/decompression operations on the $file file. ${RESET}\n"
         echo -e "\n\t ${YELLOW}Starting compression/decompression using DCX ${RESET}\n"
         for cover in "${COV_LIST[@]}"; do
-            echo -e "\n${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
+            echo -e "\n\t${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
             #adding file name and coverage to the report
             echo -n "$file|DC$cover|" >> $report
 
