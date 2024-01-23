@@ -56,16 +56,13 @@ compress_and_decompress_with_dcx() {
             #adding file size information to the report
             size_file=$(stat $stat_options $file_out.dcx)
             echo "$size_file|$size_plain" >> $report
-            break
         done
 
         echo -e "\n\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
         compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
         compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
         
-        echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
-        break
-        
+        echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"        
     done
     make clean -C ../compressor/
 }
@@ -74,11 +71,14 @@ run_extract() {
     make clean -C ../compressor/
     make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
-    echo -e "\n${BLUE}####### Extract validation ${RESET}"
     if [ ${#compressed_success_files[@]} -eq 0 ]; then
         compressed_success_files="$files"
     fi
+
+    echo -e "\n${BLUE}####### Extract validation ${RESET}"
     for file in $compressed_success_files; do
+        echo -e "\n ${BLUE}Starting extract operation on the $file file. ${RESET}\n"
+    
         plain_file_path="$RAW_FILES_DIR/$file"
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
@@ -87,29 +87,28 @@ run_extract() {
         echo "file|algorithm|peak|stack|time|substring_size" > $report;
 
         #generates intervals
+        echo -e "\n\t${YELLOW} Generating search intervals... ${RESET}"
         python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/$file.${length}_query"
 
-            #generates valid response based on plain text
+            echo -e "\n\t${YELLOW} Generating responses for searched interval...${RESET}"
             extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
             python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
-            #collect metrics from GCIS execution
-            echo -e "\n\t${BLUE} GCIS - INTERVAL SIZE $length ${RESET}"
+            echo -e "\n\t ${YELLOW}Starting extract with GCIS - INTERVAL SIZE $length.${RESET}"
             echo -n "$file|GCIS-ef|" >> $report
             $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
             echo "$length" >> $report
 
+            echo -e "\n\t ${YELLOW}Starting extract with DCX - INTERVAL SIZE $length.${RESET}"
             for cover in "${COV_LIST[@]}"; do
-                #collect metrics from DCX execution
-                echo -e "\n\t${BLUE} DCX - INTERVAL SIZE $length, INITIAL COVERAGE $cover ${RESET}"
                 echo -n "$file|DC$cover|" >> $report
                 extract_output="$extract_dir/${file}_result_extract_dc${cover}_len${length}.txt"
                 ../compressor/./main "$compressed_file-dc$cover.dcx" $extract_output e $cover $query $report
                 echo "$length" >> $report
 
-                #checks equality
+                echo -e "\n\t\t ${YELLOW} Checking if the extracting substrings from compressed text was successful. ${RESET}\n"
                 checks_equality "$extract_output" "$extract_answer" "extract"
                 rm $extract_output
             done
@@ -130,6 +129,6 @@ if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
     compress_and_decompress_with_dcx
-#    run_extract
+    run_extract
 #    generate_graphs
 fi
