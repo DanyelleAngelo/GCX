@@ -210,8 +210,7 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
 
     radixSort(text, nTuples, tuples, sigma+cover, cover);
     
-    i32 *rank = &tuples[nTuples];
-    for(i32 i=0; i < reducedSize; i++)rank[i] = 0;
+    i32 *rank= (i32*)calloc(reducedSize+cover, sizeof(i32));
     createLexNames(text, tuples, rank, qtyRules, nTuples, cover);
     header.insert(header.begin(), qtyRules);
 
@@ -225,11 +224,13 @@ void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, v
 
     if(qtyRules != nTuples && lcp_mean > 1){
         compress(rank, tuples, reducedSize, fileName, level+1, levelCoverage, header, qtyRules);
+        free(rank);
     }else {
         header.insert(header.begin(), level+1);
         header.insert(header.begin()+1, reducedSize);
         storeStartSymbol(fileName, rank, header, levelCoverage);
         free(tuples);
+        free(rank);
     }
 
     storeRules(fileName, encdIntRules, leafRules, level, qtyRules*cover);
