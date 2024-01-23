@@ -31,7 +31,14 @@ int padding(i32 textSize, int coverage){
 
 void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
     i32 *tupleIndexTemp = &tuples[nTuples];
-    i32 *bucket= &tuples[nTuples*2];
+    i32 *bucket;
+    bool newBucket = false;
+    
+    if((nTuples*2)+sigma < nTuples*coverage)bucket= &tuples[nTuples*2];
+    else {
+        newBucket = true;
+        bucket = (i32*)malloc(sigma*sizeof(i32));
+    }
 
     for(int i=0, j=0; i < nTuples; i++, j+=coverage)tuples[i] = j;
 
@@ -45,7 +52,7 @@ void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int covera
         }
         for(int i=0; i < nTuples; i++) tuples[i] = tupleIndexTemp[i];
     }
-
+    if(newBucket) free(bucket);
 }
 
 void createLexNames(const i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage) {
