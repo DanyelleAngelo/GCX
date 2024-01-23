@@ -1,3 +1,5 @@
+https://people.unipmn.it/manzini/lightweight/corpus/chr22.dna.bz2
+https://sun.aei.polsl.pl/~sdeor/corpus/nci.bz2
 https://pizzachili.dcc.uchile.cl/repcorpus/real/cere.gz
 https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/proteins.001.1.gz
 https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/dblp.xml.0001.1.gz

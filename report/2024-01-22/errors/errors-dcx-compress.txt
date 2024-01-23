@@ -1,3 +1,5 @@
+Todos os erros que aconteceram no DCX, também aconteceram no GCIS.
+
 ../dataset/raw_files/large-corpus-emacs and ../dataset/compressed_files/2024-01-22/large-corpus-emacs-dc8-plain are different.
 ../dataset/raw_files/large-corpus-emacs and ../dataset/compressed_files/2024-01-22/large-corpus-emacs-dc16-plain are different.
 ../dataset/raw_files/large-corpus-emacs and ../dataset/compressed_files/2024-01-22/large-corpus-emacs-dc32-plain are different.
