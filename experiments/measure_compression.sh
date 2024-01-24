@@ -76,7 +76,7 @@ run_extract() {
     fi
 
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
-    for file in $compressed_success_files; do
+    for file in $files; do
         echo -e "\n ${BLUE}Starting extract operation on the $file file. ${RESET}\n"
     
         plain_file_path="$RAW_FILES_DIR/$file"
@@ -91,28 +91,29 @@ run_extract() {
         python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/$file.${length}_query"
+	    if [ -e $query ]; then
+            	echo -e "\n\t${YELLOW} Generating responses for searched interval...${RESET}"
+            	extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
+            	python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
-            echo -e "\n\t${YELLOW} Generating responses for searched interval...${RESET}"
-            extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
-            python3 ../scripts/extract.py $plain_file_path $extract_answer $query
+            	echo -e "\n\t ${YELLOW}Starting extract with DCX - $file - INTERVAL SIZE $length.${RESET}"
+            	for cover in "${COV_LIST[@]}"; do
+                    echo -n "$file|DC$cover|" >> $report
+                    extract_output="$extract_dir/${file}_result_extract_dc${cover}_len${length}.txt"
+                    ../compressor/./main "$compressed_file-dc$cover.dcx" $extract_output e $cover $query $report
+                    echo "$length" >> $report
 
-            echo -e "\n\t ${YELLOW}Starting extract with GCIS - INTERVAL SIZE $length.${RESET}"
-            echo -n "$file|GCIS-ef|" >> $report
-            $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
-            echo "$length" >> $report
+                    echo -e "\n\t\t ${YELLOW} Checking if the extracting substrings from compressed text was successful. ${RESET}\n"
+                    checks_equality "$extract_output" "$extract_answer" "extract"
+                    rm $extract_output
+		done
+            	rm $extract_answer
 
-            echo -e "\n\t ${YELLOW}Starting extract with DCX - INTERVAL SIZE $length.${RESET}"
-            for cover in "${COV_LIST[@]}"; do
-                echo -n "$file|DC$cover|" >> $report
-                extract_output="$extract_dir/${file}_result_extract_dc${cover}_len${length}.txt"
-                ../compressor/./main "$compressed_file-dc$cover.dcx" $extract_output e $cover $query $report
-                echo "$length" >> $report
-
-                echo -e "\n\t\t ${YELLOW} Checking if the extracting substrings from compressed text was successful. ${RESET}\n"
-                checks_equality "$extract_output" "$extract_answer" "extract"
-                rm $extract_output
-            done
-            rm $extract_answer
+		echo -e "\n\t ${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
+            	echo -n "$file|GCIS-ef|" >> $report
+            	$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
+            	echo "$length" >> $report
+	    fi
         done
     done
 }
