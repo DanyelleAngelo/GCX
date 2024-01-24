@@ -407,7 +407,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
     i32 startNode = l/subtreeSize[0], endNode = r/subtreeSize[0], size;
     i32 xsSize = endNode - startNode + 1;
     //get xs
-    for(int i=startNode, j=0; i <= endNode; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
+    for(int i=startNode, j=0; i < endNode+1; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
     
     l = l%subtreeSize[0], r = r%subtreeSize[0];
     for(int j=1; j < levels; j++) {
@@ -431,8 +431,8 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
             k=0;
             end = coverage;
             if(i==0)k=startNode;
-            else if(j==0) end = endNode;
-            while(k < end) {
+            else if(i==xsSize-1) end = endNode+1;
+            while(k < end && rule+k < encodedSymbols[j]->n) {
                 temp[p++] = ua_get(encodedSymbols[j], rule+k);
                 k++;
             }
@@ -452,8 +452,8 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
         k=0;
         end = coverage;
         if(i==0)k=startNode;
-        else if(j==0) end = endNode;
-        while(k < end) {
+        else if(i==xsSize-1) end = endNode+1;
+        while(k < end && j < txtSize) {
             ch = leafLevelRules[rule+k];
             if(ch != 0)text[j++] = ch;
             k++;
