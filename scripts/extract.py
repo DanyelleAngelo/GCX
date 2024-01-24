@@ -4,7 +4,7 @@ Script usado para extrair substring em um intervalo l,r de um arquivo de texto d
 import sys
 
 def extract(input_file, output_file, input_queries):
-    with open(input_file, 'r', encoding='iso-8859-1') as file:
+    with open(input_file, 'rb') as file:
         text = file.read()
     i=0
     with open(input_queries, 'r') as queries:
@@ -13,10 +13,10 @@ def extract(input_file, output_file, input_queries):
             l = int(l)
             r = int(r)
             extracted_text = text[l:r+1]
-            with open(output_file, 'a+') as file:
-                file.write(f"[{l},{r}]\n")
+            with open(output_file, 'ab+') as file:
+                file.write(f"[{l},{r}]\n".encode('utf-8'))
                 file.write(extracted_text)
-                file.write('\n')
+                file.write(b'\n')
             extracted_text = ''
 
 def main(argv):
