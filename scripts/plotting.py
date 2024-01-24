@@ -52,7 +52,8 @@ def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_v
         plt.axhline(y=row[col], color=color_map[col]["gcis"](j), linestyle=cons.LINE_STYLE[j], linewidth=2, label=row['algorithm'])
         j+=1
 
-    customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
+    file=results_dcx.index[0].upper().split("-")[-1]
+    customize_chart(information, f"{information['title']} {file}", "Algoritmo")
     plt.yticks(np.arange(0, max_value, 3))
     plt.ylim(0, max_value)
 
@@ -78,7 +79,8 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
         plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=color_map[operation](i+2), label=f"GCIS {index} - stack")
         i+=1
 
-    customize_chart(information, f"{information['title']} {results_dcx.index[0].upper()}", "Algoritmo")
+    file=results_dcx.index[0].upper().split("-")[-1]
+    customize_chart(information, f"{information['title']} {file}", "Algoritmo")
     plt.xticks(indexes, algorithm)
     plt.ylim(0, max_value+5)
 
@@ -96,7 +98,8 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.xscale('log')
     plt.yscale('log')
 
-    customize_chart(information, f"{information['title']} - {results.index[0].upper()}", "Tamanho do intervalo extraído")
+    file=results_dcx.index[0].upper().split("-")[-1]
+    customize_chart(information, f"{information['title']} - {file}", "Tamanho do intervalo extraído")
     file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)
     plt.close()
