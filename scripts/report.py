@@ -4,6 +4,7 @@ import glob
 import pandas as pd
 import constants
 import plotting as plt
+import numpy as np
 
 compress_max_values = {
     'peak_comp': 0.0,
@@ -18,6 +19,8 @@ extract_values = {
     'time': 0.0,
     'min_time':sys.float_info.max,
 }
+
+to_dissertation = False
 
 def bytes_to_mb(bytes):
     return bytes / (1024 * 1024)
@@ -79,13 +82,17 @@ def get_data_frame(path, operation):
     for file in files:
         df = pd.read_csv(file, sep='|', decimal=".")
         df.set_index('file', inplace=True)
+        df.replace('',np.nan, inplace=True)
         if operation == "compress":
             prepare_dataset(df)
             set_max_values(compress_max_values, df)
         elif operation == "extract":
+            if to_dissertation == True:
+                valid_algorithms = ['GCIS-ef', 'GCIS-s8b', 'DC32']
+                df = df.query('algorithm in @valid_algorithms')
+                df['algorithm'].replace({'DC32':'DCX'}, inplace=True)
             set_max_values(extract_values, df)
         df_list.append(df)
-
     return df_list
 
 def main(argv):
