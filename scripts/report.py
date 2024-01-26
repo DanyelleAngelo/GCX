@@ -6,6 +6,15 @@ import constants
 import plotting as plt
 import json
 
+ratio_analysis = {
+    'min_gcis_ef':0.0,
+    'min_gcis_s8b':0.0,
+    'min_dcx':0.0,
+    'max_gcis_ef':0.0,
+    'max_gcis_s8b':0.0,
+    'max_dcx':0.0
+}
+
 compress_max_values = {
     'peak_comp': 0.0,
     'peak_decomp': 0.0,
@@ -47,7 +56,6 @@ def generate_chart(results_dcx, results_gcis, function, information, output_dir,
 def generate_compress_chart(df_list, output_dir):
     max_time = max(compress_max_values["compression_time"], compress_max_values["decompression_time"])
     max_memory = max(compress_max_values["peak_comp"], compress_max_values["peak_decomp"])
-
     for df in df_list:
         filter = df['algorithm'].str.contains('GCIS') 
         gcis = df[filter]
@@ -113,6 +121,8 @@ def get_data_frame(path, operation):
             mean_values[keys]['GCIS-s8b'] = mean_values[keys]['GCIS-s8b'] / size
         print("\n\t------ Mean Values ------")
         print(json.dumps(mean_values, indent=4))
+        print("\n\t------ Ratio Analysis ------")
+        print(json.dumps(ratio_analysis, indent=4))
 
     return df_list
 
