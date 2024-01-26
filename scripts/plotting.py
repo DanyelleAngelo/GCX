@@ -63,7 +63,6 @@ def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_v
 
 def generate_memory_chart(results_dcx, results_gcis, information, output_dir, max_value):
     plt.figure(figsize=(10,8))
-
     algorithm = results_dcx['algorithm'].unique().tolist()
 
     indexes = np.arange(len(algorithm))
@@ -74,7 +73,7 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
 
     i=0
     for index, row in results_gcis.iterrows():
-        plt.axhline(y=row[information['col']], linestyle=cons.LINE_STYLE[i], color=color_map[operation](i+2), label=f"GCIS {index} - col")
+        plt.axhline(y=row[information['col']], linestyle=cons.LINE_STYLE[i], color=color_map[operation](i+2), label=f"GCIS {index} - peak")
         i+=1
         plt.axhline(y=row[information['stack']], linestyle=cons.LINE_STYLE[i], color=color_map[operation](i+2), label=f"GCIS {index} - stack")
         i+=1
@@ -82,7 +81,7 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
     file=results_dcx.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} {file}", "Algoritmo")
     plt.xticks(indexes, algorithm)
-    plt.ylim(0, max_value+5)
+    plt.ylim(0, max_value)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)

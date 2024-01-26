@@ -4,6 +4,7 @@ import glob
 import pandas as pd
 import constants
 import plotting as plt
+import json
 
 compress_max_values = {
     'peak_comp': 0.0,
@@ -11,6 +12,13 @@ compress_max_values = {
     'compression_time': 0.0,
     'decompression_time': 0.0,
     'compressed_size': 0.0
+}
+
+mean_values = {
+    'peak_comp': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0 },
+    'peak_decomp': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
+    'compression_time': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
+    'decompression_time': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0}
 }
 
 extract_values = {
@@ -49,8 +57,8 @@ def generate_compress_chart(df_list, output_dir):
         generate_chart(dcx, gcis, "generate_chart_bar", constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir, "compression time", max_time+5)
         generate_chart(dcx, gcis, "generate_chart_bar", constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir, "decompression time", max_time+5)
         generate_chart(dcx, gcis, "generate_chart_bar", constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, "compressed size ratio", 100)
-        generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, "memory usage", max_memory)
-        generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, "memory usage", max_memory)
+        generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, "memory usage", compress_max_values["peak_comp"])
+        generate_chart(dcx, gcis, "generate_memory_chart", constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, "memory usage", compress_max_values["peak_decomp"])
 
 def set_max_values(max_values, df):
     for key in max_values.keys():
@@ -61,6 +69,16 @@ def set_max_values(max_values, df):
         elif key == "min_time":
             min_value = df['time'].min()
             max_values[key] = min_value if min_value < max_values[key] else max_values[key]
+
+def set_mean_values(mean_values, df):
+    for index, line in df.iterrows():
+        for key in mean_values.keys():
+            if line['algorithm'] == 'DCX':
+                mean_values[key]['DCX'] += line[key]
+            elif line['algorithm'] == 'GCIS-ef':
+                mean_values[key]['GCIS-ef'] += line[key]
+            elif line['algorithm'] == 'GCIS-s8b':
+                mean_values[key]['GCIS-s8b'] += line[key]
 
 def prepare_dataset(df):
     plain_size = df['plain_size'][0]
@@ -82,9 +100,19 @@ def get_data_frame(path, operation):
         if operation == "compress":
             prepare_dataset(df)
             set_max_values(compress_max_values, df)
+            set_mean_values(mean_values, df)
         elif operation == "extract":
             set_max_values(extract_values, df)
         df_list.append(df)
+
+    if operation == "compress":
+        size=len(df_list)
+        for keys in mean_values.keys():
+            mean_values[keys]['DCX'] = mean_values[keys]['DCX'] / size
+            mean_values[keys]['GCIS-ef'] = mean_values[keys]['GCIS-ef'] / size
+            mean_values[keys]['GCIS-s8b'] = mean_values[keys]['GCIS-s8b'] / size
+        print("\n\t------ Mean Values ------")
+        print(json.dumps(mean_values, indent=4))
 
     return df_list
 
