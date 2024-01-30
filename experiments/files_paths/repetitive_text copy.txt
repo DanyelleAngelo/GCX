@@ -1,6 +1,3 @@
-https://pizzachili.dcc.uchile.cl/repcorpus/artificial/fib41.gz
-https://pizzachili.dcc.uchile.cl/repcorpus/artificial/rs.13.gz
-https://pizzachili.dcc.uchile.cl/repcorpus/artificial/tm29.gz
 https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/proteins.001.1.gz
 https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/dblp.xml.0001.1.gz
 https://pizzachili.dcc.uchile.cl/repcorpus/pseudo-real/dblp.xml.0001.2.gz

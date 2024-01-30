@@ -33,7 +33,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
 
             //starting process
             auto start = timer::now();
-            i32 *tuples = (i32*) malloc(textSize * sizeof(i32));
+            i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
             compress(uText, tuples, textSize, strcat(fileOut,".dcx"), 0, coverage, header, ASCII_SIZE);
             auto stop = timer::now();
             duration = (double)duration_cast<seconds>(stop - start).count();
@@ -184,29 +184,33 @@ void grammarInfo(i32 *header, int levels, int coverage) {
 void compress(i32 *text, i32 *tuples, i32 textSize, char *fileName, int level, int coverage, vector<i32> &header, i32 sigma){
     i32 nTuples = ceil((double)textSize/coverage), qtyRules=0;
     i32 reducedSize =  nTuples + padding(nTuples, coverage);
-    i32 *rank = (i32*) calloc(reducedSize+coverage, sizeof(i32));
     uarray *encdIntRules = nullptr;
     unsigned char *leafRules = nullptr;
 
     sigma+=coverage;
     radixSort(text, nTuples, tuples, sigma, coverage);
+
+    i32 *rank = (i32*) calloc(reducedSize+coverage, sizeof(i32));
     createLexNames(text, tuples, rank, qtyRules, nTuples, coverage);
     header.insert(header.begin(), qtyRules);
 
     if(level !=0)selectUniqueRules(text, encdIntRules, tuples, rank, nTuples, coverage, level, qtyRules, sigma-coverage);
-    else selectUniqueRules(text, leafRules, tuples, rank, nTuples, coverage, level, qtyRules);
+    else {
+        selectUniqueRules(text, leafRules, tuples, rank, nTuples, coverage, level, qtyRules);
+        free(text);
+    }
 
     if(qtyRules < nTuples){
         compress(rank, tuples, reducedSize, fileName, level+1, coverage, header, qtyRules);
+        free(rank);
     }else {
         header.insert(header.begin(), level+1);
         storeStartSymbol(fileName, rank, header);
     }
     storeRules(fileName, encdIntRules, leafRules, level, qtyRules*coverage);
 
-    //if(encdIntRules != nullptr) ua_free(encdIntRules);
-    //else if(leafRules != nullptr) free(leafRules);
-    //free(rank);
+    if(encdIntRules != nullptr) ua_free(encdIntRules);
+    else if(leafRules != nullptr) free(leafRules);
 }
 
 void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsSize, unsigned char *leafLevelRules, int coverage) {

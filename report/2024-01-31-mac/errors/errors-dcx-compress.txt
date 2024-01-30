@@ -1,0 +1,6 @@
+../dataset/raw_files/pseudo-real-dna.001.1 and ../dataset/compressed_files/2024-01-31-mac/pseudo-real-dna.001.1-dc3-plain are different.
+../dataset/raw_files/pseudo-real-dna.001.1 and ../dataset/compressed_files/2024-01-31-mac/pseudo-real-dna.001.1-dc3-plain are different.
+../dataset/raw_files/pseudo-real-dna.001.1 and ../dataset/compressed_files/2024-01-31-mac/pseudo-real-dna.001.1-dc3-plain are different.
+../dataset/raw_files/real-cere and ../dataset/compressed_files/2024-01-31-mac/real-cere-dc4-plain are different.
+../dataset/raw_files/real-cere and ../dataset/compressed_files/2024-01-31-mac/real-cere-dc4-plain are different.
+../dataset/raw_files/real-cere and ../dataset/compressed_files/2024-01-31-mac/real-cere-dc4-plain are different.
