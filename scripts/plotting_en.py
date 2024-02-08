@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
-import constants as cons
+import constants_en as cons
 import random
 import pandas as pd
 import math
@@ -31,7 +31,7 @@ def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_v
 
     algorithm = results_dcx['algorithm'].unique().tolist()
 
-    plt.bar(algorithm, results_dcx[col], width=0.5, color=cmap[col](0), edgecolor='black', label="DCX")
+    plt.bar(algorithm, results_dcx[col], width=0.5, color=cmap[col](0), edgecolor='black', label="GCX")
 
     j=0
     for index, row in results_gcis.iterrows():
@@ -39,11 +39,11 @@ def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_v
         j+=1
 
     file=results_dcx.index[0].upper().split("-")[-1]
-    customize_chart(information, f"{information['title']} {file}", "Algoritmo")
+    customize_chart(information, f"{information['title']} {file}", "Algorithm")
     plt.yticks(np.arange(0, max_value, 3))
     plt.ylim(0, max_value)
 
-    file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
+    file = f"{output_dir}/en/{information['output_file']}-{results_dcx.index[0]}_EN.png"
     plt.savefig(file)
     plt.close()
 
@@ -55,8 +55,8 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
     indexes = np.arange(len(algorithm))
     operation='memory'
 
-    plt.bar(indexes - width_bar, results_dcx[information['col']], label='DCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
-    plt.bar(indexes, results_dcx[information['stack']], label='DCX - Stack', width=width_bar, align='center', color=cmap[operation](1))
+    plt.bar(indexes - width_bar, results_dcx[information['col']], label='GCX - Peak', width=width_bar, align='center', color=cmap[operation](0))
+    plt.bar(indexes, results_dcx[information['stack']], label='GCX - Stack', width=width_bar, align='center', color=cmap[operation](1))
 
     i=0
     for index, row in results_gcis.iterrows():
@@ -66,11 +66,11 @@ def generate_memory_chart(results_dcx, results_gcis, information, output_dir, ma
         i+=1
 
     file=results_dcx.index[0].upper().split("-")[-1]
-    customize_chart(information, f"{information['title']} {file}", "Algoritmo")
+    customize_chart(information, f"{information['title']} {file}", "Algorithm")
     plt.xticks(indexes, algorithm)
     plt.ylim(0, max_value+5)
 
-    file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
+    file = f"{output_dir}/en/{information['output_file']}-{results_dcx.index[0]}_EN.png"
     plt.savefig(file)
     plt.close()
 
@@ -85,7 +85,8 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.yscale('log')
 
     file=results.index[0].upper().split("-")[-1]
-    customize_chart(information, f"{information['title']} - {file}", "Algoritmo")
-    file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
+    customize_chart(information, f"{information['title']} - {file}", "Algorithm")
+    file = f"{output_dir}/{information['output_file']}-{results.index[0]}_EN.png"
+    print(file)
     plt.savefig(file)
     plt.close()
