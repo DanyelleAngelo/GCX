@@ -119,9 +119,8 @@ run_extract() {
 
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-    CURR_DATE="2024-01-23"
-    python3 ../scripts/report_en.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
-    #python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
+    python3 ../scripts/report_en.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
+    #python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "pt"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
