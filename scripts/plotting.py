@@ -55,8 +55,8 @@ def generate_chart_bar(results_dcx, results_gcis, information, output_dir, max_v
 
     file=results_dcx.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} {file}")
-    plt.yticks(np.arange(0, max_value, 3))
-    plt.ylim(0, max_value)
+    # plt.yticks(np.arange(0, max_value, 3))
+    # plt.ylim(0, max_value)
 
     file = f"{output_dir}/{information['output_file']}-{results_dcx.index[0]}.png"
     plt.savefig(file)

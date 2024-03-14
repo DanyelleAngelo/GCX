@@ -24,10 +24,11 @@ compress_max_values = {
 }
 
 mean_values = {
-    'peak_comp': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0 },
-    'peak_decomp': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
-    'compression_time': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
-    'decompression_time': {'DCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0}
+    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'GC*': 0.0 },
+    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'GC*': 0.0},
+    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'GC*': 0.0},
+    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'GC*': 0.0},
+    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'GC*': 0.0}
 }
 
 extract_values = {
@@ -75,12 +76,15 @@ def set_max_values(max_values, df):
 def set_mean_values(mean_values, df):
     for index, line in df.iterrows():
         for key in mean_values.keys():
-            if line['algorithm'] == 'DCX':
-                mean_values[key]['DCX'] += line[key]
+            if line['algorithm'] == 'GCX':
+                mean_values[key]['GCX'] += line[key] 
             elif line['algorithm'] == 'GCIS-ef':
                 mean_values[key]['GCIS-ef'] += line[key]
             elif line['algorithm'] == 'GCIS-s8b':
                 mean_values[key]['GCIS-s8b'] += line[key]
+            else:
+                mean_values[key]['GC*'] += line[key]
+                
 
 def prepare_dataset(df):
     plain_size = df['plain_size'][0]
@@ -111,16 +115,15 @@ def get_data_frame(path, operation):
             set_max_values(extract_values, df)
         df_list.append(df)
 
-    # if operation == "compress":
-    #     size=len(df_list)
-    #     for keys in mean_values.keys():
-    #         mean_values[keys]['DCX'] = mean_values[keys]['DCX'] / size
-    #         mean_values[keys]['GCIS-ef'] = mean_values[keys]['GCIS-ef'] / size
-    #         mean_values[keys]['GCIS-s8b'] = mean_values[keys]['GCIS-s8b'] / size
-    #     print("\n\t------ Mean Values ------")
-    #     print(json.dumps(mean_values, indent=4))
-    #     print("\n\t------ Ratio Analysis ------")
-    #     print(json.dumps(ratio_analysis, indent=4))
+    if operation == "compress":
+        size=len(df_list)
+        for keys in mean_values.keys():
+            mean_values[keys]['GCX'] = mean_values[keys]['GCX'] / size
+            mean_values[keys]['GCIS-ef'] = mean_values[keys]['GCIS-ef'] / size
+            mean_values[keys]['GCIS-s8b'] = mean_values[keys]['GCIS-s8b'] / size
+            mean_values[keys]['GC*'] = mean_values[keys]['GC*'] / size
+        print("\n\t------ Mean Values ------")
+        print(json.dumps(mean_values, indent=4))
 
     return df_list
 
