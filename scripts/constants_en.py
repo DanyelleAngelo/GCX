@@ -5,14 +5,16 @@ COMPRESS_AND_DECOMPRESS = {
         "y_label": "Compression time (s).",
         "x_label": "Algorithm",
         "title": "Compression time - ",
-        "output_file": "compression_time"
+        "output_file": "compression_time",
+        "legend":  "Algorithm"
     },
     'dcmp_time': {
         "col": "decompression_time",
         "y_label": "Decompression time (s).",
         "x_label": "Algorithm",
         "title": "Decompression time - ",
-        "output_file": "decompression_time"
+        "output_file": "decompression_time",
+        "legend":  "Algorithm"
     },
     'cmp_peak': {
         "col": "peak_comp",
@@ -20,7 +22,8 @@ COMPRESS_AND_DECOMPRESS = {
         "y_label": "Memory usage MB (log)",
         "x_label": "Algorithm",
         "title": "Memory usage - ",
-        "output_file": "memory_usage_comp"
+        "output_file": "memory_usage_comp",
+        "legend":  "Algorithm"
     },
     'dcmp_peak': {
         "col": "peak_decomp",
@@ -28,24 +31,27 @@ COMPRESS_AND_DECOMPRESS = {
         "y_label": "Memory usage MB (log)",
         "x_label": "Algorithm",
         "title": "Memory usage - ",
-        "output_file": "memory_usage_decomp"
+        "output_file": "memory_usage_decomp",
+        "legend":  "Algorithm"
     },
     'ratio': {
         "col": "compressed_size",
         "y_label": "Compression ratio (%).",
         "x_label": "Algorithm",
         "title": "Compression ratio - ",
-        "output_file": "ratio"
+        "output_file": "ratio",
+        "legend":  "Algorithm"
     }
 }
 
 EXTRACT = {
     'time': {
         "col": "time",
-        "y_label": "Extraction time for substring of length 1000",
+        "y_label": "Extraction time for substrings of length 10, 100, 1000 and 10000",
         "x_label": "Algorithm",
         "title": "Extraction time (s)",
-        "output_file": "extracting_time"
+        "output_file": "extracting_time",
+        "legend":  "Algorithm"
     },
     'peak': {
         "col": "peak",
@@ -62,6 +68,3 @@ EXTRACT = {
         "output_file": "stack_memory_usage_extract"
     }
 }
-
-
-LINE_STYLE = ["--", ":", "-.", "-","--"]

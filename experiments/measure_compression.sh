@@ -120,16 +120,15 @@ run_extract() {
 
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-
-    python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress"
-    python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract"
+    python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "pt"
+    python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    check_and_create_folder
-    download_files
-    compress_and_decompress_with_dcx
-    run_extract
-#    generate_graphs
+    # check_and_create_folder
+    # download_files
+    # compress_and_decompress_with_dcx
+    # run_extract
+    generate_graphs
 fi
