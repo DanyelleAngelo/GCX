@@ -29,7 +29,7 @@ def customize_chart(information, title):
     plt.xlabel(information['x_label'])
     plt.ylabel(information['y_label'])
     plt.title(title)
-    plt.legend(title=information['legend'])
+    plt.legend(title="Algoritmo")
 
     plt.xticks(rotation=45)
     plt.tight_layout(pad=3.0)  

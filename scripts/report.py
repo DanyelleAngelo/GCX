@@ -37,7 +37,7 @@ extract_values = {
     'min_time':sys.float_info.max,
 }
 
-def generate_chart(results_dcx, results_gcis, function, information, output_dir, metric, max_value):
+def generate_chart(results_dcx, results_gcis, function, information, output_dir, metric, max_value, plt):
     print(f"\t- Creating charts to {metric} comparison between DCX and GCIS")
     getattr(plt, function)(results_dcx, results_gcis, information, output_dir, max_value)
 
