@@ -8,6 +8,10 @@
 
 using namespace std;
 
+const string GREEN_COLOR = "\x1b[32m";
+const string ERROR_COLOR = "\x1b[31m";
+const string RESET_COLOR = "\x1b[0m";
+
 template <typename T>
 void print(T v[], int n, const char *msg){
     printf("\n%s", msg);
