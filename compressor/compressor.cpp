@@ -256,7 +256,7 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
             qtyRules++;
         }
     }
-    return lcpMean/qtyRules;
+    return (qtyRules > 0) ? lcpMean/qtyRules : 0;
 }
 
 void selectUniqueRules(i32 *text, unsigned char *&rules, i32 *tuples, i32 *rank, i32 nTuples, int coverage, int level, i32 qtyRules) {
