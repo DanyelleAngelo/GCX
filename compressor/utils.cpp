@@ -11,6 +11,11 @@
 
 
 using namespace std;
+map<string, string> operations{
+    {"-c", "compress"},
+    {"-d", "decompress"},
+    {"-e", "extract"}
+};
 
 void error(const char *msg) {
     cout << "\x1b[31m[ERROR]\x1b[0m " << msg << endl;
