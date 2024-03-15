@@ -18,19 +18,22 @@ using timer = std::chrono::high_resolution_clock;
 #define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
-void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
+void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op) {
     double duration =0.0;
     i32 textSize;
     void* base = stack_count_clear();
-    switch (op){
+
+    switch (op[1]){
         case 'c': {
             vector<i32> header;
             vector<int> levelCoverage;
+            int coverage = 32;
             levelCoverage.push_back(coverage);
+
             //preparing text
             unsigned char *text;
             readPlainText(fileIn, text, textSize, coverage);
-            i32* uText = (i32*)calloc(textSize+coverage,sizeof(i32));
+            i32* uText = (i32*)calloc(textSize+coverage, sizeof(i32));
             for(int i=0; i < textSize; i++)uText[i] = (i32)text[i];
             free(text);
 
@@ -42,10 +45,8 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             duration = (double)duration_cast<seconds>(stop - start).count();
 
             //printing compressed informations
-            cout << "\n\n\x1b[32m>>>> Encode <<<<\x1b[0m\n";
-            i32 levels = header.at(0);
-            grammarInfo(header.data(), levels, levelCoverage.data());
-
+            grammarInfo(header.data(), header.at(0), levelCoverage.data());
+            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << fileOut << RESET_COLOR << endl;
             break;
         }
         case 'd': {
@@ -63,12 +64,13 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             decode(text, header[0], encodedSymbols, xsSize, leafLevelRules, levelCoverage);
             auto stop = timer::now();
             duration = (double)duration_cast<seconds>(stop - start).count();
+
             //saving output
             saveDecodedText(fileOut, text, xsSize);
 
             //printing compressed informations
-            cout << "\n\n\x1b[32m>>>> Decompression <<<<\x1b[0m\n";
             grammarInfo(header, header[0], levelCoverage);
+            cout << "\tThe decompressed text was saved in: " << GREEN_COLOR << fileOut << RESET_COLOR << endl;
 
             free(leafLevelRules);
             free(text);
@@ -80,17 +82,15 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
         }
         case 'e': {
             unsigned char *leafLevelRules, *text;
+            int *levelCoverage = nullptr, xsSize = 0, levels;
             i32 *subtreeSize = nullptr, l, r, txtSize;
-            int *levelCoverage = nullptr;
             uarray **encodedSymbols;
-            int xsSize = 0, levels;
             vector<pair<i32, i32>> queries;
 
             //preparing data
             readCompressedFile(fileIn, subtreeSize, encodedSymbols, xsSize, levelCoverage, leafLevelRules);
 
             //printing compressed informations
-            cout << "\n\n\x1b[32m>>>> Extract <<<<\x1b[0m\n";
             grammarInfo(subtreeSize, subtreeSize[0], levelCoverage);
 
             ifstream file(queriesFile);
@@ -109,6 +109,8 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             text = (unsigned char*)calloc(txtSize+1, sizeof(unsigned char));
             duration = extractBatch(fileOut, text, subtreeSize, encodedSymbols, leafLevelRules, levelCoverage, txtSize, queries, levels);
 
+            cout << "\tThe extracted strings was saved in: " << GREEN_COLOR << fileOut << RESET_COLOR << endl;
+
             free(leafLevelRules);
             free(text);
             free(subtreeSize);
@@ -118,11 +120,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             break;
         }
         default: {
-            cout << "\n>>> Invalid option! <<< \n"
-                 << "\tPlease one of the options below:\n"
-                 << "\tc - to compress the text;\n"
-                 << "\td - to decompress the text.\n"
-                 << "\te - to extract substring[l,r] from the text.\n";
+            cout << ERROR_COLOR << "\n>>> Invalid option! <<< \n" << RESET_COLOR
+                << "\tPlease one of the options below:\n";
+            for(const auto& pair : operations) {
+                cout << "\t\t" << pair.first << " to " << pair.second << " the text;\n";
+            }
             break;
         }
     }

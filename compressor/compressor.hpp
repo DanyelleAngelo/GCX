@@ -15,9 +15,8 @@ using namespace std;
  * @param reportFile usado para persistência de consumo de tempo e memória.
  * @param queriesFile cada linha do arquivo contém 2 inteiros (l,r) separados por espaço, esses valores são usados durante a operação de extract
  * @param op armazena a opção escolhida pelo usuário "e" para encode, e "d" para decode
- * @param coverage tamanho das regras que devemos gerar.
  */
-void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage);
+void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op);
 
 /**
  * @brief Realiza a leitura do texto plano.
