@@ -31,13 +31,22 @@ int padding(i32 textSize, int coverage){
     if(textSize % coverage != 0){
         return coverage - (textSize % coverage);
     }
-    return 1;
+    return coverage;
 }
 
 void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int coverage){
-    i32 *tupleIndexTemp = &tuples[nTuples];
-    i32 *bucket=&tuples[nTuples*2];
-   
+    bool newAllocation = false;
+    i32 *tupleIndexTemp;
+    i32 *bucket;
+
+    if(nTuples >= sigma) {
+        tupleIndexTemp = &tuples[nTuples];
+        bucket = &tuples[nTuples*2];
+    } else {
+        tupleIndexTemp = (i32*)calloc(coverage*nTuples, sizeof(i32));
+        bucket = (i32*)calloc(sigma, sizeof(i32));
+    }
+
     for(int i=0, j=0; i < nTuples; i++, j+=coverage)tuples[i] = j;
 
     for(int d= coverage-1; d >=0; d--) {
@@ -49,6 +58,11 @@ void radixSort(const i32 *text, i32 nTuples, i32 *&tuples, i32 sigma, int covera
             tupleIndexTemp[bucket[text[tuples[i] + d]]++] = tuples[i];
         }
         for(int i=0; i < nTuples; i++) tuples[i] = tupleIndexTemp[i];
+    }
+
+    if(newAllocation) {
+        free(tupleIndexTemp);
+        free(bucket);
     }
 }
 

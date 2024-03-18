@@ -165,15 +165,16 @@ void readCompressedFile(char *fileName, i32 *&header, uarray **&encodedSymbols, 
     levelCoverage = (i32*)calloc(levels+1, sizeof(i32));
     header[0]=levels;
     fread(&header[1], sizeof(i32), levels+1, file);
-    fread(&levelCoverage[0], sizeof(int), levels+1, file);
-    //for(int i=0; i < levels+1; i++)levelCoverage[i] = 3;
+    fread(&levelCoverage[0], sizeof(i32), levels+1, file);
     
     //get xs and internal nodes
     encodedSymbols = (uarray**)malloc(header[0]*sizeof(uarray));
     xsSize = header[1];
     for(i32 i=1, j=0; j < header[0]; i++, j++) {
         if(j == 0) {
-            encodedSymbols[j] = ua_alloc(xsSize, ceil(log2(xsSize))+1);
+            //o número mínimo de bits, sempre vai ser determinado por coverage
+            u8 b = (xsSize > levelCoverage[1]) ? xsSize : levelCoverage[0];
+            encodedSymbols[j] = ua_alloc(xsSize, ceil(log2(b))+1);
         } else {
             encodedSymbols[j] = ua_alloc(header[i]*levelCoverage[j], ceil(log2(header[i+1]))+1);
         }
