@@ -159,17 +159,15 @@ void saveDecodedText(char *fileName, unsigned char* text, i32 size);
  * @brief Responsável por realizar a extração em batch de múltiplos intervalos. Além de tudo este método é reponsável por salvar o resultado da extração.
  * 
  * @param fileName caminho do arquivo onde serão anexado o resultado do extract de cada intervalo
- * @param text substring decodificada
  * @param subtreeSize tamanho máximo das subárvores em cada nível 
  * @param encodedSymbols matriz de regras no formato codificado, cada linha representa as regras de um nível
  * @param leafLevelRules array contendo as regras do último nível do processo recursivo
  * @param levelCoverage vetor com o tamanho das regras
- * @param txtSize tamanho do intervalo a ser decodificado
  * @param queries vetor de intervalos usado para o processo de extração
  * @param levels quantidade de níveis da gramática que codifica o texto
  * @return tempo total para realizar todas as operações de extração
  */
-double extractBatch(char *fileName, unsigned char *&text, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 txtSize, vector<pair<i32, i32>> queries, int levels);
+double extractBatch(char *fileName, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, vector<pair<i32, i32>> queries, int levels);
 
 /**
  * @brief Realiza a extração de uma substring do texto compactado em um intervalo fechado especificado.
@@ -184,6 +182,6 @@ double extractBatch(char *fileName, unsigned char *&text, int *subtreeSize, uarr
  * @param r limitante superior
  * @param levels quantidade de níveis da gramática que codifica o texto
  */
-void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 txtSize, i32 l, i32 r, int levels);
+void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 &txtSize, i32 l, i32 r, int levels);
 
 #endif

@@ -81,9 +81,9 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             break;
         }
         case 'e': {
-            unsigned char *leafLevelRules, *text;
+            unsigned char *leafLevelRules;
             int *levelCoverage = nullptr, xsSize = 0, levels;
-            i32 *subtreeSize = nullptr, l, r, txtSize;
+            i32 *subtreeSize = nullptr, l, r;
             uarray **encodedSymbols;
             vector<pair<i32, i32>> queries;
 
@@ -105,14 +105,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
                 for(int j=1+i; j < levels+1; j++) subtreeSize[i] *= levelCoverage[j];
             }
 
-            txtSize = queries[0].second-queries[0].first+1;
-            text = (unsigned char*)calloc(txtSize+1, sizeof(unsigned char));
-            duration = extractBatch(fileOut, text, subtreeSize, encodedSymbols, leafLevelRules, levelCoverage, txtSize, queries, levels);
+            duration = extractBatch(fileOut, subtreeSize, encodedSymbols, leafLevelRules, levelCoverage, queries, levels);
 
             cout << "\tThe extracted strings was saved in: " << GREEN_COLOR << fileOut << RESET_COLOR << endl;
 
             free(leafLevelRules);
-            free(text);
             free(subtreeSize);
             for(int i=0; i < levels; i++)ua_free(encodedSymbols[i]);
             free(encodedSymbols);
@@ -173,7 +170,7 @@ void readCompressedFile(char *fileName, i32 *&header, uarray **&encodedSymbols, 
     for(i32 i=1, j=0; j < header[0]; i++, j++) {
         if(j == 0) {
             //o número mínimo de bits, sempre vai ser determinado por coverage
-            u8 b = (xsSize > levelCoverage[1]) ? xsSize : levelCoverage[0];
+            i32 b = (xsSize > levelCoverage[0]) ? xsSize : levelCoverage[0];
             encodedSymbols[j] = ua_alloc(xsSize, ceil(log2(b))+1);
         } else {
             encodedSymbols[j] = ua_alloc(header[i]*levelCoverage[j], ceil(log2(header[i+1]))+1);
@@ -376,7 +373,8 @@ void saveDecodedText(char *fileName, unsigned char* text, i32 size) {
     fclose(file);
 }
 
-double extractBatch(char *fileName, unsigned char *&text, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 txtSize, vector<pair<i32, i32>> queries, int levels) {
+double extractBatch(char *fileName,  int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, vector<pair<i32, i32>> queries, int levels) {
+    unsigned char *text = (unsigned char*)calloc(50000+1, sizeof(unsigned char));
     i32 *temp = (i32*)malloc(50000*sizeof(i32));
     i32 *xs = (i32*)malloc(50000*sizeof(i32));
 
@@ -384,6 +382,7 @@ double extractBatch(char *fileName, unsigned char *&text, int *subtreeSize, uarr
     auto first = timer::now();
     auto totalTime = timer::now();
     for(auto i : queries) {
+        i32 txtSize = i.second - i.first+1;
         auto t0 = timer::now();
         extract(text, temp, xs, subtreeSize, encodedSymbols, leafLevelRules, levelCoverage, txtSize, i.first, i.second, levels);
         auto t1 = timer::now();
@@ -400,11 +399,12 @@ double extractBatch(char *fileName, unsigned char *&text, int *subtreeSize, uarr
     }
     duration = totalTime - first;
     free(temp);
+    free(text);
     free(xs);
     return duration.count();
 }
 
-void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 txtSize, i32 l, i32 r, int levels){
+void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 &txtSize, i32 l, i32 r, int levels){
     int coverage, k, end, p;
     //Determines the interval in Xs that we need to decode
     i32 startNode = l/subtreeSize[0], endNode = r/subtreeSize[0], size;
@@ -462,4 +462,5 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
             k++;
         }
     }
+    txtSize = j;
 }
