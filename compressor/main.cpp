@@ -32,11 +32,10 @@ int main(int argc, char *argv[]) {
     string op = (argc >=2) ?  argv[1] : "a";
     checkArguments(op,argc);
 
-    char *reportFile = (op != "-e" && argc > 4 ) ? argv[4] : (op=="e" && argc > 5) ? argv[5] : nullptr;
+    char *reportFile = (op != "-e" && argc >= 4 ) ? argv[4] : (op=="-e" && argc >= 5) ? argv[5] : nullptr;
     char *queriesFile = (op == "-e") ?  argv[4] : nullptr;
 
     cout << GREEN_COLOR << "Starting to " << operations[op] << " ...\n" << RESET_COLOR;
-
     grammar(argv[2], argv[3], reportFile, queriesFile, op);
 
     return 0;
