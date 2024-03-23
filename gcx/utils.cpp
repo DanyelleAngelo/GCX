@@ -87,7 +87,6 @@ void createLexNames(const i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long
 void generateReport(char *fileName, double duration, void *base) {
     FILE *file = fopen(fileName, "a");
     isFileOpen(file, "Unable to open report to enter time and memory consumption information");
-
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
     fprintf(file, "%lld|%lld|%5.15lf|", peak,stack,duration);

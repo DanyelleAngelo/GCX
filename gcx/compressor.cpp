@@ -37,16 +37,21 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             for(int i=0; i < textSize; i++)uText[i] = (i32)text[i];
             free(text);
 
+            char *extension = ".gcx";
+            char *out = (char*)calloc(strlen(fileOut)+5, sizeof(char));
+            strcpy(out, fileOut);
+            strcat(out, extension);
+
             //starting process
             auto start = timer::now();
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
-            compress(uText, tuples, textSize, strcat(fileOut,".dcx"), 0, levelCoverage, header, ASCII_SIZE);
+            compress(uText, tuples, textSize, out, 0, levelCoverage, header, ASCII_SIZE);
             auto stop = timer::now();
             duration = (double)duration_cast<seconds>(stop - start).count();
 
             //printing compressed informations
             grammarInfo(header.data(), header.at(0), levelCoverage.data());
-            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << fileOut << RESET_COLOR << endl;
+            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << out << RESET_COLOR << endl;
             break;
         }
         case 'd': {
@@ -411,7 +416,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
     i32 xsSize = endNode - startNode + 1;
     //get xs
     for(int i=startNode, j=0; i < endNode+1; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
-    
+
     l = l%subtreeSize[0], r = r%subtreeSize[0];
     for(int j=1; j < levels; j++) {
         coverage = levelCoverage[j];
@@ -449,7 +454,8 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
     startNode = l;
     endNode = r;
     char ch;
-    for(int i=0, j=0; i < xsSize && j < txtSize; i++){
+    int i=0, j=0;
+    for(; i < xsSize && j < txtSize; i++){
         if(xs[i] == 0)break;
         i32 rule = GET_RULE_INDEX();
         k=0;
@@ -462,5 +468,6 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
             k++;
         }
     }
+
     txtSize = j;
 }
