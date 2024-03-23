@@ -44,7 +44,8 @@ check_and_create_folder() {
     fi
     if [ ! -d "$REPORT_DIR/$CURR_DATE" ]; then
         mkdir -p "$REPORT_DIR/$CURR_DATE/extract"
-        mkdir -p "$REPORT_DIR/$CURR_DATE/graphs"
+        mkdir -p "$REPORT_DIR/$CURR_DATE/graphs/pt"
+        mkdir -p "$REPORT_DIR/$CURR_DATE/graphs/en"
         mkdir -p "$REPORT_DIR/$CURR_DATE/errors"
     fi
 }
@@ -84,12 +85,13 @@ download_files() {
 }
 
 checks_equality() {
+    echo -e "\n\t\t ${YELLOW} Checking if the response file is the same as the expected file ${RESET}\n"
     if ! cmp -s "$1" "$2"; then
         echo -e "\n\t\t\t ${RED} The files are the differents. ${RESET}\n"
         echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
     elif [ "$3" = "extract" ]; then
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
-    elif [ "$3" = "dcx" ]; then
+    elif [ "$3" = "gcx" ]; then
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
         local file=$1
         compressed_success_files+="${file##*/} "
