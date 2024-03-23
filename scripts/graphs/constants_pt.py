@@ -14,7 +14,7 @@ COMPRESS_AND_DECOMPRESS = {
         "x_label": "Algoritmo",
         "title": "Tempo de descompressão - ",
         "output_file": "decompression_time",
-        "legemd":  "Algoritmo"
+        "legend":  "Algoritmo"
     },
     'cmp_peak': {
         "col": "peak_comp",
