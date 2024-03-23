@@ -1,0 +1,4 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+pseudo-real-proteins.001.1|GCX|877581138|6291456|46,000000000000000|149286548|6291456|0,000000000000000|9475892|104857600
+pseudo-real-proteins.001.1|GCIS-ef|5561096|6291456|17,0000|184916344|6291456|4,0000|5103624|104857600
+pseudo-real-proteins.001.1|GCIS-s8b|4907816|6291456|17,0000|184630816|6291456|1,0000|4329053|104857600

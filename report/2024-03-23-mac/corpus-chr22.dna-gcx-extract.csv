@@ -1,0 +1,11 @@
+file|algorithm|peak|stack|time|substring_size
+corpus-chr22.dna|GCX|17464981|6291456|0,005345470000000|1
+corpus-chr22.dna|GCIS-ef|1
+corpus-chr22.dna|GCX|17464981|6291456|0,005494614000000|10
+corpus-chr22.dna|GCIS-ef|10
+corpus-chr22.dna|GCX|17464981|6291456|0,011119012000000|100
+corpus-chr22.dna|GCIS-ef|100
+corpus-chr22.dna|GCX|17464981|6291456|0,065145964000000|1000
+corpus-chr22.dna|GCIS-ef|1000
+corpus-chr22.dna|GCX|17464981|6291456|0,447272419000000|10000
+corpus-chr22.dna|GCIS-ef|10000

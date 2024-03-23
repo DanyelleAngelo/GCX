@@ -1,0 +1,11 @@
+file|algorithm|peak|stack|time|substring_size
+pseudo-real-proteins.001.1|GCX|9926181|6291456|0,012029032000000|1
+pseudo-real-proteins.001.1|GCIS-ef|5892296|6291456|0,0741|1
+pseudo-real-proteins.001.1|GCX|9926181|6291456|0,012271547000000|10
+pseudo-real-proteins.001.1|GCIS-ef|5892296|6291456|0,1214|10
+pseudo-real-proteins.001.1|GCX|9926181|6291456|0,020193077000000|100
+pseudo-real-proteins.001.1|GCIS-ef|5892296|6291456|0,4489|100
+pseudo-real-proteins.001.1|GCX|9926181|6291456|0,086820342000000|1000
+pseudo-real-proteins.001.1|GCIS-ef|5892296|6291456|3,8287|1000
+pseudo-real-proteins.001.1|GCX|9926181|6291456|0,585297101000000|10000
+pseudo-real-proteins.001.1|GCIS-ef|5892296|6291456|38,1515|10000

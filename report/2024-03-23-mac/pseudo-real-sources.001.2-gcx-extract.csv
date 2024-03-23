@@ -1,0 +1,11 @@
+file|algorithm|peak|stack|time|substring_size
+pseudo-real-sources.001.2|GCX|45723042|6291456|0,005728742000000|1
+pseudo-real-sources.001.2|GCIS-ef|5735952|6291456|0,0594|1
+pseudo-real-sources.001.2|GCX|45723042|6291456|0,007172681000000|10
+pseudo-real-sources.001.2|GCIS-ef|5735952|6291456|0,0984|10
+pseudo-real-sources.001.2|GCX|45723042|6291456|0,014069540000000|100
+pseudo-real-sources.001.2|GCIS-ef|5735952|6291456|0,4671|100
+pseudo-real-sources.001.2|GCX|45723042|6291456|0,077102019000000|1000
+pseudo-real-sources.001.2|GCIS-ef|5735952|6291456|4,0058|1000
+pseudo-real-sources.001.2|GCX|45723042|6291456|0,478773958000000|10000
+pseudo-real-sources.001.2|GCIS-ef|5735952|6291456|36,5837|10000
