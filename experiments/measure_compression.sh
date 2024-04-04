@@ -67,7 +67,6 @@ compress_and_decompress_with_gcx() {
         #perform compress and decompress with REPAIR
         echo -e "\n\t\t ${YELLOW}Starting compression/decompression using REPAIR ${RESET}\n"
         compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
-        break
         echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
     done
     make clean -C ../compressor/

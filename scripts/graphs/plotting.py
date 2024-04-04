@@ -7,13 +7,13 @@ LINE_STYLE = ["--", ":", "-.", "-","--"]
 
 color_map= {
     'compression_time': {
-        "default_color": "#007599", "highlighted_color": "#00ffff", "gcis": cm.get_cmap('PiYG')
+        "default_color": "#007599", "highlighted_color": "#00ffff", "gcis": cm.get_cmap('PiYG'), "repair": cm.get_cmap('PRGn')
     },
     'decompression_time': {
-        "default_color": "#007599", "highlighted_color": "#00ffff", "gcis": cm.get_cmap('PiYG')
+        "default_color": "#007599", "highlighted_color": "#00ffff", "gcis": cm.get_cmap('PiYG'), "repair": cm.get_cmap('PRGn')
     },
     'compressed_size': {
-        "default_color": "#bc5090", "highlighted_color": "#ffa600", "gcis": cm.get_cmap('coolwarm')
+        "default_color": "#bc5090", "highlighted_color": "#ffa600", "gcis": cm.get_cmap('coolwarm'), "repair": cm.get_cmap('tab20b')
     },
     'memory': cm.get_cmap('Set1'),
     'default': cm.get_cmap('winter')
@@ -33,7 +33,7 @@ def customize_chart(information, title):
     plt.tight_layout(pad=3.0)  
     plt.grid(linestyle=':', alpha=0.5)
 
-def generate_chart_bar(results_gcx, results_gcis, information, output_dir, max_value=None):
+def generate_chart_bar(results_gcx, results_gcis, results_repair, information, output_dir, max_value=None):
     plt.figure(figsize=(10,8))
 
     target_column = information['col']
@@ -47,6 +47,9 @@ def generate_chart_bar(results_gcx, results_gcis, information, output_dir, max_v
 
     #GCX results
     plt.bar(algorithms, results_gcx[target_column], width=0.5, color=colors, edgecolor='black', label="GCX")
+
+    #REPAIR results
+    plt.axhline(y=results_repair[target_column], color=color_map[target_column]["repair"](j), linestyle=LINE_STYLE[3], linewidth=2, label="Repair")
 
     j=0
     #GCIS results

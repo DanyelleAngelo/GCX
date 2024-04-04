@@ -35,15 +35,19 @@ def generate_extract_chart(df_list, output_dir, constants):
 
 def generate_compress_chart(df_list, output_dir, constants):
     for df in df_list:
-        filter = df['algorithm'].str.contains('GCIS') 
-        gcis = df[filter]
-        dcx = df[~filter]
+        gcis_filter = df['algorithm'].str.contains('GCIS') 
+        repair_filter = df['algorithm'].str.contains('REPAIR') 
+        combined_filter = gcis_filter | repair_filter
+
+        gcis = df[gcis_filter]
+        repair = df[repair_filter]
+        dcx = df[~combined_filter]
         
         print(f"\n## FILE: {df.index[0]}")
-        plt.generate_chart_bar(dcx, gcis,  constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
-        plt.generate_chart_bar(dcx, gcis,  constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, gcis, repair, constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, gcis,  repair, constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
 
-        plt.generate_chart_bar(dcx, gcis, constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
+        plt.generate_chart_bar(dcx, gcis, repair, constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
         plt.generate_memory_chart(dcx, gcis, constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
         plt.generate_memory_chart(dcx, gcis, constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
