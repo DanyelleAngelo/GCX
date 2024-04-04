@@ -6,6 +6,7 @@ STR_LEN=(1 10 100 1000 10000)
 COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
+REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
 #set -x
 
 compress_and_decompress_with_gcis() {
@@ -20,6 +21,19 @@ compress_and_decompress_with_gcis() {
 	echo "$(stat $stat_options $OUTPUT-gcis-$CODEC)|$5" >> $REPORT
 
     checks_equality "$PLAIN" "$OUTPUT-gcis-$CODEC-plain" "gcis"
+}
+
+compress_and_decompress_with_repair() {
+    FILE=$1
+    REPORT=$2
+    FILE_NAME=$3
+    OUTPUT="$COMP_DIR/$CURR_DATE/$FILE_NAME"
+	echo -n "$FILE_NAME|REPAIR|" >> $report
+    "${REPAIR_EXECUTABLE}/./repair" -i "$FILE" "$REPORT"
+	"${REPAIR_EXECUTABLE}/./despair" -i "${FILE}" "$REPORT"
+	echo "$(stat $stat_options $FILE.u)|$4" >> $REPORT
+
+    checks_equality "$FILE" "$FILE.u" "gcis"
 }
 
 compress_and_decompress_with_gcx() {
@@ -50,6 +64,10 @@ compress_and_decompress_with_gcx() {
         compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
         compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
+        #perform compress and decompress with REPAIR
+        echo -e "\n\t\t ${YELLOW}Starting compression/decompression using REPAIR ${RESET}\n"
+        compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
+        break
         echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
     done
     make clean -C ../compressor/
@@ -109,9 +127,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    # check_and_create_folder
-    # download_files
-    # compress_and_decompress_with_gcx
+    check_and_create_folder
+    download_files
+    compress_and_decompress_with_gcx
     #run_extract
-    generate_graphs
+    # generate_graphs
 fi
