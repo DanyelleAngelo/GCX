@@ -31,7 +31,7 @@ compress_and_decompress_with_repair() {
 	echo -n "$FILE_NAME|REPAIR|" >> $report
     "${REPAIR_EXECUTABLE}/./repair" -i "$FILE" "$REPORT"
 	"${REPAIR_EXECUTABLE}/./despair" -i "${FILE}" "$REPORT"
-	echo "$(stat $stat_options $FILE.u)|$4" >> $REPORT
+	echo "$(stat $stat_options $FILE.prel)|$4" >> $REPORT
 
     checks_equality "$FILE" "$FILE.u" "gcis"
 }
@@ -120,15 +120,16 @@ run_extract() {
 
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-    #python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
-    python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
+    CURR_DATE="2024-04-10"
+    python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
+    #python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
     check_and_create_folder
     download_files
-    compress_and_decompress_with_gcx
+    #compress_and_decompress_with_gcx
     #run_extract
-    # generate_graphs
+    generate_graphs
 fi

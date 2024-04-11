@@ -39,18 +39,17 @@ def generate_compress_chart(df_list, output_dir, constants):
         repair_filter = df['algorithm'].str.contains('REPAIR') 
         combined_filter = gcis_filter | repair_filter
 
-        gcis = df[gcis_filter]
-        repair = df[repair_filter]
+        others = df[combined_filter]
         dcx = df[~combined_filter]
-        
+       
         print(f"\n## FILE: {df.index[0]}")
-        plt.generate_chart_bar(dcx, gcis, repair, constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
-        plt.generate_chart_bar(dcx, gcis,  repair, constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, others, constants.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, others, constants.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
 
-        plt.generate_chart_bar(dcx, gcis, repair, constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
+        plt.generate_chart_bar(dcx, others, constants.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        plt.generate_memory_chart(dcx, gcis, constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
-        plt.generate_memory_chart(dcx, gcis, constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
+        plt.generate_memory_chart(dcx, others, constants.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
+        plt.generate_memory_chart(dcx, others, constants.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
 
 def print_report_summary(df):
     size=len(df)
@@ -94,7 +93,7 @@ def get_data_frame(path, operation, report):
     df_list = []
 
     for file in files:
-        df = pd.read_csv(file, sep='|', decimal=",")
+        df = pd.read_csv(file, sep='|', decimal=".")
         df.set_index('file', inplace=True)
         if operation == "compress":
             prepare_dataset(df)
