@@ -3,19 +3,21 @@ import matplotlib.cm as cm
 import numpy as np
 import pandas as pd
 
-LINE_STYLE = ["--", ":", "-.", "-","--", ":"]
+LINE_STYLE = ["--", "-.", "-","--"]
 
 color_map= {
     'compression_time': {
-        "default_color": "#007599", "highlighted_color": "#00ffff", "others": cm.get_cmap('PiYG')
+        "default_color": "#007599", "highlighted_color": "#00ffff", "others": "#ffa600"
     },
     'decompression_time': {
-        "default_color": "#007599", "highlighted_color": "#00ffff", "others": cm.get_cmap('PiYG')
+        "default_color": "#007599", "highlighted_color": "#00ffff", "others": "#ffa600"
     },
     'compressed_size': {
-        "default_color": "#bc5090", "highlighted_color": "#ffa600", "others": cm.get_cmap('coolwarm')
+        "default_color": "#bc5090", "highlighted_color": "#ffa600", "others": "#0056ff"
     },
-    'memory': cm.get_cmap('Set1'),
+    'memory': {
+         "default_color": "#ef6649", "highlighted_color": "#ef9e2b"
+    },
     'default': cm.get_cmap('winter')
 }
 
@@ -51,7 +53,10 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
     j=0
     #others results
     for index, row in others.iterrows():
-        plt.axhline(y=row[target_column], color=color_map[target_column]["others"](j), linestyle=LINE_STYLE[j], linewidth=2, label=row['algorithm'])
+        if row['algorithm'] == "REPAIR":
+            plt.axhline(y=row[target_column], color="green", linestyle=':',  linewidth=2, label=row['algorithm'])
+        else:
+            plt.axhline(y=row[target_column], color=color_map[target_column]["others"], linestyle=LINE_STYLE[j], linewidth=2, label=row['algorithm'])
         j+=1
 
 
@@ -62,36 +67,45 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
         plt.yticks(np.arange(0, max_value, 3))
         plt.ylim(0, max_value+3)
 
-    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}.png"
+    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}_EN.png"
     plt.savefig(file)
     plt.close()
 
 def generate_memory_chart(results_gcx, others, information, output_dir, max_value):
     plt.figure(figsize=(10,8))
+
+    target_column = 'memory'
+    algorithms = results_gcx['algorithm'].unique().tolist()
+    gcx_column = algorithms.index('GCX')
     
-    algorithm = results_gcx['algorithm'].unique().tolist()
-    indexes = np.arange(len(algorithm))
-    operation='memory'
+    #Sets chart colors
+    default_color = color_map[target_column]["default_color"]
+    colors = [default_color] * len(algorithms)
+    colors[gcx_column] = color_map[target_column]["highlighted_color"]
+    
+    indexes = np.arange(len(algorithms))
 
     #GCX results
-    plt.bar(indexes - width_bar, results_gcx[information['col']], label='GCX - Peak', width=width_bar, align='center', color=color_map[operation](0))
-    plt.bar(indexes, results_gcx[information['stack']], label='GCX - Stack', width=width_bar, align='center', color=color_map[operation](1))
+    plt.bar(indexes - width_bar, results_gcx[information['col']], label='GCX - Peak', width=width_bar, align='center', color=colors)
+    #plt.bar(indexes, results_gcx[information['stack']], label='GCX - Stack', width=width_bar, align='center', color=color_map[operation](1))
 
     i=0
     #others results
     for index, row in others.iterrows():
-        plt.axhline(y=row[information['col']], linestyle=LINE_STYLE[i], color=color_map[operation](i+2), label=f"{row['algorithm']}  - peak")
+        if row['algorithm'] == "REPAIR":
+            plt.axhline(y=row[information['col']], linestyle=':', color="#488f31", label=f"{row['algorithm']}  - peak")
+        else:
+            plt.axhline(y=row[information['col']], linestyle=LINE_STYLE[i], color="#de0000", label=f"{row['algorithm']}  - peak")
         i+=1
-        plt.axhline(y=row[information['stack']], linestyle=LINE_STYLE[i], color=color_map[operation](i+2), label=f"{row['algorithm']} - stack")
-        i+=1
+        #plt.axhline(y=row[information['stack']], linestyle=LINE_STYLE[i], color=color_map[operation](i+2), label=f"{row['algorithm']} - stack")
 
     file=results_gcx.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} {file}")
 
-    plt.xticks(indexes, algorithm)
+    plt.xticks(indexes, algorithms)
     plt.ylim(0, max_value)
 
-    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}.png"
+    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}_EN.png"
     plt.savefig(file)
     plt.close()
 
@@ -108,6 +122,6 @@ def generate_extract_chart(results, information, output_dir, max_value, min_valu
     file=results.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} - {file}")
 
-    file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
+    file = f"{output_dir}/{information['output_file']}-{results.index[0]}_EN.png"
     plt.savefig(file)
     plt.close()
