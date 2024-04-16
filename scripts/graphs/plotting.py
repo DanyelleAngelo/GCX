@@ -1,27 +1,7 @@
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import numpy as np
 import pandas as pd
-
-LINE_STYLE = ["--", "-.", "-","--"]
-
-color_map= {
-    'compression_time': {
-        "default_color": "#007599", "highlighted_color": "#00ffff", "others": "#ffa600"
-    },
-    'decompression_time': {
-        "default_color": "#007599", "highlighted_color": "#00ffff", "others": "#ffa600"
-    },
-    'compressed_size': {
-        "default_color": "#bc5090", "highlighted_color": "#ffa600", "others": "#0056ff"
-    },
-    'memory': {
-         "default_color": "#ef6649", "highlighted_color": "#ef9e2b"
-    },
-    'default': cm.get_cmap('winter')
-}
-
-
+from constants import COLOR_MAP, MARKER, COLOR_MAP
 
 width_bar = 0.2
 
@@ -37,79 +17,43 @@ def customize_chart(information, title):
 
 def generate_chart_bar(results_gcx, others, information, output_dir, max_value=None):
     plt.figure(figsize=(10,8))
-
-    target_column = information['col']
+   
+    target_column = information['col'] #analyzed metric
+    
     algorithms = results_gcx['algorithm'].unique().tolist()
-    gcx_column = algorithms.index('GCX')
-    
-    #Sets chart colors
-    default_color = color_map[target_column]["default_color"]
-    colors = [default_color] * len(algorithms)
-    colors[gcx_column] = color_map[target_column]["highlighted_color"]
-    
+    gcx_number = len(algorithms)
+    gc_star = results_gcx[results_gcx['algorithm'] != 'GCX']
+    gcx = results_gcx[results_gcx['algorithm'] == 'GCX']
+
     #GCX results
-    plt.bar(algorithms, results_gcx[target_column], width=0.5, color=colors, edgecolor='black', label="GCX")
+    plt.bar(gcx['algorithm'].tolist(), gcx[target_column], width=0.5, color=COLOR_MAP[target_column]["highlighted_color"], edgecolor='black', label="GCX")
+    plt.bar(gc_star['algorithm'].tolist(), gc_star[target_column], width=0.5, color=COLOR_MAP[target_column]["default_color"], edgecolor='black', label="GC*")
 
     j=0
-    #others results
+    #repair and gcis results
     for index, row in others.iterrows():
+        x = np.linspace(-1, gcx_number, 35 + (j*10)) 
+        y = np.full_like(x, row[target_column])
         if row['algorithm'] == "REPAIR":
-            plt.axhline(y=row[target_column], color="green", linestyle=':',  linewidth=2, label=row['algorithm'])
+            plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKER[j], s=15, linestyle='None', label=row['algorithm'])
         else:
-            plt.axhline(y=row[target_column], color=color_map[target_column]["others"], linestyle=LINE_STYLE[j], linewidth=2, label=row['algorithm'])
+            plt.scatter(x, y, color=COLOR_MAP['line'][j], marker=MARKER[j],  s=15, linestyle='None', label=row['algorithm'])
         j+=1
 
-
     file=results_gcx.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} {file}")
 
+    if information['col'] == "peak_comp" or information['col'] == "peak_decomp":
+        plt.xticks(np.arange(len(algorithms)), algorithms)
     if max_value != None:
-        plt.yticks(np.arange(0, max_value, 3))
         plt.ylim(0, max_value+3)
 
+    plt.xlim(-1, gcx_number)
     file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}_EN.png"
     plt.savefig(file)
     plt.close()
 
-def generate_memory_chart(results_gcx, others, information, output_dir, max_value):
-    plt.figure(figsize=(10,8))
-
-    target_column = 'memory'
-    algorithms = results_gcx['algorithm'].unique().tolist()
-    gcx_column = algorithms.index('GCX')
-    
-    #Sets chart colors
-    default_color = color_map[target_column]["default_color"]
-    colors = [default_color] * len(algorithms)
-    colors[gcx_column] = color_map[target_column]["highlighted_color"]
-    
-    indexes = np.arange(len(algorithms))
-
-    #GCX results
-    plt.bar(indexes - width_bar, results_gcx[information['col']], label='GCX - Peak', width=width_bar, align='center', color=colors)
-    #plt.bar(indexes, results_gcx[information['stack']], label='GCX - Stack', width=width_bar, align='center', color=color_map[operation](1))
-
-    i=0
-    #others results
-    for index, row in others.iterrows():
-        if row['algorithm'] == "REPAIR":
-            plt.axhline(y=row[information['col']], linestyle=':', color="#488f31", label=f"{row['algorithm']}  - peak")
-        else:
-            plt.axhline(y=row[information['col']], linestyle=LINE_STYLE[i], color="#de0000", label=f"{row['algorithm']}  - peak")
-        i+=1
-        #plt.axhline(y=row[information['stack']], linestyle=LINE_STYLE[i], color=color_map[operation](i+2), label=f"{row['algorithm']} - stack")
-
-    file=results_gcx.index[0].upper().split("-")[-1]
-    customize_chart(information, f"{information['title']} {file}")
-
-    plt.xticks(indexes, algorithms)
-    plt.ylim(0, max_value)
-
-    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}_EN.png"
-    plt.savefig(file)
-    plt.close()
-
-def generate_extract_chart(results, information, output_dir, max_value, min_value):
+def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.figure(figsize=(10,8))
 
     for algorithm, group in results.groupby('algorithm'):
