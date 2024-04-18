@@ -136,11 +136,17 @@ int main(int argc, char *argv[])
   parser.add<string>("input", 'i', "input file name in which ShapedSlp data structure is written.", true);
   parser.add<string>("encoding", 'e', "encoding: " + methodList, true);
   parser.add<string>("query_file", 'q', "query file containing the interval of substring to be extracted", true);
+  parser.add<string>("file_report_gcx", 'r', "report gcx", true);
   parser.parse_check(argc, argv);
   const string in = parser.get<string>("input");
   const string encoding = parser.get<string>("encoding");
   const string query_file = parser.get<string>("query_file");
-
+  const string file_gcx = parser.get<string>("file_report_gcx");
+  //To GCX
+  clock_t start_gcx, finish_gcx;
+  //void* base = stack_count_clear();
+  double duration =0.0;
+  auto start = timer::now();
   if (encoding.compare("All") == 0)
   {
     for (auto itr = funcs.begin(); itr != funcs.end(); ++itr)
@@ -165,6 +171,15 @@ int main(int argc, char *argv[])
       exit(1);
     }
   }
+  auto stop = timer::now();
+  duration = (double)duration_cast<seconds>(stop - start).count();
+  //To GCX
+  FILE *report_gcx = fopen(file_report_gcx, "a");
+  //long long int peak = malloc_count_peak();
+  //long long int stack = stack_count_usage(base);
+  fprintf(report_gcx, "0|0|%5.4lf|", duration);
+  printf("Time inserted into the gcx report: %5.4lf\n", duration);
+  fclose(report_gcx);
 
   // { // correctness check
   //   PoSlp<var_t> poslp;

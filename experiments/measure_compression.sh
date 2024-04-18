@@ -7,6 +7,7 @@ COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_de
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
+EXTRACT_ENCODING=("PlainSlp_32Fblc" "PlainSlp_FblcFblc" "PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
 #set -x
 
 compress_and_decompress_with_gcis() {
@@ -107,12 +108,20 @@ run_extract() {
                 checks_equality "$extract_output" "$extract_answer" "extract"
                 rm $extract_output
             	rm $extract_answer
-                sleep 20s
 
 		        echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
             	echo -n "$file|GCIS-ef|" >> $report
             	$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
             	echo "$length" >> $report
+
+                echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
+                "../../GCIS/external/repair-navarro/./repair" "$file"
+                for encoding in "${EXTRACT_ENCODING[@]}"; do
+                    echo -n "$file|SLP-$encoding|" >> $report
+                    "../../ShapedSlp/build/./SlpEncBuild" -i $file -o "$file-$encoding" -e $encoding -f NavarroRepair
+                    "../../ShapedSlp/build/./ExtractBenchmark" --input="$file-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+                    echo "$length" >> $report
+                done
 	        fi
         done
     done
@@ -120,14 +129,15 @@ run_extract() {
 
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
+    CURR_DATE="2024-04-10"
     python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
     #python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    check_and_create_folder
-    download_files
+    #check_and_create_folder
+    #download_files
     #compress_and_decompress_with_gcx
     #run_extract
     generate_graphs
