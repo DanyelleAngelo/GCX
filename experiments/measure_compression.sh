@@ -7,7 +7,7 @@ COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_de
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
-EXTRACT_ENCODING=("PlainSlp_32Fblc") #("PlainSlp_32Fblc" "PlainSlp_FblcFblc" "PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
+EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc") #"PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
 #set -x
 
 compress_and_decompress_with_gcis() {
@@ -88,10 +88,12 @@ run_extract() {
         report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
         echo $EXTRACTION_HEADER > $report;
 
+        echo -e "\n${YELLOW} Starting encode with repair-navarro - $file .${RESET}"
+        "../../GCIS/external/repair-navarro/./repair" "$file"
+
         #generates intervals
         echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
         python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
-
         #perform extracting
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/${file}.${length}_query"
@@ -115,9 +117,8 @@ run_extract() {
             	echo "$length" >> $report
 
                 echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
-                "../../GCIS/external/repair-navarro/./repair" "$file"
                 for encoding in "${EXTRACT_ENCODING[@]}"; do
-                    echo -n "$file|SLP-$encoding|" >> $report
+                    echo -n "$file|$encoding|" >> $report
                     "../../ShapedSlp/build/./SlpEncBuild" -i $file -o "$file-$encoding" -e $encoding -f NavarroRepair
                     "../../ShapedSlp/build/./ExtractBenchmark" --input="$file-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
                     echo "$length" >> $report
