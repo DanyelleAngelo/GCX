@@ -23,12 +23,15 @@ using namespace std::chrono;
 using timer = std::chrono::high_resolution_clock;
 
 using var_t = uint32_t;
-
+string file_gcx;
 template <class SlpT>
 void measure(
     std::string in,
     string query_file)
 {
+  FILE *report_gcx = fopen(file_gcx.c_str(), "a");
+  //long long int peak = malloc_count_peak();
+  //long long int stack = stack_count_usage(base);
   SlpT slp;
   uint64_t n;
   uint64_t lenExpand;
@@ -70,8 +73,12 @@ void measure(
     total_time += t1 - t0;
   }
   std::chrono::duration<double> elapsed = total_time - first;
+
   cout << "Batch Extraction Total time(s): " << elapsed.count() << endl;
   cout << "Mean time (microseconds): " << elapsed.count() / n * 1e6 << endl;
+  fprintf(report_gcx, "0|0|%5.4lf|", elapsed);
+  printf("Time inserted into the gcx report: %5.4lf\n", elapsed);
+  fclose(report_gcx);
 }
 
 int main(int argc, char *argv[])
@@ -141,12 +148,12 @@ int main(int argc, char *argv[])
   const string in = parser.get<string>("input");
   const string encoding = parser.get<string>("encoding");
   const string query_file = parser.get<string>("query_file");
-  const string file_gcx = parser.get<string>("file_report_gcx");
+  file_gcx = parser.get<string>("file_report_gcx");
   //To GCX
-  clock_t start_gcx, finish_gcx;
+  //clock_t start_gcx, finish_gcx;
   //void* base = stack_count_clear();
-  double duration =0.0;
-  auto start = timer::now();
+  //double duration =0.0;
+  //auto start = timer::now();
   if (encoding.compare("All") == 0)
   {
     for (auto itr = funcs.begin(); itr != funcs.end(); ++itr)
@@ -171,15 +178,10 @@ int main(int argc, char *argv[])
       exit(1);
     }
   }
-  auto stop = timer::now();
-  duration = (double)duration_cast<seconds>(stop - start).count();
+  //auto stop = timer::now();
+  //duration = (double)duration_cast<seconds>(stop - start).count();
   //To GCX
-  FILE *report_gcx = fopen(file_report_gcx, "a");
-  //long long int peak = malloc_count_peak();
-  //long long int stack = stack_count_usage(base);
-  fprintf(report_gcx, "0|0|%5.4lf|", duration);
-  printf("Time inserted into the gcx report: %5.4lf\n", duration);
-  fclose(report_gcx);
+  
 
   // { // correctness check
   //   PoSlp<var_t> poslp;
