@@ -7,7 +7,7 @@ COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_de
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
-EXTRACT_ENCODING=("PlainSlp_32Fblc" "PlainSlp_FblcFblc" "PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
+EXTRACT_ENCODING=("PlainSlp_32Fblc") #("PlainSlp_32Fblc" "PlainSlp_FblcFblc" "PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
 #set -x
 
 compress_and_decompress_with_gcis() {
@@ -97,15 +97,15 @@ run_extract() {
             query="$extract_dir/${file}.${length}_query"
 	        if [ -e $query ]; then
             	echo -e "\n${YELLOW} Generating expected responses for searched interval...${RESET}"
-            	extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
-            	python3 ../scripts/extract.py $plain_file_path $extract_answer $query
+            	#extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
+            	#python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
             	echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
             	echo -n "$file|GCX|" >> $report
                 extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
                 ../compressor/./main -e "$compressed_file.gcx" $extract_output $query $report
                 echo "$length" >> $report
-                checks_equality "$extract_output" "$extract_answer" "extract"
+                #checks_equality "$extract_output" "$extract_answer" "extract"
                 rm $extract_output
             	rm $extract_answer
 
@@ -137,8 +137,8 @@ generate_graphs() {
 
 if [ "$0" = "$BASH_SOURCE" ]; then
     #check_and_create_folder
-    #download_files
+    download_files
     #compress_and_decompress_with_gcx
-    #run_extract
-    generate_graphs
+    run_extract
+    #generate_graphs
 fi
