@@ -1,0 +1,11 @@
+file|algorithm|peak|stack|time|substring_size
+large-corpus-archive|GCX|18846429|6291456|0.001833037000000|1
+large-corpus-archive|GCIS-ef|13016576|6291456|0.0495|1
+large-corpus-archive|GCX|18846429|6291456|0.002018243000000|10
+large-corpus-archive|GCIS-ef|13016576|6291456|0.0821|10
+large-corpus-archive|GCX|18846429|6291456|0.005069324000000|100
+large-corpus-archive|GCIS-ef|13016576|6291456|0.3681|100
+large-corpus-archive|GCX|18846429|6291456|0.033203671000000|1000
+large-corpus-archive|GCIS-ef|13016576|6291456|3.1544|1000
+large-corpus-archive|GCX|18846429|6291456|0.209952126000000|10000
+large-corpus-archive|GCIS-ef|13016576|6291456|29.5659|10000

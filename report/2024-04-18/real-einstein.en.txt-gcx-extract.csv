@@ -1,0 +1,11 @@
+file|algorithm|peak|stack|time|substring_size
+real-einstein.en.txt|GCX|19286444|6291456|0.004238536000000|1
+real-einstein.en.txt|GCIS-ef|2017600|6291456|0.0603|1
+real-einstein.en.txt|GCX|19286444|6291456|0.004724333000000|10
+real-einstein.en.txt|GCIS-ef|2017600|6291456|0.0855|10
+real-einstein.en.txt|GCX|19286444|6291456|0.007165442000000|100
+real-einstein.en.txt|GCIS-ef|2017600|6291456|0.3301|100
+real-einstein.en.txt|GCX|19286444|6291456|0.031708810000000|1000
+real-einstein.en.txt|GCIS-ef|2017600|6291456|2.6714|1000
+real-einstein.en.txt|GCX|19286444|6291456|0.239344065000000|10000
+real-einstein.en.txt|GCIS-ef|2017600|6291456|24.9257|10000

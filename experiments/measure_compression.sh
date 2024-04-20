@@ -86,14 +86,14 @@ run_extract() {
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
         report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
-        echo $EXTRACTION_HEADER > $report;
+        #echo $EXTRACTION_HEADER > $report;
 
         echo -e "\n${YELLOW} Starting encode with repair-navarro - $file .${RESET}"
-        "../../GCIS/external/repair-navarro/./repair" "$file"
+        "../../GCIS/external/repair-navarro/./repair" "$plain_file_path"
 
         #generates intervals
-        echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
-        python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+        #echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
+        #python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
         #perform extracting
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/${file}.${length}_query"
@@ -102,25 +102,25 @@ run_extract() {
             	#extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
             	#python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
-            	echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
-            	echo -n "$file|GCX|" >> $report
-                extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
-                ../compressor/./main -e "$compressed_file.gcx" $extract_output $query $report
-                echo "$length" >> $report
+            	#echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
+            	#echo -n "$file|GCX|" >> $report
+                #extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
+                #../compressor/./main -e "$compressed_file.gcx" $extract_output $query $report
+                #echo "$length" >> $report
                 #checks_equality "$extract_output" "$extract_answer" "extract"
-                rm $extract_output
-            	rm $extract_answer
+                #rm $extract_output
+            	#rm $extract_answer
 
-		        echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
-            	echo -n "$file|GCIS-ef|" >> $report
-            	$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
-            	echo "$length" >> $report
+		        #echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
+            	#echo -n "$file|GCIS-ef|" >> $report
+            	#$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
+            	#echo "$length" >> $report
 
                 echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
                 for encoding in "${EXTRACT_ENCODING[@]}"; do
                     echo -n "$file|$encoding|" >> $report
-                    "../../ShapedSlp/build/./SlpEncBuild" -i $file -o "$file-$encoding" -e $encoding -f NavarroRepair
-                    "../../ShapedSlp/build/./ExtractBenchmark" --input="$file-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+                    "../../ShapedSlp/build/./SlpEncBuild" -i $plain_file_path -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
+                    "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
                     echo "$length" >> $report
                 done
 	        fi
