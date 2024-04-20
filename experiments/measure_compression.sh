@@ -91,6 +91,10 @@ run_extract() {
         echo -e "\n${YELLOW} Starting encode with repair-navarro - $file .${RESET}"
         "../../GCIS/external/repair-navarro/./repair" "$plain_file_path"
 
+        echo -e "\n${YELLOW} Generating encodes with SLP...${RESET}"
+        for encoding in "${EXTRACT_ENCODING[@]}"; do
+            "../../ShapedSlp/build/./SlpEncBuild" -i $plain_file_path -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
+        done
         #generates intervals
         #echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
         #python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
@@ -119,7 +123,6 @@ run_extract() {
                 echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
                 for encoding in "${EXTRACT_ENCODING[@]}"; do
                     echo -n "$file|$encoding|" >> $report
-                    "../../ShapedSlp/build/./SlpEncBuild" -i $plain_file_path -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
                     "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
                     echo "$length" >> $report
                 done
