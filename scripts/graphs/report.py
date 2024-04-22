@@ -15,11 +15,15 @@ compress_max_values = {
 }
 
 mean_values = {
-    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
-    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
-    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
-    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
-    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0}
+    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
+    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
+    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
+    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
+    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0}
+}
+
+mean_values_extract = {
+    'time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0}
 }
 
 extract_values = {
@@ -51,15 +55,16 @@ def generate_compress_chart(df_list, output_dir, language):
         #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
         #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
 
-def print_report_summary(df):
+def print_report_summary(df, summary):
     size=len(df)
-    for keys in mean_values.keys():
-        mean_values[keys]['GCX'] = mean_values[keys]['GCX'] / size
-        mean_values[keys]['GCIS-ef'] = mean_values[keys]['GCIS-ef'] / size
-        mean_values[keys]['GCIS-s8b'] = mean_values[keys]['GCIS-s8b'] / size
-        mean_values[keys]['REPAIR'] = mean_values[keys]['REPAIR'] / size
+    for keys in summary.keys():
+        summary[keys]['GCX'] = summary[keys]['GCX'] / size
+        summary[keys]['GCIS-ef'] = summary[keys]['GCIS-ef'] / size
+        summary[keys]['GCIS-s8b'] = summary[keys]['GCIS-s8b'] / size
+        summary[keys]['REPAIR'] = summary[keys]['REPAIR'] / size
+        summary[keys]['GC-'] = summary[keys]['GC-'] / size/13
     print("\n\t------ Average Values  ------")
-    print(json.dumps(mean_values, indent=4))
+    print(json.dumps(summary, indent=4))
 
 def set_max_values(values, df):
     for key in values.keys():
@@ -77,8 +82,11 @@ def set_mean_values(values, df):
                 values[key]['GCIS-ef'] += line[key]
             elif line['algorithm'] == 'GCIS-s8b':
                 values[key]['GCIS-s8b'] += line[key]
-            elif line['algorithm'] == 'REPAIR':
+            else:
+                print(line[key])
                 values[key]['REPAIR'] += line[key]
+            # else:
+            #      values[key]['GC-'] += line[key]
 
 def prepare_dataset(df):
     plain_size = df['plain_size'][0]
@@ -105,9 +113,10 @@ def get_data_frame(path, operation, report):
             set_mean_values(mean_values, df)
         elif operation == "extract":
             set_max_values(extract_values, df)
+            set_mean_values(mean_values_extract, df)
         df_list.append(df)
-    if operation == "compress" and report:
-        print_report_summary(df_list)
+    if report:
+        print_report_summary(df_list, mean_values_extract)
 
     return df_list
 

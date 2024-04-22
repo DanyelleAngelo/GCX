@@ -7,7 +7,7 @@ COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_de
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
-EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc") #"PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
+EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc" "PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
 #set -x
 
 compress_and_decompress_with_gcis() {
@@ -83,7 +83,7 @@ run_extract() {
 
 		plain_file_path="$RAW_FILES_DIR/$file"
 		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
-		compressed_file="$COMP_DIR/$CURR_DATE/$file"
+		compressed_file="$COMP_DIR/2024-04-10/$file"
 
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
 		echo $EXTRACTION_HEADER > $report;
@@ -139,9 +139,10 @@ run_extract() {
 
 generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-	CURR_DATE="2024-04-10"
-	python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
-	#python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
+	CURR_DATE="2024-04-18"
+	#python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
+	
+	python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
 	echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 

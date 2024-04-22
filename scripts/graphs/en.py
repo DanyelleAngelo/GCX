@@ -47,8 +47,8 @@ COMPRESS_AND_DECOMPRESS = {
 EXTRACT = {
     'time': {
         "col": "time",
-        "y_label": "Extraction time for substrings of length 10, 100, 1000 and 10000",
-        "x_label": "Algorithms",
+        "y_label": "Extraction time",
+        "x_label": "Substring length",
         "title": "Extraction time (s)",
         "output_file": "extracting_time",
         "legend":  "Algorithms"
