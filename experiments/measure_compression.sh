@@ -141,14 +141,14 @@ generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
 	CURR_DATE="2024-04-10"
 	python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
-	#python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
+	#python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
 	echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
 	#check_and_create_folder
-	download_files
-	#compress_and_decompress_with_gcx
-	run_extract
-	#generate_graphs
+	#download_files
+	#compress_and_decompress_with_gcx()
+	#run_extract
+	generate_graphs
 fi
