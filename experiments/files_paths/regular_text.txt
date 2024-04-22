@@ -1,12 +1,4 @@
 https://www.samba.org/ftp/tridge/large-corpus/archive.bz2
-https://people.unipmn.it/manzini/lightweight/corpus/chr22.dna.bz2
-https://people.unipmn.it/manzini/lightweight/corpus/etext99.bz2
-https://people.unipmn.it/manzini/lightweight/corpus/howto.bz2
-https://people.unipmn.it/manzini/lightweight/corpus/rctail96.bz2
-https://people.unipmn.it/manzini/lightweight/corpus/sprot34.dat.bz2
-https://pizzachili.dcc.uchile.cl/texts/code/sources.gz
 https://pizzachili.dcc.uchile.cl/texts/dna/dna.gz
 https://pizzachili.dcc.uchile.cl/texts/xml/dblp.xml.gz
 https://sun.aei.polsl.pl/~sdeor/corpus/dickens.bz2
-https://sun.aei.polsl.pl/~sdeor/corpus/nci.bz2
-https://sun.aei.polsl.pl/~sdeor/corpus/webster.bz2
