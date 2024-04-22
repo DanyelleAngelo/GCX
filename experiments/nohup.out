@@ -1,0 +1,1628 @@
+
+[0;32m%%% Download files from a list, then descompress the files and remove the compressed files.[0m.
+    
+
+[34m  % artificial-tm29.gz [0m
+
+[34m  % pseudo-real-proteins.001.1.gz [0m
+
+[34m  % real-cere.gz [0m
+
+[34m  % real-einstein.en.txt.gz [0m
+
+[34m  % large-corpus-archive.bz2 [0m
+
+[34m  % dna-dna.gz [0m
+
+[34m  % xml-dblp.xml.gz [0m
+
+[34m  % corpus-dickens.bz2 [0m
+
+[34m####### Extract validation [0m
+
+	[34mStarting extract operation on the artificial-tm29 file. [0m
+
+
+[33m Starting encode with repair-navarro - artificial-tm29 .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - artificial-tm29 - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 1
+		Size initial partition: 32
+		Initial symbol size: 8388609
+		Level: 1 - amount of rules: 3 - size of rules 32.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/artificial-tm29_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 72,709,406, peak: 26,884,597, current: 4,096
+Time: 0.000682561000000(s)
+
+[33mStarting extract with GCIS - artificial-tm29 - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0359609
+malloc_count ### exiting, total: 1,116,600, peak: 978,000, current: 29,016
+Time inserted into the DCX report: 0.0360
+
+[33m Starting extract with ShapedSlp - artificial-tm29 - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00204235
+Mean time (microseconds): 0.204235
+Time inserted into the gcx report: 0.0020
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00294074
+Mean time (microseconds): 0.294074
+Time inserted into the gcx report: 0.0029
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - artificial-tm29 - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 1
+		Size initial partition: 32
+		Initial symbol size: 8388609
+		Level: 1 - amount of rules: 3 - size of rules 32.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/artificial-tm29_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 72,709,406, peak: 26,884,597, current: 4,096
+Time: 0.000775253000000(s)
+
+[33mStarting extract with GCIS - artificial-tm29 - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.0430847
+malloc_count ### exiting, total: 1,116,600, peak: 978,000, current: 29,016
+Time inserted into the DCX report: 0.0431
+
+[33m Starting extract with ShapedSlp - artificial-tm29 - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00241652
+Mean time (microseconds): 0.241652
+Time inserted into the gcx report: 0.0024
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00351867
+Mean time (microseconds): 0.351867
+Time inserted into the gcx report: 0.0035
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - artificial-tm29 - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 1
+		Size initial partition: 32
+		Initial symbol size: 8388609
+		Level: 1 - amount of rules: 3 - size of rules 32.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/artificial-tm29_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 72,709,406, peak: 26,884,597, current: 4,096
+Time: 0.001506663000000(s)
+
+[33mStarting extract with GCIS - artificial-tm29 - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.104011
+malloc_count ### exiting, total: 1,116,600, peak: 978,000, current: 29,016
+Time inserted into the DCX report: 0.1040
+
+[33m Starting extract with ShapedSlp - artificial-tm29 - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.00526674
+Mean time (microseconds): 0.526674
+Time inserted into the gcx report: 0.0053
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.00798273
+Mean time (microseconds): 0.798273
+Time inserted into the gcx report: 0.0080
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - artificial-tm29 - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 1
+		Size initial partition: 32
+		Initial symbol size: 8388609
+		Level: 1 - amount of rules: 3 - size of rules 32.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/artificial-tm29_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 72,709,406, peak: 26,884,597, current: 4,096
+Time: 0.007574431000000(s)
+
+[33mStarting extract with GCIS - artificial-tm29 - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 0.68676
+malloc_count ### exiting, total: 1,116,600, peak: 978,000, current: 29,016
+Time inserted into the DCX report: 0.6868
+
+[33m Starting extract with ShapedSlp - artificial-tm29 - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.0325838
+Mean time (microseconds): 3.25838
+Time inserted into the gcx report: 0.0326
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.052774
+Mean time (microseconds): 5.2774
+Time inserted into the gcx report: 0.0528
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - artificial-tm29 - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 1
+		Size initial partition: 32
+		Initial symbol size: 8388609
+		Level: 1 - amount of rules: 3 - size of rules 32.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/artificial-tm29_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 72,709,406, peak: 26,884,597, current: 4,096
+Time: 0.061443263000000(s)
+
+[33mStarting extract with GCIS - artificial-tm29 - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 6.46248
+malloc_count ### exiting, total: 1,116,600, peak: 978,000, current: 29,016
+Time inserted into the DCX report: 6.4625
+
+[33m Starting extract with ShapedSlp - artificial-tm29 - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.307223
+Mean time (microseconds): 30.7223
+Time inserted into the gcx report: 0.3072
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.497482
+Mean time (microseconds): 49.7482
+Time inserted into the gcx report: 0.4975
+PlainSlp_FblcFblc: END
+
+	[34mStarting extract operation on the pseudo-real-proteins.001.1 file. [0m
+
+
+[33m Starting encode with repair-navarro - pseudo-real-proteins.001.1 .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - pseudo-real-proteins.001.1 - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 6
+		Size initial partition: 32
+		Initial symbol size: 182046
+		Level: 6 - amount of rules: 313926 - size of rules 12.
+		Level: 5 - amount of rules: 319941 - size of rules 3.
+		Level: 4 - amount of rules: 221245 - size of rules 2.
+		Level: 3 - amount of rules: 160024 - size of rules 2.
+		Level: 2 - amount of rules: 122548 - size of rules 2.
+		Level: 1 - amount of rules: 95187 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/pseudo-real-proteins.001.1_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 55,971,014, peak: 10,146,205, current: 4,096
+Time: 0.003712754000000(s)
+
+[33mStarting extract with GCIS - pseudo-real-proteins.001.1 - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0508127
+malloc_count ### exiting, total: 6,270,932, peak: 6,126,532, current: 5,177,548
+Time inserted into the DCX report: 0.0508
+
+[33m Starting extract with ShapedSlp - pseudo-real-proteins.001.1 - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 1
+Time to load query file (ms): 0
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00527676
+Mean time (microseconds): 0.527676
+Time inserted into the gcx report: 0.0053
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 1
+Time to load query file (ms): 0
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00665526
+Mean time (microseconds): 0.665526
+Time inserted into the gcx report: 0.0067
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - pseudo-real-proteins.001.1 - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 6
+		Size initial partition: 32
+		Initial symbol size: 182046
+		Level: 6 - amount of rules: 313926 - size of rules 12.
+		Level: 5 - amount of rules: 319941 - size of rules 3.
+		Level: 4 - amount of rules: 221245 - size of rules 2.
+		Level: 3 - amount of rules: 160024 - size of rules 2.
+		Level: 2 - amount of rules: 122548 - size of rules 2.
+		Level: 1 - amount of rules: 95187 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/pseudo-real-proteins.001.1_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 55,971,014, peak: 10,146,205, current: 4,096
+Time: 0.004047072000000(s)
+
+[33mStarting extract with GCIS - pseudo-real-proteins.001.1 - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.079619
+malloc_count ### exiting, total: 6,270,932, peak: 6,126,532, current: 5,177,548
+Time inserted into the DCX report: 0.0796
+
+[33m Starting extract with ShapedSlp - pseudo-real-proteins.001.1 - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00691726
+Mean time (microseconds): 0.691725
+Time inserted into the gcx report: 0.0069
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 1
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00825821
+Mean time (microseconds): 0.825821
+Time inserted into the gcx report: 0.0083
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - pseudo-real-proteins.001.1 - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 6
+		Size initial partition: 32
+		Initial symbol size: 182046
+		Level: 6 - amount of rules: 313926 - size of rules 12.
+		Level: 5 - amount of rules: 319941 - size of rules 3.
+		Level: 4 - amount of rules: 221245 - size of rules 2.
+		Level: 3 - amount of rules: 160024 - size of rules 2.
+		Level: 2 - amount of rules: 122548 - size of rules 2.
+		Level: 1 - amount of rules: 95187 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/pseudo-real-proteins.001.1_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 55,971,014, peak: 10,146,205, current: 4,096
+Time: 0.005249096000000(s)
+
+[33mStarting extract with GCIS - pseudo-real-proteins.001.1 - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.337993
+malloc_count ### exiting, total: 6,270,932, peak: 6,126,532, current: 5,177,548
+Time inserted into the DCX report: 0.3380
+
+[33m Starting extract with ShapedSlp - pseudo-real-proteins.001.1 - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0167322
+Mean time (microseconds): 1.67322
+Time inserted into the gcx report: 0.0167
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 1
+Time to load query file (ms): 0
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.022765
+Mean time (microseconds): 2.2765
+Time inserted into the gcx report: 0.0228
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - pseudo-real-proteins.001.1 - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 6
+		Size initial partition: 32
+		Initial symbol size: 182046
+		Level: 6 - amount of rules: 313926 - size of rules 12.
+		Level: 5 - amount of rules: 319941 - size of rules 3.
+		Level: 4 - amount of rules: 221245 - size of rules 2.
+		Level: 3 - amount of rules: 160024 - size of rules 2.
+		Level: 2 - amount of rules: 122548 - size of rules 2.
+		Level: 1 - amount of rules: 95187 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/pseudo-real-proteins.001.1_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 55,971,014, peak: 10,146,205, current: 4,096
+Time: 0.019767916000000(s)
+
+[33mStarting extract with GCIS - pseudo-real-proteins.001.1 - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.88118
+malloc_count ### exiting, total: 6,270,932, peak: 6,126,532, current: 5,177,548
+Time inserted into the DCX report: 2.8812
+
+[33m Starting extract with ShapedSlp - pseudo-real-proteins.001.1 - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.105355
+Mean time (microseconds): 10.5355
+Time inserted into the gcx report: 0.1054
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 1
+Time to load query file (ms): 0
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.153981
+Mean time (microseconds): 15.3981
+Time inserted into the gcx report: 0.1540
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - pseudo-real-proteins.001.1 - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 6
+		Size initial partition: 32
+		Initial symbol size: 182046
+		Level: 6 - amount of rules: 313926 - size of rules 12.
+		Level: 5 - amount of rules: 319941 - size of rules 3.
+		Level: 4 - amount of rules: 221245 - size of rules 2.
+		Level: 3 - amount of rules: 160024 - size of rules 2.
+		Level: 2 - amount of rules: 122548 - size of rules 2.
+		Level: 1 - amount of rules: 95187 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/pseudo-real-proteins.001.1_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 55,971,014, peak: 10,146,205, current: 4,096
+Time: 0.160160341000000(s)
+
+[33mStarting extract with GCIS - pseudo-real-proteins.001.1 - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 27.6878
+malloc_count ### exiting, total: 6,270,932, peak: 6,126,532, current: 5,177,548
+Time inserted into the DCX report: 27.6878
+
+[33m Starting extract with ShapedSlp - pseudo-real-proteins.001.1 - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.98052
+Mean time (microseconds): 98.052
+Time inserted into the gcx report: 0.9805
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 1
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.3871
+Mean time (microseconds): 138.71
+Time inserted into the gcx report: 1.3871
+PlainSlp_FblcFblc: END
+
+	[34mStarting extract operation on the real-cere file. [0m
+
+
+[33m Starting encode with repair-navarro - real-cere .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-cere - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 3812287
+		Level: 2 - amount of rules: 3248013 - size of rules 11.
+		Level: 1 - amount of rules: 3245941 - size of rules 11.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-cere_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 195,836,317, peak: 150,011,508, current: 4,096
+Time: 0.002263189000000(s)
+
+[33mStarting extract with GCIS - real-cere - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0792311
+malloc_count ### exiting, total: 21,806,896, peak: 21,645,880, current: 20,696,896
+Time inserted into the DCX report: 0.0792
+
+[33m Starting extract with ShapedSlp - real-cere - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.0137186
+Mean time (microseconds): 1.37186
+Time inserted into the gcx report: 0.0137
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.0144955
+Mean time (microseconds): 1.44955
+Time inserted into the gcx report: 0.0145
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-cere - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 3812287
+		Level: 2 - amount of rules: 3248013 - size of rules 11.
+		Level: 1 - amount of rules: 3245941 - size of rules 11.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-cere_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 195,836,317, peak: 150,011,508, current: 4,096
+Time: 0.002477714000000(s)
+
+[33mStarting extract with GCIS - real-cere - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.105706
+malloc_count ### exiting, total: 21,806,896, peak: 21,645,880, current: 20,696,896
+Time inserted into the DCX report: 0.1057
+
+[33m Starting extract with ShapedSlp - real-cere - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.0145715
+Mean time (microseconds): 1.45715
+Time inserted into the gcx report: 0.0146
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 4
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.0166367
+Mean time (microseconds): 1.66367
+Time inserted into the gcx report: 0.0166
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-cere - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 3812287
+		Level: 2 - amount of rules: 3248013 - size of rules 11.
+		Level: 1 - amount of rules: 3245941 - size of rules 11.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-cere_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 195,836,317, peak: 150,011,508, current: 4,096
+Time: 0.005328013000000(s)
+
+[33mStarting extract with GCIS - real-cere - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.334908
+malloc_count ### exiting, total: 21,806,896, peak: 21,645,880, current: 20,696,896
+Time inserted into the DCX report: 0.3349
+
+[33m Starting extract with ShapedSlp - real-cere - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0244904
+Mean time (microseconds): 2.44904
+Time inserted into the gcx report: 0.0245
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 4
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0293634
+Mean time (microseconds): 2.93634
+Time inserted into the gcx report: 0.0294
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-cere - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 3812287
+		Level: 2 - amount of rules: 3248013 - size of rules 11.
+		Level: 1 - amount of rules: 3245941 - size of rules 11.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-cere_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 195,836,317, peak: 150,011,508, current: 4,096
+Time: 0.036518908000000(s)
+
+[33mStarting extract with GCIS - real-cere - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.58766
+malloc_count ### exiting, total: 21,806,896, peak: 21,645,880, current: 20,696,896
+Time inserted into the DCX report: 2.5877
+
+[33m Starting extract with ShapedSlp - real-cere - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.109154
+Mean time (microseconds): 10.9154
+Time inserted into the gcx report: 0.1092
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 4
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.142735
+Mean time (microseconds): 14.2735
+Time inserted into the gcx report: 0.1427
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-cere - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 3812287
+		Level: 2 - amount of rules: 3248013 - size of rules 11.
+		Level: 1 - amount of rules: 3245941 - size of rules 11.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-cere_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 195,836,317, peak: 150,011,508, current: 4,096
+Time: 0.341633696000000(s)
+
+[33mStarting extract with GCIS - real-cere - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 23.7882
+malloc_count ### exiting, total: 21,806,896, peak: 21,645,880, current: 20,696,896
+Time inserted into the DCX report: 23.7882
+
+[33m Starting extract with ShapedSlp - real-cere - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.898609
+Mean time (microseconds): 89.8609
+Time inserted into the gcx report: 0.8986
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 5
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.23818
+Mean time (microseconds): 123.818
+Time inserted into the gcx report: 1.2382
+PlainSlp_FblcFblc: END
+
+	[34mStarting extract operation on the real-einstein.en.txt file. [0m
+
+
+[33m Starting encode with repair-navarro - real-einstein.en.txt .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-einstein.en.txt - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-einstein.en.txt_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 65,111,253, peak: 19,286,444, current: 4,096
+Time: 0.003058691000000(s)
+
+[33mStarting extract with GCIS - real-einstein.en.txt - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0554502
+malloc_count ### exiting, total: 2,156,704, peak: 2,017,600, current: 1,068,616
+Time inserted into the DCX report: 0.0555
+
+[33m Starting extract with ShapedSlp - real-einstein.en.txt - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00675214
+Mean time (microseconds): 0.675214
+Time inserted into the gcx report: 0.0068
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00812438
+Mean time (microseconds): 0.812438
+Time inserted into the gcx report: 0.0081
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-einstein.en.txt - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-einstein.en.txt_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 65,111,253, peak: 19,286,444, current: 4,096
+Time: 0.003457463000000(s)
+
+[33mStarting extract with GCIS - real-einstein.en.txt - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.0824425
+malloc_count ### exiting, total: 2,156,704, peak: 2,017,600, current: 1,068,616
+Time inserted into the DCX report: 0.0824
+
+[33m Starting extract with ShapedSlp - real-einstein.en.txt - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00801083
+Mean time (microseconds): 0.801083
+Time inserted into the gcx report: 0.0080
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00964118
+Mean time (microseconds): 0.964118
+Time inserted into the gcx report: 0.0096
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-einstein.en.txt - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-einstein.en.txt_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 65,111,253, peak: 19,286,444, current: 4,096
+Time: 0.004970686000000(s)
+
+[33mStarting extract with GCIS - real-einstein.en.txt - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.325861
+malloc_count ### exiting, total: 2,156,704, peak: 2,017,600, current: 1,068,616
+Time inserted into the DCX report: 0.3259
+
+[33m Starting extract with ShapedSlp - real-einstein.en.txt - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0165078
+Mean time (microseconds): 1.65078
+Time inserted into the gcx report: 0.0165
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0214581
+Mean time (microseconds): 2.14581
+Time inserted into the gcx report: 0.0215
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-einstein.en.txt - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-einstein.en.txt_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 65,111,253, peak: 19,286,444, current: 4,096
+Time: 0.025352116000000(s)
+
+[33mStarting extract with GCIS - real-einstein.en.txt - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.58997
+malloc_count ### exiting, total: 2,156,704, peak: 2,017,600, current: 1,068,616
+Time inserted into the DCX report: 2.5900
+
+[33m Starting extract with ShapedSlp - real-einstein.en.txt - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.094262
+Mean time (microseconds): 9.4262
+Time inserted into the gcx report: 0.0943
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.133619
+Mean time (microseconds): 13.3619
+Time inserted into the gcx report: 0.1336
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - real-einstein.en.txt - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/real-einstein.en.txt_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 65,111,253, peak: 19,286,444, current: 4,096
+Time: 0.207649644000000(s)
+
+[33mStarting extract with GCIS - real-einstein.en.txt - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 24.2313
+malloc_count ### exiting, total: 2,156,704, peak: 2,017,600, current: 1,068,616
+Time inserted into the DCX report: 24.2313
+
+[33m Starting extract with ShapedSlp - real-einstein.en.txt - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.846491
+Mean time (microseconds): 84.6491
+Time inserted into the gcx report: 0.8465
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 0
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.21965
+Mean time (microseconds): 121.965
+Time inserted into the gcx report: 1.2197
+PlainSlp_FblcFblc: END
+
+	[34mStarting extract operation on the large-corpus-archive file. [0m
+
+
+[33m Starting encode with repair-navarro - large-corpus-archive .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - large-corpus-archive - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 422964
+		Level: 2 - amount of rules: 1125338 - size of rules 8.
+		Level: 1 - amount of rules: 368916 - size of rules 8.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/large-corpus-archive_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 64,671,238, peak: 18,846,429, current: 4,096
+Time: 0.001366649000000(s)
+
+[33mStarting extract with GCIS - large-corpus-archive - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0445778
+malloc_count ### exiting, total: 13,170,784, peak: 13,016,576, current: 12,067,592
+Time inserted into the DCX report: 0.0446
+
+[33m Starting extract with ShapedSlp - large-corpus-archive - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 4
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00627976
+Mean time (microseconds): 0.627976
+Time inserted into the gcx report: 0.0063
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00639469
+Mean time (microseconds): 0.639469
+Time inserted into the gcx report: 0.0064
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - large-corpus-archive - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 422964
+		Level: 2 - amount of rules: 1125338 - size of rules 8.
+		Level: 1 - amount of rules: 368916 - size of rules 8.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/large-corpus-archive_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 64,671,238, peak: 18,846,429, current: 4,096
+Time: 0.001636655000000(s)
+
+[33mStarting extract with GCIS - large-corpus-archive - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.0748891
+malloc_count ### exiting, total: 13,170,784, peak: 13,016,576, current: 12,067,592
+Time inserted into the DCX report: 0.0749
+
+[33m Starting extract with ShapedSlp - large-corpus-archive - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00717266
+Mean time (microseconds): 0.717266
+Time inserted into the gcx report: 0.0072
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00815041
+Mean time (microseconds): 0.815041
+Time inserted into the gcx report: 0.0082
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - large-corpus-archive - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 422964
+		Level: 2 - amount of rules: 1125338 - size of rules 8.
+		Level: 1 - amount of rules: 368916 - size of rules 8.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/large-corpus-archive_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 64,671,238, peak: 18,846,429, current: 4,096
+Time: 0.003620539000000(s)
+
+[33mStarting extract with GCIS - large-corpus-archive - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.345322
+malloc_count ### exiting, total: 13,170,784, peak: 13,016,576, current: 12,067,592
+Time inserted into the DCX report: 0.3453
+
+[33m Starting extract with ShapedSlp - large-corpus-archive - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 4
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0162436
+Mean time (microseconds): 1.62436
+Time inserted into the gcx report: 0.0162
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0207675
+Mean time (microseconds): 2.07675
+Time inserted into the gcx report: 0.0208
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - large-corpus-archive - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 422964
+		Level: 2 - amount of rules: 1125338 - size of rules 8.
+		Level: 1 - amount of rules: 368916 - size of rules 8.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/large-corpus-archive_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 64,671,238, peak: 18,846,429, current: 4,096
+Time: 0.021439384000000(s)
+
+[33mStarting extract with GCIS - large-corpus-archive - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.94963
+malloc_count ### exiting, total: 13,170,784, peak: 13,016,576, current: 12,067,592
+Time inserted into the DCX report: 2.9496
+
+[33m Starting extract with ShapedSlp - large-corpus-archive - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 4
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.0937473
+Mean time (microseconds): 9.37473
+Time inserted into the gcx report: 0.0937
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.135086
+Mean time (microseconds): 13.5086
+Time inserted into the gcx report: 0.1351
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - large-corpus-archive - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 422964
+		Level: 2 - amount of rules: 1125338 - size of rules 8.
+		Level: 1 - amount of rules: 368916 - size of rules 8.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/large-corpus-archive_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 64,671,238, peak: 18,846,429, current: 4,096
+Time: 0.206734332000000(s)
+
+[33mStarting extract with GCIS - large-corpus-archive - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 29.0833
+malloc_count ### exiting, total: 13,170,784, peak: 13,016,576, current: 12,067,592
+Time inserted into the DCX report: 29.0833
+
+[33m Starting extract with ShapedSlp - large-corpus-archive - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.830414
+Mean time (microseconds): 83.0414
+Time inserted into the gcx report: 0.8304
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 3
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.27134
+Mean time (microseconds): 127.134
+Time inserted into the gcx report: 1.2713
+PlainSlp_FblcFblc: END
+
+	[34mStarting extract operation on the dna-dna file. [0m
+
+
+[33m Starting encode with repair-navarro - dna-dna .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - dna-dna - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 2805055
+		Level: 2 - amount of rules: 9115013 - size of rules 12.
+		Level: 1 - amount of rules: 2804551 - size of rules 12.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/dna-dna_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 269,110,314, peak: 223,285,505, current: 4,096
+Time: 0.002414187000000(s)
+
+[33mStarting extract with GCIS - dna-dna - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0728255
+malloc_count ### exiting, total: 228,966,704, peak: 228,574,824, current: 227,625,840
+Time inserted into the DCX report: 0.0728
+
+[33m Starting extract with ShapedSlp - dna-dna - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 67
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.0774735
+Mean time (microseconds): 7.74735
+Time inserted into the gcx report: 0.0775
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 61
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+./measure_compression.sh: line 128: 132048 Segmentation fault      (core dumped) "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - dna-dna - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 2805055
+		Level: 2 - amount of rules: 9115013 - size of rules 12.
+		Level: 1 - amount of rules: 2804551 - size of rules 12.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/dna-dna_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 269,110,314, peak: 223,285,505, current: 4,096
+Time: 0.002580237000000(s)
+
+[33mStarting extract with GCIS - dna-dna - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.103447
+malloc_count ### exiting, total: 228,966,704, peak: 228,574,824, current: 227,625,840
+Time inserted into the DCX report: 0.1034
+
+[33m Starting extract with ShapedSlp - dna-dna - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 68
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.0680139
+Mean time (microseconds): 6.80139
+Time inserted into the gcx report: 0.0680
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 56
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+./measure_compression.sh: line 128: 132063 Segmentation fault      (core dumped) "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - dna-dna - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 2805055
+		Level: 2 - amount of rules: 9115013 - size of rules 12.
+		Level: 1 - amount of rules: 2804551 - size of rules 12.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/dna-dna_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 269,110,314, peak: 223,285,505, current: 4,096
+Time: 0.005956492000000(s)
+
+[33mStarting extract with GCIS - dna-dna - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.373372
+malloc_count ### exiting, total: 228,966,704, peak: 228,574,824, current: 227,625,840
+Time inserted into the DCX report: 0.3734
+
+[33m Starting extract with ShapedSlp - dna-dna - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 68
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0822167
+Mean time (microseconds): 8.22167
+Time inserted into the gcx report: 0.0822
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 57
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+./measure_compression.sh: line 128: 132076 Segmentation fault      (core dumped) "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - dna-dna - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 2805055
+		Level: 2 - amount of rules: 9115013 - size of rules 12.
+		Level: 1 - amount of rules: 2804551 - size of rules 12.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/dna-dna_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 269,110,314, peak: 223,285,505, current: 4,096
+Time: 0.041442827000000(s)
+
+[33mStarting extract with GCIS - dna-dna - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.93545
+malloc_count ### exiting, total: 228,966,704, peak: 228,574,824, current: 227,625,840
+Time inserted into the DCX report: 2.9355
+
+[33m Starting extract with ShapedSlp - dna-dna - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 67
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.18563
+Mean time (microseconds): 18.563
+Time inserted into the gcx report: 0.1856
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 57
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+./measure_compression.sh: line 128: 132089 Segmentation fault      (core dumped) "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - dna-dna - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 2805055
+		Level: 2 - amount of rules: 9115013 - size of rules 12.
+		Level: 1 - amount of rules: 2804551 - size of rules 12.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/dna-dna_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 269,110,314, peak: 223,285,505, current: 4,096
+Time: 0.387230073000000(s)
+
+[33mStarting extract with GCIS - dna-dna - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 27.7573
+malloc_count ### exiting, total: 228,966,704, peak: 228,574,824, current: 227,625,840
+Time inserted into the DCX report: 27.7573
+
+[33m Starting extract with ShapedSlp - dna-dna - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 68
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.14976
+Mean time (microseconds): 114.976
+Time inserted into the gcx report: 1.1498
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 56
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+./measure_compression.sh: line 128: 132103 Segmentation fault      (core dumped) "../../ShapedSlp/build/./ExtractBenchmark" --input="$plain_file_path-$encoding" --encoding=$encoding --query_file=$query --file_report_gcx=$report
+
+	[34mStarting extract operation on the xml-dblp.xml file. [0m
+
+
+[33m Starting encode with repair-navarro - xml-dblp.xml .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - xml-dblp.xml - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 1510898
+		Level: 2 - amount of rules: 6040307 - size of rules 14.
+		Level: 1 - amount of rules: 1510760 - size of rules 14.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/xml-dblp.xml_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 198,666,160, peak: 152,841,351, current: 4,096
+Time: 0.002318926000000(s)
+
+[33mStarting extract with GCIS - xml-dblp.xml - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0545501
+malloc_count ### exiting, total: 89,886,228, peak: 89,639,260, current: 88,690,276
+Time inserted into the DCX report: 0.0546
+
+[33m Starting extract with ShapedSlp - xml-dblp.xml - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 22
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.0109952
+Mean time (microseconds): 1.09952
+Time inserted into the gcx report: 0.0110
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 17
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.0113934
+Mean time (microseconds): 1.13934
+Time inserted into the gcx report: 0.0114
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - xml-dblp.xml - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 1510898
+		Level: 2 - amount of rules: 6040307 - size of rules 14.
+		Level: 1 - amount of rules: 1510760 - size of rules 14.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/xml-dblp.xml_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 198,666,160, peak: 152,841,351, current: 4,096
+Time: 0.002441758000000(s)
+
+[33mStarting extract with GCIS - xml-dblp.xml - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.0827184
+malloc_count ### exiting, total: 89,886,228, peak: 89,639,260, current: 88,690,276
+Time inserted into the DCX report: 0.0827
+
+[33m Starting extract with ShapedSlp - xml-dblp.xml - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 20
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.0116457
+Mean time (microseconds): 1.16457
+Time inserted into the gcx report: 0.0116
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 18
+Time to load query file (ms): 1
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.0134482
+Mean time (microseconds): 1.34482
+Time inserted into the gcx report: 0.0134
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - xml-dblp.xml - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 1510898
+		Level: 2 - amount of rules: 6040307 - size of rules 14.
+		Level: 1 - amount of rules: 1510760 - size of rules 14.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/xml-dblp.xml_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 198,666,160, peak: 152,841,351, current: 4,096
+Time: 0.004763021000000(s)
+
+[33mStarting extract with GCIS - xml-dblp.xml - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.335528
+malloc_count ### exiting, total: 89,886,228, peak: 89,639,260, current: 88,690,276
+Time inserted into the DCX report: 0.3355
+
+[33m Starting extract with ShapedSlp - xml-dblp.xml - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 21
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0217183
+Mean time (microseconds): 2.17183
+Time inserted into the gcx report: 0.0217
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 18
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0267563
+Mean time (microseconds): 2.67563
+Time inserted into the gcx report: 0.0268
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - xml-dblp.xml - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 1510898
+		Level: 2 - amount of rules: 6040307 - size of rules 14.
+		Level: 1 - amount of rules: 1510760 - size of rules 14.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/xml-dblp.xml_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 198,666,160, peak: 152,841,351, current: 4,096
+Time: 0.028620609000000(s)
+
+[33mStarting extract with GCIS - xml-dblp.xml - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.7403
+malloc_count ### exiting, total: 89,886,228, peak: 89,639,260, current: 88,690,276
+Time inserted into the DCX report: 2.7403
+
+[33m Starting extract with ShapedSlp - xml-dblp.xml - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 20
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.0996118
+Mean time (microseconds): 9.96118
+Time inserted into the gcx report: 0.0996
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 18
+Time to load query file (ms): 1
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.13413
+Mean time (microseconds): 13.413
+Time inserted into the gcx report: 0.1341
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - xml-dblp.xml - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 1510898
+		Level: 2 - amount of rules: 6040307 - size of rules 14.
+		Level: 1 - amount of rules: 1510760 - size of rules 14.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/xml-dblp.xml_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 198,666,160, peak: 152,841,351, current: 4,096
+Time: 0.249312611000000(s)
+
+[33mStarting extract with GCIS - xml-dblp.xml - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 25.4431
+malloc_count ### exiting, total: 89,886,228, peak: 89,639,260, current: 88,690,276
+Time inserted into the DCX report: 25.4431
+
+[33m Starting extract with ShapedSlp - xml-dblp.xml - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 21
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.748472
+Mean time (microseconds): 74.8472
+Time inserted into the gcx report: 0.7485
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 18
+Time to load query file (ms): 1
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.0622
+Mean time (microseconds): 106.22
+Time inserted into the gcx report: 1.0622
+PlainSlp_FblcFblc: END
+
+	[34mStarting extract operation on the corpus-dickens file. [0m
+
+
+[33m Starting encode with repair-navarro - corpus-dickens .[0m
+
+[33m Generating encodes with SLP...[0m
+
+[33m Generating search intervals... [0m
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - corpus-dickens - INTERVAL SIZE 1.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 283124
+		Level: 2 - amount of rules: 321951 - size of rules 6.
+		Level: 1 - amount of rules: 282677 - size of rules 6.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/corpus-dickens_1_substrings_results.txt[0m
+malloc_count ### exiting, total: 53,374,640, peak: 7,549,831, current: 4,096
+Time: 0.000927388000000(s)
+
+[33mStarting extract with GCIS - corpus-dickens - INTERVAL SIZE 1.[0m
+Batch Extraction Total time(s): 0.0378098
+malloc_count ### exiting, total: 8,160,848, peak: 8,014,480, current: 7,065,496
+Time inserted into the DCX report: 0.0378
+
+[33m Starting extract with ShapedSlp - corpus-dickens - INTERVAL SIZE 1.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 1
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00382215
+Mean time (microseconds): 0.382215
+Time inserted into the gcx report: 0.0038
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 1
+Batch Extraction Total time(s): 0.00455243
+Mean time (microseconds): 0.455243
+Time inserted into the gcx report: 0.0046
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - corpus-dickens - INTERVAL SIZE 10.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 283124
+		Level: 2 - amount of rules: 321951 - size of rules 6.
+		Level: 1 - amount of rules: 282677 - size of rules 6.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/corpus-dickens_10_substrings_results.txt[0m
+malloc_count ### exiting, total: 53,374,640, peak: 7,549,831, current: 4,096
+Time: 0.001103465000000(s)
+
+[33mStarting extract with GCIS - corpus-dickens - INTERVAL SIZE 10.[0m
+Batch Extraction Total time(s): 0.0651321
+malloc_count ### exiting, total: 8,160,848, peak: 8,014,480, current: 7,065,496
+Time inserted into the DCX report: 0.0651
+
+[33m Starting extract with ShapedSlp - corpus-dickens - INTERVAL SIZE 10.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00499619
+Mean time (microseconds): 0.499619
+Time inserted into the gcx report: 0.0050
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 10
+Batch Extraction Total time(s): 0.00600185
+Mean time (microseconds): 0.600185
+Time inserted into the gcx report: 0.0060
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - corpus-dickens - INTERVAL SIZE 100.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 283124
+		Level: 2 - amount of rules: 321951 - size of rules 6.
+		Level: 1 - amount of rules: 282677 - size of rules 6.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/corpus-dickens_100_substrings_results.txt[0m
+malloc_count ### exiting, total: 53,374,640, peak: 7,549,831, current: 4,096
+Time: 0.002908131000000(s)
+
+[33mStarting extract with GCIS - corpus-dickens - INTERVAL SIZE 100.[0m
+Batch Extraction Total time(s): 0.32551
+malloc_count ### exiting, total: 8,160,848, peak: 8,014,480, current: 7,065,496
+Time inserted into the DCX report: 0.3255
+
+[33m Starting extract with ShapedSlp - corpus-dickens - INTERVAL SIZE 100.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 1
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.013418
+Mean time (microseconds): 1.3418
+Time inserted into the gcx report: 0.0134
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 100
+Batch Extraction Total time(s): 0.0187549
+Mean time (microseconds): 1.87549
+Time inserted into the gcx report: 0.0188
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - corpus-dickens - INTERVAL SIZE 1000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 283124
+		Level: 2 - amount of rules: 321951 - size of rules 6.
+		Level: 1 - amount of rules: 282677 - size of rules 6.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/corpus-dickens_1000_substrings_results.txt[0m
+malloc_count ### exiting, total: 53,374,640, peak: 7,549,831, current: 4,096
+Time: 0.018748122000000(s)
+
+[33mStarting extract with GCIS - corpus-dickens - INTERVAL SIZE 1000.[0m
+Batch Extraction Total time(s): 2.82771
+malloc_count ### exiting, total: 8,160,848, peak: 8,014,480, current: 7,065,496
+Time inserted into the DCX report: 2.8277
+
+[33m Starting extract with ShapedSlp - corpus-dickens - INTERVAL SIZE 1000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.092789
+Mean time (microseconds): 9.2789
+Time inserted into the gcx report: 0.0928
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 1000
+Batch Extraction Total time(s): 0.137146
+Mean time (microseconds): 13.7146
+Time inserted into the gcx report: 0.1371
+PlainSlp_FblcFblc: END
+
+[33m Generating expected responses for searched interval...[0m
+
+	 [33mStarting extract with GCX - corpus-dickens - INTERVAL SIZE 10000.[0m
+[32mStarting to extract ...
+[0m	Compressed file information:
+
+		Amount of levels: 2
+		Size initial partition: 32
+		Initial symbol size: 283124
+		Level: 2 - amount of rules: 321951 - size of rules 6.
+		Level: 1 - amount of rules: 282677 - size of rules 6.
+	The extracted strings was saved in: [32m../report/2024-04-18/extract/corpus-dickens_10000_substrings_results.txt[0m
+malloc_count ### exiting, total: 53,374,640, peak: 7,549,831, current: 4,096
+Time: 0.173396754000000(s)
+
+[33mStarting extract with GCIS - corpus-dickens - INTERVAL SIZE 10000.[0m
+Batch Extraction Total time(s): 27.4875
+malloc_count ### exiting, total: 8,160,848, peak: 8,014,480, current: 7,065,496
+Time inserted into the DCX report: 27.4875
+
+[33m Starting extract with ShapedSlp - corpus-dickens - INTERVAL SIZE 10000.[0m
+PlainSlp_32Fblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 0.871582
+Mean time (microseconds): 87.1582
+Time inserted into the gcx report: 0.8716
+PlainSlp_32Fblc: END
+PlainSlp_FblcFblc: BEGIN
+time to load (ms): 2
+Time to load query file (ms): 0
+n = 10000Expand size = 10000
+Batch Extraction Total time(s): 1.30981
+Mean time (microseconds): 130.981
+Time inserted into the gcx report: 1.3098
+PlainSlp_FblcFblc: END
