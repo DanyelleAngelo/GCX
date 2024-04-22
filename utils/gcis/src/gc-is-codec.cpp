@@ -249,8 +249,10 @@ int main(int argc, char *argv[]) {
         mm.event("GC-IS Extract");
 #endif
         vector<pair<int, int>> v_query;
-        uint64_t l, r;
-        while (query >> l >> r) {
+        uint64_t l, r, number,len;
+        query >> number >> len;
+        while (number--) {
+            query >> l >> r;
             v_query.push_back(make_pair(l, r));
         }
         duration = d->extract_batch(v_query);
