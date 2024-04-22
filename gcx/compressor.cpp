@@ -100,7 +100,12 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
 
             ifstream file(queriesFile);
             if (!file.is_open())error("Unable to open file with intervals");
-            while (file >> l >> r) queries.push_back(make_pair(l, r));
+            int n,len;
+            file >> n >> len ;
+            while (n--){ 
+                file >> l >> r;
+                queries.push_back(make_pair(l, r));
+            }
             file.close();
 
             //start process
