@@ -15,11 +15,11 @@ compress_max_values = {
 }
 
 mean_values = {
-    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
-    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
-    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
-    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0},
-    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0}
+    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
+    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
+    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
+    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0},
+    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0}
 }
 
 extract_values = {
@@ -48,8 +48,8 @@ def generate_compress_chart(df_list, output_dir, language):
 
         # plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
+        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
+        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
 
 def print_report_summary(df):
     size=len(df)
@@ -57,6 +57,7 @@ def print_report_summary(df):
         mean_values[keys]['GCX'] = mean_values[keys]['GCX'] / size
         mean_values[keys]['GCIS-ef'] = mean_values[keys]['GCIS-ef'] / size
         mean_values[keys]['GCIS-s8b'] = mean_values[keys]['GCIS-s8b'] / size
+        mean_values[keys]['REPAIR'] = mean_values[keys]['REPAIR'] / size
     print("\n\t------ Average Values  ------")
     print(json.dumps(mean_values, indent=4))
 
@@ -76,6 +77,8 @@ def set_mean_values(values, df):
                 values[key]['GCIS-ef'] += line[key]
             elif line['algorithm'] == 'GCIS-s8b':
                 values[key]['GCIS-s8b'] += line[key]
+            elif line['algorithm'] == 'REPAIR':
+                values[key]['REPAIR'] += line[key]
 
 def prepare_dataset(df):
     plain_size = df['plain_size'][0]
@@ -91,7 +94,7 @@ def prepare_dataset(df):
 def get_data_frame(path, operation, report):
     files = glob.glob(f"{path}*.csv")
     df_list = []
-
+    print(path)
     for file in files:
         df = pd.read_csv(file, sep='|', decimal=".")
         df.set_index('file', inplace=True)
@@ -103,9 +106,8 @@ def get_data_frame(path, operation, report):
         elif operation == "extract":
             set_max_values(extract_values, df)
         df_list.append(df)
-
     if operation == "compress" and report:
-        print_report_summary(df)
+        print_report_summary(df_list)
 
     return df_list
 

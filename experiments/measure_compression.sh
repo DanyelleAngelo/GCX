@@ -86,18 +86,22 @@ run_extract() {
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
         report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
-        #echo $EXTRACTION_HEADER > $report;
+        echo $EXTRACTION_HEADER > $report;
 
         echo -e "\n${YELLOW} Starting encode with repair-navarro - $file .${RESET}"
-        "../../GCIS/external/repair-navarro/./repair" "$plain_file_path"
+        if [ ! -f "$plain_file_path.C" ]; then
+            "../../GCIS/external/repair-navarro/./repair" "$plain_file_path"
+        fi
 
         echo -e "\n${YELLOW} Generating encodes with SLP...${RESET}"
         for encoding in "${EXTRACT_ENCODING[@]}"; do
-            "../../ShapedSlp/build/./SlpEncBuild" -i $plain_file_path -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
+            if [ ! -f "$plain_file_path-$encoding" ]; then
+                "../../ShapedSlp/build/./SlpEncBuild" -i $plain_file_path -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
+            fi
         done
         #generates intervals
-        #echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
-        #python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+        echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
+        python3 generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
         #perform extracting
         for length in "${STR_LEN[@]}"; do
             query="$extract_dir/${file}.${length}_query"
@@ -106,19 +110,19 @@ run_extract() {
             	#extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
             	#python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
-            	#echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
-            	#echo -n "$file|GCX|" >> $report
-                #extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
-                #../compressor/./main -e "$compressed_file.gcx" $extract_output $query $report
-                #echo "$length" >> $report
+            	echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
+            	echo -n "$file|GCX|" >> $report
+                extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
+                ../compressor/./main -e "$compressed_file.gcx" $extract_output $query $report
+                echo "$length" >> $report
                 #checks_equality "$extract_output" "$extract_answer" "extract"
                 #rm $extract_output
             	#rm $extract_answer
 
-		        #echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
-            	#echo -n "$file|GCIS-ef|" >> $report
-            	#$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
-            	#echo "$length" >> $report
+		        echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
+            	echo -n "$file|GCIS-ef|" >> $report
+            	$GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
+            	echo "$length" >> $report
 
                 echo -e "\n${YELLOW} Starting extract with ShapedSlp - $file - INTERVAL SIZE $length.${RESET}"
                 for encoding in "${EXTRACT_ENCODING[@]}"; do
@@ -133,15 +137,15 @@ run_extract() {
 
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-    CURR_DATE="2024-04-18"
-    #python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
-    python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
+    CURR_DATE="2024-04-10"
+    python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
+    #python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
     #check_and_create_folder
-    download_files
+    #download_files
     #compress_and_decompress_with_gcx
     run_extract
     #generate_graphs
