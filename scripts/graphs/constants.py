@@ -1,5 +1,5 @@
 LINE_STYLE = ["--", "-.", "-","--"]
-MARKER = ["D", "s", ">", "o"]
+MARKER = ["*","D", "H", "x","s", ">", "v", "^", "o"]
 
 COLOR_MAP= {
     'compression_time': {

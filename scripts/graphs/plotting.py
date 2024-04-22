@@ -56,8 +56,10 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
 def generate_chart_line(results, information, output_dir, max_value, min_value):
     plt.figure(figsize=(10,8))
 
+    j=0
     for algorithm, group in results.groupby('algorithm'):
-        plt.plot(group['substring_size'], group['time'], marker='o', linewidth=0.5, label=algorithm)
+        plt.plot(group['substring_size'], group['time'], marker=MARKER[j], linewidth=0.5, label=algorithm)
+        j= j+1
 
     #plt.ylim([0, max_value+5])
     plt.xscale('log')
