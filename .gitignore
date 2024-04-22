@@ -10,5 +10,4 @@ dataset/*
 *main.dSYM*
 main
 external/malloc_count
-reports/*/extract/*extract_answer*.txt
-reports/*/extract/*result_extract*.txt
+reports/*/extract/*
