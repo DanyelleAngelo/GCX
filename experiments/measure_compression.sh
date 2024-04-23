@@ -79,7 +79,7 @@ run_extract() {
 
 	echo -e "\n${BLUE}####### Extract validation ${RESET}"
 	for file in $files; do
-		echo -e "\n\t${BLUE}Starting extract operation on the $file file. ${RESET}\n"
+		echo -e "\n\t${BLUE}Preparing for extract operation on the $file file. ${RESET}\n"
 
 		plain_file_path="$RAW_FILES_DIR/$file"
 		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
@@ -107,17 +107,17 @@ run_extract() {
 			query="$extract_dir/${file}.${length}_extract"
 			if [ -e $query ]; then
 				echo -e "\n${YELLOW} Generating expected responses for searched interval...${RESET}"
-				#extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
-				#python3 ../scripts/extract.py $plain_file_path $extract_answer $query
+				extract_answer="$extract_dir/${file}_${length}_substrings_expected_response.txt"
+				python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
 				echo -e "\n\t ${YELLOW}Starting extract with GCX - $file - INTERVAL SIZE $length.${RESET}"
 				echo -n "$file|GCX|" >> $report
 				extract_output="$extract_dir/${file}_${length}_substrings_results.txt"
 				../compressor/./main -e "$compressed_file.gcx" $extract_output $query $report
 				echo "$length" >> $report
-				#checks_equality "$extract_output" "$extract_answer" "extract"
-				#rm $extract_output
-				#rm $extract_answer
+				checks_equality "$extract_output" "$extract_answer" "extract"
+				rm $extract_output
+				rm $extract_answer
 
 				echo -e "\n${YELLOW}Starting extract with GCIS - $file - INTERVAL SIZE $length.${RESET}"
 				echo -n "$file|GCIS-ef|" >> $report
@@ -131,7 +131,7 @@ run_extract() {
 					echo "$length" >> $report
 				done
 			else
-				echo " arquivo nao gerado $query"
+				echo "Unable to find $query file."
 			fi
 		done
 	done
@@ -139,10 +139,8 @@ run_extract() {
 
 generate_graphs() {
 	echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-	CURR_DATE="2024-04-22"
-	#python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
-	
-	python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en"
+	python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en" "report"
+	python3 ../scripts/graphs/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "en" "report"
 	echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 

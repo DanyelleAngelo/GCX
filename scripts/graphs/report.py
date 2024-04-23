@@ -3,8 +3,8 @@ import os
 import plotting as plt
 import glob
 import pandas as pd
-import json
 import utils as ut
+from summary import *
 
 compress_max_values = {
     'peak_comp': 0.0,
@@ -12,18 +12,6 @@ compress_max_values = {
     'compression_time': 0.0,
     'decompression_time': 0.0,
     'compressed_size': 0.0
-}
-
-mean_values = {
-    'peak_comp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'peak_decomp': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'compression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'decompression_time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0},
-    'compressed_size': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0}
-}
-
-mean_values_extract = {
-    'time': {'GCX': 0.0, 'GCIS-ef': 0.0, 'GCIS-s8b': 0.0, 'REPAIR':0.0, 'GC-': 0.0}
 }
 
 extract_values = {
@@ -47,24 +35,13 @@ def generate_compress_chart(df_list, output_dir, language):
         dcx = df[~combined_filter]
        
         print(f"\n## FILE: {df.index[0]}")
-        # plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
-        # plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_time'], output_dir)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_time'], output_dir)
 
-        # plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
-        #plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
-
-def print_report_summary(df, summary):
-    size=len(df)
-    for keys in summary.keys():
-        summary[keys]['GCX'] = summary[keys]['GCX'] / size
-        summary[keys]['GCIS-ef'] = summary[keys]['GCIS-ef'] / size
-        summary[keys]['GCIS-s8b'] = summary[keys]['GCIS-s8b'] / size
-        summary[keys]['REPAIR'] = summary[keys]['REPAIR'] / size
-        summary[keys]['GC-'] = summary[keys]['GC-'] / size/13
-    print("\n\t------ Average Values  ------")
-    print(json.dumps(summary, indent=4))
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
 
 def set_max_values(values, df):
     for key in values.keys():
@@ -72,21 +49,6 @@ def set_max_values(values, df):
             column_max = df[key].max()
             if column_max > values[key]:
                 values[key] = column_max
-
-def set_mean_values(values, df):
-    for index, line in df.iterrows():
-        for key in values.keys():
-            if line['algorithm'] == 'GCX':
-                values[key]['GCX'] += line[key] 
-            elif line['algorithm'] == 'GCIS-ef':
-                values[key]['GCIS-ef'] += line[key]
-            elif line['algorithm'] == 'GCIS-s8b':
-                values[key]['GCIS-s8b'] += line[key]
-            else:
-                print(line[key])
-                values[key]['REPAIR'] += line[key]
-            # else:
-            #      values[key]['GC-'] += line[key]
 
 def prepare_dataset(df):
     plain_size = df['plain_size'][0]
@@ -110,13 +72,16 @@ def get_data_frame(path, operation, report):
         if operation == "compress":
             prepare_dataset(df)
             set_max_values(compress_max_values, df)
-            set_mean_values(mean_values, df)
+            set_summary(compression_summary, df)
         elif operation == "extract":
             set_max_values(extract_values, df)
-            set_mean_values(mean_values_extract, df)
+            set_summary(extract_summary, df)
         df_list.append(df)
-    if report:
-        print_report_summary(df_list, mean_values_extract)
+
+    if report and operation == "compress":
+        print_summary(df_list, compression_summary)
+    elif report and operation == "extract":
+        print_summary(df_list, extract_summary)
 
     return df_list
 
