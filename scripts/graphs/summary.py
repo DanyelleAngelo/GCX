@@ -20,7 +20,7 @@ def set_summary(values, df):
             if algorithm not in values[key]:
                 values[key]['GC-'] += df[df['algorithm'] == algorithm][key].sum()
             else:
-                mask = df['algorithm'] == algorithm
+                mask =  df['algorithm'] == algorithm
                 values[key][algorithm] += df[mask][key].sum()
         
 def print_summary(df, summary):
@@ -28,6 +28,9 @@ def print_summary(df, summary):
     for key in summary.keys():
         for algorithm in summary[key].keys():
             summary[key][algorithm] = summary[key][algorithm]/size
+            # if key == 'time':
+            #     summary[key][algorithm] = (summary[key][algorithm]/10000)*1e6
+
         summary[key]['GC-'] = summary[key]['GC-'] / 13
     print("\n\t------ Average Values  ------")
     print(json.dumps(summary, indent=4))

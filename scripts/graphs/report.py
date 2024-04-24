@@ -67,7 +67,6 @@ def prepare_dataset(df, operation):
 def get_data_frame(path, operation, report):
     files = glob.glob(f"{path}*.csv")
     df_list = []
-    print(path)
     for file in files:
         df = pd.read_csv(file, sep='|', decimal=".")
         df.set_index('file', inplace=True)
