@@ -34,7 +34,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             //starting process
             auto start = timer::now();
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
-            compress(uText, tuples, textSize, strcat(fileOut,".dcx"), 0, coverage, header, ASCII_SIZE);
+            compress(uText, tuples, textSize, strcat(fileOut,".gcx"), 0, coverage, header, ASCII_SIZE);
             auto stop = timer::now();
             duration = (double)duration_cast<seconds>(stop - start).count();
 
