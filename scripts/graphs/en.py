@@ -47,9 +47,9 @@ COMPRESS_AND_DECOMPRESS = {
 EXTRACT = {
     'time': {
         "col": "time",
-        "y_label": "Extraction time",
+        "y_label": "Extraction time (\u03BCs)",
         "x_label": "Substring length",
-        "title": "Extraction time (s)",
+        "title": "Extraction time (\u03BCs)",
         "output_file": "extracting_time",
         "legend":  "Algorithms"
     },

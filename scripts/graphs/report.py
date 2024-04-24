@@ -50,16 +50,19 @@ def set_max_values(values, df):
             if column_max > values[key]:
                 values[key] = column_max
 
-def prepare_dataset(df):
-    plain_size = df['plain_size'][0]
-    #calculate compression rate
-    df['compressed_size'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
-    
-    #convert bytes to MB
-    df['peak_comp'] = df['peak_comp'].apply(lambda x: ut.bytes_to_mb(x))
-    df['peak_decomp'] = df['peak_comp'].apply(lambda x:ut.bytes_to_mb(x))
-    df['stack_comp'] = df['stack_comp'].apply(lambda x:ut.bytes_to_mb(x))
-    df['stack_decomp'] = df['stack_comp'].apply(lambda x:ut.bytes_to_mb(x))
+def prepare_dataset(df, operation):
+    if operation == 'compress':
+        plain_size = df['plain_size'][0]
+        #calculate compression rate
+        df['compressed_size'] = df['compressed_size'].apply(lambda x: ut.compute_ratio_percentage(x, plain_size))
+        
+        #convert bytes to MB
+        df['peak_comp'] = df['peak_comp'].apply(lambda x: ut.bytes_to_mb(x))
+        df['peak_decomp'] = df['peak_comp'].apply(lambda x:ut.bytes_to_mb(x))
+        df['stack_comp'] = df['stack_comp'].apply(lambda x:ut.bytes_to_mb(x))
+        df['stack_decomp'] = df['stack_comp'].apply(lambda x:ut.bytes_to_mb(x))
+    elif operation == 'extract':
+        df['time'] = df['time'].apply(lambda x: (x/10000)*1e6) 
 
 def get_data_frame(path, operation, report):
     files = glob.glob(f"{path}*.csv")
@@ -70,10 +73,11 @@ def get_data_frame(path, operation, report):
         df.set_index('file', inplace=True)
 
         if operation == "compress":
-            prepare_dataset(df)
+            prepare_dataset(df, operation)
             set_max_values(compress_max_values, df)
             set_summary(compression_summary, df)
         elif operation == "extract":
+            prepare_dataset(df, operation)
             set_max_values(extract_values, df)
             set_summary(extract_summary, df)
         df_list.append(df)
