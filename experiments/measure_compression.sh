@@ -25,36 +25,36 @@ compress_and_decompress_with_gcis() {
     checks_equality "$PLAIN" "$OUTPUT-gcis-$CODEC-plain" "gcis"
 }
 
-compress_and_decompress_with_dcx() {
+compress_and_decompress_with_gcx() {
     echo -e "\n${GREEN}%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version${RESET}."
 
     make clean -C ../compressor/
     make compile MACROS="REPORT=1" -C ../compressor/
 
     for file in $files; do
-        report="$REPORT_DIR/$CURR_DATE/$file-dcx-encoding.csv"
+        report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
         echo $HEADER > $report; 
 
         plain_file_path="$RAW_FILES_DIR/$file"
         size_plain=$(stat $stat_options $plain_file_path)
 
         echo -e "\n ${YELLOW}Starting compression/decompression operations on the $file file. ${RESET}\n"
-        echo -e "\n\t ${YELLOW}Starting compression/decompression using DCX ${RESET}\n"
+        echo -e "\n\t ${YELLOW}Starting compression/decompression using gcX ${RESET}\n"
         for cover in "${COV_LIST[@]}"; do
             echo -e "\n\t${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
             #adding file name and coverage to the report
-            echo -n "$file|DC$cover|" >> $report
+            echo -n "$file|GC$cover|" >> $report
 
-            file_out="$COMP_DIR/$CURR_DATE/$file-dc$cover"
+            file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
             #perform compress and decompress
             ../compressor/./main $plain_file_path $file_out c $cover $report
-            ../compressor/./main $file_out.dcx $file_out-plain d $cover $report
+            ../compressor/./main $file_out.gcx $file_out-plain d $cover $report
 
             echo -e "\n\t\t ${YELLOW} Checking if the decoded file is the same as the original ${RESET}\n"
-            checks_equality "$plain_file_path" "$file_out-plain" "dcx"
+            checks_equality "$plain_file_path" "$file_out-plain" "gcx"
 
             #adding file size information to the report
-            size_file=$(stat $stat_options $file_out.dcx)
+            size_file=$(stat $stat_options $file_out.gcx)
             echo "$size_file|$size_plain" >> $report
         done
 
@@ -83,7 +83,7 @@ run_extract() {
         extract_dir="$REPORT_DIR/$CURR_DATE/extract"
         compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
-        report="$REPORT_DIR/$CURR_DATE/$file-dcx-extract.csv"
+        report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
         echo "file|algorithm|peak|stack|time|substring_size" > $report;
 
         #generates intervals
@@ -101,11 +101,11 @@ run_extract() {
             $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
             echo "$length" >> $report
 
-            echo -e "\n\t ${YELLOW}Starting extract with DCX - INTERVAL SIZE $length.${RESET}"
+            echo -e "\n\t ${YELLOW}Starting extract with gcX - INTERVAL SIZE $length.${RESET}"
             for cover in "${COV_LIST[@]}"; do
-                echo -n "$file|DC$cover|" >> $report
-                extract_output="$extract_dir/${file}_result_extract_dc${cover}_len${length}.txt"
-                ../compressor/./main "$compressed_file-dc$cover.dcx" $extract_output e $cover $query $report
+                echo -n "$file|GC$cover|" >> $report
+                extract_output="$extract_dir/${file}_result_extract_gc${cover}_len${length}.txt"
+                ../compressor/./main "$compressed_file-gc$cover.gcx" $extract_output e $cover $query $report
                 echo "$length" >> $report
 
                 echo -e "\n\t\t ${YELLOW} Checking if the extracting substrings from compressed text was successful. ${RESET}\n"
@@ -119,15 +119,15 @@ run_extract() {
 
 generate_graphs() {
     echo -e "\n\n${GREEN}%%% Starting the generation of the graphs. ${RESET}"
-    python3 ../scripts/report_en.py "$REPORT_DIR/$CURR_DATE/*-dcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
-    #python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-dcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "pt"
+    python3 ../scripts/report_en.py "$REPORT_DIR/$CURR_DATE/*-gcx-encoding" "$REPORT_DIR/$CURR_DATE/graphs" "compress" "en"
+    #python3 ../scripts/report.py "$REPORT_DIR/$CURR_DATE/*-gcx-extract" "$REPORT_DIR/$CURR_DATE/graphs" "extract" "pt"
     echo -e "\n\n${GREEN}%%% FINISHED. ${RESET}"
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
     # check_and_create_folder
     # download_files
-    # compress_and_decompress_with_dcx
+    # compress_and_decompress_with_gcx
     # run_extract
     generate_graphs
 fi
