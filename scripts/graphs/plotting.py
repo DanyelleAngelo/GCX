@@ -6,10 +6,11 @@ from constants import COLOR_MAP, MARKER, COLOR_MAP
 width_bar = 0.2
 
 def customize_chart(information, title):
-    plt.xlabel(information['x_label'])
-    plt.ylabel(information['y_label'])
-    plt.title(title)
-    plt.legend(title=information["legend"])
+    font=13
+    plt.xlabel(information['x_label'], fontsize=font)
+    plt.ylabel(information['y_label'], fontsize=font)
+    plt.title(title, fontsize=font+2)
+    plt.legend(title=information["legend"], fontsize=font)
 
     plt.xticks(rotation=45)
     plt.tight_layout(pad=3.0)  
