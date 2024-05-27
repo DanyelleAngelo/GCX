@@ -69,7 +69,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             decode(text, header[0], encodedSymbols, xsSize, leafLevelRules, levelCoverage);
             auto stop = timer::now();
             duration = (double)duration_cast<milliseconds>(stop - start).count() / 1000.0;
-
+            
             //saving output
             saveDecodedText(fileOut, text, xsSize);
 
