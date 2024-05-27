@@ -7,6 +7,7 @@
 #include <cstring>
 #include <math.h>
 #include <chrono>
+#include <ctime>
 #include <fstream>
 
 //HEADER: levels, |xs| , |rule_level_1|, |rule_level_2|, ..., |rule_level_n|
@@ -20,6 +21,7 @@ using timer = std::chrono::high_resolution_clock;
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op) {
     double duration =0.0;
+    clock_t clock_time;
     i32 textSize;
     void* base = stack_count_clear();
 
@@ -43,11 +45,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             strcat(out, extension);
 
             //starting process
-            auto start = timer::now();
+            clock_time = clock();
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
             compress(uText, tuples, textSize, out, 0, levelCoverage, header, ASCII_SIZE);
-            auto stop = timer::now();
-            duration = (double)duration_cast<milliseconds>(stop - start).count() / 1000.0;
+            clock_time = clock() - clock_time;
+            duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
             //printing compressed informations
             grammarInfo(header.data(), header.at(0), levelCoverage.data());
@@ -65,11 +67,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             readCompressedFile(fileIn, header, encodedSymbols, xsSize, levelCoverage, leafLevelRules);
 
             //starting process
-            auto start = timer::now();
+            clock_time = clock();
             decode(text, header[0], encodedSymbols, xsSize, leafLevelRules, levelCoverage);
-            auto stop = timer::now();
-            duration = (double)duration_cast<milliseconds>(stop - start).count() / 1000.0;
-            
+            clock_time = clock() - clock_time;
+            duration = ((double)clock_time)/CLOCKS_PER_SEC;
+
             //saving output
             saveDecodedText(fileOut, text, xsSize);
 

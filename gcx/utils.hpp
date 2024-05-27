@@ -76,5 +76,5 @@ void createLexNames(const i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long
  * @param duration duração em segundos da operação
  * @param base consumo de memória
  */
-void generateReport(char *fileName, double duration, void *base);
+void generateReport(char *fileName, double duration, void *base, double clock_duration);
 #endif
