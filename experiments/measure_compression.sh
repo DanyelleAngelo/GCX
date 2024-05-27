@@ -74,8 +74,8 @@ compress_and_decompress_with_gcx() {
 }
 
 run_extract() {
-	#make clean -C ../compressor/
-	#make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
+	make clean -C ../compressor/
+	make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
 	echo -e "\n${BLUE}####### Extract validation ${RESET}"
 	for file in $files; do
@@ -99,9 +99,11 @@ run_extract() {
 				"../../ShapedSlp/build/./SlpEncBuild" -i $plain_file_path -o "$plain_file_path-$encoding" -e $encoding -f NavarroRepair
 			fi
 		done
+
 		#generates intervals
 		echo -e "\n${YELLOW} Generating search intervals... ${RESET}"
 		python3 generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
+
 		#perform extracting
 		for length in "${STR_LEN[@]}"; do
 			query="$extract_dir/${file}.${length}_extract"
@@ -147,9 +149,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	#check_and_create_folder
-	#download_files
-	#ompress_and_decompress_with_gcx()
-	#run_extract
-	generate_graphs
+	check_and_create_folder
+	download_files
+	compress_and_decompress_with_gcx
+	run_extract
+	#generate_graphs
 fi
