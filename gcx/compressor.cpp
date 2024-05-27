@@ -47,7 +47,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
             compress(uText, tuples, textSize, out, 0, levelCoverage, header, ASCII_SIZE);
             auto stop = timer::now();
-            duration = (double)duration_cast<seconds>(stop - start).count();
+            duration = (double)duration_cast<milliseconds>(stop - start).count() / 1000.0;
 
             //printing compressed informations
             grammarInfo(header.data(), header.at(0), levelCoverage.data());
@@ -68,7 +68,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             auto start = timer::now();
             decode(text, header[0], encodedSymbols, xsSize, leafLevelRules, levelCoverage);
             auto stop = timer::now();
-            duration = (double)duration_cast<seconds>(stop - start).count();
+            duration = (double)duration_cast<milliseconds>(stop - start).count() / 1000.0;
 
             //saving output
             saveDecodedText(fileOut, text, xsSize);
