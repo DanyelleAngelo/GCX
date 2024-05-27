@@ -7,6 +7,7 @@
 #include <cstring>
 #include <math.h>
 #include <chrono>
+#include <ctime>
 #include <fstream>
 
 using namespace std;
@@ -17,8 +18,8 @@ using timer = std::chrono::high_resolution_clock;
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
 void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
-    clock_t start, finish;
     double duration =0.0;
+    clock_t clock_time;
     i32 textSize;
     void* base = stack_count_clear();
     switch (op){
@@ -32,11 +33,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             free(text);
 
             //starting process
-            auto start = timer::now();
+            clock_time = clock();
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
             compress(uText, tuples, textSize, strcat(fileOut,".gcx"), 0, coverage, header, ASCII_SIZE);
-            auto stop = timer::now();
-            duration = (double)duration_cast<seconds>(stop - start).count();
+            clock_time = clock() - clock_time;
+            duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
             //printing compressed informations
             #if SCREEN_OUTPUT==1
@@ -59,10 +60,10 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             readCompressedFile(fileIn, header, encodedSymbols, xsSize, coverage, leafLevelRules);
 
             //starting process
-            auto start = timer::now();
+            clock_time = clock();
             decode(text, header, encodedSymbols, xsSize, leafLevelRules, coverage);
-            auto stop = timer::now();
-            duration = (double)duration_cast<seconds>(stop - start).count();
+            clock_time = clock() - clock_time;
+            duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
             //saving output
             saveDecodedText(fileOut, text, xsSize);
