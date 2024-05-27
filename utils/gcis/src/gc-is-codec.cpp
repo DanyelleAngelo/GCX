@@ -50,9 +50,9 @@ int main(int argc, char *argv[]) {
 
     //To DCX
     char * file_dcx = argv[5];
-    clock_t start_dcx, finish_dcx;
     void* base = stack_count_clear();
-    double duration =0.0;
+    double duration = 0.0;
+    clock_t clock_time;
 
     if(codec_flag == "-s8b"){
         d = new gcis_dictionary<gcis_s8b_codec>();
@@ -77,10 +77,11 @@ int main(int argc, char *argv[]) {
         mm.event("GC-IS Compress");
 #endif
 
-        auto start = timer::now();
+        clock_time = clock();
         d->encode(str);
-        auto stop = timer::now();
-        duration = (double)duration_cast<seconds>(stop - start).count();
+        clock_time = clock() - clock_time;
+        duration = ((double)clock_time)/CLOCKS_PER_SEC;
+
 
 #ifdef MEM_MONITOR
         mm.event("GC-IS Save");
@@ -106,11 +107,10 @@ int main(int argc, char *argv[]) {
 #ifdef MEM_MONITOR
         mm.event("GC-IS Decompress");
 #endif
-
-        auto start = timer::now();
+        clock_time = clock();
         char *str = d->decode();
-        auto stop = timer::now();
-        duration=(double)duration_cast<seconds>(stop - start).count();
+        clock_time = clock() - clock_t;
+        duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
         cout << "input:\t" << d->size_in_bytes() << " bytes" << endl;
         cout << "output:\t" << strlen(str) << " bytes" << endl;
