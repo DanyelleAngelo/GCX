@@ -12,7 +12,7 @@
 //to dcx
 #include "../external/malloc_count/malloc_count.h"
 #include "../external/malloc_count/stack_count.h"
-
+#include <ctime>
 using namespace std::chrono;
 using timer = std::chrono::high_resolution_clock;
 
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
 #endif
         clock_time = clock();
         char *str = d->decode();
-        clock_time = clock() - clock_t;
+        clock_time = clock() - clock_time;
         duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
         cout << "input:\t" << d->size_in_bytes() << " bytes" << endl;
