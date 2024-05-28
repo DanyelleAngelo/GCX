@@ -23,7 +23,7 @@ if [ "$(uname -s)" = "Darwin" ]; then
     FILE_URLS=$(cat files_paths/initial_test_files.txt)
 else
     stat_options="-c %s"
-    FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt)
+    FILE_URLS=$(cat files_paths/repetitive_text.txt)  #files_paths/regular_text.txt)
 fi
 
 GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"
