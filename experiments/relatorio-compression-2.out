@@ -1,0 +1,122 @@
+
+
+[0;32m%%% Creating directories for files in case don't exist [0m.
+
+[0;32m%%% Download files from a list, then descompress the files and remove the compressed files.[0m.
+    
+
+[34m  % real-einstein.en.txt.gz [0m
+
+[0;32m%%% REPORT: Compresses the files, decompresses them, and compares the result with the original version[0m.
+make: Entering directory '/home/dany/Documents/DCX/compressor'
+rm -rf *.o main
+make: Leaving directory '/home/dany/Documents/DCX/compressor'
+make: Entering directory '/home/dany/Documents/DCX/compressor'
+g++ -c ../external/malloc_count/malloc_count.c -o malloc_count.o -std=c++14 -I../external/malloc_count -O3 -ldl
+../external/malloc_count/malloc_count.c:29: warning: "_GNU_SOURCE" redefined
+   29 | #define _GNU_SOURCE
+      | 
+<command-line>: note: this is the location of the previous definition
+g++ -c ../external/malloc_count/stack_count.c -o stack_count.o -std=c++14 -I../external/malloc_count -O3 -ldl
+../external/malloc_count/stack_count.c: In function ‘void* stack_count_clear()’:
+../external/malloc_count/stack_count.c:42:12: warning: function may return address of local variable [-Wreturn-local-addr]
+   42 |     return p;
+      |            ^
+../external/malloc_count/stack_count.c:39:14: note: declared here
+   39 |     uint32_t stack[asize]; /* allocated on stack */
+      |              ^~~~~
+g++ -c uarray.c -o uarray.o -std=c++14 -I../external/malloc_count -O3
+g++ -c utils.cpp -o utils.o -D REPORT=1 -std=c++14 -I../external/malloc_count -O3
+g++ -c compressor.cpp -o compressor.o -D REPORT=1 -std=c++14 -I../external/malloc_count -O3
+compressor.cpp: In function ‘void grammar(char*, char*, char*, char*, std::string)’:
+compressor.cpp:42:31: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+   42 |             char *extension = ".gcx";
+      |                               ^~~~~~
+g++ main.cpp malloc_count.o stack_count.o uarray.o utils.o compressor.o -o main -D REPORT=1 -std=c++14 -I../external/malloc_count -O3
+make: Leaving directory '/home/dany/Documents/DCX/compressor'
+
+	[34m####### FILE: real-einstein.en.txt [0m
+
+		 [33mStarting compression/decompression using GCX [0m
+
+[32mStarting to compress ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-einstein.en.txt.gcx[0m
+malloc_count ### exiting, total: 4,556,761,512, peak: 3,913,749,547, current: 4,160
+Time: 23.531421000000002(s)
+[32mStarting to decompress ...
+[0m	Compressed file information:
+
+		Amount of levels: 5
+		Size initial partition: 32
+		Initial symbol size: 2656971
+		Level: 5 - amount of rules: 244205 - size of rules 11.
+		Level: 4 - amount of rules: 312372 - size of rules 2.
+		Level: 3 - amount of rules: 377880 - size of rules 2.
+		Level: 2 - amount of rules: 456934 - size of rules 2.
+		Level: 1 - amount of rules: 526646 - size of rules 2.
+	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-einstein.en.txt-plain[0m
+malloc_count ### exiting, total: 1,134,562,342, peak: 656,298,081, current: 170,050,152
+Time: 0.922650000000000(s)
+
+		 [33m Checking if the response file is the same as the expected file [0m
+
+
+			 [0;32m The files are the same. [0m
+
+
+		 [33mStarting compression/decompression using GCIS [0m
+
+input:	467626544 bytes
+output:	883316 bytes
+time: 34.6848 seconds
+malloc_count ### exiting, total: 42,608,582,236, peak: 2,426,059,279, current: 1,090,072
+Time inserted into the DCX report: 34.6848
+input:	883316 bytes
+output:	467626544 bytes
+time: 12.8321 seconds
+malloc_count ### exiting, total: 1,346,507,625, peak: 1,201,470,809, current: 468,695,161
+Time inserted into the DCX report: 12.8321
+
+		 [33m Checking if the response file is the same as the expected file [0m
+
+input:	467626544 bytes
+output:	1538401 bytes
+time: 33.3155 seconds
+malloc_count ### exiting, total: 47,920,352,768, peak: 2,426,772,900, current: 2,159,048
+Time inserted into the DCX report: 33.3155
+input:	1538401 bytes
+output:	467626544 bytes
+time: 4.83917 seconds
+malloc_count ### exiting, total: 1,345,577,285, peak: 1,201,395,857, current: 469,169,721
+Time inserted into the DCX report: 4.8392
+
+		 [33m Checking if the response file is the same as the expected file [0m
+
+
+		 [33mStarting compression/decompression using REPAIR [0m
+
+malloc_count ### exiting, total: 13,241,634,100, peak: 13,185,706,216, current: 8,664
+Time inserted into the GCX report: 121.0693
+Des-Pair mode:  Normal symbol expansion.
+
+malloc_count ### exiting, total: 6,453,725, peak: 6,436,732, current: 4,096
+Time inserted into the GCX report: 1.0391
+
+		 [33m Checking if the response file is the same as the expected file [0m
+
+
+	 [33mFinishing compression/decompression operations on the real-einstein.en.txt file. [0m
+
+make: Entering directory '/home/dany/Documents/DCX/compressor'
+rm -rf *.o main
+make: Leaving directory '/home/dany/Documents/DCX/compressor'
