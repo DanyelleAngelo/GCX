@@ -47,8 +47,8 @@ compress_and_decompress_with_gcx() {
 
             file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
             #perform compress and decompress
-            ../compressor/./main $plain_file_path $file_out c $cover $report
-            ../compressor/./main $file_out.gcx $file_out-plain d $cover $report
+	    ../compressor/./main $plain_file_path $file_out c $cover $report
+ 	    ../compressor/./main $file_out.gcx $file_out-plain d $cover $report
 
             echo -e "\n\t\t ${YELLOW} Checking if the decoded file is the same as the original ${RESET}\n"
             checks_equality "$plain_file_path" "$file_out-plain" "gcx"
@@ -129,5 +129,5 @@ if [ "$0" = "$BASH_SOURCE" ]; then
     download_files
     compress_and_decompress_with_gcx
     # run_extract
-    generate_graphs
+    #generate_graphs
 fi

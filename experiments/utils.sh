@@ -89,7 +89,7 @@ checks_equality() {
         echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
     elif [ "$3" = "extract" ]; then
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
-    elif [ "$3" = "dcx" ]; then
+    elif [ "$3" = "gcx" ]; then
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
         local file=$1
         compressed_success_files+="${file##*/} "
