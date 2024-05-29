@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from constants import COLOR_MAP, MARKER, COLOR_MAP
+from matplotlib.ticker import MaxNLocator
 
 width_bar = 0.2
 
@@ -11,7 +12,7 @@ def customize_chart(information, title):
     plt.ylabel(information['y_label'], fontsize=font)
     plt.title(title, fontsize=font+2)
     plt.legend(title=information["legend"], fontsize=font)
-
+    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=20))
     plt.xticks(rotation=45)
     plt.tight_layout(pad=3.0)  
     plt.grid(linestyle=':', alpha=0.5)
@@ -50,7 +51,7 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
         plt.ylim(0, max_value+3)
 
     plt.xlim(-1, gcx_number)
-    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}_EN.png"
+    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}.png"
     plt.savefig(file)
     plt.close()
 
@@ -69,6 +70,6 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
     file=results.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} - {file}")
 
-    file = f"{output_dir}/{information['output_file']}-{results.index[0]}_EN.png"
+    file = f"{output_dir}/{information['output_file']}-{results.index[0]}.png"
     plt.savefig(file)
     plt.close()

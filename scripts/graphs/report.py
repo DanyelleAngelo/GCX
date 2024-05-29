@@ -40,7 +40,7 @@ def generate_compress_chart(df_list, output_dir, language):
 
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['ratio'], output_dir, 100)
 
-        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['cmp_peak'], output_dir, compress_max_values["peak_comp"])
+        plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['peak_comp'], output_dir, compress_max_values["peak_comp"])
         plt.generate_chart_bar(dcx, others, language.COMPRESS_AND_DECOMPRESS['dcmp_peak'], output_dir, compress_max_values["peak_decomp"])
 
 def set_max_values(values, df):
