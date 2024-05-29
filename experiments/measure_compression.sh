@@ -83,7 +83,7 @@ run_extract() {
 
 		plain_file_path="$RAW_FILES_DIR/$file"
 		extract_dir="$REPORT_DIR/$CURR_DATE/extract"
-		compressed_file="$COMP_DIR/2024-04-10/$file"
+		compressed_file="$COMP_DIR/$CURR_DATE/$file"
 
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-extract.csv"
 		echo $EXTRACTION_HEADER > $report;
