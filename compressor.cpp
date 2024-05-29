@@ -40,13 +40,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
             //printing compressed informations
-            #if SCREEN_OUTPUT==1
-                cout << "\n\n\x1b[32m>>>> Encode <<<<\x1b[0m\n";
-                i32 levels = header.at(0);
-                grammarInfo(header.data(), levels, coverage);
-            #endif
+            cout << "\n\n\x1b[32m>>>> Encode <<<<\x1b[0m\n";
+            i32 levels = header.at(0);
+            grammarInfo(header.data(), levels, coverage);
 
-            free(uText);
+            //free(uText);
             free(tuples);
             break;
         }
@@ -69,10 +67,8 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             saveDecodedText(fileOut, text, xsSize);
 
             //printing compressed informations
-            #if SCREEN_OUTPUT==1
-                cout << "\n\n\x1b[32m>>>> Decompression <<<<\x1b[0m\n";
-                grammarInfo(header, header[0], coverage);
-            #endif
+            cout << "\n\n\x1b[32m>>>> Decompression <<<<\x1b[0m\n";
+            grammarInfo(header, header[0], coverage);
 
             free(leafLevelRules);
             free(text);
