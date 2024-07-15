@@ -32,7 +32,12 @@ compress_and_decompress_with_repair() {
 	echo -n "$FILE_NAME|REPAIR|" >> $report
 	"${REPAIR_EXECUTABLE}/./repair" -i "$FILE" "$REPORT"
 	"${REPAIR_EXECUTABLE}/./despair" -i "${FILE}" "$REPORT"
-	echo "$(stat $stat_options $FILE.prel)|$4" >> $REPORT
+	size_prel=$(stat $stat_options $FILE.prel)
+	size_seq=$(stat $stat_options $FILE.seq)
+	size=$((size_prel + size_seq))
+	echo "Size prel $size_prel , size seq $size_seq"
+	echo "$size|$4" >> $REPORT
+
 
 	checks_equality "$FILE" "$FILE.u" "gcis"
 }
