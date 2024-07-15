@@ -95,80 +95,15 @@ make: Leaving directory '/home/dany/Documents/DCX/compressor'
 
 	[34m####### FILE: artificial-fib41 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 5
-		Size initial partition: 32
-		Initial symbol size: 8679
-		Level: 5 - amount of rules: 17 - size of rules 15.
-		Level: 4 - amount of rules: 93 - size of rules 6.
-		Level: 3 - amount of rules: 633 - size of rules 7.
-		Level: 2 - amount of rules: 4412 - size of rules 7.
-		Level: 1 - amount of rules: 8679 - size of rules 7.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/artificial-fib41.gcx[0m
-malloc_count ### exiting, total: 2,497,031,776, peak: 2,214,763,319, current: 264,864
-Time: 8.244127000000001(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 5
-		Size initial partition: 32
-		Initial symbol size: 8679
-		Level: 5 - amount of rules: 17 - size of rules 15.
-		Level: 4 - amount of rules: 93 - size of rules 6.
-		Level: 3 - amount of rules: 633 - size of rules 7.
-		Level: 2 - amount of rules: 4412 - size of rules 7.
-		Level: 1 - amount of rules: 8679 - size of rules 7.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/artificial-fib41-plain[0m
-malloc_count ### exiting, total: 438,729,092, peak: 339,537,819, current: 71,447,968
-Time: 0.204724000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	267914296 bytes
-output:	7555 bytes
-time: 5.46254 seconds
-malloc_count ### exiting, total: 1,394,648,271, peak: 1,393,822,721, current: 43,620
-Time inserted into the DCX report: 5.4625
-input:	7555 bytes
-output:	267914296 bytes
-time: 5.88365 seconds
-malloc_count ### exiting, total: 577,626,149, peak: 561,457,645, current: 267,945,725
-Time inserted into the DCX report: 5.8837
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	267914296 bytes
-output:	618031 bytes
-time: 5.34026 seconds
-malloc_count ### exiting, total: 1,397,573,559, peak: 1,396,901,663, current: 699,712
-Time inserted into the DCX report: 5.3403
-input:	618031 bytes
-output:	267914296 bytes
-time: 2.22417 seconds
-malloc_count ### exiting, total: 577,831,337, peak: 562,048,721, current: 268,537,025
-Time inserted into the DCX report: 2.2242
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 12,699,858,296, peak: 8,321,944,300, current: 8,664
-Time inserted into the GCX report: 43.4465
+Time inserted into the GCX report: 43.7258
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 2,425,325, peak: 2,408,344, current: 4,096
-Time inserted into the GCX report: 0.1665
+Time inserted into the GCX report: 0.1654
+Size prel 35 , size seq 16
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -178,82 +113,15 @@ Time inserted into the GCX report: 0.1665
 
 	[34m####### FILE: artificial-rs.13 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 6
-		Size initial partition: 32
-		Initial symbol size: 18433
-		Level: 6 - amount of rules: 32 - size of rules 15.
-		Level: 5 - amount of rules: 212 - size of rules 7.
-		Level: 4 - amount of rules: 1471 - size of rules 7.
-		Level: 3 - amount of rules: 5881 - size of rules 4.
-		Level: 2 - amount of rules: 11545 - size of rules 2.
-		Level: 1 - amount of rules: 13249 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/artificial-rs.13.gcx[0m
-malloc_count ### exiting, total: 2,019,211,493, peak: 1,791,782,428, current: 516,300
-Time: 6.840290000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 6
-		Size initial partition: 32
-		Initial symbol size: 18433
-		Level: 6 - amount of rules: 32 - size of rules 15.
-		Level: 5 - amount of rules: 212 - size of rules 7.
-		Level: 4 - amount of rules: 1471 - size of rules 7.
-		Level: 3 - amount of rules: 5881 - size of rules 4.
-		Level: 2 - amount of rules: 11545 - size of rules 2.
-		Level: 1 - amount of rules: 13249 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/artificial-rs.13-plain[0m
-malloc_count ### exiting, total: 352,372,543, peak: 274,731,594, current: 57,803,432
-Time: 0.165415000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	216747218 bytes
-output:	5495 bytes
-time: 4.15585 seconds
-malloc_count ### exiting, total: 1,126,961,076, peak: 1,126,389,783, current: 26,008
-Time inserted into the DCX report: 4.1559
-input:	5495 bytes
-output:	216747218 bytes
-time: 4.4372 seconds
-malloc_count ### exiting, total: 480,349,307, peak: 464,577,971, current: 216,770,363
-Time inserted into the DCX report: 4.4372
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	216747218 bytes
-output:	498469 bytes
-time: 4.12921 seconds
-malloc_count ### exiting, total: 1,128,385,491, peak: 1,127,759,919, current: 657,056
-Time inserted into the DCX report: 4.1292
-input:	498469 bytes
-output:	216747218 bytes
-time: 1.73762 seconds
-malloc_count ### exiting, total: 480,588,079, peak: 465,057,659, current: 217,250,307
-Time inserted into the DCX report: 1.7376
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 7,175,688,820, peak: 6,732,914,196, current: 8,664
-Time inserted into the GCX report: 36.7227
+Time inserted into the GCX report: 37.3587
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 2,426,485, peak: 2,409,504, current: 4,096
-Time inserted into the GCX report: 0.1383
+Time inserted into the GCX report: 0.1366
+Size prel 68 , size seq 136
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -263,72 +131,15 @@ Time inserted into the GCX report: 0.1383
 
 	[34m####### FILE: artificial-tm29 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 1
-		Size initial partition: 32
-		Initial symbol size: 8388609
-		Level: 1 - amount of rules: 3 - size of rules 32.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/artificial-tm29.gcx[0m
-malloc_count ### exiting, total: 2,475,712,228, peak: 2,181,043,399, current: 4,155
-Time: 28.853382000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 1
-		Size initial partition: 32
-		Initial symbol size: 8388609
-		Level: 1 - amount of rules: 3 - size of rules 32.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/artificial-tm29-plain[0m
-malloc_count ### exiting, total: 328,223,097, peak: 328,213,448, current: 33,558,532
-Time: 0.151492000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	268435456 bytes
-output:	7191 bytes
-time: 4.95734 seconds
-malloc_count ### exiting, total: 1,394,116,607, peak: 1,393,373,252, current: 43,104
-Time inserted into the DCX report: 4.9573
-input:	7191 bytes
-output:	268435456 bytes
-time: 5.06266 seconds
-malloc_count ### exiting, total: 589,964,185, peak: 570,468,505, current: 268,464,473
-Time inserted into the DCX report: 5.0627
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	268435456 bytes
-output:	604119 bytes
-time: 4.85861 seconds
-malloc_count ### exiting, total: 1,395,977,951, peak: 1,395,318,923, current: 685,816
-Time inserted into the DCX report: 4.8586
-input:	604119 bytes
-output:	268435456 bytes
-time: 1.9171 seconds
-malloc_count ### exiting, total: 590,204,777, peak: 571,048,025, current: 269,044,273
-Time inserted into the DCX report: 1.9171
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 8,233,745,002, peak: 8,233,692,379, current: 8,664
-Time inserted into the GCX report: 48.2709
+Time inserted into the GCX report: 47.5218
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 2,427,042, peak: 2,410,064, current: 4,096
-Time inserted into the GCX report: 0.1722
+Time inserted into the GCX report: 0.1620
+Size prel 90 , size seq 28
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -338,82 +149,15 @@ Time inserted into the GCX report: 0.1722
 
 	[34m####### FILE: pseudo-real-proteins.001.1 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 6
-		Size initial partition: 32
-		Initial symbol size: 182046
-		Level: 6 - amount of rules: 313926 - size of rules 12.
-		Level: 5 - amount of rules: 319941 - size of rules 3.
-		Level: 4 - amount of rules: 221245 - size of rules 2.
-		Level: 3 - amount of rules: 160024 - size of rules 2.
-		Level: 2 - amount of rules: 122548 - size of rules 2.
-		Level: 1 - amount of rules: 95187 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-proteins.001.1.gcx[0m
-malloc_count ### exiting, total: 1,035,907,963, peak: 877,585,530, current: 25,144,718
-Time: 4.438698000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 6
-		Size initial partition: 32
-		Initial symbol size: 182046
-		Level: 6 - amount of rules: 313926 - size of rules 12.
-		Level: 5 - amount of rules: 319941 - size of rules 3.
-		Level: 4 - amount of rules: 221245 - size of rules 2.
-		Level: 3 - amount of rules: 160024 - size of rules 2.
-		Level: 2 - amount of rules: 122548 - size of rules 2.
-		Level: 1 - amount of rules: 95187 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-proteins.001.1-plain[0m
-malloc_count ### exiting, total: 228,676,797, peak: 149,295,500, current: 34,956,688
-Time: 0.170519000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	4334581 bytes
-time: 6.93373 seconds
-malloc_count ### exiting, total: 763,299,718,259, peak: 558,365,655, current: 5,306,500
-Time inserted into the DCX report: 6.9337
-input:	4334581 bytes
-output:	104857600 bytes
-time: 3.45459 seconds
-malloc_count ### exiting, total: 345,162,821, peak: 289,876,757, current: 110,035,149
-Time inserted into the DCX report: 3.4546
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	4790133 bytes
-time: 6.62804 seconds
-malloc_count ### exiting, total: 865,655,066,323, peak: 550,472,354, current: 5,010,872
-Time inserted into the DCX report: 6.6280
-input:	4790133 bytes
-output:	104857600 bytes
-time: 1.35238 seconds
-malloc_count ### exiting, total: 343,151,437, peak: 291,643,073, current: 109,652,361
-Time inserted into the DCX report: 1.3524
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,147,809,708, peak: 2,979,222,190, current: 8,664
-Time inserted into the GCX report: 29.8569
+Time inserted into the GCX report: 29.7507
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 15,122,831, peak: 15,105,820, current: 4,096
-Time inserted into the GCX report: 0.6009
+Time inserted into the GCX report: 0.6078
+Size prel 653075 , size seq 2119244
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -423,76 +167,15 @@ Time inserted into the GCX report: 0.6009
 
 	[34m####### FILE: pseudo-real-dblp.xml.0001.1 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2383132
-		Level: 3 - amount of rules: 284682 - size of rules 11.
-		Level: 2 - amount of rules: 276385 - size of rules 2.
-		Level: 1 - amount of rules: 203743 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.0001.1.gcx[0m
-malloc_count ### exiting, total: 1,022,862,886, peak: 880,127,417, current: 4,167
-Time: 4.374687000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2383132
-		Level: 3 - amount of rules: 284682 - size of rules 11.
-		Level: 2 - amount of rules: 276385 - size of rules 2.
-		Level: 1 - amount of rules: 203743 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.0001.1-plain[0m
-malloc_count ### exiting, total: 241,183,055, peak: 155,380,654, current: 38,134,192
-Time: 0.167135000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	776883 bytes
-time: 5.15156 seconds
-malloc_count ### exiting, total: 28,936,120,336, peak: 546,095,196, current: 971,948
-Time inserted into the DCX report: 5.1516
-input:	776883 bytes
-output:	104857600 bytes
-time: 2.59787 seconds
-malloc_count ### exiting, total: 305,240,469, peak: 267,453,581, current: 105,824,861
-Time inserted into the DCX report: 2.5979
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	1339173 bytes
-time: 4.97819 seconds
-malloc_count ### exiting, total: 33,100,595,097, peak: 545,522,225, current: 1,506,816
-Time inserted into the DCX report: 4.9782
-input:	1339173 bytes
-output:	104857600 bytes
-time: 0.938062 seconds
-malloc_count ### exiting, total: 304,204,909, peak: 267,211,249, current: 106,201,393
-Time inserted into the DCX report: 0.9381
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,014,864,550, peak: 2,970,289,215, current: 8,664
-Time inserted into the GCX report: 26.0889
+Time inserted into the GCX report: 25.5365
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 6,195,458, peak: 6,178,444, current: 4,096
-Time inserted into the GCX report: 0.3222
+Time inserted into the GCX report: 0.3112
+Size prel 188779 , size seq 290500
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -502,76 +185,15 @@ Time inserted into the GCX report: 0.3222
 
 	[34m####### FILE: pseudo-real-dblp.xml.0001.2 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2383132
-		Level: 3 - amount of rules: 368377 - size of rules 11.
-		Level: 2 - amount of rules: 367170 - size of rules 2.
-		Level: 1 - amount of rules: 294177 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.0001.2.gcx[0m
-malloc_count ### exiting, total: 1,024,689,627, peak: 881,048,062, current: 4,167
-Time: 4.336120000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2383132
-		Level: 3 - amount of rules: 368377 - size of rules 11.
-		Level: 2 - amount of rules: 367170 - size of rules 2.
-		Level: 1 - amount of rules: 294177 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.0001.2-plain[0m
-malloc_count ### exiting, total: 243,009,796, peak: 157,207,395, current: 38,134,192
-Time: 0.174106000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	776955 bytes
-time: 5.23204 seconds
-malloc_count ### exiting, total: 28,942,060,171, peak: 546,102,647, current: 972,368
-Time inserted into the DCX report: 5.2320
-input:	776955 bytes
-output:	104857600 bytes
-time: 2.64393 seconds
-malloc_count ### exiting, total: 305,308,929, peak: 267,551,617, current: 105,825,297
-Time inserted into the DCX report: 2.6439
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	1346399 bytes
-time: 5.08899 seconds
-malloc_count ### exiting, total: 33,770,391,709, peak: 545,209,254, current: 1,443,160
-Time inserted into the DCX report: 5.0890
-input:	1346399 bytes
-output:	104857600 bytes
-time: 0.951663 seconds
-malloc_count ### exiting, total: 304,565,233, peak: 267,313,225, current: 106,208,697
-Time inserted into the DCX report: 0.9517
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,043,539,122, peak: 2,977,658,423, current: 8,664
-Time inserted into the GCX report: 26.1696
+Time inserted into the GCX report: 26.1589
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 8,738,170, peak: 8,721,156, current: 4,096
-Time inserted into the GCX report: 0.3687
+Time inserted into the GCX report: 0.3662
+Size prel 337712 , size seq 75212
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -581,76 +203,15 @@ Time inserted into the GCX report: 0.3687
 
 	[34m####### FILE: pseudo-real-dblp.xml.00001.1 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2912714
-		Level: 3 - amount of rules: 222948 - size of rules 9.
-		Level: 2 - amount of rules: 227928 - size of rules 2.
-		Level: 1 - amount of rules: 179285 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.00001.1.gcx[0m
-malloc_count ### exiting, total: 1,037,622,381, peak: 887,475,752, current: 4,168
-Time: 4.420103000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2912714
-		Level: 3 - amount of rules: 222948 - size of rules 9.
-		Level: 2 - amount of rules: 227928 - size of rules 2.
-		Level: 1 - amount of rules: 179285 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.00001.1-plain[0m
-malloc_count ### exiting, total: 268,652,421, peak: 163,785,068, current: 46,607,504
-Time: 0.191957000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	411598 bytes
-time: 5.2126 seconds
-malloc_count ### exiting, total: 12,020,749,495, peak: 544,874,463, current: 515,980
-Time inserted into the DCX report: 5.2126
-input:	411598 bytes
-output:	104857600 bytes
-time: 2.5434 seconds
-malloc_count ### exiting, total: 301,020,453, peak: 266,788,997, current: 105,369,813
-Time inserted into the DCX report: 2.5434
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	984527 bytes
-time: 5.06445 seconds
-malloc_count ### exiting, total: 13,437,387,496, peak: 544,854,322, current: 1,068,360
-Time inserted into the DCX report: 5.0644
-input:	984527 bytes
-output:	104857600 bytes
-time: 0.935438 seconds
-malloc_count ### exiting, total: 301,960,033, peak: 266,821,449, current: 105,846,833
-Time inserted into the DCX report: 0.9354
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,013,139,952, peak: 2,969,816,064, current: 8,664
-Time inserted into the GCX report: 25.9457
+Time inserted into the GCX report: 25.6490
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 5,694,869, peak: 5,677,852, current: 4,096
-Time inserted into the GCX report: 0.3164
+Time inserted into the GCX report: 0.3065
+Size prel 160718 , size seq 35976
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -660,76 +221,15 @@ Time inserted into the GCX report: 0.3164
 
 	[34m####### FILE: pseudo-real-dblp.xml.00001.2 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2912714
-		Level: 3 - amount of rules: 230264 - size of rules 9.
-		Level: 2 - amount of rules: 235311 - size of rules 2.
-		Level: 1 - amount of rules: 186574 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.00001.2.gcx[0m
-malloc_count ### exiting, total: 1,037,757,913, peak: 887,541,596, current: 4,168
-Time: 4.508975000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2912714
-		Level: 3 - amount of rules: 230264 - size of rules 9.
-		Level: 2 - amount of rules: 235311 - size of rules 2.
-		Level: 1 - amount of rules: 186574 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dblp.xml.00001.2-plain[0m
-malloc_count ### exiting, total: 268,787,953, peak: 163,920,600, current: 46,607,504
-Time: 0.192727000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	410918 bytes
-time: 5.03891 seconds
-malloc_count ### exiting, total: 12,020,101,946, peak: 544,873,656, current: 514,576
-Time inserted into the DCX report: 5.0389
-input:	410918 bytes
-output:	104857600 bytes
-time: 2.56883 seconds
-malloc_count ### exiting, total: 301,018,913, peak: 266,795,857, current: 105,368,433
-Time inserted into the DCX report: 2.5688
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	984839 bytes
-time: 4.96419 seconds
-malloc_count ### exiting, total: 13,436,485,986, peak: 544,854,557, current: 1,068,664
-Time inserted into the DCX report: 4.9642
-input:	984839 bytes
-output:	104857600 bytes
-time: 0.933633 seconds
-malloc_count ### exiting, total: 301,964,289, peak: 266,830,009, current: 105,847,137
-Time inserted into the DCX report: 0.9336
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,015,053,648, peak: 2,970,099,248, current: 8,664
-Time inserted into the GCX report: 25.4810
+Time inserted into the GCX report: 25.6639
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 6,007,685, peak: 5,990,668, current: 4,096
-Time inserted into the GCX report: 0.3355
+Time inserted into the GCX report: 0.3278
+Size prel 178240 , size seq 7488
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -739,74 +239,15 @@ Time inserted into the GCX report: 0.3355
 
 	[34m####### FILE: pseudo-real-dna.001.1 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 534988
-		Level: 2 - amount of rules: 594415 - size of rules 14.
-		Level: 1 - amount of rules: 348329 - size of rules 14.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dna.001.1.gcx[0m
-malloc_count ### exiting, total: 1,063,047,636, peak: 877,146,967, current: 64,678,249
-Time: 4.424368000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 534988
-		Level: 2 - amount of rules: 594415 - size of rules 14.
-		Level: 1 - amount of rules: 348329 - size of rules 14.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-dna.001.1-plain[0m
-malloc_count ### exiting, total: 189,462,231, peak: 157,353,302, current: 29,963,424
-Time: 0.136320000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	3728665 bytes
-time: 5.33745 seconds
-malloc_count ### exiting, total: 650,330,536,501, peak: 554,735,645, current: 4,614,924
-Time inserted into the DCX report: 5.3375
-input:	3728665 bytes
-output:	104857600 bytes
-time: 2.77995 seconds
-malloc_count ### exiting, total: 310,697,517, peak: 261,950,949, current: 109,371,973
-Time inserted into the DCX report: 2.7799
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	4101859 bytes
-time: 5.22518 seconds
-malloc_count ### exiting, total: 719,780,651,221, peak: 549,324,373, current: 4,388,232
-Time inserted into the DCX report: 5.2252
-input:	4101859 bytes
-output:	104857600 bytes
-time: 1.04299 seconds
-malloc_count ### exiting, total: 302,958,865, peak: 261,171,257, current: 108,964,001
-Time inserted into the DCX report: 1.0430
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,160,284,946, peak: 3,026,544,065, current: 8,664
-Time inserted into the GCX report: 27.5996
+Time inserted into the GCX report: 28.1192
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 12,886,656, peak: 12,869,660, current: 4,096
-Time inserted into the GCX report: 0.4755
+Time inserted into the GCX report: 0.4838
+Size prel 538902 , size seq 2007924
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -816,74 +257,15 @@ Time inserted into the GCX report: 0.4755
 
 	[34m####### FILE: pseudo-real-sources.001.2 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 620460
-		Level: 2 - amount of rules: 1652521 - size of rules 13.
-		Level: 1 - amount of rules: 619900 - size of rules 13.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-sources.001.2.gcx[0m
-malloc_count ### exiting, total: 1,101,513,771, peak: 892,612,522, current: 77,752,277
-Time: 4.616060000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 620460
-		Level: 2 - amount of rules: 1652521 - size of rules 13.
-		Level: 1 - amount of rules: 619900 - size of rules 13.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-sources.001.2-plain[0m
-malloc_count ### exiting, total: 217,159,062, peak: 182,403,653, current: 32,268,016
-Time: 0.279072000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	4187979 bytes
-time: 5.53986 seconds
-malloc_count ### exiting, total: 717,206,223,879, peak: 556,819,086, current: 5,135,052
-Time inserted into the DCX report: 5.5399
-input:	4187979 bytes
-output:	104857600 bytes
-time: 3.16156 seconds
-malloc_count ### exiting, total: 337,851,349, peak: 284,783,869, current: 109,873,509
-Time inserted into the DCX report: 3.1616
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	4683867 bytes
-time: 5.3152 seconds
-malloc_count ### exiting, total: 814,455,148,593, peak: 550,774,445, current: 4,957,536
-Time inserted into the DCX report: 5.3152
-input:	4683867 bytes
-output:	104857600 bytes
-time: 1.17253 seconds
-malloc_count ### exiting, total: 329,154,657, peak: 282,051,377, current: 109,546,025
-Time inserted into the DCX report: 1.1725
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,324,380,154, peak: 3,039,500,181, current: 8,664
-Time inserted into the GCX report: 31.7716
+Time inserted into the GCX report: 31.7871
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 30,805,480, peak: 30,788,472, current: 4,096
-Time inserted into the GCX report: 0.8745
+Time inserted into the GCX report: 0.8766
+Size prel 1717042 , size seq 735096
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -893,74 +275,15 @@ Time inserted into the GCX report: 0.8745
 
 	[34m####### FILE: pseudo-real-english.001.2 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 620460
-		Level: 2 - amount of rules: 1967256 - size of rules 13.
-		Level: 1 - amount of rules: 620460 - size of rules 13.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-english.001.2.gcx[0m
-malloc_count ### exiting, total: 1,108,143,222, peak: 896,704,077, current: 80,270,157
-Time: 4.635557000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 620460
-		Level: 2 - amount of rules: 1967256 - size of rules 13.
-		Level: 1 - amount of rules: 620460 - size of rules 13.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/pseudo-real-english.001.2-plain[0m
-malloc_count ### exiting, total: 221,270,633, peak: 186,515,224, current: 32,268,016
-Time: 0.284703000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	104857600 bytes
-output:	4306758 bytes
-time: 6.75277 seconds
-malloc_count ### exiting, total: 752,271,558,962, peak: 558,170,176, current: 5,305,760
-Time inserted into the DCX report: 6.7528
-input:	4306758 bytes
-output:	104857600 bytes
-time: 3.3814 seconds
-malloc_count ### exiting, total: 343,105,213, peak: 286,326,201, current: 110,034,425
-Time inserted into the DCX report: 3.3814
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	104857600 bytes
-output:	4837365 bytes
-time: 6.31488 seconds
-malloc_count ### exiting, total: 885,209,645,436, peak: 550,188,547, current: 5,066,192
-Time inserted into the DCX report: 6.3149
-input:	4837365 bytes
-output:	104857600 bytes
-time: 1.3129 seconds
-malloc_count ### exiting, total: 337,763,877, peak: 284,149,497, current: 109,699,593
-Time inserted into the DCX report: 1.3129
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,326,968,074, peak: 3,033,131,117, current: 8,664
-Time inserted into the GCX report: 33.5442
+Time inserted into the GCX report: 33.7364
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 32,070,152, peak: 32,053,144, current: 4,096
-Time inserted into the GCX report: 1.0997
+Time inserted into the GCX report: 1.0282
+Size prel 1788513 , size seq 737676
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -970,74 +293,15 @@ Time inserted into the GCX report: 1.0997
 
 	[34m####### FILE: real-cere [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 3812287
-		Level: 2 - amount of rules: 3248013 - size of rules 11.
-		Level: 1 - amount of rules: 3245941 - size of rules 11.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-cere.gcx[0m
-malloc_count ### exiting, total: 4,483,939,313, peak: 3,893,766,768, current: 4,149
-Time: 18.337357000000001(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 3812287
-		Level: 2 - amount of rules: 3248013 - size of rules 11.
-		Level: 1 - amount of rules: 3245941 - size of rules 11.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-cere-plain[0m
-malloc_count ### exiting, total: 961,377,215, peak: 778,377,790, current: 167,744,724
-Time: 1.489407000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	461286644 bytes
-output:	17845594 bytes
-time: 27.5768 seconds
-malloc_count ### exiting, total: 11,476,091,649,817, peak: 2,434,512,691, current: 20,831,336
-Time inserted into the DCX report: 27.5768
-input:	17845594 bytes
-output:	461286644 bytes
-time: 12.6111 seconds
-malloc_count ### exiting, total: 1,617,821,061, peak: 1,401,334,885, current: 481,983,541
-Time inserted into the DCX report: 12.6111
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	461286644 bytes
-output:	17792629 bytes
-time: 26.8999 seconds
-malloc_count ### exiting, total: 12,116,724,786,477, peak: 2,413,939,505, current: 18,043,488
-Time inserted into the DCX report: 26.8999
-input:	17792629 bytes
-output:	461286644 bytes
-time: 4.75003 seconds
-malloc_count ### exiting, total: 1,397,801,273, peak: 1,195,022,285, current: 479,083,893
-Time inserted into the DCX report: 4.7500
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 14,482,034,250, peak: 13,486,614,661, current: 8,664
-Time inserted into the GCX report: 190.7763
+Time inserted into the GCX report: 188.7796
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 104,553,804, peak: 104,536,844, current: 4,096
-Time inserted into the GCX report: 4.6825
+Time inserted into the GCX report: 4.6290
+Size prel 5971000 , size seq 2608460
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1047,68 +311,6 @@ Time inserted into the GCX report: 4.6825
 
 	[34m####### FILE: real-influenza [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2418889
-		Level: 3 - amount of rules: 858241 - size of rules 16.
-		Level: 2 - amount of rules: 1206818 - size of rules 2.
-		Level: 1 - amount of rules: 1181172 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-influenza.gcx[0m
-malloc_count ### exiting, total: 1,560,871,015, peak: 1,290,907,446, current: 66,317,830
-Time: 6.225902000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2418889
-		Level: 3 - amount of rules: 858241 - size of rules 16.
-		Level: 2 - amount of rules: 1206818 - size of rules 2.
-		Level: 1 - amount of rules: 1181172 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-influenza-plain[0m
-malloc_count ### exiting, total: 314,128,241, peak: 227,038,588, current: 38,706,304
-Time: 0.262564000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	154808555 bytes
-output:	7352638 bytes
-time: 7.6771 seconds
-malloc_count ### exiting, total: 2,406,512,459,893, peak: 825,195,307, current: 8,987,044
-Time inserted into the DCX report: 7.6771
-input:	7352638 bytes
-output:	154808555 bytes
-time: 4.10896 seconds
-malloc_count ### exiting, total: 472,466,372, peak: 390,107,360, current: 163,681,176
-Time inserted into the DCX report: 4.1090
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	154808555 bytes
-output:	7745419 bytes
-time: 7.39309 seconds
-malloc_count ### exiting, total: 2,843,143,603,789, peak: 813,104,869, current: 8,067,472
-Time inserted into the DCX report: 7.3931
-input:	7745419 bytes
-output:	154808555 bytes
-time: 1.51141 seconds
-malloc_count ### exiting, total: 461,560,340, peak: 388,634,540, current: 162,558,516
-Time inserted into the DCX report: 1.5114
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 4,832,455,808, peak: 4,513,193,106, current: 8,664
@@ -1116,7 +318,8 @@ Time inserted into the GCX report: 42.2698
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 28,155,035, peak: 28,138,060, current: 4,096
-Time inserted into the GCX report: 0.3551
+Time inserted into the GCX report: 0.3565
+Size prel 1518145 , size seq 3535456
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1126,74 +329,15 @@ Time inserted into the GCX report: 0.3551
 
 	[34m####### FILE: real-Escherichia_Coli [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1126896
-		Level: 2 - amount of rules: 963417 - size of rules 10.
-		Level: 1 - amount of rules: 1095912 - size of rules 10.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-Escherichia_Coli.gcx[0m
-malloc_count ### exiting, total: 1,105,318,348, peak: 956,231,055, current: 4,161
-Time: 4.581710000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1126896
-		Level: 2 - amount of rules: 963417 - size of rules 10.
-		Level: 1 - amount of rules: 1095912 - size of rules 10.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-Escherichia_Coli-plain[0m
-malloc_count ### exiting, total: 248,868,423, peak: 199,275,350, current: 45,079,936
-Time: 0.218531000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	112689515 bytes
-output:	16240561 bytes
-time: 6.64507 seconds
-malloc_count ### exiting, total: 16,241,757,244,258, peak: 636,082,072, current: 19,155,532
-Time inserted into the DCX report: 6.6451
-input:	16240561 bytes
-output:	112689515 bytes
-time: 3.73423 seconds
-malloc_count ### exiting, total: 417,497,284, peak: 300,759,896, current: 131,738,032
-Time inserted into the DCX report: 3.7342
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	112689515 bytes
-output:	16318867 bytes
-time: 6.18795 seconds
-malloc_count ### exiting, total: 16,776,329,649,260, peak: 612,250,910, current: 16,604,856
-Time inserted into the DCX report: 6.1879
-input:	16318867 bytes
-output:	112689515 bytes
-time: 1.35823 seconds
-malloc_count ### exiting, total: 389,415,964, peak: 297,300,252, current: 129,012,924
-Time inserted into the DCX report: 1.3582
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 4,173,246,778, peak: 3,404,057,049, current: 8,664
-Time inserted into the GCX report: 61.3518
+Time inserted into the GCX report: 61.7331
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 82,411,032, peak: 82,394,036, current: 4,096
-Time inserted into the GCX report: 1.1840
+Time inserted into the GCX report: 1.1675
+Size prel 4476249 , size seq 6343152
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1203,74 +347,15 @@ Time inserted into the GCX report: 1.1840
 
 	[34m####### FILE: real-kernel [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2579617
-		Level: 2 - amount of rules: 3291722 - size of rules 10.
-		Level: 1 - amount of rules: 2189302 - size of rules 10.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-kernel.gcx[0m
-malloc_count ### exiting, total: 2,771,165,364, peak: 2,199,799,703, current: 232,707,367
-Time: 10.731475000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2579617
-		Level: 2 - amount of rules: 3291722 - size of rules 10.
-		Level: 1 - amount of rules: 2189302 - size of rules 10.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-kernel-plain[0m
-malloc_count ### exiting, total: 577,944,313, peak: 464,431,516, current: 103,188,776
-Time: 0.899805000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	257961616 bytes
-output:	6023763 bytes
-time: 15.0657 seconds
-malloc_count ### exiting, total: 2,184,291,235,501, peak: 1,355,557,737, current: 7,126,564
-Time inserted into the DCX report: 15.0657
-input:	6023763 bytes
-output:	257961616 bytes
-time: 7.34675 seconds
-malloc_count ### exiting, total: 805,720,157, peak: 696,239,525, current: 264,988,245
-Time inserted into the DCX report: 7.3468
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	257961616 bytes
-output:	6650103 bytes
-time: 15.0229 seconds
-malloc_count ### exiting, total: 2,335,532,461,450, peak: 1,347,447,027, current: 6,777,200
-Time inserted into the DCX report: 15.0229
-input:	6650103 bytes
-output:	257961616 bytes
-time: 2.76599 seconds
-malloc_count ### exiting, total: 804,049,361, peak: 691,877,409, current: 264,616,417
-Time inserted into the DCX report: 2.7660
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 7,840,431,822, peak: 7,394,361,767, current: 8,664
-Time inserted into the GCX report: 83.4007
+Time inserted into the GCX report: 84.3667
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 44,737,222, peak: 44,720,256, current: 4,096
-Time inserted into the GCX report: 2.0861
+Time inserted into the GCX report: 2.0781
+Size prel 2554370 , size seq 277992
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1280,74 +365,15 @@ Time inserted into the GCX report: 2.0861
 
 	[34m####### FILE: real-para [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 3547651
-		Level: 2 - amount of rules: 3397823 - size of rules 11.
-		Level: 1 - amount of rules: 3189940 - size of rules 11.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-para.gcx[0m
-malloc_count ### exiting, total: 4,182,164,759, peak: 3,627,603,526, current: 4,149
-Time: 17.559816999999999(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 3547651
-		Level: 2 - amount of rules: 3397823 - size of rules 11.
-		Level: 1 - amount of rules: 3189940 - size of rules 11.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-para-plain[0m
-malloc_count ### exiting, total: 904,125,801, peak: 733,828,904, current: 156,100,740
-Time: 1.522657000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	429265758 bytes
-output:	21250038 bytes
-time: 26.5829 seconds
-malloc_count ### exiting, total: 21,479,546,696,277, peak: 2,282,143,873, current: 25,016,112
-Time inserted into the DCX report: 26.5829
-input:	21250038 bytes
-output:	429265758 bytes
-time: 12.0645 seconds
-malloc_count ### exiting, total: 1,432,653,051, peak: 1,195,463,015, current: 454,145,447
-Time inserted into the DCX report: 12.0645
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	429265758 bytes
-output:	21837725 bytes
-time: 25.8097 seconds
-malloc_count ### exiting, total: 22,605,273,793,382, peak: 2,256,682,620, current: 22,088,408
-Time inserted into the DCX report: 25.8097
-input:	21837725 bytes
-output:	429265758 bytes
-time: 5.01985 seconds
-malloc_count ### exiting, total: 1,329,290,867, peak: 1,109,651,047, current: 451,108,103
-Time inserted into the DCX report: 5.0199
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 13,778,357,542, peak: 12,605,515,341, current: 8,664
-Time inserted into the GCX report: 217.5110
+Time inserted into the GCX report: 219.0199
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 124,770,772, peak: 124,753,812, current: 4,096
-Time inserted into the GCX report: 4.5405
+Time inserted into the GCX report: 4.4431
+Size prel 7221215 , size seq 4531680
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1357,78 +383,15 @@ Time inserted into the GCX report: 4.5405
 
 	[34m####### FILE: real-world_leaders [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 4
-		Size initial partition: 32
-		Initial symbol size: 533731
-		Level: 4 - amount of rules: 416734 - size of rules 11.
-		Level: 3 - amount of rules: 453795 - size of rules 2.
-		Level: 2 - amount of rules: 399963 - size of rules 2.
-		Level: 1 - amount of rules: 320454 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-world_leaders.gcx[0m
-malloc_count ### exiting, total: 501,602,141, peak: 397,413,716, current: 34,975,106
-Time: 1.546023000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 4
-		Size initial partition: 32
-		Initial symbol size: 533731
-		Level: 4 - amount of rules: 416734 - size of rules 11.
-		Level: 3 - amount of rules: 453795 - size of rules 2.
-		Level: 2 - amount of rules: 399963 - size of rules 2.
-		Level: 1 - amount of rules: 320454 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-world_leaders-plain[0m
-malloc_count ### exiting, total: 120,755,949, peak: 75,912,944, current: 17,083,448
-Time: 0.081595000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	46968181 bytes
-output:	1515893 bytes
-time: 1.52437 seconds
-malloc_count ### exiting, total: 114,890,172,439, peak: 247,180,734, current: 1,899,752
-Time inserted into the DCX report: 1.5244
-input:	1515893 bytes
-output:	46968181 bytes
-time: 0.781024 seconds
-malloc_count ### exiting, total: 125,474,058, peak: 110,617,430, current: 48,808,534
-Time inserted into the DCX report: 0.7810
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	46968181 bytes
-output:	1971115 bytes
-time: 1.43829 seconds
-malloc_count ### exiting, total: 142,757,386,161, peak: 245,462,938, current: 2,211,448
-Time inserted into the DCX report: 1.4383
-input:	1971115 bytes
-output:	46968181 bytes
-time: 0.27522 seconds
-malloc_count ### exiting, total: 124,599,038, peak: 111,034,414, current: 48,943,838
-Time inserted into the DCX report: 0.2752
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,515,319,924, peak: 1,426,560,766, current: 8,664
-Time inserted into the GCX report: 10.0427
+Time inserted into the GCX report: 10.0407
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 10,790,215, peak: 10,773,228, current: 4,096
-Time inserted into the GCX report: 0.1578
+Time inserted into the GCX report: 0.1546
+Size prel 446468 , size seq 392716
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1438,74 +401,15 @@ Time inserted into the GCX report: 0.1578
 
 	[34m####### FILE: real-coreutils [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2052819
-		Level: 2 - amount of rules: 3841421 - size of rules 10.
-		Level: 1 - amount of rules: 1678080 - size of rules 10.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-coreutils.gcx[0m
-malloc_count ### exiting, total: 2,225,149,645, peak: 1,762,786,056, current: 194,961,122
-Time: 8.597795000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2052819
-		Level: 2 - amount of rules: 3841421 - size of rules 10.
-		Level: 1 - amount of rules: 1678080 - size of rules 10.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-coreutils-plain[0m
-malloc_count ### exiting, total: 470,041,695, peak: 379,708,010, current: 82,116,856
-Time: 0.554401000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	205281778 bytes
-output:	10602858 bytes
-time: 11.3434 seconds
-malloc_count ### exiting, total: 5,837,748,127,050, peak: 1,097,141,325, current: 12,448,300
-Time inserted into the DCX report: 11.3434
-input:	10602858 bytes
-output:	205281778 bytes
-time: 6.14671 seconds
-malloc_count ### exiting, total: 684,817,755, peak: 567,284,559, current: 217,608,431
-Time inserted into the DCX report: 6.1467
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	205281778 bytes
-output:	11598111 bytes
-time: 10.8251 seconds
-malloc_count ### exiting, total: 6,659,633,904,295, peak: 1,082,735,174, current: 11,740,192
-Time inserted into the DCX report: 10.8251
-input:	11598111 bytes
-output:	205281778 bytes
-time: 2.27666 seconds
-malloc_count ### exiting, total: 674,229,227, peak: 559,242,699, current: 216,884,587
-Time inserted into the DCX report: 2.2767
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 6,657,296,672, peak: 5,971,289,746, current: 8,664
-Time inserted into the GCX report: 85.7530
+Time inserted into the GCX report: 85.1072
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 75,777,223, peak: 75,760,248, current: 4,096
-Time inserted into the GCX report: 1.3676
+Time inserted into the GCX report: 1.3415
+Size prel 4591926 , size seq 615980
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1515,76 +419,15 @@ Time inserted into the GCX report: 1.3676
 
 	[34m####### FILE: real-einstein.de.txt [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2318963
-		Level: 3 - amount of rules: 130075 - size of rules 10.
-		Level: 2 - amount of rules: 178921 - size of rules 2.
-		Level: 1 - amount of rules: 222639 - size of rules 2.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-einstein.de.txt.gcx[0m
-malloc_count ### exiting, total: 909,620,439, peak: 780,476,618, current: 4,160
-Time: 3.745592000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 3
-		Size initial partition: 32
-		Initial symbol size: 2318963
-		Level: 3 - amount of rules: 130075 - size of rules 10.
-		Level: 2 - amount of rules: 178921 - size of rules 2.
-		Level: 1 - amount of rules: 222639 - size of rules 2.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/real-einstein.de.txt-plain[0m
-malloc_count ### exiting, total: 223,193,811, peak: 139,701,494, current: 37,107,496
-Time: 0.174490000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	92758441 bytes
-output:	257323 bytes
-time: 5.01929 seconds
-malloc_count ### exiting, total: 4,399,595,241, peak: 481,567,136, current: 335,952
-Time inserted into the DCX report: 5.0193
-input:	257323 bytes
-output:	92758441 bytes
-time: 2.525 seconds
-malloc_count ### exiting, total: 260,615,398, peak: 234,440,978, current: 93,090,578
-Time inserted into the DCX report: 2.5250
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	92758441 bytes
-output:	826911 bytes
-time: 4.95027 seconds
-malloc_count ### exiting, total: 4,877,890,916, peak: 481,867,616, current: 911,928
-Time inserted into the DCX report: 4.9503
-input:	826911 bytes
-output:	92758441 bytes
-time: 0.907739 seconds
-malloc_count ### exiting, total: 261,529,074, peak: 234,695,874, current: 93,590,050
-Time inserted into the DCX report: 0.9077
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 2,642,911,056, peak: 2,622,714,824, current: 8,664
-Time inserted into the GCX report: 22.8853
+Time inserted into the GCX report: 23.1086
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 4,426,829, peak: 4,409,836, current: 4,096
-Time inserted into the GCX report: 0.1813
+Time inserted into the GCX report: 0.1797
+Size prel 96919 , size seq 50444
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1594,74 +437,15 @@ Time inserted into the GCX report: 0.1813
 
 	[34m####### FILE: large-corpus-archive [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 422964
-		Level: 2 - amount of rules: 1125338 - size of rules 8.
-		Level: 1 - amount of rules: 368916 - size of rules 8.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/large-corpus-archive.gcx[0m
-malloc_count ### exiting, total: 313,130,673, peak: 239,099,612, current: 36,076,624
-Time: 1.115352000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 422964
-		Level: 2 - amount of rules: 1125338 - size of rules 8.
-		Level: 1 - amount of rules: 368916 - size of rules 8.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/large-corpus-archive-plain[0m
-malloc_count ### exiting, total: 74,026,253, peak: 58,789,900, current: 13,538,944
-Time: 0.048772000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	27069647 bytes
-output:	10425877 bytes
-time: 1.69878 seconds
-malloc_count ### exiting, total: 6,205,996,955,675, peak: 173,539,559, current: 12,175,352
-Time inserted into the DCX report: 1.6988
-input:	10425877 bytes
-output:	27069647 bytes
-time: 1.24849 seconds
-malloc_count ### exiting, total: 148,362,128, peak: 96,268,912, current: 39,137,240
-Time inserted into the DCX report: 1.2485
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	27069647 bytes
-output:	10119919 bytes
-time: 1.37593 seconds
-malloc_count ### exiting, total: 6,666,376,486,184, peak: 157,270,104, current: 10,364,776
-Time inserted into the DCX report: 1.3759
-input:	10119919 bytes
-output:	27069647 bytes
-time: 0.366412 seconds
-malloc_count ### exiting, total: 127,700,368, peak: 87,696,520, current: 37,193,952
-Time inserted into the DCX report: 0.3664
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,208,021,388, peak: 825,682,232, current: 8,664
-Time inserted into the GCX report: 11.1256
+Time inserted into the GCX report: 10.8067
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 26,113,333, peak: 26,096,340, current: 4,096
-Time inserted into the GCX report: 0.1445
+Time inserted into the GCX report: 0.1446
+Size prel 1270410 , size seq 5751016
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1671,74 +455,15 @@ Time inserted into the GCX report: 0.1445
 
 	[34m####### FILE: corpus-etext99 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1644959
-		Level: 2 - amount of rules: 3758436 - size of rules 8.
-		Level: 1 - amount of rules: 1611047 - size of rules 8.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-etext99.gcx[0m
-malloc_count ### exiting, total: 1,213,732,995, peak: 924,929,670, current: 135,349,082
-Time: 4.727450000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1644959
-		Level: 2 - amount of rules: 3758436 - size of rules 8.
-		Level: 1 - amount of rules: 1611047 - size of rules 8.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-etext99-plain[0m
-malloc_count ### exiting, total: 288,798,529, peak: 229,570,356, current: 52,642,784
-Time: 0.338966000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	105277340 bytes
-output:	56565930 bytes
-time: 8.53227 seconds
-malloc_count ### exiting, total: 181,411,538,706,953, peak: 710,624,816, current: 65,050,872
-Time inserted into the DCX report: 8.5323
-input:	56565930 bytes
-output:	105277340 bytes
-time: 5.83211 seconds
-malloc_count ### exiting, total: 640,401,797, peak: 365,887,909, current: 170,184,645
-Time inserted into the DCX report: 5.8321
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	105277340 bytes
-output:	46742957 bytes
-time: 6.95671 seconds
-malloc_count ### exiting, total: 172,355,206,971,796, peak: 678,654,056, current: 46,901,232
-Time inserted into the DCX report: 6.9567
-input:	46742957 bytes
-output:	105277340 bytes
-time: 1.7981 seconds
-malloc_count ### exiting, total: 485,284,233, peak: 338,852,437, current: 152,024,605
-Time inserted into the DCX report: 1.7981
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 4,690,694,280, peak: 3,140,567,730, current: 8,664
-Time inserted into the GCX report: 106.7634
+Time inserted into the GCX report: 108.1520
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 79,105,503, peak: 79,088,528, current: 4,096
-Time inserted into the GCX report: 0.7097
+Time inserted into the GCX report: 0.7018
+Size prel 4150449 , size seq 36828340
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1748,74 +473,15 @@ Time inserted into the GCX report: 0.7097
 
 	[34m####### FILE: corpus-howto [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 804534
-		Level: 2 - amount of rules: 1725038 - size of rules 7.
-		Level: 1 - amount of rules: 790095 - size of rules 7.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-howto.gcx[0m
-malloc_count ### exiting, total: 468,823,107, peak: 349,983,850, current: 58,858,416
-Time: 1.692619000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 804534
-		Level: 2 - amount of rules: 1725038 - size of rules 7.
-		Level: 1 - amount of rules: 790095 - size of rules 7.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-howto-plain[0m
-malloc_count ### exiting, total: 117,109,437, peak: 91,354,700, current: 22,531,048
-Time: 0.092108000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	39422105 bytes
-output:	21031374 bytes
-time: 2.61299 seconds
-malloc_count ### exiting, total: 26,270,565,239,629, peak: 281,338,510, current: 24,381,108
-Time inserted into the DCX report: 2.6130
-input:	21031374 bytes
-output:	39422105 bytes
-time: 1.99877 seconds
-malloc_count ### exiting, total: 242,994,026, peak: 144,386,870, current: 63,681,542
-Time inserted into the DCX report: 1.9988
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	39422105 bytes
-output:	18169173 bytes
-time: 2.23645 seconds
-malloc_count ### exiting, total: 26,238,281,300,614, peak: 251,548,438, current: 18,327,448
-Time inserted into the DCX report: 2.2364
-input:	18169173 bytes
-output:	39422105 bytes
-time: 0.510275 seconds
-malloc_count ### exiting, total: 191,236,462, peak: 128,012,194, current: 57,595,586
-Time inserted into the DCX report: 0.5103
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,871,715,380, peak: 1,204,235,976, current: 8,664
-Time inserted into the GCX report: 23.9580
+Time inserted into the GCX report: 23.9497
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 39,723,885, peak: 39,706,916, current: 4,096
 Time inserted into the GCX report: 0.2530
+Size prel 2030021 , size seq 13175516
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1825,74 +491,15 @@ Time inserted into the GCX report: 0.2530
 
 	[34m####### FILE: corpus-rctail96 [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1416188
-		Level: 2 - amount of rules: 2674245 - size of rules 9.
-		Level: 1 - amount of rules: 926665 - size of rules 9.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-rctail96.gcx[0m
-malloc_count ### exiting, total: 1,264,376,069, peak: 992,745,064, current: 123,363,723
-Time: 4.793215000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1416188
-		Level: 2 - amount of rules: 2674245 - size of rules 9.
-		Level: 1 - amount of rules: 926665 - size of rules 9.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-rctail96-plain[0m
-malloc_count ### exiting, total: 274,300,430, peak: 217,643,261, current: 50,986,864
-Time: 0.277490000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	114711151 bytes
-output:	27527942 bytes
-time: 7.15147 seconds
-malloc_count ### exiting, total: 40,442,855,097,970, peak: 678,247,583, current: 31,885,560
-Time inserted into the DCX report: 7.1515
-input:	27527942 bytes
-output:	114711151 bytes
-time: 4.40067 seconds
-malloc_count ### exiting, total: 505,028,280, peak: 346,823,952, current: 146,456,472
-Time inserted into the DCX report: 4.4007
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	114711151 bytes
-output:	28790129 bytes
-time: 6.23902 seconds
-malloc_count ### exiting, total: 45,570,876,056,507, peak: 646,339,911, current: 29,102,528
-Time inserted into the DCX report: 6.2390
-input:	28790129 bytes
-output:	114711151 bytes
-time: 1.62409 seconds
-malloc_count ### exiting, total: 485,902,564, peak: 338,564,992, current: 143,505,744
-Time inserted into the DCX report: 1.6241
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 4,326,943,542, peak: 3,367,946,235, current: 8,664
-Time inserted into the GCX report: 59.2613
+Time inserted into the GCX report: 58.2881
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 61,116,654, peak: 61,099,676, current: 4,096
-Time inserted into the GCX report: 0.5599
+Time inserted into the GCX report: 0.5514
+Size prel 3380731 , size seq 15829456
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1902,74 +509,15 @@ Time inserted into the GCX report: 0.5599
 
 	[34m####### FILE: corpus-sprot34.dat [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1353300
-		Level: 2 - amount of rules: 4255286 - size of rules 9.
-		Level: 1 - amount of rules: 1215358 - size of rules 9.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-sprot34.dat.gcx[0m
-malloc_count ### exiting, total: 1,247,028,977, peak: 963,958,852, current: 131,484,118
-Time: 4.800064000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1353300
-		Level: 2 - amount of rules: 4255286 - size of rules 9.
-		Level: 1 - amount of rules: 1215358 - size of rules 9.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-sprot34.dat-plain[0m
-malloc_count ### exiting, total: 287,320,647, peak: 233,178,998, current: 48,722,896
-Time: 0.314350000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	109617186 bytes
-output:	45506551 bytes
-time: 8.00408 seconds
-malloc_count ### exiting, total: 117,865,543,852,309, peak: 696,479,362, current: 52,087,188
-Time inserted into the DCX report: 8.0041
-input:	45506551 bytes
-output:	109617186 bytes
-time: 5.12357 seconds
-malloc_count ### exiting, total: 602,971,379, peak: 395,606,071, current: 161,575,367
-Time inserted into the DCX report: 5.1236
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	109617186 bytes
-output:	42899431 bytes
-time: 6.72932 seconds
-malloc_count ### exiting, total: 120,712,903,356,216, peak: 636,469,016, current: 43,337,688
-Time inserted into the DCX report: 6.7293
-input:	42899431 bytes
-output:	109617186 bytes
-time: 1.67922 seconds
-malloc_count ### exiting, total: 503,969,435, peak: 361,650,827, current: 152,521,003
-Time inserted into the DCX report: 1.6792
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 4,518,256,732, peak: 3,280,395,750, current: 8,664
-Time inserted into the GCX report: 82.9649
+Time inserted into the GCX report: 81.3526
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 74,800,643, peak: 74,783,656, current: 4,096
-Time inserted into the GCX report: 0.5672
+Time inserted into the GCX report: 0.5654
+Size prel 3645285 , size seq 30695008
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -1979,74 +527,15 @@ Time inserted into the GCX report: 0.5672
 
 	[34m####### FILE: code-sources [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2603292
-		Level: 2 - amount of rules: 8723009 - size of rules 9.
-		Level: 1 - amount of rules: 2500039 - size of rules 9.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/code-sources.gcx[0m
-malloc_count ### exiting, total: 2,415,485,862, peak: 1,859,163,329, current: 257,225,320
-Time: 9.258848000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2603292
-		Level: 2 - amount of rules: 8723009 - size of rules 9.
-		Level: 1 - amount of rules: 2500039 - size of rules 9.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/code-sources-plain[0m
-malloc_count ### exiting, total: 565,040,722, peak: 460,899,393, current: 93,722,608
-Time: 0.678159000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	210866607 bytes
-output:	93725414 bytes
-time: 15.4023 seconds
-malloc_count ### exiting, total: 447,915,983,506,469, peak: 1,387,168,755, current: 107,387,988
-Time inserted into the DCX report: 15.4023
-input:	93725414 bytes
-output:	210866607 bytes
-time: 9.70604 seconds
-malloc_count ### exiting, total: 1,176,996,728, peak: 731,420,004, current: 318,105,820
-Time inserted into the DCX report: 9.7060
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	210866607 bytes
-output:	89578925 bytes
-time: 12.0257 seconds
-malloc_count ### exiting, total: 434,937,397,968,755, peak: 1,320,526,595, current: 89,737,200
-Time inserted into the DCX report: 12.0257
-input:	89578925 bytes
-output:	210866607 bytes
-time: 2.64714 seconds
-malloc_count ### exiting, total: 890,100,804, peak: 685,882,528, current: 300,449,840
-Time inserted into the DCX report: 2.6471
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 8,967,027,212, peak: 6,308,243,680, current: 8,664
-Time inserted into the GCX report: 334.1877
+Time inserted into the GCX report: 329.2148
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 164,981,801, peak: 164,964,832, current: 4,096
-Time inserted into the GCX report: 1.1345
+Time inserted into the GCX report: 1.1310
+Size prel 9887604 , size seq 48621212
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -2056,74 +545,15 @@ Time inserted into the GCX report: 1.1345
 
 	[34m####### FILE: dna-dna [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2805055
-		Level: 2 - amount of rules: 9115013 - size of rules 12.
-		Level: 1 - amount of rules: 2804551 - size of rules 12.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/dna-dna.gcx[0m
-malloc_count ### exiting, total: 4,346,061,960, peak: 3,475,449,755, current: 342,209,627
-Time: 16.781589000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 2805055
-		Level: 2 - amount of rules: 9115013 - size of rules 12.
-		Level: 1 - amount of rules: 2804551 - size of rules 12.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/dna-dna-plain[0m
-malloc_count ### exiting, total: 907,067,501, peak: 761,194,992, current: 134,646,736
-Time: 1.503954000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	403927746 bytes
-output:	198472048 bytes
-time: 37.3667 seconds
-malloc_count ### exiting, total: 2,209,255,034,017,336, peak: 2,670,423,814, current: 227,791,264
-Time inserted into the DCX report: 37.3667
-input:	198472048 bytes
-output:	403927746 bytes
-time: 21.0213 seconds
-malloc_count ### exiting, total: 2,294,674,059, peak: 1,264,335,531, current: 631,553,587
-Time inserted into the DCX report: 21.0213
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	403927746 bytes
-output:	157607685 bytes
-time: 26.7693 seconds
-malloc_count ### exiting, total: 2,052,023,033,400,726, peak: 2,519,712,550, current: 157,765,960
-Time inserted into the DCX report: 26.7693
-input:	157607685 bytes
-output:	403927746 bytes
-time: 6.43637 seconds
-malloc_count ### exiting, total: 1,715,198,743, peak: 1,191,013,099, current: 561,539,739
-Time inserted into the DCX report: 6.4364
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 15,857,601,078, peak: 11,949,848,923, current: 8,664
-Time inserted into the GCX report: 693.5340
+Time inserted into the GCX report: 676.6660
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 151,644,378, peak: 151,627,424, current: 4,096
-Time inserted into the GCX report: 2.0550
+Time inserted into the GCX report: 2.0533
+Size prel 5276088 , size seq 154715296
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -2133,74 +563,15 @@ Time inserted into the GCX report: 2.0550
 
 	[34m####### FILE: xml-dblp.xml [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1510898
-		Level: 2 - amount of rules: 6040307 - size of rules 14.
-		Level: 1 - amount of rules: 1510760 - size of rules 14.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/xml-dblp.xml.gcx[0m
-malloc_count ### exiting, total: 3,125,619,691, peak: 2,538,266,582, current: 217,547,296
-Time: 11.818314000000001(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 1510898
-		Level: 2 - amount of rules: 6040307 - size of rules 14.
-		Level: 1 - amount of rules: 1510760 - size of rules 14.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/xml-dblp.xml-plain[0m
-malloc_count ### exiting, total: 623,590,103, peak: 532,926,574, current: 84,614,384
-Time: 0.610418000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	296135874 bytes
-output:	75694723 bytes
-time: 19.8059 seconds
-malloc_count ### exiting, total: 232,282,019,599,163, peak: 1,769,643,919, current: 88,846,044
-Time inserted into the DCX report: 19.8059
-input:	75694723 bytes
-output:	296135874 bytes
-time: 11.1606 seconds
-malloc_count ### exiting, total: 1,373,368,103, peak: 931,839,535, current: 384,826,151
-Time inserted into the DCX report: 11.1606
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	296135874 bytes
-output:	76662639 bytes
-time: 17.2083 seconds
-malloc_count ### exiting, total: 279,423,081,916,573, peak: 1,691,386,277, current: 77,653,360
-Time inserted into the DCX report: 17.2083
-input:	76662639 bytes
-output:	296135874 bytes
-time: 3.9073 seconds
-malloc_count ### exiting, total: 1,243,361,515, peak: 892,018,931, current: 372,802,899
-Time inserted into the DCX report: 3.9073
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 10,701,915,040, peak: 8,591,902,192, current: 8,664
-Time inserted into the GCX report: 196.2091
+Time inserted into the GCX report: 200.2483
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 88,305,877, peak: 88,288,908, current: 4,096
-Time inserted into the GCX report: 1.1474
+Time inserted into the GCX report: 1.1231
+Size prel 4633080 , size seq 43896932
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -2210,74 +581,15 @@ Time inserted into the GCX report: 1.1474
 
 	[34m####### FILE: corpus-dickens [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 283124
-		Level: 2 - amount of rules: 321951 - size of rules 6.
-		Level: 1 - amount of rules: 282677 - size of rules 6.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-dickens.gcx[0m
-malloc_count ### exiting, total: 122,733,021, peak: 90,271,000, current: 16,169,762
-Time: 0.336446000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 283124
-		Level: 2 - amount of rules: 321951 - size of rules 6.
-		Level: 1 - amount of rules: 282677 - size of rules 6.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-dickens-plain[0m
-malloc_count ### exiting, total: 31,813,319, peak: 23,876,198, current: 6,799,072
-Time: 0.019352000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	10192446 bytes
-output:	6066826 bytes
-time: 0.66004 seconds
-malloc_count ### exiting, total: 2,655,600,086,554, peak: 73,027,250, current: 7,159,296
-Time inserted into the DCX report: 0.6600
-input:	6066826 bytes
-output:	10192446 bytes
-time: 0.552603 seconds
-malloc_count ### exiting, total: 67,510,675, peak: 36,169,799, current: 17,257,943
-Time inserted into the DCX report: 0.5526
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	10192446 bytes
-output:	4744165 bytes
-time: 0.478377 seconds
-malloc_count ### exiting, total: 2,525,564,609,222, peak: 66,421,782, current: 4,902,448
-Time inserted into the DCX report: 0.4784
-input:	4744165 bytes
-output:	10192446 bytes
-time: 0.112287 seconds
-malloc_count ### exiting, total: 48,080,803, peak: 32,031,743, current: 14,940,927
-Time inserted into the DCX report: 0.1123
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 487,815,864, peak: 306,133,970, current: 8,664
-Time inserted into the GCX report: 3.4218
+Time inserted into the GCX report: 3.2561
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 9,133,095, peak: 9,116,120, current: 4,096
-Time inserted into the GCX report: 0.0485
+Time inserted into the GCX report: 0.0476
+Size prel 286404 , size seq 4673804
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -2287,74 +599,15 @@ Time inserted into the GCX report: 0.0485
 
 	[34m####### FILE: corpus-nci [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 131069
-		Level: 2 - amount of rules: 324995 - size of rules 16.
-		Level: 1 - amount of rules: 130555 - size of rules 16.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-nci.gcx[0m
-malloc_count ### exiting, total: 341,016,199, peak: 282,020,882, current: 19,381,070
-Time: 1.160217000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 131069
-		Level: 2 - amount of rules: 324995 - size of rules 16.
-		Level: 1 - amount of rules: 130555 - size of rules 16.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-nci-plain[0m
-malloc_count ### exiting, total: 61,590,537, peak: 52,668,196, current: 8,392,512
-Time: 0.035136000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	33553445 bytes
-output:	4045257 bytes
-time: 1.04193 seconds
-malloc_count ### exiting, total: 784,419,994,573, peak: 187,601,099, current: 4,859,120
-Time inserted into the DCX report: 1.0419
-input:	4045257 bytes
-output:	33553445 bytes
-time: 0.809242 seconds
-malloc_count ### exiting, total: 116,899,194, peak: 92,725,398, current: 38,317,454
-Time inserted into the DCX report: 0.8092
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	33553445 bytes
-output:	4055495 bytes
-time: 0.839627 seconds
-malloc_count ### exiting, total: 870,619,589,555, peak: 183,206,123, current: 4,252,688
-Time inserted into the DCX report: 0.8396
-input:	4055495 bytes
-output:	33553445 bytes
-time: 0.219523 seconds
-malloc_count ### exiting, total: 107,198,374, peak: 91,129,470, current: 37,613,334
-Time inserted into the DCX report: 0.2195
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,148,168,096, peak: 1,024,076,102, current: 8,664
-Time inserted into the GCX report: 7.0391
+Time inserted into the GCX report: 6.9451
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 10,261,059, peak: 10,244,096, current: 4,096
-Time inserted into the GCX report: 0.0647
+Time inserted into the GCX report: 0.0645
+Size prel 359558 , size seq 2483084
 
 		 [33m Checking if the response file is the same as the expected file [0m
 
@@ -2364,74 +617,15 @@ Time inserted into the GCX report: 0.0647
 
 	[34m####### FILE: corpus-webster [0m
 
-		 [33mStarting compression/decompression using GCX [0m
-
-[32mStarting to compress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 414588
-		Level: 2 - amount of rules: 1889376 - size of rules 10.
-		Level: 1 - amount of rules: 414587 - size of rules 10.
-	The compressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-webster.gcx[0m
-malloc_count ### exiting, total: 471,012,107, peak: 367,151,790, current: 48,286,282
-Time: 1.759967000000000(s)
-[32mStarting to decompress ...
-[0m	Compressed file information:
-
-		Amount of levels: 2
-		Size initial partition: 32
-		Initial symbol size: 414588
-		Level: 2 - amount of rules: 1889376 - size of rules 10.
-		Level: 1 - amount of rules: 414587 - size of rules 10.
-	The decompressed text was saved in: [32m../dataset/compressed_files/2024-05-27/corpus-webster-plain[0m
-malloc_count ### exiting, total: 107,634,293, peak: 89,382,772, current: 16,587,616
-Time: 0.101198000000000(s)
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-			 [0;32m The files are the same. [0m
-
-
-		 [33mStarting compression/decompression using GCIS [0m
-
-input:	41458703 bytes
-output:	20178462 bytes
-time: 2.91549 seconds
-malloc_count ### exiting, total: 23,168,758,131,989, peak: 289,862,931, current: 23,533,124
-Time inserted into the DCX report: 2.9155
-input:	20178462 bytes
-output:	41458703 bytes
-time: 2.03871 seconds
-malloc_count ### exiting, total: 243,410,228, peak: 141,454,324, current: 64,876,764
-Time inserted into the DCX report: 2.0387
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-input:	41458703 bytes
-output:	16804157 bytes
-time: 2.14053 seconds
-malloc_count ### exiting, total: 20,941,676,342,234, peak: 261,897,714, current: 16,962,432
-Time inserted into the DCX report: 2.1405
-input:	16804157 bytes
-output:	41458703 bytes
-time: 0.509278 seconds
-malloc_count ### exiting, total: 173,046,252, peak: 130,304,056, current: 58,267,168
-Time inserted into the DCX report: 0.5093
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,730,325,168, peak: 1,223,203,642, current: 8,664
-Time inserted into the GCX report: 17.8059
+Time inserted into the GCX report: 17.5499
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 23,080,991, peak: 23,064,016, current: 4,096
-Time inserted into the GCX report: 0.2001
+Time inserted into the GCX report: 0.1945
+Size prel 980711 , size seq 13222468
 
 		 [33m Checking if the response file is the same as the expected file [0m
 

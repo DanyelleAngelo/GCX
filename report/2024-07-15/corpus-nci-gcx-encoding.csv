@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+corpus-nci|REPAIR|1024076102|6291456|6.945097|10244096|6291456|0.064537|2842642|33553445

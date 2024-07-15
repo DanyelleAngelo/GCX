@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+corpus-sprot34.dat|REPAIR|3280395750|6291456|81.352586|74783656|6291456|0.565416|34340293|109617186
