@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-artificial-tm29|REPAIR|8233692379|6291456|47.521846|2410064|6291456|0.162010|118|268435456
+artificial-tm29|REPAIR|8233692379|6291456|48.822386|2410064|6291456|0.175894|118|268435456

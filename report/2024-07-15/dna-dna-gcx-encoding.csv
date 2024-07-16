@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-dna-dna|REPAIR|11949848923|6291456|676.665966|151627424|6291456|2.053347|159991384|403927746
+dna-dna|REPAIR|11949848923|6291456|684.104075|151627424|6291456|2.293153|159991384|403927746

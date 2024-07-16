@@ -98,11 +98,11 @@ make: Leaving directory '/home/dany/Documents/DCX/compressor'
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 12,699,858,296, peak: 8,321,944,300, current: 8,664
-Time inserted into the GCX report: 43.7258
+Time inserted into the GCX report: 43.6637
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 2,425,325, peak: 2,408,344, current: 4,096
-Time inserted into the GCX report: 0.1654
+Time inserted into the GCX report: 0.1721
 Size prel 35 , size seq 16
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -116,11 +116,11 @@ Size prel 35 , size seq 16
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 7,175,688,820, peak: 6,732,914,196, current: 8,664
-Time inserted into the GCX report: 37.3587
+Time inserted into the GCX report: 37.8248
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 2,426,485, peak: 2,409,504, current: 4,096
-Time inserted into the GCX report: 0.1366
+Time inserted into the GCX report: 0.1399
 Size prel 68 , size seq 136
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -134,11 +134,11 @@ Size prel 68 , size seq 136
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 8,233,745,002, peak: 8,233,692,379, current: 8,664
-Time inserted into the GCX report: 47.5218
+Time inserted into the GCX report: 48.8224
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 2,427,042, peak: 2,410,064, current: 4,096
-Time inserted into the GCX report: 0.1620
+Time inserted into the GCX report: 0.1759
 Size prel 90 , size seq 28
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -152,11 +152,11 @@ Size prel 90 , size seq 28
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,147,809,708, peak: 2,979,222,190, current: 8,664
-Time inserted into the GCX report: 29.7507
+Time inserted into the GCX report: 29.9430
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 15,122,831, peak: 15,105,820, current: 4,096
-Time inserted into the GCX report: 0.6078
+Time inserted into the GCX report: 0.6384
 Size prel 653075 , size seq 2119244
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -170,11 +170,11 @@ Size prel 653075 , size seq 2119244
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,014,864,550, peak: 2,970,289,215, current: 8,664
-Time inserted into the GCX report: 25.5365
+Time inserted into the GCX report: 27.1316
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 6,195,458, peak: 6,178,444, current: 4,096
-Time inserted into the GCX report: 0.3112
+Time inserted into the GCX report: 0.3193
 Size prel 188779 , size seq 290500
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -188,11 +188,11 @@ Size prel 188779 , size seq 290500
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,043,539,122, peak: 2,977,658,423, current: 8,664
-Time inserted into the GCX report: 26.1589
+Time inserted into the GCX report: 27.3518
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 8,738,170, peak: 8,721,156, current: 4,096
-Time inserted into the GCX report: 0.3662
+Time inserted into the GCX report: 0.3734
 Size prel 337712 , size seq 75212
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -206,11 +206,11 @@ Size prel 337712 , size seq 75212
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,013,139,952, peak: 2,969,816,064, current: 8,664
-Time inserted into the GCX report: 25.6490
+Time inserted into the GCX report: 26.7069
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 5,694,869, peak: 5,677,852, current: 4,096
-Time inserted into the GCX report: 0.3065
+Time inserted into the GCX report: 0.3242
 Size prel 160718 , size seq 35976
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -224,11 +224,11 @@ Size prel 160718 , size seq 35976
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,015,053,648, peak: 2,970,099,248, current: 8,664
-Time inserted into the GCX report: 25.6639
+Time inserted into the GCX report: 26.7249
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 6,007,685, peak: 5,990,668, current: 4,096
-Time inserted into the GCX report: 0.3278
+Time inserted into the GCX report: 0.3130
 Size prel 178240 , size seq 7488
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -242,11 +242,11 @@ Size prel 178240 , size seq 7488
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,160,284,946, peak: 3,026,544,065, current: 8,664
-Time inserted into the GCX report: 28.1192
+Time inserted into the GCX report: 28.1738
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 12,886,656, peak: 12,869,660, current: 4,096
-Time inserted into the GCX report: 0.4838
+Time inserted into the GCX report: 0.5238
 Size prel 538902 , size seq 2007924
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -260,11 +260,11 @@ Size prel 538902 , size seq 2007924
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,324,380,154, peak: 3,039,500,181, current: 8,664
-Time inserted into the GCX report: 31.7871
+Time inserted into the GCX report: 32.1823
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 30,805,480, peak: 30,788,472, current: 4,096
-Time inserted into the GCX report: 0.8766
+Time inserted into the GCX report: 1.1032
 Size prel 1717042 , size seq 735096
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -278,11 +278,11 @@ Size prel 1717042 , size seq 735096
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 3,326,968,074, peak: 3,033,131,117, current: 8,664
-Time inserted into the GCX report: 33.7364
+Time inserted into the GCX report: 34.8056
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 32,070,152, peak: 32,053,144, current: 4,096
-Time inserted into the GCX report: 1.0282
+Time inserted into the GCX report: 1.3979
 Size prel 1788513 , size seq 737676
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -295,264 +295,12 @@ Size prel 1788513 , size seq 737676
 
 		 [33mStarting compression/decompression using REPAIR [0m
 
-malloc_count ### exiting, total: 14,482,034,250, peak: 13,486,614,661, current: 8,664
-Time inserted into the GCX report: 188.7796
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 104,553,804, peak: 104,536,844, current: 4,096
-Time inserted into the GCX report: 4.6290
-Size prel 5971000 , size seq 2608460
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-cere file. [0m
-
-
-	[34m####### FILE: real-influenza [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 4,832,455,808, peak: 4,513,193,106, current: 8,664
-Time inserted into the GCX report: 42.2698
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 28,155,035, peak: 28,138,060, current: 4,096
-Time inserted into the GCX report: 0.3565
-Size prel 1518145 , size seq 3535456
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-influenza file. [0m
-
-
-	[34m####### FILE: real-Escherichia_Coli [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 4,173,246,778, peak: 3,404,057,049, current: 8,664
-Time inserted into the GCX report: 61.7331
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 82,411,032, peak: 82,394,036, current: 4,096
-Time inserted into the GCX report: 1.1675
-Size prel 4476249 , size seq 6343152
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-Escherichia_Coli file. [0m
-
-
-	[34m####### FILE: real-kernel [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 7,840,431,822, peak: 7,394,361,767, current: 8,664
-Time inserted into the GCX report: 84.3667
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 44,737,222, peak: 44,720,256, current: 4,096
-Time inserted into the GCX report: 2.0781
-Size prel 2554370 , size seq 277992
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-kernel file. [0m
-
-
-	[34m####### FILE: real-para [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 13,778,357,542, peak: 12,605,515,341, current: 8,664
-Time inserted into the GCX report: 219.0199
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 124,770,772, peak: 124,753,812, current: 4,096
-Time inserted into the GCX report: 4.4431
-Size prel 7221215 , size seq 4531680
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-para file. [0m
-
-
-	[34m####### FILE: real-world_leaders [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 1,515,319,924, peak: 1,426,560,766, current: 8,664
-Time inserted into the GCX report: 10.0407
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 10,790,215, peak: 10,773,228, current: 4,096
-Time inserted into the GCX report: 0.1546
-Size prel 446468 , size seq 392716
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-world_leaders file. [0m
-
-
-	[34m####### FILE: real-coreutils [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 6,657,296,672, peak: 5,971,289,746, current: 8,664
-Time inserted into the GCX report: 85.1072
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 75,777,223, peak: 75,760,248, current: 4,096
-Time inserted into the GCX report: 1.3415
-Size prel 4591926 , size seq 615980
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-coreutils file. [0m
-
-
-	[34m####### FILE: real-einstein.de.txt [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 2,642,911,056, peak: 2,622,714,824, current: 8,664
-Time inserted into the GCX report: 23.1086
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 4,426,829, peak: 4,409,836, current: 4,096
-Time inserted into the GCX report: 0.1797
-Size prel 96919 , size seq 50444
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the real-einstein.de.txt file. [0m
-
-
-	[34m####### FILE: large-corpus-archive [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 1,208,021,388, peak: 825,682,232, current: 8,664
-Time inserted into the GCX report: 10.8067
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 26,113,333, peak: 26,096,340, current: 4,096
-Time inserted into the GCX report: 0.1446
-Size prel 1270410 , size seq 5751016
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the large-corpus-archive file. [0m
-
-
-	[34m####### FILE: corpus-etext99 [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 4,690,694,280, peak: 3,140,567,730, current: 8,664
-Time inserted into the GCX report: 108.1520
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 79,105,503, peak: 79,088,528, current: 4,096
-Time inserted into the GCX report: 0.7018
-Size prel 4150449 , size seq 36828340
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the corpus-etext99 file. [0m
-
-
-	[34m####### FILE: corpus-howto [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 1,871,715,380, peak: 1,204,235,976, current: 8,664
-Time inserted into the GCX report: 23.9497
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 39,723,885, peak: 39,706,916, current: 4,096
-Time inserted into the GCX report: 0.2530
-Size prel 2030021 , size seq 13175516
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the corpus-howto file. [0m
-
-
-	[34m####### FILE: corpus-rctail96 [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 4,326,943,542, peak: 3,367,946,235, current: 8,664
-Time inserted into the GCX report: 58.2881
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 61,116,654, peak: 61,099,676, current: 4,096
-Time inserted into the GCX report: 0.5514
-Size prel 3380731 , size seq 15829456
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the corpus-rctail96 file. [0m
-
-
-	[34m####### FILE: corpus-sprot34.dat [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 4,518,256,732, peak: 3,280,395,750, current: 8,664
-Time inserted into the GCX report: 81.3526
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 74,800,643, peak: 74,783,656, current: 4,096
-Time inserted into the GCX report: 0.5654
-Size prel 3645285 , size seq 30695008
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the corpus-sprot34.dat file. [0m
-
-
-	[34m####### FILE: code-sources [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 8,967,027,212, peak: 6,308,243,680, current: 8,664
-Time inserted into the GCX report: 329.2148
-Des-Pair mode:  Normal symbol expansion.
-
-malloc_count ### exiting, total: 164,981,801, peak: 164,964,832, current: 4,096
-Time inserted into the GCX report: 1.1310
-Size prel 9887604 , size seq 48621212
-
-		 [33m Checking if the response file is the same as the expected file [0m
-
-
-	 [33mFinishing compression/decompression operations on the code-sources file. [0m
-
-
-	[34m####### FILE: dna-dna [0m
-
-		 [33mStarting compression/decompression using REPAIR [0m
-
-malloc_count ### exiting, total: 15,857,601,078, peak: 11,949,848,923, current: 8,664
-Time inserted into the GCX report: 676.6660
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               malloc_count ### exiting, total: 15,857,601,078, peak: 11,949,848,923, current: 8,664
+Time inserted into the GCX report: 684.1041
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 151,644,378, peak: 151,627,424, current: 4,096
-Time inserted into the GCX report: 2.0533
+Time inserted into the GCX report: 2.2932
 Size prel 5276088 , size seq 154715296
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -566,11 +314,11 @@ Size prel 5276088 , size seq 154715296
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 10,701,915,040, peak: 8,591,902,192, current: 8,664
-Time inserted into the GCX report: 200.2483
+Time inserted into the GCX report: 207.1378
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 88,305,877, peak: 88,288,908, current: 4,096
-Time inserted into the GCX report: 1.1231
+Time inserted into the GCX report: 1.2344
 Size prel 4633080 , size seq 43896932
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -584,11 +332,11 @@ Size prel 4633080 , size seq 43896932
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 487,815,864, peak: 306,133,970, current: 8,664
-Time inserted into the GCX report: 3.2561
+Time inserted into the GCX report: 3.4956
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 9,133,095, peak: 9,116,120, current: 4,096
-Time inserted into the GCX report: 0.0476
+Time inserted into the GCX report: 0.0484
 Size prel 286404 , size seq 4673804
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -602,11 +350,11 @@ Size prel 286404 , size seq 4673804
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,148,168,096, peak: 1,024,076,102, current: 8,664
-Time inserted into the GCX report: 6.9451
+Time inserted into the GCX report: 7.0996
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 10,261,059, peak: 10,244,096, current: 4,096
-Time inserted into the GCX report: 0.0645
+Time inserted into the GCX report: 0.0693
 Size prel 359558 , size seq 2483084
 
 		 [33m Checking if the response file is the same as the expected file [0m
@@ -620,11 +368,11 @@ Size prel 359558 , size seq 2483084
 		 [33mStarting compression/decompression using REPAIR [0m
 
 malloc_count ### exiting, total: 1,730,325,168, peak: 1,223,203,642, current: 8,664
-Time inserted into the GCX report: 17.5499
+Time inserted into the GCX report: 18.1962
 Des-Pair mode:  Normal symbol expansion.
 
 malloc_count ### exiting, total: 23,080,991, peak: 23,064,016, current: 4,096
-Time inserted into the GCX report: 0.1945
+Time inserted into the GCX report: 0.2185
 Size prel 980711 , size seq 13222468
 
 		 [33m Checking if the response file is the same as the expected file [0m

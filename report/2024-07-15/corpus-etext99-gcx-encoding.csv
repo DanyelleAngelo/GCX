@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-corpus-etext99|REPAIR|3140567730|6291456|108.151993|79088528|6291456|0.701830|40978789|105277340
+corpus-etext99|REPAIR|3140567730|6291456|105.580284|79088528|6291456|0.709338|40978789|105277340

@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-real-Escherichia_Coli|REPAIR|3404057049|6291456|61.733066|82394036|6291456|1.167523|10819401|112689515
+real-Escherichia_Coli|REPAIR|3404057049|6291456|60.800895|82394036|6291456|1.166907|10819401|112689515

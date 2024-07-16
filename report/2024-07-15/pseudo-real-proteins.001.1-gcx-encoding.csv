@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-pseudo-real-proteins.001.1|REPAIR|2979222190|6291456|29.750714|15105820|6291456|0.607768|2772319|104857600
+pseudo-real-proteins.001.1|REPAIR|2979222190|6291456|29.943033|15105820|6291456|0.638365|2772319|104857600

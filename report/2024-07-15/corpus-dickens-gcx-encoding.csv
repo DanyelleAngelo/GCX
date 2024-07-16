@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-corpus-dickens|REPAIR|306133970|6291456|3.256058|9116120|6291456|0.047642|4960208|10192446
+corpus-dickens|REPAIR|306133970|6291456|3.495560|9116120|6291456|0.048362|4960208|10192446

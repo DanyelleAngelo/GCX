@@ -1,2 +1,2 @@
 file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
-real-einstein.de.txt|REPAIR|2622714824|6291456|23.108579|4409836|6291456|0.179702|147363|92758441
+real-einstein.de.txt|REPAIR|2622714824|6291456|22.928041|4409836|6291456|0.181651|147363|92758441
