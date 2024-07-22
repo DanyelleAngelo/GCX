@@ -25,7 +25,7 @@ COMPRESS_AND_DECOMPRESS = {
         "output_file": "memory_usage_comp",
         "legend":  "Algoritmo"
     },
-    'dcmp_peak': {
+    'peak_decomp': {
         "col": "peak_decomp",
         "stack": "stack_decomp",
         "y_label": "Consumo de memória em MB (pico)",

@@ -45,10 +45,8 @@ def generate_chart_bar(results_gcx, others, information, output_dir, max_value=N
     file=results_gcx.index[0].upper().split("-")[-1]
     customize_chart(information, f"{information['title']} {file}")
 
-    if information['col'] == "peak_comp" or information['col'] == "peak_decomp":
-        plt.xticks(np.arange(len(algorithms)), algorithms)
     if max_value != None:
-        plt.ylim(0, max_value+3)
+        plt.ylim(0, max_value)
 
     plt.xlim(-1, gcx_number)
     file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}.png"

@@ -16,7 +16,7 @@ COMPRESS_AND_DECOMPRESS = {
         "output_file": "decompression_time",
         "legend":  "Algorithms"
     },
-    'cmp_peak': {
+    'peak_comp': {
         "col": "peak_comp",
         "stack": "stack_comp",
         "y_label": "Memory usage MB (peak)",
@@ -25,7 +25,7 @@ COMPRESS_AND_DECOMPRESS = {
         "output_file": "memory_usage_comp",
         "legend":  "Algorithms"
     },
-    'dcmp_peak': {
+    'peak_decomp': {
         "col": "peak_decomp",
         "stack": "stack_decomp",
         "y_label": "Memory usage MB (peak)",
