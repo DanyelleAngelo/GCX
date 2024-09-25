@@ -7,7 +7,7 @@ COMPRESSION_HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_de
 EXTRACTION_HEADER="file|algorithm|peak|stack|time|substring_size"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 REPAIR_EXECUTABLE="../../GCIS/external/repair/build/src"
-EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc" "PlainSlp_IblcFblc" "PoSlp_Iblc" "PoSlp_Sd")
+EXTRACT_ENCODING=("PlainSlp_32Fblc"  "PlainSlp_FblcFblc")
 #set -x
 
 compress_and_decompress_with_gcis() {
