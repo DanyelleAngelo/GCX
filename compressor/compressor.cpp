@@ -172,7 +172,7 @@ void grammarInfo(i32 *header, int levels, int coverage) {
     cout << "\tCompressed file information:\n" <<
             "\t\tSize of Tuples: " << coverage <<
             "\n\t\tAmount of levels: " << levels << endl;
-
+    printf("Tamanho do símbolo inicial: %u\n", header[1]);
     for(int i=levels; i >0; i--){
         printf("\t\tLevel: %d - amount of rules: %u.\n",i,header[i]);
     }
