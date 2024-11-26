@@ -204,7 +204,7 @@ void grammarInfo(i32 *header, int levels, int *levelCoverage) {
             "\n\t\tAmount of levels: " << levels << endl;
 
     printf("\t\tSize initial partition: %d\n", levelCoverage[0]);
-    printf("\t\tInitial symbol size: %d\n", header[1]);
+    printf("\t\tInitial symbol size: %u\n", header[1]);
     for(int i=levels+2, j=levels; i >1; i--, j--){
         printf("\t\tLevel: %d - amount of rules: %u - size of rules %d.\n",j,header[i], levelCoverage[j]);
     }
