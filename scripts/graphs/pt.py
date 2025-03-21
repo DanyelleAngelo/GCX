@@ -47,9 +47,9 @@ COMPRESS_AND_DECOMPRESS = {
 EXTRACT = {
     'time': {
         "col": "time",
-        "y_label": "Tempo de extração para subcadeias de tamanho 1,10, 100, 1000 e 10000.",
-        "x_label": "Tamanho do intervalo extraído",
-        "title": "Tempo de extração (s)",
+        "y_label": "Tempo de extração (\u03BCs)",
+        "x_label": "Tamanho da subcadeia extraída",
+        "title": "Tempo de extração (\u03BCs)",
         "output_file": "extracting_time",
         "legend": "Algoritmo"
     },
