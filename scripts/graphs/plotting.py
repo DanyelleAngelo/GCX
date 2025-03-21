@@ -12,7 +12,7 @@ def customize_chart(information, title):
     plt.ylabel(information['y_label'], fontsize=font)
     plt.title(title, fontsize=font+2)
     plt.legend(title=information["legend"], fontsize=font)
-    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=20))
+    #plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=20))
     plt.xticks(rotation=45)
     plt.tight_layout(pad=3.0)  
     plt.grid(linestyle=':', alpha=0.5)
@@ -37,7 +37,7 @@ def generate_chart_bar_without_gcn(results_gcx, others, information, output_dir,
     if max_value != None:
         plt.ylim(0, max_value)
 
-    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}_EN.png"
+    file = f"{output_dir}/{information['output_file']}-{results_gcx.index[0]}.png"
     plt.savefig(file)
     plt.close()
 
@@ -90,7 +90,7 @@ def generate_chart_line(results, information, output_dir, max_value, min_value):
         plt.plot(group['substring_size'], group['time'], marker=MARKER[j], linewidth=0.5, label=algorithm)
         j= j+1
 
-    #plt.ylim([0, max_value+5])
+    #plt.ylim([min_value, max_value+5])
     plt.xscale('log')
     plt.yscale('log')
 
