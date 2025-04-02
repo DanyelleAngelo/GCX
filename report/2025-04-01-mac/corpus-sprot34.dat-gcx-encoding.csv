@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+corpus-sprot34.dat|GC2|1096177052|6291456|3,315516000000000|514484688|6291456|0,685944000000000|76015376|109617186

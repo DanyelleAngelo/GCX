@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+pseudo-real-proteins.001.1|GC2|1048576880|6291456|2,829210000000000|424624572|6291456|0,595486000000000|5193476|104857600

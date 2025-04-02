@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+corpus-dickens|GC2|101929188|6291456|0,197600000000000|50068040|6291456|0,058971000000000|9297792|10192446

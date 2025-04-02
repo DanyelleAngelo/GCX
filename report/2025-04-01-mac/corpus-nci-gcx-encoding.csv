@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+corpus-nci|GC2|335536138|6291456|0,545852000000000|143104370|6291456|0,167560000000000|8890034|33553445

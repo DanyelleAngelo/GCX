@@ -1,0 +1,2 @@
+file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size
+real-kernel|GC2|2579630414|6291456|8,440049999999999|1138379854|6291456|1,624785000000000|106532646|257961616
