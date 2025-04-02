@@ -90,7 +90,7 @@ void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsS
  * @param levels quantidade de níveis da gramática que codifica o texto
  * @return tempo total para realizar todas as operações de extração
  */
-double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, vector<pair<i32, i32>> queries, int levels);
+double extract_batch(char *fileName, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, vector<pair<i32, i32>> queries, int levels);
 
 /**
  * @brief Realiza a extração de uma substring do texto compactado em um intervalo fechado especificado.
@@ -105,7 +105,7 @@ double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, ua
  * @param r limitante superior
  * @param levels quantidade de níveis da gramática que codifica o texto
  */
-void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, i32 l, i32 r, int levels);
+void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 &txtSize, i32 l, i32 r, int levels);
 
 
 /**

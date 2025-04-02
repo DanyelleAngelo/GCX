@@ -20,7 +20,7 @@ RAW_FILES_DIR="../dataset/raw_files"
 if [ "$(uname -s)" = "Darwin" ]; then
     stat_options="-f %z"
     CURR_DATE="$CURR_DATE-mac"
-    FILE_URLS=$(cat files_paths/initial_test_files.txt)
+    FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt) #$(cat files_paths/initial_test_files.txt)
 else
     stat_options="-c %s"
     FILE_URLS=$(cat files_paths/repetitive_text.txt)  #files_paths/regular_text.txt)
@@ -86,12 +86,12 @@ download_files() {
 checks_equality() {
     if ! cmp -s "$1" "$2"; then
         echo -e "\n\t\t\t ${RED} The files are the differents. ${RESET}\n"
-        echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3-compress.txt"
-    elif [ "$3" = "extract" ]; then
-        echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
-    elif [ "$3" = "gcx" ]; then
+        echo "$1 and $2 are different." >> "$GENERAL_REPORT/errors/errors-$3.txt"
+    elif [ "$3" = "compress-decompress" ]; then
         echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
         local file=$1
         compressed_success_files+="${file##*/} "
+    elif [ "$3" = "extract" ]; then
+        echo -e "\n\t\t\t ${GREEN} The files are the same. ${RESET}\n"
     fi 
 }

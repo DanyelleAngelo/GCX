@@ -1,7 +1,7 @@
 #!/bin/bash
 source utils.sh
 
-COV_LIST=(3 4 5 6 7 8 9 11 15 30 32 60 64)
+COV_LIST=(2) #(3 4 5 6 7 8 9 11 15 30 32 60 64)
 STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
@@ -47,20 +47,20 @@ compress_and_decompress_with_gcx() {
 
             file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
             #perform compress and decompress
-	    ../compressor/./main $plain_file_path $file_out c $cover $report
- 	    ../compressor/./main $file_out.gcx $file_out-plain d $cover $report
+            ../compressor/./main $plain_file_path $file_out c $cover $report
+            ../compressor/./main $file_out.gcx $file_out-plain d $cover $report
 
             echo -e "\n\t\t ${YELLOW} Checking if the decoded file is the same as the original ${RESET}\n"
-            checks_equality "$plain_file_path" "$file_out-plain" "gcx"
+            checks_equality "$plain_file_path" "$file_out-plain" "compress-decompress"
 
             #adding file size information to the report
             size_file=$(stat $stat_options $file_out.gcx)
             echo "$size_file|$size_plain" >> $report
         done
 
-        echo -e "\n\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
-        compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
-        compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+        # echo -e "\n\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
+        # compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
+        # compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
         
         echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n" =
     done
@@ -71,12 +71,12 @@ run_extract() {
     make clean -C ../compressor/
     make compile MACROS="REPORT=1 FILE_OUTPUT=1" -C ../compressor/
 
-    if [ ${#compressed_success_files[@]} -eq 0 ]; then
-        compressed_success_files="$files"
+    if [ ${#files[@]} -eq 0 ]; then
+        download_files
     fi
-
+  
     echo -e "\n${BLUE}####### Extract validation ${RESET}"
-    for file in $compressed_success_files; do
+    for file in $files; do
         echo -e "\n ${BLUE}Starting extract operation on the $file file. ${RESET}\n"
     
         plain_file_path="$RAW_FILES_DIR/$file"
@@ -90,16 +90,16 @@ run_extract() {
         echo -e "\n\t${YELLOW} Generating search intervals... ${RESET}"
         python3 ../../GCIS/scripts/generate_extract_input.py "$plain_file_path" "$extract_dir/$file"
         for length in "${STR_LEN[@]}"; do
-            query="$extract_dir/$file.${length}_query"
+            query="$extract_dir/$file.${length}_extract"
 
             echo -e "\n\t${YELLOW} Generating responses for searched interval...${RESET}"
             extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
             python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
-            echo -e "\n\t ${YELLOW}Starting extract with GCIS - INTERVAL SIZE $length.${RESET}"
-            echo -n "$file|GCIS-ef|" >> $report
-            $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
-            echo "$length" >> $report
+            # echo -e "\n\t ${YELLOW}Starting extract with GCIS - INTERVAL SIZE $length.${RESET}"
+            # echo -n "$file|GCIS-ef|" >> $report
+            # $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
+            # echo "$length" >> $report
 
             echo -e "\n\t ${YELLOW}Starting extract with gcX - INTERVAL SIZE $length.${RESET}"
             for cover in "${COV_LIST[@]}"; do
@@ -114,6 +114,7 @@ run_extract() {
             done
             rm $extract_answer
         done
+        break
     done
 }
 
@@ -125,9 +126,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    check_and_create_folder
-    download_files
-    compress_and_decompress_with_gcx
-    # run_extract
+    # check_and_create_folder
+    # download_files
+    # compress_and_decompress_with_gcx
+    run_extract
     #generate_graphs
 fi
