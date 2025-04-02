@@ -78,28 +78,35 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             break;
         }
         case 'e': {
-            unsigned char *leafLevelRules, *text;
-            i32 *subtree_size = nullptr, l, r, txtSize;
+            unsigned char *leafLevelRules;
+            i32 *subtree_size = nullptr, l, r;
             uarray **encodedSymbols;
             int xsSize = 0, levels;
             vector<pair<i32, i32>> queries;
-
+            
             //preparing data
             readCompressedFile(fileIn, subtree_size, encodedSymbols, xsSize, coverage, leafLevelRules);
+            //printing compressed informations
+            grammarInfo(subtree_size, subtree_size[0], coverage);
+
             ifstream file(queriesFile);
             if (!file.is_open())error("Unable to open file with intervals");
-            while (file >> l >> r) queries.push_back(make_pair(l, r));
+            int n,len;
+            file >> n >> len ;
+            while (n--){ 
+                file >> l >> r;
+                queries.push_back(make_pair(l, r));
+            }
             file.close();
-
+            
             //start process
             levels=subtree_size[0];
             for(int i=0; i < levels; i++)subtree_size[i] = pow(coverage, levels-i);
-            txtSize = queries[0].second-queries[0].first+1;
-            text = (unsigned char*)calloc(txtSize+1, sizeof(unsigned char));
-            duration = extract_batch(fileOut, text, subtree_size, encodedSymbols, leafLevelRules, coverage, txtSize, queries, levels);
-
+            duration = extract_batch(fileOut, subtree_size, encodedSymbols, leafLevelRules, coverage, queries, levels);
+            
+            cout << "\tThe extracted strings was saved in: " << GREEN_COLOR << fileOut << RESET_COLOR << endl;
+            
             free(leafLevelRules);
-            free(text);
             free(subtree_size);
             for(int i=0; i < levels; i++)ua_free(encodedSymbols[i]);
             free(encodedSymbols);
@@ -234,7 +241,8 @@ void decode(unsigned char *&text, i32 *header, uarray **encodedSymbols, i32 &xsS
     free(xs);
 }
 
-double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, vector<pair<i32, i32>> queries, int levels) {
+double extract_batch(char *fileName, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, vector<pair<i32, i32>> queries, int levels) {
+    unsigned char *text = (unsigned char*)calloc(50000+1, sizeof(unsigned char));
     i32 *temp = (i32*)malloc(50000*sizeof(i32));
     i32 *xs = (i32*)malloc(50000*sizeof(i32));
 
@@ -242,6 +250,7 @@ double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, ua
     auto first = timer::now();
     auto total_time = timer::now();
     for(auto i : queries) {
+        i32 txtSize = i.second - i.first+1;
         auto t0 = timer::now();
         extract(text, temp, xs, subtree_size, encodedSymbols, leafLevelRules, coverage, txtSize, i.first, i.second, levels);
         auto t1 = timer::now();
@@ -251,27 +260,30 @@ double extract_batch(char *fileName, unsigned char *&text, int *subtree_size, ua
             FILE* fileOutput = fopen(fileName,"a");
             isFileOpen(fileOutput, "An error occurred while opening the compressed file.");
             fprintf(fileOutput, "[%d,%d]\n", i.first,i.second);
-            fwrite(&text[0], sizeof(char), i.second-i.first+1, fileOutput);
+            fwrite(&text[0], sizeof(char), txtSize, fileOutput);
             fprintf(fileOutput, "\n");
             fclose(fileOutput);
         #endif
     }
+    
     duration = total_time - first;
     free(temp);
+    free(text);
     free(xs);
     return duration.count();
 }
 
-void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 txtSize, i32 l, i32 r, int levels){
+void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray **encodedSymbols, unsigned char *leafLevelRules, int coverage, i32 &txtSize, i32 l, i32 r, int levels){
     int k, end, p;
     //Determines the interval in Xs that we need to decode
     i32 startNode = l/subtree_size[0], endNode = r/subtree_size[0], size;
     i32 xsSize = endNode - startNode + 1;
     //get xs
     for(int i=startNode, j=0; i < endNode+1; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
-    
     l = l%subtree_size[0], r = r%subtree_size[0];
+
     for(int j=1; j < levels; j++) {
+
         //trim interval
         if(subtree_size[j] > l) startNode = 0;
         else {
@@ -285,6 +297,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
         }
 
         p=0;
+        //decodifica cada símbolo da regra
         for(int i =0; i < xsSize; i++) {
             if(xs[i] == 0)break;
             i32 rule = GET_RULE_INDEX();
@@ -292,12 +305,13 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
             end = coverage;
             if(i==0)k=startNode;
             else if(i==xsSize-1) end = endNode+1;
+         
             while(k < end  && rule+k < encodedSymbols[j]->n) {
                 temp[p++] = ua_get(encodedSymbols[j], rule+k);
                 k++;
             }
         }
-
+        
         xsSize = p;
         for(int i=0; i < xsSize; i++)xs[i] = temp[i];
     }
@@ -305,7 +319,8 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
     startNode = l;
     endNode = r;
     char ch;
-    for(int i=0, j=0; i < xsSize && j < txtSize; i++){
+    int i=0, j=0;
+    for(; i < xsSize && j < txtSize; i++){
         if(xs[i] == 0)break;
         i32 rule = GET_RULE_INDEX();
         k=0;
@@ -318,6 +333,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtree_size, uarray
             k++;
         }
     }
+    txtSize = j;
 }
 
 void storeStartSymbol(char *fileName, i32 *startSymbol, vector<i32> &header) {
