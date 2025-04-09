@@ -54,6 +54,10 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             //printing compressed informations
             grammarInfo(header.data(), header.at(0), levelCoverage.data());
             cout << "\tThe compressed text was saved in: " << GREEN_COLOR << out << RESET_COLOR << endl;
+
+            #if REPORT == 1
+                generateGrammarReport(reportFile, header.data(), levels, levelCoverage.data());
+            #endif
             break;
         }
         case 'd': {

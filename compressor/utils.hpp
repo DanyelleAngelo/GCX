@@ -77,4 +77,14 @@ void createLexNames(const i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long
  * @param base consumo de memória
  */
 void generateReport(char *fileName, double duration, void *base);
+
+/**
+ * @brief insere informações da gramática em um arquivo
+ * 
+ * @param fileName nome do arquivo onde o relatório deve ser gravado
+ * @param header cabeçalho da gramática
+ * @param levels número de níveis na gramática
+ * @param coverage tamanho das regras
+ */
+void generateGrammarReport(char *fileName, i32 *header, int levels, int *levelCoverage);
 #endif
