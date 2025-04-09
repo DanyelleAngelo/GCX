@@ -92,7 +92,7 @@ void generateGrammarReport(char *fileName, i32 *header, int levels, int coverage
     FILE *file = fopen(fileNameStr.c_str(), "a");
     isFileOpen(file, "Unable to open report to enter grammar information");
 
-    fprintf(file, "|%d|%d|",coverage,levels);
+    fprintf(file, "%d|%d|",coverage,levels);
     for(int i=levels; i >0; i--){
         fprintf(file, "%d:%u,",i,header[i]);
     }
