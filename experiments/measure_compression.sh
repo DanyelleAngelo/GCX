@@ -1,7 +1,7 @@
 #!/bin/bash
 source utils.sh
 
-COV_LIST=(2 3 4 5 6 7 8 9 11 15 30 32 60 64)
+COV_LIST=(2 4 8 16 32 64 128)
 STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
