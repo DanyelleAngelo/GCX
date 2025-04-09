@@ -44,6 +44,10 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, c
             i32 levels = header.at(0);
             grammarInfo(header.data(), levels, coverage);
 
+            #if REPORT == 1
+                generateGrammarReport(reportFile, header.data(), levels, coverage);
+            #endif
+
             //free(uText);
             free(tuples);
             break;

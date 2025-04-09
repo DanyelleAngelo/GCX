@@ -8,7 +8,7 @@
 #include "abbrevs.h"
 #include "malloc_count.h"
 #include "stack_count.h"
-
+#include <string>
 
 using namespace std;
 
@@ -76,5 +76,26 @@ void generateReport(char *fileName, double duration, void *base) {
     long long int peak = malloc_count_peak();
     long long int stack = stack_count_usage(base);
     fprintf(file, "%lld|%lld|%5.15lf|", peak,stack,duration);
+    fclose(file);
+}
+
+void generateGrammarReport(char *fileName, i32 *header, int levels, int coverage) {
+    string fileNameStr = fileName;
+    string toReplace = "-encoding.csv";
+    string replacement = "-grammar.csv";
+
+    size_t pos = fileNameStr.rfind(toReplace);
+    if (pos != string::npos) {
+        fileNameStr.replace(pos, toReplace.length(), replacement);
+    }
+
+    FILE *file = fopen(fileNameStr.c_str(), "a");
+    isFileOpen(file, "Unable to open report to enter grammar information");
+
+    fprintf(file, "|%d|%d|",coverage,levels);
+    for(int i=levels; i >0; i--){
+        fprintf(file, "%d:%u,",i,header[i]);
+    }
+    fprintf(file, "\n");
     fclose(file);
 }
