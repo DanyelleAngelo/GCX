@@ -1,0 +1,8 @@
+file|algorithm|coverage|nLevels|num_rules_per_level
+real-world_leaders|GC2||2|12|12:2506,11:96592,10:363687,9:447215,8:434919,7:356779,6:266821,5:168501,4:90392,3:45689,2:22923,1:11468,
+real-world_leaders|GC4||4|6|6:96592,5:447214,4:356779,3:168500,2:45688,1:11468,
+real-world_leaders|GC8||8|4|4:363686,3:356778,2:90391,1:11467,
+real-world_leaders|GC16||16|3|3:447214,2:168500,1:11467,
+real-world_leaders|GC32||32|3|3:434918,2:45688,1:1434,
+real-world_leaders|GC64||64|2|2:356778,1:11467,
+real-world_leaders|GC128||128|2|2:266820,1:2867,

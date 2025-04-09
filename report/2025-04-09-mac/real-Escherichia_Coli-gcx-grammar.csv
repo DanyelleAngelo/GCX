@@ -1,0 +1,8 @@
+file|algorithm|coverage|nLevels|num_rules_per_level
+real-Escherichia_Coli|GC2||2|12|12:131,11:1585,10:68102,9:5024175,8:3026421,7:1669769,6:865855,5:438387,4:219903,3:110035,2:55025,1:27514,
+real-Escherichia_Coli|GC4||4|6|6:1584,5:5024174,4:1669768,3:438386,2:110034,1:27513,
+real-Escherichia_Coli|GC8||8|4|4:68101,3:1669768,2:219902,1:27513,
+real-Escherichia_Coli|GC16||16|3|3:5024174,2:438386,1:27513,
+real-Escherichia_Coli|GC32||32|3|3:3026420,2:110034,1:3440,
+real-Escherichia_Coli|GC64||64|2|2:1669768,1:27513,
+real-Escherichia_Coli|GC128||128|2|2:865854,1:6879,
