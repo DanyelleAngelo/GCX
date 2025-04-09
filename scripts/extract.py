@@ -8,6 +8,7 @@ def extract(input_file, output_file, input_queries):
         text = file.read()
     i=0
     with open(input_queries, 'r') as queries:
+        next(queries)
         for line in queries:
             l, r = line.split(' ')
             l = int(l)
