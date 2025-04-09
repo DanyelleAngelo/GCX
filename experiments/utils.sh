@@ -20,10 +20,10 @@ RAW_FILES_DIR="../dataset/raw_files"
 if [ "$(uname -s)" = "Darwin" ]; then
     stat_options="-f %z"
     CURR_DATE="$CURR_DATE-mac"
-    FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt) #$(cat files_paths/initial_test_files.txt)
+    FILE_URLS=$(cat files_paths/initial_test_files.txt)
 else
     stat_options="-c %s"
-    FILE_URLS=$(cat files_paths/repetitive_text.txt)  #files_paths/regular_text.txt)
+    FILE_URLS=$(cat files_paths/repetitive_text.txt files_paths/regular_text.txt)
 fi
 
 GENERAL_REPORT="$REPORT_DIR/$CURR_DATE"

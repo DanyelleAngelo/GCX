@@ -1,10 +1,11 @@
 #!/bin/bash
 source utils.sh
 
-COV_LIST=(2) #(3 4 5 6 7 8 9 11 15 30 32 60 64)
+COV_LIST=(2 3 4 5 6 7 8 9 11 15 30 32 60 64)
 STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
+HEADER_REPORT_GRAMMAR="file|algorithm|coverage|nLevels|num_rules_per_level"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 #set -x
 
@@ -33,7 +34,9 @@ compress_and_decompress_with_gcx() {
 
     for file in $files; do
         report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
-        echo $HEADER > $report; 
+        grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
+        echo $HEADER > $report;
+        echo $HEADER_REPORT_GRAMMAR > $grammar_report;
 
         plain_file_path="$RAW_FILES_DIR/$file"
         size_plain=$(stat $stat_options $plain_file_path)
@@ -44,6 +47,7 @@ compress_and_decompress_with_gcx() {
             echo -e "\n\t${BLUE}####### FILE: $file, COVERAGE: ${cover} ${RESET}"
             #adding file name and coverage to the report
             echo -n "$file|GC$cover|" >> $report
+            echo -n "$file|GC$cover|" >> $grammar_report
 
             file_out="$COMP_DIR/$CURR_DATE/$file-gc$cover"
             #perform compress and decompress
@@ -58,9 +62,9 @@ compress_and_decompress_with_gcx() {
             echo "$size_file|$size_plain" >> $report
         done
 
-        # echo -e "\n\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
-        # compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
-        # compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
+        echo -e "\n\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
+        compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
+        compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
         
         echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n" =
     done
@@ -96,10 +100,10 @@ run_extract() {
             extract_answer="$extract_dir/${file}_extract_answer_len$length.txt"
             python3 ../scripts/extract.py $plain_file_path $extract_answer $query
 
-            # echo -e "\n\t ${YELLOW}Starting extract with GCIS - INTERVAL SIZE $length.${RESET}"
-            # echo -n "$file|GCIS-ef|" >> $report
-            # $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
-            # echo "$length" >> $report
+            echo -e "\n\t ${YELLOW}Starting extract with GCIS - INTERVAL SIZE $length.${RESET}"
+            echo -n "$file|GCIS-ef|" >> $report
+            $GCIS_EXECUTABLE -e "$compressed_file-gcis-ef" $query -ef $report
+            echo "$length" >> $report
 
             echo -e "\n\t ${YELLOW}Starting extract with gcX - INTERVAL SIZE $length.${RESET}"
             for cover in "${COV_LIST[@]}"; do
@@ -114,7 +118,6 @@ run_extract() {
             done
             rm $extract_answer
         done
-        break
     done
 }
 
@@ -126,9 +129,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-    # check_and_create_folder
-    # download_files
-    # compress_and_decompress_with_gcx
+    check_and_create_folder
+    download_files
+    compress_and_decompress_with_gcx
     run_extract
     #generate_graphs
 fi
