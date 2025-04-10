@@ -53,6 +53,7 @@ compress_and_decompress_with_gcx() {
 		report="$REPORT_DIR/$CURR_DATE/$file-gcx-encoding.csv"
         grammar_report="$REPORT_DIR/$CURR_DATE/$file-gcx-grammar.csv"
 		echo $COMPRESSION_HEADER > $report; 
+        echo $HEADER_REPORT_GRAMMAR > $grammar_report;
 		plain_file_path="$RAW_FILES_DIR/$file"
 		size_plain=$(stat $stat_options $plain_file_path)
 

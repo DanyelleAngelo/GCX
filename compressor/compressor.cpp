@@ -42,13 +42,16 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             //starting process
             clock_time = clock();
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
-            compress(uText, tuples, textSize, strcat(fileOut,".gcx"), 0, levelCoverage, header, ASCII_SIZE);
+            char outputFile[256];
+            snprintf(outputFile, sizeof(outputFile), "%s.gcx", fileOut);
+
+            compress(uText, tuples, textSize,  outputFile , 0, levelCoverage, header, ASCII_SIZE);
             clock_time = clock() - clock_time;
             duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
             //printing compressed informations
             grammarInfo(header.data(), header.at(0), levelCoverage.data());
-            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << strcat(fileOut,".gcx") << RESET_COLOR << endl;
+            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << outputFile << RESET_COLOR << endl;
 
             #if REPORT == 1
                 generateGrammarReport(reportFile, header.data(), header.at(0), levelCoverage.data());
@@ -440,6 +443,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
             for(i32 k= childStart; k < childEnd && ruleOffset+k < encodedSymbols[j]->n; k++) {
                 temp[idx++] = ua_get(encodedSymbols[j], ruleOffset+k);
             }
+            childStart = 0;
         }
         
         xsSize = idx;
