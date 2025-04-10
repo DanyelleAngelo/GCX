@@ -62,19 +62,19 @@ compress_and_decompress_with_gcx() {
 		#perform compress and decompress with GCX
 		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCX ${RESET}\n"
 		echo -n "$file|GCX|" >> $report
-        echo -n "$file|GC$cover|" >> $grammar_report
+        echo -n "$file|GCX|-|" >> $grammar_report
+
 		file_out="$COMP_DIR/$CURR_DATE/$file"
 		../compressor/./main -c $plain_file_path $file_out $report
 		../compressor/./main -d $file_out.gcx $file_out-plain $report
 		checks_equality "$plain_file_path" "$file_out-plain" "gcx"
 		echo "$(stat $stat_options $file_out.gcx)|$size_plain" >> $report
-
-		#perform compress and decompress with GCIS
+		# #perform compress and decompress with GCIS
 		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using GCIS ${RESET}\n"
 		compress_and_decompress_with_gcis "ef" "$plain_file_path" "$report" "$file" "$size_plain"
 		compress_and_decompress_with_gcis "s8b" "$plain_file_path" "$report" "$file" "$size_plain"
 
-		#perform compress and decompress with REPAIR
+		# #perform compress and decompress with REPAIR
 		echo -e "\n\t\t ${YELLOW}Starting compression/decompression using REPAIR ${RESET}\n"
 		compress_and_decompress_with_repair "$plain_file_path" "$report" "$file" "$size_plain"
 		echo -e "\n\t ${YELLOW}Finishing compression/decompression operations on the $file file. ${RESET}\n"
@@ -158,9 +158,9 @@ generate_graphs() {
 }
 
 if [ "$0" = "$BASH_SOURCE" ]; then
-	# check_and_create_folder
-	# download_files
-	# compress_and_decompress_with_gcx
-	# run_extract
-	generate_graphs
+	check_and_create_folder
+	download_files
+	compress_and_decompress_with_gcx
+	run_extract
+	#generate_graphs
 fi
