@@ -39,24 +39,19 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             for(int i=0; i < textSize; i++)uText[i] = (i32)text[i];
             free(text);
 
-            char *extension = ".gcx";
-            char *out = (char*)calloc(strlen(fileOut)+5, sizeof(char));
-            strcpy(out, fileOut);
-            strcat(out, extension);
-
             //starting process
             clock_time = clock();
             i32 *tuples = (i32*) malloc((textSize+coverage) * sizeof(i32));
-            compress(uText, tuples, textSize, out, 0, levelCoverage, header, ASCII_SIZE);
+            compress(uText, tuples, textSize, strcat(fileOut,".gcx"), 0, levelCoverage, header, ASCII_SIZE);
             clock_time = clock() - clock_time;
             duration = ((double)clock_time)/CLOCKS_PER_SEC;
 
             //printing compressed informations
             grammarInfo(header.data(), header.at(0), levelCoverage.data());
-            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << out << RESET_COLOR << endl;
+            cout << "\tThe compressed text was saved in: " << GREEN_COLOR << strcat(fileOut,".gcx") << RESET_COLOR << endl;
 
             #if REPORT == 1
-                generateGrammarReport(reportFile, header.data(), levels, levelCoverage.data());
+                generateGrammarReport(reportFile, header.data(), header.at(0), levelCoverage.data());
             #endif
             break;
         }
@@ -421,64 +416,56 @@ double extractBatch(char *fileName,  int *subtreeSize, uarray **encodedSymbols, 
 }
 
 void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray **encodedSymbols, unsigned char *leafLevelRules, int *levelCoverage, i32 &txtSize, i32 l, i32 r, int levels){
-    int coverage, k, end, p;
+    i32 coverage;
     //Determines the interval in Xs that we need to decode
-    i32 startNode = l/subtreeSize[0], endNode = r/subtreeSize[0], size;
-    i32 xsSize = endNode - startNode + 1;
+    i32 childStart = l/subtreeSize[0];
+    i32 childEnd = r/subtreeSize[0], size;
+    i32 xsSize = childEnd - childStart + 1;
     //get xs
-    for(int i=startNode, j=0; i < endNode+1; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
+    for(int i=childStart, j=0; i < childEnd+1; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
 
-    l = l%subtreeSize[0], r = r%subtreeSize[0];
+    l = l%subtreeSize[0];
+    r = r%subtreeSize[0];
     for(int j=1; j < levels; j++) {
         coverage = levelCoverage[j];
-        //trim interval
-        if(subtreeSize[j] > l) startNode = 0;
-        else {
-            startNode = l/subtreeSize[j];
-            l = l%subtreeSize[j];
-        }
-        if(subtreeSize[j] > r) endNode =0;
-        else{
-            endNode = r/subtreeSize[j];
-            r = r%subtreeSize[j];
-        }
-
-        p=0;
+        childStart = l/subtreeSize[j];
+        childEnd = coverage;
+        
+        i32 idx=0;
         for(int i =0; i < xsSize; i++) {
             if(xs[i] == 0)break;
-            i32 rule = GET_RULE_INDEX();
-            k=0;
-            end = coverage;
-            if(i==0)k=startNode;
-            else if(i==xsSize-1) end = endNode+1;
-            while(k < end && rule+k < encodedSymbols[j]->n) {
-                temp[p++] = ua_get(encodedSymbols[j], rule+k);
-                k++;
+            i32 ruleOffset =  (xs[i]-1)*coverage;
+            if(i==xsSize-1) childEnd = (r/subtreeSize[j])+1;
+
+            for(i32 k= childStart; k < childEnd && ruleOffset+k < encodedSymbols[j]->n; k++) {
+                temp[idx++] = ua_get(encodedSymbols[j], ruleOffset+k);
             }
         }
-
-        xsSize = p;
+        
+        xsSize = idx;
         for(int i=0; i < xsSize; i++)xs[i] = temp[i];
+        
+        //trim interval
+        l = l%subtreeSize[j];
+        r = r%subtreeSize[j];
     }
 
     coverage = levelCoverage[levels];
-    startNode = l;
-    endNode = r;
+    childStart = l;
+    childEnd = coverage;
     char ch;
-    int i=0, j=0;
-    for(; i < xsSize && j < txtSize; i++){
+    i32 txtIndex=0;
+    for(i32 i=0; i < xsSize && txtIndex < txtSize; i++){
         if(xs[i] == 0)break;
-        i32 rule = GET_RULE_INDEX();
-        k=0;
-        end = coverage;
-        if(i==0)k=startNode;
-        else if(i==xsSize-1) end = endNode+1;
-        while(k < end && j < txtSize) {
-            ch = leafLevelRules[rule+k];
-            if(ch != 0)text[j++] = ch;
-            k++;
+        i32 ruleOffset = (xs[i]-1)*coverage;
+        if(i==xsSize-1) childEnd = r + 1;
+
+        for(int k=childStart; k < childEnd && txtIndex < txtSize; k++) {
+            ch = leafLevelRules[ruleOffset+k];
+            if(ch != 0)text[txtIndex++] = ch;
         }
+        childStart = 0;
     }
 
-    txtSize = j;
+    txtSize = txtIndex;
 }
