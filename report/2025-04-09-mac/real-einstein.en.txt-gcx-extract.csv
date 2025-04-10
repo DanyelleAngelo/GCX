@@ -1,0 +1,6 @@
+file|algorithm|peak|stack|time|substring_size
+real-einstein.en.txt|GCX|19066420|6291456|0,009106022000000|1
+real-einstein.en.txt|GCX|19066420|6291456|0,009084199000000|10
+real-einstein.en.txt|GCX|19066420|6291456|0,013628124000000|100
+real-einstein.en.txt|GCX|19066420|6291456|0,049624290000000|1000
+real-einstein.en.txt|GCX|19066420|6291456|0,335239125000000|10000
