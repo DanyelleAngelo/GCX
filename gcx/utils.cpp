@@ -8,7 +8,7 @@
 #include "abbrevs.h"
 #include "malloc_count.h"
 #include "stack_count.h"
-
+#include <string>
 
 using namespace std;
 map<string, string> operations{
