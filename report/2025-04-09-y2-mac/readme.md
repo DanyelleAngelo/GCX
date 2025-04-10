@@ -1,0 +1,1 @@
+Nesses experimentos, definimos o valor inicial de y como 2, dessa forma, no primeiro nível o LCP é computado considerando strings não sobrepostas de tamanho 2.
