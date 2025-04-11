@@ -5,6 +5,8 @@ FLAGS=-std=c++14 -I../external/malloc_count -O3
 LIBS=-ldl
 MACROS:= D_EXTRACT=0 DEBUG_RULES=0 LEVEL_REPORT=0 SCREEN_OUTPUT=1 FILE_OUTPUT=1 REPORT=1 $(FLAGS_DEBUG)
 
+OUTPUT ?= ./main
+
 all: compile run_compressor
 
 compile: utils.cpp utils.hpp compressor.cpp compressor.hpp
@@ -13,19 +15,19 @@ compile: utils.cpp utils.hpp compressor.cpp compressor.hpp
 	$(CC) -c uarray.c -o uarray.o $(FLAGS)
 	$(CC) -c utils.cpp -o utils.o $(addprefix -D , $(MACROS)) $(FLAGS)
 	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D , $(MACROS)) $(FLAGS)
-	$(CC) main.cpp malloc_count.o stack_count.o uarray.o utils.o compressor.o -o main $(addprefix -D , $(MACROS)) $(FLAGS)
+	$(CC) main.cpp malloc_count.o stack_count.o uarray.o utils.o compressor.o -o $(OUTPUT) $(addprefix -D , $(MACROS)) $(FLAGS)
 
 run_compressor: compile
 	@if [ ! -x "main" ]; then\
 		$(MAKE) compile;\
 	fi
 ifeq ($(MODE), -d)
-	./main -d $(FILE_IN) $(FILE_OUT)
+	$(OUTPUT) -d $(FILE_IN) $(FILE_OUT)
 	diff $(FILE_OUT) $(ORIGINAL) 
 else ifeq ($(MODE), -c)
-	./main -c $(FILE_IN) $(FILE_OUT)
+	$(OUTPUT) -c $(FILE_IN) $(FILE_OUT)
 else ifeq ($(MODE), -e)
-	./main -e $(FILE_IN) $(FILE_OUT) $(QUERIES)
+	$(OUTPUT) -e $(FILE_IN) $(FILE_OUT) $(QUERIES)
 	 python3 ../scripts/extract.py $(ORIGINAL) extract_temp.txt $(QUERIES)
 	 diff extract_temp.txt $(FILE_OUT)
 	 rm extract_temp.txt $(FILE_OUT)
