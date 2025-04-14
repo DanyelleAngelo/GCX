@@ -259,15 +259,18 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
     radixSort(text, nTuples, tuples, sigma+coverage, coverage);
     for(int i=1; i < nTuples; i++) {
         int lcp =0;
+        bool equal = false;
         for(int j=0; j < coverage; j++) {
             if(text[tuples[i]+j] != text[tuples[i-1]+j])break;
             lcp++;
+            equal = true;
         }
-        if(lcp != coverage) {
+        if(equal) {
             lcpMean += lcp;
             qtyRules++;
         }
     }
+    
     return (qtyRules > 0) ? lcpMean/qtyRules : 0;
 }
 
