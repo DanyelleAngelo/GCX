@@ -204,10 +204,10 @@ void readCompressedFile(char *fileName, i32 *&header, uarray **&encodedSymbols, 
 void grammarInfo(i32 *header, int levels, int *levelCoverage) {
     cout << "\tCompressed file information:\n" <<
             "\n\t\tAmount of levels: " << levels << endl;
-
+            
     printf("\t\tSize initial partition: %d\n", levelCoverage[0]);
     printf("\t\tInitial symbol size: %u\n", header[1]);
-    for(int i=levels+2, j=levels; i >1; i--, j--){
+    for(int i=levels+1, j=levels; i >1; i--, j--){
         printf("\t\tLevel: %d - amount of rules: %u - size of rules %d.\n",j,header[i], levelCoverage[j]);
     }
 }
@@ -349,7 +349,7 @@ void decode(unsigned char *&text, int levels, uarray **encodedSymbols, i32 &xsSi
     for(i32 i=1; i < levels; i++) {
         decodeSymbol(encodedSymbols[i], xs, xsSize, levelCoverage[i]);
     }
-
+    
     //decode last level
     int coverage = levelCoverage[levels];
     i32 plainTxtSize=xsSize*levelCoverage[levels], k=0;
