@@ -5,7 +5,7 @@ COV_LIST=(2 4 8 16 32 64 128)
 STR_LEN=(1 10 100 1000 10000)
 
 HEADER="file|algorithm|peak_comp|stack_comp|compression_time|peak_decomp|stack_decomp|decompression_time|compressed_size|plain_size"
-HEADER_REPORT_GRAMMAR="file|algorithm|coverage|nLevels|num_rules_per_level"
+HEADER_REPORT_GRAMMAR="file|algorithm|coverage|nLevels|xs_size|num_rules_per_level"
 GCIS_EXECUTABLE="../../GCIS/build/src/./gc-is-codec"
 #set -x
 
