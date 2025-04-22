@@ -1,0 +1,102 @@
+#include "utils.hpp"
+#include "compressor.hpp"
+#include "uarray.h"
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <math.h>
+#include "abbrevs.h"
+#include "malloc_count.h"
+#include "stack_count.h"
+#include <string>
+
+using namespace std;
+
+void error(const char *msg) {
+    cout << "\x1b[31m[ERROR]\x1b[0m " << msg << endl;
+    exit(EXIT_FAILURE);
+}
+
+void isFileOpen(FILE * file, const char *msg) {
+    if(file != NULL) return;
+    error(msg);
+}
+
+int padding(i32 textSize, int coverage){
+    if(textSize > coverage && textSize % coverage != 0)
+        return coverage - (textSize % coverage);
+    return 1;
+}
+
+void radixSort(i32 *text, i32 nTuples, i32 *tuples, i32 sigma, int coverage){
+    i32 *tupleIndexTemp = &tuples[nTuples];
+    i32 *bucket = &tuples[nTuples*2];
+    
+    for(int i=0, j=0; i < nTuples; i++, j+=coverage)tuples[i] = j;
+
+    for(int d= coverage-1; d >=0; d--) {
+        for(int i=0; i < sigma;i++)bucket[i]=0;//TODO
+        for(int i=0; i < nTuples; i++) bucket[text[tuples[i] + d]+1]++; 
+        for(int i=1; i < sigma; i++) bucket[i] += bucket[i-1];
+
+        for(int i=0; i < nTuples; i++) {
+            int index = bucket[text[tuples[i] + d]]++;
+            tupleIndexTemp[index] = tuples[i];
+        }
+        for(int i=0; i < nTuples; i++) tuples[i] = tupleIndexTemp[i];
+    }
+
+}
+
+void createLexNames(i32 *text, i32 *tuples, i32 *rank, i32 &qtyRules, long int nTuples, int coverage) {
+    i32 name = 1;
+    rank[tuples[0]/coverage] = name;
+    for(i32 i=1; i < nTuples; i++) {
+        bool equal = true;
+        for(int j=0; j < coverage; j++){
+            if(text[tuples[i-1]+j] != text[tuples[i]+j]){
+                equal = false;
+                break;
+            }
+        }
+        if(equal) rank[tuples[i]/coverage] = name;
+        else rank[tuples[i]/coverage] = ++name;
+    }
+
+    qtyRules = name;
+    #if DEBUG == 1
+        printf("## Número de trincas %d, quantidade de trincas únicas: %d.\n", nTuples, qtyRules);
+    #endif
+}
+
+void generateReport(char *fileName, double duration, void *base) {
+    FILE *file = fopen(fileName, "a");
+    isFileOpen(file, "Unable to open report to enter time and memory consumption information");
+
+    long long int peak = malloc_count_peak();
+    long long int stack = stack_count_usage(base);
+    fprintf(file, "%lld|%lld|%5.15lf|", peak,stack,duration);
+    fclose(file);
+}
+
+void generateGrammarReport(char *fileName, i32 *header, int levels, int coverage) {
+    string fileNameStr = fileName;
+    string toReplace = "-encoding.csv";
+    string replacement = "-grammar.csv";
+
+    size_t pos = fileNameStr.rfind(toReplace);
+    if (pos != string::npos) {
+        fileNameStr.replace(pos, toReplace.length(), replacement);
+    }
+
+    FILE *file = fopen(fileNameStr.c_str(), "a");
+    isFileOpen(file, "Unable to open report to enter grammar information");
+
+    fprintf(file, "%d|%u|",levels,header[1]);
+    for(int i=levels; i >0; i--){
+        fprintf(file, "%d:%d-%u,",i,coverage,header[i]);
+    }
+
+    fprintf(file, "\n");
+    fclose(file);
+}
