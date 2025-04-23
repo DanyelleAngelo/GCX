@@ -1,9 +1,12 @@
 CC=g++
 
-FLAGS_DEBUG=-g -fsanitize=address -Wall
+FLAGS_DEBUG=-g -Wall
 FLAGS=-std=c++14 -I../external/malloc_count -O3
+FLAGS_ALL=$(FLAGS) $(FLAGS_DEBUG)
 LIBS=-ldl
-MACROS:= D_EXTRACT=0 DEBUG_RULES=0 LEVEL_REPORT=0 SCREEN_OUTPUT=1 FILE_OUTPUT=1 REPORT=1 $(FLAGS_DEBUG)
+
+# macros para o compilador
+MACROS:= D_EXTRACT=0 DEBUG_RULES=0 LEVEL_REPORT=0 SCREEN_OUTPUT=1 FILE_OUTPUT=1 REPORT=1
 
 OUTPUT ?= ./main
 
@@ -13,12 +16,12 @@ compile: utils.cpp utils.hpp compressor.cpp compressor.hpp
 	$(CC) -c ../external/malloc_count/malloc_count.c -o malloc_count.o $(FLAGS) $(LIBS)
 	$(CC) -c ../external/malloc_count/stack_count.c -o stack_count.o $(FLAGS) $(LIBS)
 	$(CC) -c uarray.c -o uarray.o $(FLAGS)
-	$(CC) -c utils.cpp -o utils.o $(addprefix -D , $(MACROS)) $(FLAGS)
-	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D , $(MACROS)) $(FLAGS)
+	$(CC) -c utils.cpp -o utils.o $(addprefix -D , $(MACROS)) $(FLAGS_ALL)
+	$(CC) -c compressor.cpp -o compressor.o $(addprefix -D , $(MACROS)) $(FLAGS_ALL)
 	$(CC) main.cpp malloc_count.o stack_count.o uarray.o utils.o compressor.o -o $(OUTPUT) $(addprefix -D , $(MACROS)) $(FLAGS)
 
 run_compressor: compile
-	@if [ ! -x "main" ]; then\
+	@if [ ! -x "$(OUTPUT)" ]; then\
 		$(MAKE) compile;\
 	fi
 ifeq ($(MODE), -d)
@@ -34,9 +37,9 @@ else ifeq ($(MODE), -e)
 endif
 
 clean:
-	rm -rf *.o main
+	rm -rf *.o $(OUTPUT)
 ifeq ($(shell uname -s),Darwin)
-	if [ -d "main.dSYM" ]; then\
-		rm -R main.dSYM;\
+	if [ -d "$(OUTPUT).dSYM" ]; then\
+		rm -R $(OUTPUT).dSYM;\
 	fi
 endif

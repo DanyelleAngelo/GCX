@@ -425,7 +425,7 @@ void extract(unsigned char *&text, i32 *temp, i32 *xs, int *subtreeSize, uarray 
     i32 coverage;
     //Determines the interval in Xs that we need to decode
     i32 childStart = l/subtreeSize[0];
-    i32 childEnd = r/subtreeSize[0], size;
+    i32 childEnd = r/subtreeSize[0];
     i32 xsSize = childEnd - childStart + 1;
     //get xs
     for(int i=childStart, j=0; i < childEnd+1; i++)xs[j++] = (i32)ua_get(encodedSymbols[0], i);
