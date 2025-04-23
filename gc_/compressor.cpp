@@ -17,12 +17,12 @@ using timer = std::chrono::high_resolution_clock;
 #define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
-void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage) {
+void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op, int coverage) {
     double duration =0.0;
     clock_t clock_time;
     i32 textSize;
     void* base = stack_count_clear();
-    switch (op){
+    switch (op[1]){
         case 'c': {
             vector<i32> header;
             //preparing text

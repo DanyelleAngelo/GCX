@@ -17,7 +17,7 @@ using namespace std;
  * @param op armazena a opção escolhida pelo usuário "e" para encode, e "d" para decode
  * @param coverage tamanho das regras que devemos gerar.
  */
-void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, char op, int coverage);
+void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op, int coverage);
 
 /**
  * @brief Realiza a leitura do texto plano.

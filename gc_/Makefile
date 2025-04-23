@@ -24,13 +24,13 @@ run_compressor:
 	@if [ ! -x "main" ]; then\
 		$(MAKE) compile;\
 	fi
-ifeq ($(MODE), d)
-	$(OUTPUT) $(FILE_IN) $(FILE_OUT) d $(COVERAGE)
+ifeq ($(MODE), -d)
+	./main -d $(FILE_IN) $(FILE_OUT) $(COVERAGE)
 	diff $(FILE_OUT) $(ORIGINAL)
-else ifeq ($(MODE), c)
-	$(OUTPUT) $(FILE_IN) $(FILE_OUT) c $(COVERAGE)
-else ifeq ($(MODE), e)
-	$(OUTPUT) $(FILE_IN) $(FILE_OUT) e $(COVERAGE) $(QUERIES)
+else ifeq ($(MODE), -c)
+	./main -c $(FILE_IN) $(FILE_OUT) $(COVERAGE)
+else ifeq ($(MODE), -e)
+	./main -e $(FILE_IN) $(FILE_OUT)  $(COVERAGE) $(QUERIES)
 	python3 ../scripts/extract.py $(ORIGINAL) extract_temp.txt $(QUERIES)
 	diff extract_temp.txt $(FILE_OUT)
 	rm extract_temp.txt $(FILE_OUT)
