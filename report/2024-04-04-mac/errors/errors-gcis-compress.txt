@@ -1,4 +1,0 @@
-../dataset/raw_files/corpus-chr22.dna and ../dataset/raw_files/corpus-chr22.dna.u are different.
-../dataset/raw_files/corpus-chr22.dna and ../dataset/raw_files/corpus-chr22.dna.u are different.
-../dataset/raw_files/corpus-chr22.dna and ../dataset/raw_files/corpus-chr22.dna.u are different.
-../dataset/raw_files/corpus-chr22.dna and ../dataset/raw_files/corpus-chr22.dna.u are different.

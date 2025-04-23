@@ -1,1 +1,0 @@
-Observação: Com exceção dos dados do algoritmo GC2. todos os demais experimentos são do dia 24-09-2024.
