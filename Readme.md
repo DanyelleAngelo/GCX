@@ -46,7 +46,7 @@ This command will create the main_gcx executable in the current directory
 ### Compression
 - To compress a text using GC*, execute:
 ```shell
-./main_gc_ <plain_file> <output_file> c <coverage>
+./main_gc_ -c <plain_file> <output_file> <coverage>
 ```
 - To compress a text using GCX, execute:
 ```shell
@@ -56,7 +56,7 @@ This command will create the main_gcx executable in the current directory
 ###   Decompression
 - To decompress a text using GC*, execute:
 ```shell
-./main_gc_ <compressed_file> <output_file> d <coverage>
+./main_gc_  -d <compressed_file> <output_file> <coverage>
 ```
 - To decompress a text using GCX, execute:
 ```shell
@@ -66,7 +66,7 @@ This command will create the main_gcx executable in the current directory
 ###   Extraction
 - To extract substrings from the compressed text using GC*, execute:
 ```shell
-./main_gc_ <compressed_file> <output_file> e <coverage> <queries_file>
+./main_gc_ -e <compressed_file> <output_file> <coverage> <queries_file>
 ```
 - To extract substrings from the compressed text using GCX, execute:
 ```shell
