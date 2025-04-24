@@ -46,31 +46,31 @@ This command will create the main_gcx executable in the current directory
 ### Compression
 - To compress a text using GC*, execute:
 ```shell
-./main_gc_ -c <plain_file> <output_file> <coverage>
+./gc_star -c <plain_file> <output_file> <coverage>
 ```
 - To compress a text using GCX, execute:
 ```shell
-./main_gcx  -c <plain_file> <output_file>
+./gcx  -c <plain_file> <output_file>
 ```
 
 ###   Decompression
 - To decompress a text using GC*, execute:
 ```shell
-./main_gc_  -d <compressed_file> <output_file> <coverage>
+./gc_star  -d <compressed_file> <output_file> <coverage>
 ```
 - To decompress a text using GCX, execute:
 ```shell
-./main_gcx -d <compressed_file> <output_file>
+./gcx -d <compressed_file> <output_file>
 ```
 
 ###   Extraction
 - To extract substrings from the compressed text using GC*, execute:
 ```shell
-./main_gc_ -e <compressed_file> <output_file> <coverage> <queries_file>
+./gc_star -e <compressed_file> <output_file> <coverage> <queries_file>
 ```
 - To extract substrings from the compressed text using GCX, execute:
 ```shell
-./main_gcx -e <compressed_file> <output_file> <queries_file>
+./gcx -e <compressed_file> <output_file> <queries_file>
 ```
 
 <br>
