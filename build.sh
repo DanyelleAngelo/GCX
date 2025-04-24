@@ -9,24 +9,24 @@ RESET='\033[0m'
 
 build_gc_star() {
   echo "$(YELLOW)Compiling GC*...$(RESET)"
-  make compile -C gc_/ OUTPUT="$(pwd)/main_gc_"
-  make clean -C gcx/ OUTPUT="$(pwd)/main_gc_"
+  make compile -C gc_/ OUTPUT="$(pwd)/gc_star"
+  make clean -C gc_/ OUTPUT="$(pwd)/gc_star"
   if [ $? -ne 0 ]; then
     echo "$(RED)Error compiling GC* $(RESET)"
     exit 1
   fi
-  echo "$(GREEN)GC* compiled successfully as gc_star_executable.$(RESET)"
+  echo "$(GREEN)GC* compiled successfully as gc_star.$(RESET)"
 }
 
 build_gcx() {
   echo "$(YELLOW)Compiling GCX...$(RESET)"
-  make compile -C gcx/ OUTPUT="$(pwd)/main_gcx"
-  make clean -C gc_/ OUTPUT="$(pwd)/main_gcx"
+  make compile -C gcx/ OUTPUT="$(pwd)/gcx"
+  make clean -C gcx/ OUTPUT="$(pwd)/gcx"
   if [ $? -ne 0 ]; then
     echo "$(RED)Error compiling GCX $(RESET)"
     exit 1
   fi
-  echo "$(GREEN) GCX compiled successfully as gcx_executable. $(RESET)"
+  echo "$(GREEN) GCX compiled successfully as gcx. $(RESET)"
 }
 
 if [ "$1" == "gc_star" ]; then
