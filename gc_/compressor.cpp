@@ -35,7 +35,11 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
             //starting process
             clock_time = clock();
             i32 *tuples = (i32*) malloc((textSize*2) * sizeof(i32));
-            compress(uText, tuples, textSize, strcat(fileOut,".gcx"), 0, coverage, header, ASCII_SIZE);
+
+            char outputFile[256];
+            snprintf(outputFile, sizeof(outputFile), "%s.gcx", fileOut);
+
+            compress(uText, tuples, textSize, outputFile, 0, coverage, header, ASCII_SIZE);
             clock_time = clock() - clock_time;
             duration = ((double)clock_time)/CLOCKS_PER_SEC;
 

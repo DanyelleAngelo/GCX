@@ -85,7 +85,7 @@ void generateReport(char *fileName, double duration, void *base) {
 }
 
 void generateGrammarReport(char *fileName, i32 *header, int levels, int coverage) {
-    string fileNameStr = fileName;
+    string fileNameStr(fileName);
     string toReplace = "-encoding.csv";
     string replacement = "-grammar.csv";
 
