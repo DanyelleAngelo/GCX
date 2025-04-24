@@ -19,8 +19,8 @@ To generate the executables for both versions, simply run the following command:
 ./build.sh all
 ```
 This command will:
-- Compile the GC* project, creating the main_gc_ executable in the current directory.
-- Compile the GCX project, creating the main_gcx executable in the current directory.
+- Compile the GC* project, creating the gc_star executable in the current directory.
+- Compile the GCX project, creating the gcx executable in the current directory.
 
 After successful execution, you will see success messages indicating that both executables have been generated.
 
@@ -30,14 +30,14 @@ To compile only the GC* project, run the following command:
 ```shell
 ./build.sh gc_star
 ```
-This command will create the main_gc_ executable in the current directory.
+This command will create the gc_star executable in the current directory.
 
 ###  Compiling the GCX
 To compile only the GCX project, run the following command:
 ```shell
 ./build.sh gcx
 ```
-This command will create the main_gcx executable in the current directory
+This command will create the gcx executable in the current directory
 
 
 
