@@ -9,6 +9,7 @@
 #include <chrono>
 #include <ctime>
 #include <fstream>
+#include <climits>
 
 //HEADER: levels, |xs| , |rule_level_1|, |rule_level_2|, ..., |rule_level_n|
 
@@ -19,7 +20,7 @@ using timer = std::chrono::high_resolution_clock;
 #define ASCII_SIZE 255
 #define GET_RULE_INDEX() (xs[i]-1)*coverage
 
-void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op) {
+void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op, int y) {
     double duration =0.0;
     clock_t clock_time;
     i32 textSize;
@@ -29,7 +30,7 @@ void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, s
         case 'c': {
             vector<i32> header;
             vector<int> levelCoverage;
-            int coverage = 32;
+            int coverage = (y == INT_MIN) ? 32 : y;
             levelCoverage.push_back(coverage);
 
             //preparing text

@@ -15,8 +15,9 @@ using namespace std;
  * @param reportFile usado para persistência de consumo de tempo e memória.
  * @param queriesFile cada linha do arquivo contém 2 inteiros (l,r) separados por espaço, esses valores são usados durante a operação de extract
  * @param op armazena a opção escolhida pelo usuário "-e" para encode,  "-d" para decode, "-e" para exrtact
+ * @param y armazena o tamanho da janela inicial para o cálculo do LCP (é usado apenas no contexto de compressão); se nenhum valor for fornecido, o tamanho da janela será definido como 32.
  */
-void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op);
+void grammar(char *fileIn, char *fileOut, char *reportFile, char *queriesFile, string op, int y);
 
 /**
  * @brief Realiza a leitura do texto plano.
