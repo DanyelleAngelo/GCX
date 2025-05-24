@@ -262,7 +262,7 @@ int getLcpMean(i32 *text, i32 *tuples, i32 textSize, int coverage, i32 sigma) {
             if(text[tuples[i]+j] != text[tuples[i-1]+j])break;
             lcp++;
         }
-        if(lcp != coverage) {
+        if(lcp != coverage) { //considera apenas cadeias não sobrepostas
             lcpMean += lcp;
             qtyRules++;
         }
