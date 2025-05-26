@@ -2,7 +2,7 @@ CC=g++
 
 FLAGS_DEBUG=-g -Wall
 FLAGS=-std=c++14 -I../external/malloc_count -O3
-FLAGS_ALL=$(FLAGS) $(FLAGS_DEBUG)
+FLAGS_ALL=$(FLAGS)
 LIBS=-ldl
 
 # macros para o compilador
