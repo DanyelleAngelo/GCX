@@ -75,7 +75,8 @@ This command will create the gcx executable in the current directory
 
 <br>
 
-> Note: The queries_file format is the same for both GC* and GCX extractions. The each lines contain two numbers, which define the intervals, separated by a blank space.
+> > Note: The queries_file format is the same for both GC* and GCX extractions. The first line of the queries_file consists of two numbers. The first number represents the number of intervals, and the second number indicates the size of these intervals. The subsequent lines contain two numbers, which define the intervals, separated by a blank space.
+
 
 
 ## 🧪 Experiments
